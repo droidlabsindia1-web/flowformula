@@ -1,0 +1,32 @@
+{%- render 'lml-assets' -%}
+
+<div
+  class="lml-section lml-big-marquee lml-marquee"
+  data-lml-section="marquee"
+  style="--speed: {{ section.settings.speed }}s; background: {{ section.settings.background }}; color: {{ section.settings.text_color }}; --lml-marquee-alt: {{ section.settings.alt_color }};"
+>
+  <div class="lml-marquee__track">
+    <div class="lml-marquee__content">
+      {%- for i in (1..section.settings.repeat) -%}
+        <span>{{ section.settings.text | escape }}</span>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LML marquee",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "lemme live" },
+    { "type": "range", "id": "repeat", "label": "Repeat count", "min": 3, "max": 12, "step": 1, "default": 6 },
+    { "type": "range", "id": "speed", "label": "Loop duration", "min": 10, "max": 80, "step": 2, "unit": "s", "default": 30 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#000000" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#c5ff89" },
+    { "type": "color", "id": "alt_color", "label": "Alternate text color", "default": "#dfc8e7" }
+  ],
+  "presets": [{ "name": "LML marquee" }]
+}
+{% endschema %}

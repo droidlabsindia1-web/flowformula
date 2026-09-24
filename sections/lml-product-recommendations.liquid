@@ -1,0 +1,62 @@
+{%- render 'lml-assets' -%}
+
+{%- liquid
+  assign rec_products = section.settings.products
+  assign fetch_url = ''
+  if rec_products.size == 0
+    if recommendations.performed
+      assign rec_products = recommendations.products
+    elsif product
+      assign fetch_url = routes.product_recommendations_url | append: '?section_id=' | append: section.id | append: '&product_id=' | append: product.id | append: '&limit=' | append: section.settings.limit | append: '&intent=related'
+    endif
+  endif
+-%}
+
+<div
+  class="lml-section lml-recs"
+  data-lml-section="recs"
+  {% if fetch_url != '' %}data-url="{{ fetch_url }}"{% endif %}
+  style="background: {{ section.settings.background }};"
+>
+  <div class="lml-container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="lml-display-2 lml-center">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    <div class="lml-recs__grid" data-lml-recs-grid>
+      {%- for card_product in rec_products limit: section.settings.limit -%}
+        {%- assign card_subtitle = card_product.metafields.custom.subtitle | default: card_product.type -%}
+        <article class="lml-rec">
+          <a class="lml-rec__img" href="{{ card_product.url }}" tabindex="-1" aria-hidden="true">
+            {%- if card_product.featured_image -%}
+              {{ card_product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 1025px) 25vw, 50vw', alt: card_product.title }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'lml-placeholder' }}
+            {%- endif -%}
+          </a>
+          <h3>{{ card_product.title | escape }}</h3>
+          <p>
+            {%- if card_subtitle != blank %}{{ card_subtitle | escape }} &ndash; {% endif -%}
+            <b>{% if card_product.price_varies %}From {% endif %}{{ card_product.price | money }}</b>
+          </p>
+          <a href="{{ card_product.url }}" class="lml-btn lml-btn--white">{{ section.settings.button_label }}</a>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LML recommendations",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#dfc8e7" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "you might also like" },
+    { "type": "product_list", "id": "products", "label": "Products", "limit": 8, "info": "Leave empty to use Shopify's automatic product recommendations." },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" }
+  ],
+  "presets": [{ "name": "LML recommendations" }]
+}
+{% endschema %}

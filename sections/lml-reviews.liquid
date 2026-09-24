@@ -1,0 +1,206 @@
+{%- render 'lml-assets' -%}
+
+{%- liquid
+  assign rating_value = product.metafields.reviews.rating.value.rating | default: section.settings.rating_fallback
+  assign rating_count = product.metafields.reviews.rating_count | default: section.settings.review_count_fallback
+
+  assign bar_total = section.settings.count_5 | plus: section.settings.count_4 | plus: section.settings.count_3 | plus: section.settings.count_2 | plus: section.settings.count_1
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign app_blocks = section.blocks | where: 'type', '@app'
+-%}
+
+<div
+  class="lml-section lml-reviews"
+  id="{{ section.settings.anchor | default: 'reviews' }}"
+  data-lml-section="reviews"
+  style="background: {{ section.settings.background }};"
+>
+  <div class="lml-container lml-container--mid">
+    <div class="lml-reviews__top">
+      {%- if rating_value != blank -%}
+        <span class="lml-rating">
+          <span class="lml-stars" style="--rating: {{ rating_value }}"></span>
+          {%- if rating_count != blank -%}<span>{{ rating_count }} Reviews</span>{%- endif -%}
+        </span>
+      {%- endif -%}
+      <h2 class="lml-display-2">{{ section.settings.heading | escape }}</h2>
+    </div>
+
+    {%- if app_blocks.size > 0 -%}
+      {%- for block in app_blocks -%}
+        {% render block %}
+      {%- endfor -%}
+    {%- else -%}
+      {%- if rating_value != blank -%}
+        <div class="lml-reviews__summary">
+          <div class="lml-reviews__score">
+            <b>{{ rating_value }}</b>
+            <span class="lml-stars" style="--rating: {{ rating_value }}"></span>
+            {%- if rating_count != blank -%}<small>Based on {{ rating_count }} reviews</small>{%- endif -%}
+          </div>
+          {%- if bar_total > 0 -%}
+            <ul class="lml-reviews__bars">
+              {%- for star in (1..5) reversed -%}
+                {%- liquid
+                  assign key = 'count_' | append: star
+                  assign count = section.settings[key]
+                  assign width = count | times: 100.0 | divided_by: bar_total | round: 1
+                  if count >= 1000
+                    assign label = count | divided_by: 100.0 | round | divided_by: 10.0 | append: 'k'
+                  else
+                    assign label = count
+                  endif
+                -%}
+                <li>
+                  <span>{{ star }} <i class="lml-star" aria-hidden="true"></i></span>
+                  <span class="lml-bar"><span style="width: {{ width }}%"></span></span>
+                  <span>{{ label }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="lml-pill-tabs" role="tablist">
+        <button type="button" class="is-active" data-lml-rtab="reviews">{{ section.settings.reviews_tab_label }}</button>
+        <button type="button" data-lml-rtab="questions">{{ section.settings.questions_tab_label }}</button>
+      </div>
+      <hr class="lml-rule">
+
+      <div data-lml-rpanel="reviews">
+        {%- if section.settings.filters_label != blank or section.settings.write_label != blank -%}
+          <div class="lml-reviews__actions">
+            {%- if section.settings.filters_label != blank -%}<button type="button" class="lml-btn lml-btn--white lml-btn--wide">{{ section.settings.filters_label }}</button>{%- endif -%}
+            {%- if section.settings.write_label != blank -%}<a href="{{ section.settings.write_link | default: '#' }}" class="lml-btn lml-btn--white lml-btn--wide">{{ section.settings.write_label }}</a>{%- endif -%}
+          </div>
+        {%- endif -%}
+        <div class="lml-reviews__meta">
+          <b>{{ rating_count | default: review_blocks.size }} reviews</b>
+          <select data-lml-review-sort aria-label="Sort reviews">
+            <option value="recent">Most Recent</option>
+            <option value="highest">Highest Rating</option>
+            <option value="lowest">Lowest Rating</option>
+            <option value="helpful">Most Helpful</option>
+          </select>
+        </div>
+
+        <div class="lml-reviews__list" data-lml-review-list data-initial="{{ section.settings.initial_count }}">
+          {%- for block in review_blocks -%}
+            <article
+              class="lml-review"
+              data-lml-review
+              data-index="{{ forloop.index0 }}"
+              data-rating="{{ block.settings.rating }}"
+              data-helpful="{{ block.settings.helpful }}"
+              {% if forloop.index > section.settings.initial_count %}hidden{% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <div class="lml-review__meta">
+                <h4 class="lml-review__name">{{ block.settings.name | escape }}</h4>
+                {%- if block.settings.verified -%}<p class="lml-review__verified">Verified Buyer</p>{%- endif -%}
+                {%- if product -%}
+                  <div class="lml-review__product">
+                    {%- if product.featured_image -%}
+                      {{ product.featured_image | image_url: width: 100 | image_tag: loading: 'lazy', alt: '' }}
+                    {%- endif -%}
+                    <div><b>Reviewing</b><br>{{ product.title | escape }}</div>
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.recommends -%}<p>&#128077; I recommend this product</p>{%- endif -%}
+                {%- if block.settings.age != blank or block.settings.purchases != blank -%}
+                  <dl class="lml-review__attrs">
+                    {%- if block.settings.age != blank -%}<dt>Age Range</dt><dd>{{ block.settings.age | escape }}</dd>{%- endif -%}
+                    {%- if block.settings.purchases != blank -%}<dt>Times purchased</dt><dd>{{ block.settings.purchases | escape }}</dd>{%- endif -%}
+                  </dl>
+                {%- endif -%}
+              </div>
+              <div class="lml-review__body">
+                <div class="lml-review__head">
+                  <span class="lml-stars" style="--rating: {{ block.settings.rating }}" aria-label="{{ block.settings.rating }} out of 5"></span>
+                  <span class="lml-review__date">{{ block.settings.date | escape }}</span>
+                </div>
+                <h5 class="lml-review__title">{{ block.settings.title | escape }}</h5>
+                <div class="lml-rte">{{ block.settings.body }}</div>
+                <div class="lml-review__helpful">
+                  Was this helpful?
+                  <button type="button" data-lml-vote="up">&#128077; <span>{{ block.settings.helpful }}</span></button>
+                  <button type="button" data-lml-vote="down">&#128078; <span>0</span></button>
+                </div>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+        {%- if review_blocks.size > section.settings.initial_count -%}
+          <div class="lml-center"><button type="button" class="lml-btn lml-btn--white lml-btn--wide" data-lml-review-more>{{ section.settings.more_label }}</button></div>
+        {%- endif -%}
+      </div>
+
+      <div data-lml-rpanel="questions" hidden>
+        <p class="lml-empty-note">{{ section.settings.questions_empty }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LML reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#f7f1f9" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "the reviews are in" },
+    { "type": "text", "id": "anchor", "label": "Anchor id", "default": "reviews" },
+    { "type": "paragraph", "content": "Add a reviews app block (Okendo, Judge.me…) to replace the demo layout below with live reviews." },
+    { "type": "header", "content": "Summary" },
+    { "type": "text", "id": "rating_fallback", "label": "Rating fallback", "default": "4.7", "info": "Used when the product has no reviews.rating metafield." },
+    { "type": "text", "id": "review_count_fallback", "label": "Review count fallback", "default": "2,804" },
+    { "type": "number", "id": "count_5", "label": "5-star count", "default": 2394 },
+    { "type": "number", "id": "count_4", "label": "4-star count", "default": 220 },
+    { "type": "number", "id": "count_3", "label": "3-star count", "default": 75 },
+    { "type": "number", "id": "count_2", "label": "2-star count", "default": 32 },
+    { "type": "number", "id": "count_1", "label": "1-star count", "default": 83 },
+    { "type": "header", "content": "Labels" },
+    { "type": "text", "id": "reviews_tab_label", "label": "Reviews tab", "default": "Reviews" },
+    { "type": "text", "id": "questions_tab_label", "label": "Questions tab", "default": "Questions" },
+    { "type": "text", "id": "questions_empty", "label": "No questions text", "default": "No questions yet. Be the first to ask one." },
+    { "type": "text", "id": "filters_label", "label": "Filters button", "default": "Filters" },
+    { "type": "text", "id": "write_label", "label": "Write a review button", "default": "Write a review" },
+    { "type": "url", "id": "write_link", "label": "Write a review link" },
+    { "type": "text", "id": "more_label", "label": "Show more button", "default": "Show more" },
+    { "type": "range", "id": "initial_count", "label": "Reviews shown before \"Show more\"", "min": 1, "max": 10, "step": 1, "default": 4 }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Alex M." },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": true },
+        { "type": "checkbox", "id": "recommends", "label": "Recommends product", "default": true },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "date", "label": "Date", "default": "2 days ago" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Easy to stick with" },
+        { "type": "richtext", "id": "body", "label": "Review", "default": "<p>Placeholder review text.</p>" },
+        { "type": "text", "id": "age", "label": "Age range", "default": "25 - 34" },
+        { "type": "text", "id": "purchases", "label": "Times purchased", "default": "Subscription customer" },
+        { "type": "number", "id": "helpful", "label": "Helpful votes", "default": 0 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LML reviews",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Alex M.", "title": "Easy to stick with", "helpful": 3 } },
+        { "type": "review", "settings": { "name": "Priya S.", "title": "Part of my routine", "date": "3 days ago", "helpful": 1 } },
+        { "type": "review", "settings": { "name": "Jordan K.", "title": "Good so far", "rating": 4, "date": "5 days ago", "verified": false } },
+        { "type": "review", "settings": { "name": "Sam T.", "title": "Great flavor", "date": "1 week ago", "helpful": 5 } },
+        { "type": "review", "settings": { "name": "Riley P.", "title": "Okay", "rating": 3, "date": "2 weeks ago", "helpful": 2 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

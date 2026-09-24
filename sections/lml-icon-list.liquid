@@ -1,0 +1,61 @@
+{%- render 'lml-assets' -%}
+
+<div class="lml-section lml-icon-list" style="background: {{ section.settings.background }};">
+  <div class="lml-container lml-container--narrow">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="lml-display-2">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div class="lml-lead lml-rte">{{ section.settings.text }}</div>
+    {%- endif -%}
+    <ul class="lml-icon-list__items">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <span class="lml-circle-icon">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'lml-placeholder' }}
+            {%- endif -%}
+          </span>
+          {{ block.settings.label | escape }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LML icon list",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#dfc8e7" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "made for you, daily" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Placeholder intro copy — a two-to-three line summary of the formula, its hero probiotic strain and the supporting ingredients goes here.*</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Icon",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Vegetarian" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LML icon list",
+      "blocks": [
+        { "type": "icon", "settings": { "label": "Vegetarian" } },
+        { "type": "icon", "settings": { "label": "No sugar alcohols" } },
+        { "type": "icon", "settings": { "label": "No synthetic colors" } },
+        { "type": "icon", "settings": { "label": "Gluten-free" } },
+        { "type": "icon", "settings": { "label": "Gelatin-free" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

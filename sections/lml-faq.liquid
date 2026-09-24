@@ -1,0 +1,74 @@
+{%- render 'lml-assets' -%}
+
+<div
+  class="lml-section lml-faq"
+  id="{{ section.settings.anchor | default: 'faq' }}"
+  data-lml-section="faq"
+  style="--lml-sticky-top: {{ section.settings.sticky_offset }}px; background: {{ section.settings.background }};"
+>
+  <div class="lml-container lml-faq__grid">
+    <div class="lml-faq__intro">
+      <h2 class="lml-display-2">{{ section.settings.heading | escape | newline_to_br }}</h2>
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="lml-btn lml-btn--white">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+    <div class="lml-accordion">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign is_open = false
+          if forloop.first and section.settings.open_first
+            assign is_open = true
+          endif
+        -%}
+        <div class="lml-accordion__item{% if is_open %} is-open{% endif %}" data-lml-accordion-item {{ block.shopify_attributes }}>
+          <button type="button" class="lml-accordion__toggle" aria-expanded="{{ is_open }}">
+            {{- block.settings.question | escape -}}
+            <span class="lml-pm" aria-hidden="true"></span>
+          </button>
+          <div class="lml-accordion__content"><div class="lml-rte">{{ block.settings.answer }}</div></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LML FAQ",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#dfc8e7" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "got\nquestions?" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Read all FAQs" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "anchor", "label": "Anchor id", "default": "faq" },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question", "default": true },
+    { "type": "range", "id": "sticky_offset", "label": "Sticky heading top offset", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 120 }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How do I take these gummies?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Placeholder answer — replace with approved FAQ copy.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LML FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "How do I take these gummies?" } },
+        { "type": "question", "settings": { "question": "Who is this product for?" } },
+        { "type": "question", "settings": { "question": "What's in the formula?" } },
+        { "type": "question", "settings": { "question": "How long until I notice a difference?" } },
+        { "type": "question", "settings": { "question": "Is it third-party tested?" } },
+        { "type": "question", "settings": { "question": "Can I pause or cancel my subscription?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

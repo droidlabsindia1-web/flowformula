@@ -1,0 +1,581 @@
+{%- render 'lml-assets', swiper: true -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign has_plans = false
+  if product.selling_plan_groups.size > 0
+    assign has_plans = true
+  endif
+
+  assign selected_plan_id = ''
+  if product.selected_selling_plan
+    assign selected_plan_id = product.selected_selling_plan.id
+  elsif has_plans
+    assign selected_plan_id = product.selling_plan_groups.first.selling_plans.first.id
+  endif
+
+  assign start_price = current_variant.price
+  assign start_label = section.settings.once_label
+  if selected_plan_id != ''
+    for allocation in current_variant.selling_plan_allocations
+      if allocation.selling_plan.id == selected_plan_id
+        assign start_price = allocation.price
+        assign start_label = allocation.selling_plan.name
+      endif
+    endfor
+  endif
+
+  assign rating_value = product.metafields.reviews.rating.value.rating | default: section.settings.rating_fallback
+  assign rating_count = product.metafields.reviews.rating_count | default: section.settings.review_count_fallback
+  assign subtitle = section.settings.subtitle | default: product.metafields.custom.subtitle
+
+  assign tab_blocks = section.blocks | where: 'type', 'tab'
+  assign faq_blocks = section.blocks | where: 'type', 'faq'
+  assign perk_blocks = section.blocks | where: 'type', 'perk'
+  assign support_blocks = section.blocks | where: 'type', 'support_icon'
+  assign atc_template = '{price} – ' | append: section.settings.atc_label
+-%}
+
+<div
+  class="lml-section lml-pdp"
+  data-lml-section="main-product"
+  style="--lml-sticky-top: {{ section.settings.sticky_offset }}px; background: {{ section.settings.background }};"
+>
+  <script type="application/json" data-lml-product>
+    {
+      "moneyFormat": {{ shop.money_format | json }},
+      "atcTemplate": {{ atc_template | json }},
+      "soldOut": {{ section.settings.sold_out_label | json }},
+      "onceLabel": {{ section.settings.once_label | json }},
+      "badgeSuffix": {{ section.settings.badge_suffix | json }},
+      "variants": [
+        {%- for variant in product.variants -%}
+          {
+            "id": {{ variant.id }},
+            "price": {{ variant.price }},
+            "compare": {{ variant.compare_at_price | default: variant.price }},
+            "available": {{ variant.available | json }},
+            "media": {{ variant.featured_media.id | default: 'null' }},
+            "plans": {
+              {%- for allocation in variant.selling_plan_allocations -%}
+                "{{ allocation.selling_plan.id }}": { "price": {{ allocation.price }}, "compare": {{ allocation.compare_at_price | default: variant.price }} }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+
+  <div class="lml-pdp__grid lml-container">
+    {%- comment -%} Gallery {%- endcomment -%}
+    <div class="lml-gallery">
+      <div class="lml-gallery__sticky">
+        <div class="swiper lml-gallery__thumbs" data-lml-thumbs>
+          <div class="swiper-wrapper">
+            {%- for media in product.media -%}
+              <div class="swiper-slide">
+                {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: media.alt }}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <div class="lml-gallery__main-wrap">
+          {%- if section.settings.show_badge -%}
+            <div class="lml-clinician-badge" data-lml-badge>
+              <button type="button" class="lml-clinician-badge__close" data-lml-badge-close aria-label="{{ 'accessibility.close' | t }}">&times;</button>
+              {%- if section.settings.badge_eyebrow != blank -%}<small>{{ section.settings.badge_eyebrow }}</small>{%- endif -%}
+              <strong>{{ section.settings.badge_title | newline_to_br }}</strong>
+              {%- if section.settings.badge_text != blank -%}<p>{{ section.settings.badge_text }}</p>{%- endif -%}
+              {%- if section.settings.badge_link_label != blank -%}
+                <a href="{{ section.settings.badge_link | default: '#' }}">{{ section.settings.badge_link_label }}</a>
+              {%- endif -%}
+              {%- if section.settings.badge_footer != blank -%}<em>{{ section.settings.badge_footer }}</em>{%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if product.media.size > 0 -%}
+            <button type="button" class="lml-gallery__zoom" data-lml-zoom-open aria-label="Zoom image">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            </button>
+          {%- endif -%}
+
+          <div class="swiper lml-gallery__main" data-lml-gallery>
+            <div class="swiper-wrapper">
+              {%- for media in product.media -%}
+                {%- liquid
+                  assign loading = 'lazy'
+                  if forloop.first
+                    assign loading = 'eager'
+                  endif
+                -%}
+                <div
+                  class="swiper-slide"
+                  data-media-id="{{ media.id }}"
+                  data-zoom="{{ media.preview_image | image_url: width: 2000 }}"
+                >
+                  {{
+                    media.preview_image
+                    | image_url: width: 1400
+                    | image_tag:
+                      loading: loading,
+                      widths: '600, 900, 1200, 1400',
+                      sizes: '(min-width: 1025px) 50vw, 100vw',
+                      alt: media.alt
+                  }}
+                </div>
+              {%- else -%}
+                <div class="swiper-slide">{{ 'product-1' | placeholder_svg_tag: 'lml-placeholder' }}</div>
+              {%- endfor -%}
+            </div>
+          </div>
+
+          {%- if product.media.size > 1 -%}
+            <div class="lml-gallery__controls">
+              <button type="button" class="lml-arrow-btn" data-lml-gallery-prev aria-label="Previous image">&larr;</button>
+              <div class="lml-gallery__dots" data-lml-gallery-dots></div>
+              <button type="button" class="lml-arrow-btn" data-lml-gallery-next aria-label="Next image">&rarr;</button>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Buy box {%- endcomment -%}
+    <div class="lml-buybox">
+      <div class="lml-card lml-buybox__card">
+        {%- if rating_value != blank -%}
+          <a href="#{{ section.settings.reviews_anchor | default: 'reviews' }}" class="lml-rating">
+            <span class="lml-stars lml-stars--black" style="--rating: {{ rating_value }}"></span>
+            <span>({{ rating_value }} out of 5){% if rating_count != blank %} · {{ rating_count }} reviews{% endif %}</span>
+          </a>
+        {%- endif -%}
+
+        <div class="lml-buybox__title-row">
+          <div>
+            <h1 class="lml-product-title">{{ product.title | escape }}</h1>
+            {%- if subtitle != blank -%}<p class="lml-product-sub">{{ subtitle }}</p>{%- endif -%}
+          </div>
+          {%- if section.settings.award_image != blank -%}
+            {{ section.settings.award_image | image_url: width: 240 | image_tag: class: 'lml-purity-award', loading: 'lazy' }}
+          {%- endif -%}
+        </div>
+
+        {%- if tab_blocks.size > 0 or faq_blocks.size > 0 -%}
+          <div class="lml-tabs" data-lml-tabs>
+            <div class="lml-tabs__list" role="tablist">
+              {%- for block in tab_blocks -%}
+                <button type="button" role="tab" data-lml-tab="{{ block.id }}" {% if forloop.first %}class="is-active"{% endif %}>
+                  {{- block.settings.title | escape -}}
+                </button>
+              {%- endfor -%}
+              {%- if faq_blocks.size > 0 -%}
+                <button type="button" role="tab" data-lml-tab="faqs" {% if tab_blocks.size == 0 %}class="is-active"{% endif %}>
+                  {{- section.settings.faq_tab_label | escape -}}
+                </button>
+              {%- endif -%}
+            </div>
+
+            {%- for block in tab_blocks -%}
+              <div class="lml-tabs__panel{% if forloop.first %} is-active{% endif %}" data-lml-panel="{{ block.id }}" {{ block.shopify_attributes }}>
+                <div class="lml-rte">
+                  {%- if block.settings.use_description -%}{{ product.description }}{%- endif -%}
+                  {{ block.settings.content }}
+                </div>
+                {%- if block.settings.benefits != blank -%}
+                  <div class="lml-benefits" data-lml-benefits><div>{{ block.settings.benefits }}</div></div>
+                  <button
+                    type="button"
+                    class="lml-link-bold"
+                    data-lml-benefits-toggle
+                    data-open-label="{{ block.settings.benefits_close_label | escape }}"
+                    data-closed-label="{{ block.settings.benefits_open_label | escape }}"
+                  >
+                    {{- block.settings.benefits_open_label -}}
+                  </button>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+
+            {%- if faq_blocks.size > 0 -%}
+              <div class="lml-tabs__panel{% if tab_blocks.size == 0 %} is-active{% endif %}" data-lml-panel="faqs">
+                {%- for block in faq_blocks -%}
+                  <button type="button" class="lml-faq-link" data-lml-modal-open="{{ block.id }}" {{ block.shopify_attributes }}>
+                    {{- block.settings.question | escape }} <span aria-hidden="true">&rarr;</span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- form 'product', product, class: 'lml-purchase', data-lml-form: '', novalidate: 'novalidate' -%}
+          {%- if product.has_only_default_variant -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {%- else -%}
+            <fieldset class="lml-variants">
+              <legend class="lml-variants__legend">{{ product.options.first | escape }}</legend>
+              {%- for variant in product.variants -%}
+                <label class="lml-variant">
+                  <input
+                    type="radio"
+                    name="id"
+                    value="{{ variant.id }}"
+                    {% if variant.id == current_variant.id %}checked{% endif %}
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                  <span>{{ variant.title | escape }}</span>
+                </label>
+              {%- endfor -%}
+            </fieldset>
+          {%- endif -%}
+
+          {%- for group in product.selling_plan_groups -%}
+            {%- for plan in group.selling_plans -%}
+              {%- liquid
+                assign plan_price = current_variant.price
+                assign plan_compare = current_variant.price
+                for allocation in current_variant.selling_plan_allocations
+                  if allocation.selling_plan.id == plan.id
+                    assign plan_price = allocation.price
+                    assign plan_compare = allocation.compare_at_price | default: current_variant.price
+                  endif
+                endfor
+                assign saved = plan_compare | minus: plan_price
+                assign percent = 0
+                if plan_compare > 0
+                  assign percent = saved | times: 100 | divided_by: plan_compare
+                endif
+              -%}
+              <label class="lml-option{% if plan.id == selected_plan_id %} is-selected{% endif %}">
+                <input
+                  type="radio"
+                  name="selling_plan"
+                  value="{{ plan.id }}"
+                  data-label="{{ plan.name | escape }}"
+                  {% if plan.id == selected_plan_id %}checked{% endif %}
+                >
+                <span class="lml-option__radio"></span>
+                <span class="lml-option__body">
+                  <span class="lml-option__head">
+                    <b>{{ plan.name | escape }}</b>
+                    <span class="lml-price">
+                      <em data-lml-opt-price>{{ plan_price | money }}</em>
+                      <s data-lml-opt-compare {% if saved <= 0 %}hidden{% endif %}>{{ plan_compare | money }}</s>
+                    </span>
+                  </span>
+                  <span class="lml-option__row">
+                    <span>{{ plan.description | escape }}</span>
+                    <span class="lml-badge" data-lml-opt-badge {% if percent <= 0 %}hidden{% endif %}>
+                      {{- percent }}{{ section.settings.badge_suffix -}}
+                    </span>
+                  </span>
+                  {%- if perk_blocks.size > 0 -%}
+                    <span class="lml-option__perks">
+                      {%- if section.settings.perks_heading != blank -%}<strong>{{ section.settings.perks_heading }}</strong>{%- endif -%}
+                      {%- for block in perk_blocks -%}
+                        <span {{ block.shopify_attributes }}>
+                          {%- if block.settings.icon != blank -%}
+                            {{ block.settings.icon | image_url: width: 40 | image_tag: loading: 'lazy', alt: '' }}
+                          {%- endif -%}
+                          {{ block.settings.text }}
+                        </span>
+                      {%- endfor -%}
+                    </span>
+                  {%- endif -%}
+                </span>
+              </label>
+            {%- endfor -%}
+          {%- endfor -%}
+
+          {%- if has_plans -%}
+            {%- unless product.requires_selling_plan -%}
+              <input type="radio" name="selling_plan" value="" data-label="{{ section.settings.once_label | escape }}" data-lml-once hidden>
+            {%- endunless -%}
+          {%- else -%}
+            <label class="lml-option is-selected">
+              <input type="radio" name="selling_plan" value="" data-label="{{ section.settings.once_label | escape }}" checked>
+              <span class="lml-option__radio"></span>
+              <span class="lml-option__body">
+                <span class="lml-option__head">
+                  <b>{{ section.settings.once_label | escape }}</b>
+                  <span class="lml-price"><em data-lml-opt-price>{{ current_variant.price | money }}</em></span>
+                </span>
+              </span>
+            </label>
+          {%- endif -%}
+
+          <p class="lml-form-error" data-lml-error role="alert" hidden></p>
+
+          <button
+            type="submit"
+            name="add"
+            class="lml-btn lml-btn--lime lml-btn--block"
+            data-lml-atc
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span data-lml-atc-label>
+              {%- if current_variant.available -%}
+                {{ start_price | money }} – {{ section.settings.atc_label }}
+              {%- else -%}
+                {{ section.settings.sold_out_label }}
+              {%- endif -%}
+            </span>
+          </button>
+
+          {%- if section.settings.secondary_label != blank -%}
+            <a href="{{ section.settings.secondary_link | default: '#' }}" class="lml-btn lml-btn--white lml-btn--block">
+              {{- section.settings.secondary_label -}}
+            </a>
+          {%- endif -%}
+
+          {%- if has_plans -%}
+            {%- unless product.requires_selling_plan -%}
+              <button
+                type="button"
+                class="lml-link-blue"
+                data-lml-buy-once
+                data-once-label="{{ section.settings.buy_once_label | escape }}"
+                data-subscribe-label="{{ section.settings.subscribe_instead_label | escape }}"
+              >
+                {{- section.settings.buy_once_label }} {{ current_variant.price | money -}}
+              </button>
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endform -%}
+
+        {%- if support_blocks.size > 0 -%}
+          {%- if section.settings.support_title != blank -%}
+            <p class="lml-support-title">{{ section.settings.support_title }}</p>
+          {%- endif -%}
+          <ul class="lml-support-icons">
+            {%- for block in support_blocks -%}
+              <li {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'lml-placeholder' }}
+                {%- endif -%}
+                {{ block.settings.label }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.link_1_label != blank or section.settings.link_2_label != blank -%}
+          <div class="lml-buybox__links">
+            {%- if section.settings.link_1_label != blank -%}<a href="{{ section.settings.link_1_url | default: '#' }}">{{ section.settings.link_1_label }}</a>{%- endif -%}
+            {%- if section.settings.link_2_label != blank -%}<a href="{{ section.settings.link_2_url | default: '#' }}">{{ section.settings.link_2_label }}</a>{%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Bundle / frequently bought together {%- endcomment -%}
+      {%- if section.settings.show_bundle and section.settings.bundle_products.size > 0 -%}
+        <div class="lml-card lml-card--lilac lml-bundle" data-lml-bundle>
+          <h3 class="lml-bundle__title">{{ section.settings.bundle_heading }}</h3>
+          <div class="lml-bundle__items">
+            <div class="lml-bundle__tile">
+              {%- if product.featured_image -%}
+                {{ product.featured_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: product.title }}
+              {%- endif -%}
+            </div>
+            {%- for bundle_product in section.settings.bundle_products -%}
+              <span>+</span>
+              <div class="lml-bundle__tile">
+                {%- if bundle_product.featured_image -%}
+                  {{ bundle_product.featured_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: bundle_product.title }}
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <p class="lml-bundle__total">
+            {{ section.settings.bundle_total_label }}
+            <s data-lml-bundle-compare></s>
+            <em data-lml-bundle-total></em>
+          </p>
+          <button type="button" class="lml-btn lml-btn--black" data-lml-bundle-add>{{ section.settings.bundle_button }}</button>
+
+          <div class="lml-bundle__line">
+            <div><b>{{ product.title | escape }}</b><small data-lml-bundle-plan>{{ start_label }}</small></div>
+            <div class="lml-bundle__price"><s data-lml-bundle-main-compare></s><em data-lml-bundle-main-price></em></div>
+          </div>
+
+          {%- if section.settings.bundle_addons_label != blank -%}
+            <p class="lml-bundle__label">{{ section.settings.bundle_addons_label }}</p>
+          {%- endif -%}
+          {%- for bundle_product in section.settings.bundle_products -%}
+            {%- assign addon_variant = bundle_product.selected_or_first_available_variant -%}
+            <label class="lml-bundle__check">
+              <input
+                type="checkbox"
+                checked
+                data-lml-addon
+                data-variant-id="{{ addon_variant.id }}"
+                data-price="{{ addon_variant.price }}"
+                {% unless addon_variant.available %}disabled{% endunless %}
+              >
+              <b>{{ bundle_product.title | escape }}</b>
+              <span>{{ addon_variant.price | money }}</span>
+            </label>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} Sticky add-to-bag bar {%- endcomment -%}
+  {%- if section.settings.show_sticky_atc -%}
+    <div class="lml-sticky-atc" data-lml-sticky aria-hidden="true">
+      <div class="lml-sticky-atc__inner">
+        {%- if product.featured_image -%}
+          {{ product.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+        {%- endif -%}
+        <div class="lml-sticky-atc__info">
+          <b>{{ product.title | escape }}</b>
+          <small data-lml-sticky-plan>{{ start_label }}</small>
+        </div>
+        <button type="button" class="lml-btn lml-btn--lime" data-lml-sticky-add {% unless current_variant.available %}disabled{% endunless %}>
+          <span data-lml-sticky-label>
+            {%- if current_variant.available -%}
+              {{ start_price | money }} – {{ section.settings.atc_label }}
+            {%- else -%}
+              {{ section.settings.sold_out_label }}
+            {%- endif -%}
+          </span>
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Modals {%- endcomment -%}
+  <div class="lml-modal" data-lml-modal="zoom" aria-hidden="true">
+    <div class="lml-modal__box lml-modal__box--zoom">
+      <button type="button" class="lml-modal__close" data-lml-modal-close aria-label="{{ 'accessibility.close' | t }}">&times;</button>
+      <img data-lml-zoom-img src="" alt="" width="2000" height="2000">
+    </div>
+  </div>
+  {%- for block in faq_blocks -%}
+    <div class="lml-modal" data-lml-modal="{{ block.id }}" aria-hidden="true">
+      <div class="lml-modal__box">
+        <button type="button" class="lml-modal__close" data-lml-modal-close aria-label="{{ 'accessibility.close' | t }}">&times;</button>
+        <h3>{{ block.settings.question | escape }}</h3>
+        <div class="lml-rte">{{ block.settings.answer }}</div>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "LML product",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#fbe01a" },
+    { "type": "range", "id": "sticky_offset", "label": "Sticky gallery top offset", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 100, "info": "Distance from the top of the window while the gallery is pinned. Match it to your sticky header height." },
+    { "type": "header", "content": "Title" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Vaginal Probiotic Gummies*", "info": "Leave blank to use the custom.subtitle product metafield." },
+    { "type": "image_picker", "id": "award_image", "label": "Award badge" },
+    { "type": "text", "id": "rating_fallback", "label": "Rating fallback", "default": "4.7", "info": "Used when the product has no reviews.rating metafield." },
+    { "type": "text", "id": "review_count_fallback", "label": "Review count fallback", "default": "2,804" },
+    { "type": "text", "id": "reviews_anchor", "label": "Reviews anchor id", "default": "reviews" },
+    { "type": "header", "content": "Gallery badge" },
+    { "type": "checkbox", "id": "show_badge", "label": "Show badge", "default": true },
+    { "type": "text", "id": "badge_eyebrow", "label": "Eyebrow", "default": "FrontrowMD" },
+    { "type": "textarea", "id": "badge_title", "label": "Title", "default": "Clinicians'\nChoice" },
+    { "type": "text", "id": "badge_text", "label": "Text", "default": "544 clinicians & OB/GYNs share this product on FrontrowMD." },
+    { "type": "text", "id": "badge_link_label", "label": "Link label", "default": "Learn more" },
+    { "type": "url", "id": "badge_link", "label": "Link" },
+    { "type": "text", "id": "badge_footer", "label": "Footer", "default": "Read their reviews" },
+    { "type": "header", "content": "Tabs" },
+    { "type": "text", "id": "faq_tab_label", "label": "FAQ tab label", "default": "FAQs", "info": "Shown when the section has FAQ blocks." },
+    { "type": "header", "content": "Purchase options" },
+    { "type": "text", "id": "badge_suffix", "label": "Discount badge suffix", "default": "% off" },
+    { "type": "text", "id": "perks_heading", "label": "Subscription perks heading", "default": "Subscription benefits:" },
+    { "type": "text", "id": "once_label", "label": "One-time purchase label", "default": "One-time purchase" },
+    { "type": "text", "id": "buy_once_label", "label": "Buy once link label", "default": "Buy once for" },
+    { "type": "text", "id": "subscribe_instead_label", "label": "Switch back to subscription label", "default": "Subscribe & save instead" },
+    { "type": "text", "id": "atc_label", "label": "Add to cart label", "default": "Add to Bag" },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold out" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Buy on iHerb" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
+    { "type": "header", "content": "Support icons" },
+    { "type": "text", "id": "support_title", "label": "Heading", "default": "Scientifically formulated with clinically-studied probiotics to support:" },
+    { "type": "text", "id": "link_1_label", "label": "Link 1 label", "default": "Shipping & returns" },
+    { "type": "url", "id": "link_1_url", "label": "Link 1" },
+    { "type": "text", "id": "link_2_label", "label": "Link 2 label", "default": "Read reviews" },
+    { "type": "url", "id": "link_2_url", "label": "Link 2" },
+    { "type": "header", "content": "Bundle" },
+    { "type": "checkbox", "id": "show_bundle", "label": "Show bundle", "default": true },
+    { "type": "text", "id": "bundle_heading", "label": "Heading", "default": "lemme get the full routine:" },
+    { "type": "product_list", "id": "bundle_products", "label": "Add-on products", "limit": 2 },
+    { "type": "text", "id": "bundle_total_label", "label": "Total label", "default": "Total price:" },
+    { "type": "text", "id": "bundle_button", "label": "Button label", "default": "Add Bundle to Cart" },
+    { "type": "text", "id": "bundle_addons_label", "label": "Add-ons label", "default": "One-time add-ons" },
+    { "type": "header", "content": "Sticky bar" },
+    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add-to-bag bar", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Details" },
+        { "type": "checkbox", "id": "use_description", "label": "Show product description", "default": false },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>A daily gummy with clinically-studied SNZ 1969™ probiotics, made to support feminine health and freshness.*</p>" },
+        { "type": "richtext", "id": "benefits", "label": "Expandable benefits", "info": "Use a bulleted list. Leave blank to hide the toggle." },
+        { "type": "text", "id": "benefits_open_label", "label": "Show benefits label", "default": "See benefits +" },
+        { "type": "text", "id": "benefits_close_label", "label": "Hide benefits label", "default": "Hide benefits −" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ (tab)",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How do I take these?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Placeholder answer — replace with approved FAQ copy.</p>" }
+      ]
+    },
+    {
+      "type": "perk",
+      "name": "Subscription perk",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on all subscriptions" }
+      ]
+    },
+    {
+      "type": "support_icon",
+      "name": "Support icon",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "pH balance*" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LML product",
+      "blocks": [
+        { "type": "tab", "settings": { "title": "Details", "benefits": "<ul><li>Helps maintain healthy pH levels*</li><li>Supports a balanced microflora*</li><li>Supports feminine health*</li><li>Supports freshness*</li></ul>" } },
+        { "type": "tab", "settings": { "title": "Supplement Facts", "content": "<p>Placeholder — replace with the approved supplement facts.</p>" } },
+        { "type": "faq", "settings": { "question": "How do I take these?" } },
+        { "type": "faq", "settings": { "question": "When will I notice a difference?" } },
+        { "type": "faq", "settings": { "question": "Are they third-party tested?" } },
+        { "type": "perk", "settings": { "text": "Free shipping on all US subscriptions" } },
+        { "type": "perk", "settings": { "text": "Exclusive gifts & offers" } },
+        { "type": "perk", "settings": { "text": "Skip, pause or swap anytime" } },
+        { "type": "support_icon", "settings": { "label": "pH balance*" } },
+        { "type": "support_icon", "settings": { "label": "Vaginal microbiome*" } },
+        { "type": "support_icon", "settings": { "label": "Yeast balance*" } },
+        { "type": "support_icon", "settings": { "label": "Vaginal health*" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
