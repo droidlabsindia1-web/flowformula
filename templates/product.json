@@ -1,1 +1,639 @@
-{"sections":{"main":{"type":"main-product","blocks":{"vendor":{"type":"text","settings":{"text":"{{ product.vendor }}","text_style":"uppercase"}},"title":{"type":"title","settings":{}},"price":{"type":"price","settings":{}},"variant_picker":{"type":"variant_picker","settings":{"picker_type":"button","swatch_shape":"circle"}},"quantity_selector":{"type":"quantity_selector","settings":{}},"buy_buttons":{"type":"buy_buttons","settings":{"show_dynamic_checkout":true,"show_gift_card_recipient":true}},"description":{"type":"description","settings":{}},"share":{"type":"share","settings":{"share_label":"Share"}}},"block_order":["vendor","title","price","variant_picker","quantity_selector","buy_buttons","description","share"],"settings":{"enable_sticky_info":true,"color_scheme":"scheme-1","media_size":"large","constrain_to_viewport":true,"media_fit":"contain","gallery_layout":"stacked","mobile_thumbnails":"hide","media_position":"left","image_zoom":"lightbox","hide_variants":true,"enable_video_looping":false,"padding_top":36,"padding_bottom":12}},"related-products":{"type":"related-products","settings":{"heading":"You may also like","heading_size":"h2","products_to_show":4,"columns_desktop":4,"columns_mobile":"2","color_scheme":"scheme-1","image_ratio":"square","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"padding_top":36,"padding_bottom":28}}},"order":["main","related-products"]}
+{
+  "sections": {
+    "main": {
+      "type": "lml-main-product",
+      "blocks": {
+        "tab_details": {
+          "type": "tab",
+          "settings": {
+            "title": "Details",
+            "use_description": false,
+            "content": "<p>A daily gummy with clinically-studied SNZ 1969™ probiotics, made to support feminine health and freshness.*</p>",
+            "benefits": "<ul><li>Helps maintain healthy pH levels*</li><li>Supports a balanced microflora*</li><li>Supports feminine health*</li><li>Supports freshness*</li></ul>",
+            "benefits_open_label": "See benefits +",
+            "benefits_close_label": "Hide benefits −"
+          }
+        },
+        "tab_facts": {
+          "type": "tab",
+          "settings": {
+            "title": "Supplement Facts",
+            "use_description": false,
+            "content": "<ul><li><strong>Serving size:</strong> 2 gummies</li><li><strong>Servings per container:</strong> 30</li><li><strong>Vitamin C:</strong> 60 mg</li><li><strong>Pineapple extract:</strong> 100 mg</li><li><strong>Bacillus coagulans (SNZ 1969™):</strong> 1 billion CFU</li></ul><p>Other ingredients: placeholder list — replace with the approved label copy.</p>",
+            "benefits_open_label": "See benefits +",
+            "benefits_close_label": "Hide benefits −"
+          }
+        },
+        "faq_take": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I take these?",
+            "answer": "<p>Placeholder answer — replace with approved FAQ copy.</p>"
+          }
+        },
+        "faq_when": {
+          "type": "faq",
+          "settings": {
+            "question": "When will I notice a difference?",
+            "answer": "<p>Placeholder answer — replace with approved FAQ copy.</p>"
+          }
+        },
+        "faq_tested": {
+          "type": "faq",
+          "settings": {
+            "question": "Are they third-party tested?",
+            "answer": "<p>Placeholder answer — replace with approved FAQ copy.</p>"
+          }
+        },
+        "perk_shipping": {
+          "type": "perk",
+          "settings": {
+            "icon_asset": "lml-sub-1.svg",
+            "text": "Free shipping on all US subscriptions"
+          }
+        },
+        "perk_gifts": {
+          "type": "perk",
+          "settings": {
+            "icon_asset": "lml-sub-2.svg",
+            "text": "Exclusive gifts & offers"
+          }
+        },
+        "perk_flex": {
+          "type": "perk",
+          "settings": {
+            "icon_asset": "lml-sub-3.svg",
+            "text": "Skip, pause or swap anytime"
+          }
+        },
+        "perk_support": {
+          "type": "perk",
+          "settings": {
+            "icon_asset": "lml-sub-4.svg",
+            "text": "Priority customer support"
+          }
+        },
+        "perk_manage": {
+          "type": "perk",
+          "settings": {
+            "icon_asset": "lml-sub-5.svg",
+            "text": "Manage your plan from your account"
+          }
+        },
+        "support_ph": {
+          "type": "support_icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-benefit-ph.png",
+            "label": "pH balance*"
+          }
+        },
+        "support_microbiome": {
+          "type": "support_icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-benefit-health.png",
+            "label": "Vaginal microbiome*"
+          }
+        },
+        "support_yeast": {
+          "type": "support_icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-benefit-taste.png",
+            "label": "Yeast balance*"
+          }
+        },
+        "support_health": {
+          "type": "support_icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-benefit-urinary.png",
+            "label": "Vaginal health*"
+          }
+        }
+      },
+      "block_order": [
+        "tab_details",
+        "tab_facts",
+        "faq_take",
+        "faq_when",
+        "faq_tested",
+        "perk_shipping",
+        "perk_gifts",
+        "perk_flex",
+        "perk_support",
+        "perk_manage",
+        "support_ph",
+        "support_microbiome",
+        "support_yeast",
+        "support_health"
+      ],
+      "settings": {
+        "background": "#fbe01a",
+        "sticky_offset": 100,
+        "subtitle": "Vaginal Probiotic Gummies*",
+        "award_image": "shopify://shop_images/lml-purity-award.png",
+        "rating_fallback": "4.7",
+        "review_count_fallback": "2,804",
+        "reviews_anchor": "reviews",
+        "show_badge": true,
+        "badge_eyebrow": "FrontrowMD",
+        "badge_title": "Clinicians'\nChoice",
+        "badge_text": "544 clinicians & OB/GYNs share this product on FrontrowMD.",
+        "badge_link_label": "Learn more",
+        "badge_link": "",
+        "badge_footer": "Read their reviews",
+        "faq_tab_label": "FAQs",
+        "badge_suffix": "% off",
+        "perks_heading": "Subscription benefits:",
+        "once_label": "One-time purchase",
+        "buy_once_label": "Buy once for",
+        "subscribe_instead_label": "Subscribe & save instead",
+        "atc_label": "Add to Bag",
+        "sold_out_label": "Sold out",
+        "secondary_label": "Buy on iHerb",
+        "secondary_link": "",
+        "support_title": "Scientifically formulated with clinically-studied probiotics to support:",
+        "link_1_label": "Shipping & returns",
+        "link_1_url": "",
+        "link_2_label": "Read reviews",
+        "link_2_url": "",
+        "show_bundle": true,
+        "bundle_heading": "lemme get the full routine:",
+        "bundle_products": [],
+        "bundle_total_label": "Total price:",
+        "bundle_button": "Add Bundle to Cart",
+        "bundle_addons_label": "One-time add-ons",
+        "show_sticky_atc": true
+      }
+    },
+    "icon-list": {
+      "type": "lml-icon-list",
+      "blocks": {
+        "icon_vegetarian": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-icon-vegan.png",
+            "label": "Vegetarian"
+          }
+        },
+        "icon_sugar": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-icon-heart.png",
+            "label": "No sugar alcohols"
+          }
+        },
+        "icon_colors": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-icon-color.png",
+            "label": "No synthetic colors"
+          }
+        },
+        "icon_gluten": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-icon-gluten.png",
+            "label": "Gluten-free"
+          }
+        },
+        "icon_gelatin": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/lml-icon-gelatin.png",
+            "label": "Gelatin-free"
+          }
+        }
+      },
+      "block_order": [
+        "icon_vegetarian",
+        "icon_sugar",
+        "icon_colors",
+        "icon_gluten",
+        "icon_gelatin"
+      ],
+      "settings": {
+        "background": "#dfc8e7",
+        "heading": "made for you, daily",
+        "text": "<p>Placeholder intro copy — a two-to-three line summary of the formula, its hero probiotic strain and the supporting ingredients goes here. Swap in approved brand copy.*</p>"
+      }
+    },
+    "ingredients": {
+      "type": "lml-ingredients",
+      "blocks": {
+        "ing_snz": {
+          "type": "ingredient",
+          "settings": {
+            "title": "SNZ 1969™ (Bacillus coagulans)",
+            "image": "shopify://shop_images/lml-ing-snz.png",
+            "text": "<p>Placeholder: short description of the clinically-studied probiotic strain and why it survives to where it works.*</p>"
+          }
+        },
+        "ing_pineapple": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Pineapple extract",
+            "image": "shopify://shop_images/lml-ing-pineapple.png",
+            "text": "<p>Placeholder: one or two lines about the real fruit extract included in every serving.</p>"
+          }
+        },
+        "ing_vitc": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin C",
+            "image": "shopify://shop_images/lml-ing-vitc.png",
+            "text": "<p>Placeholder: one or two lines about antioxidant and collagen-support benefits.*</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ing_snz",
+        "ing_pineapple",
+        "ing_vitc"
+      ],
+      "settings": {
+        "background": "#dfc8e7",
+        "heading": "what's inside?"
+      }
+    },
+    "leave-out": {
+      "type": "lml-leave-out",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "Parabens"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Talc"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Silicon dioxide"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "Synthetic colors"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Gluten"
+          }
+        },
+        "item_6": {
+          "type": "item",
+          "settings": {
+            "text": "FD&C dyes"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5",
+        "item_6"
+      ],
+      "settings": {
+        "background": "#dfc8e7",
+        "heading": "what we\nleave",
+        "highlight": "out",
+        "text": "Because the label matters as much as the formula",
+        "button_label": "Learn more",
+        "button_link": ""
+      }
+    },
+    "recommendations": {
+      "type": "lml-product-recommendations",
+      "settings": {
+        "background": "#dfc8e7",
+        "heading": "you might also like",
+        "products": [],
+        "limit": 4,
+        "button_label": "Shop now"
+      }
+    },
+    "faq": {
+      "type": "lml-faq",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "How do I take these gummies?",
+            "answer": "<p>Placeholder answer. Explain serving size, timing and whether to take with food. Replace with approved FAQ copy.*</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Who is this product for?",
+            "answer": "<p>Placeholder answer describing the intended customer and use case.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "What's in the formula?",
+            "answer": "<p>Placeholder answer listing the key actives and serving amounts.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "How long until I notice a difference?",
+            "answer": "<p>Placeholder answer about consistency and typical timeframes.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "Is it third-party tested?",
+            "answer": "<p>Placeholder answer about testing and certifications.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "Is it vegetarian and gluten-free?",
+            "answer": "<p>Placeholder answer about dietary attributes.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "What does it taste like?",
+            "answer": "<p>Placeholder answer describing the flavor.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "Can I combine it with other products?",
+            "answer": "<p>Placeholder answer about stacking with other products.</p>"
+          }
+        },
+        "question_9": {
+          "type": "question",
+          "settings": {
+            "question": "Can I pause or cancel my subscription?",
+            "answer": "<p>Placeholder answer about managing a subscription from the account page.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8",
+        "question_9"
+      ],
+      "settings": {
+        "background": "#dfc8e7",
+        "heading": "got\nquestions?",
+        "button_label": "Read all FAQs",
+        "button_link": "",
+        "anchor": "faq",
+        "open_first": true,
+        "sticky_offset": 120
+      }
+    },
+    "marquee": {
+      "type": "lml-marquee",
+      "settings": {
+        "text": "lemme live",
+        "repeat": 6,
+        "speed": 30,
+        "background": "#000000",
+        "text_color": "#c5ff89",
+        "alt_color": "#dfc8e7"
+      }
+    },
+    "reviews": {
+      "type": "lml-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "name": "Alex M.",
+            "verified": true,
+            "recommends": true,
+            "rating": 5,
+            "date": "1 day ago",
+            "title": "Easy to stick with",
+            "body": "<p>Placeholder review text. Tastes good and easy to remember every morning.</p>",
+            "age": "25 - 34",
+            "purchases": "Subscription customer",
+            "helpful": 3
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "name": "Priya S.",
+            "verified": true,
+            "recommends": true,
+            "rating": 5,
+            "date": "2 days ago",
+            "title": "Part of my routine",
+            "body": "<p>Placeholder review text. Been taking these for a couple of months now.</p>",
+            "age": "35 - 44",
+            "purchases": "Subscription customer",
+            "helpful": 1
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "name": "Jordan K.",
+            "verified": false,
+            "recommends": true,
+            "rating": 4,
+            "date": "3 days ago",
+            "title": "Good so far",
+            "body": "<p>Placeholder review text. Would love a bigger bottle option.</p>",
+            "age": "18 - 24",
+            "purchases": "1",
+            "helpful": 0
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "name": "Sam T.",
+            "verified": true,
+            "recommends": true,
+            "rating": 5,
+            "date": "5 days ago",
+            "title": "Great flavor",
+            "body": "<p>Placeholder review text. The flavor is the best part.</p>",
+            "age": "25 - 34",
+            "purchases": "2 - 3",
+            "helpful": 5
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "name": "Riley P.",
+            "verified": true,
+            "recommends": false,
+            "rating": 3,
+            "date": "1 week ago",
+            "title": "Okay",
+            "body": "<p>Placeholder review text. Still waiting to see results.</p>",
+            "age": "45 - 54",
+            "purchases": "1",
+            "helpful": 2
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "name": "Morgan L.",
+            "verified": true,
+            "recommends": true,
+            "rating": 5,
+            "date": "1 week ago",
+            "title": "Reordering",
+            "body": "<p>Placeholder review text. Already on my second bottle.</p>",
+            "age": "35 - 44",
+            "purchases": "Subscription customer",
+            "helpful": 4
+          }
+        },
+        "review_7": {
+          "type": "review",
+          "settings": {
+            "name": "Casey D.",
+            "verified": false,
+            "recommends": false,
+            "rating": 2,
+            "date": "2 weeks ago",
+            "title": "Not for me",
+            "body": "<p>Placeholder review text. The texture was not my favorite.</p>",
+            "age": "25 - 34",
+            "purchases": "1",
+            "helpful": 1
+          }
+        },
+        "review_8": {
+          "type": "review",
+          "settings": {
+            "name": "Taylor B.",
+            "verified": true,
+            "recommends": true,
+            "rating": 5,
+            "date": "3 weeks ago",
+            "title": "Love these",
+            "body": "<p>Placeholder review text. Recommended to friends.</p>",
+            "age": "18 - 24",
+            "purchases": "4+",
+            "helpful": 6
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6",
+        "review_7",
+        "review_8"
+      ],
+      "settings": {
+        "background": "#f7f1f9",
+        "heading": "the reviews are in",
+        "anchor": "reviews",
+        "rating_fallback": "4.7",
+        "review_count_fallback": "2,804",
+        "count_5": 2394,
+        "count_4": 220,
+        "count_3": 75,
+        "count_2": 32,
+        "count_1": 83,
+        "reviews_tab_label": "Reviews",
+        "questions_tab_label": "Questions",
+        "questions_empty": "No questions yet. Be the first to ask one.",
+        "filters_label": "Filters",
+        "write_label": "Write a review",
+        "write_link": "",
+        "more_label": "Show more",
+        "initial_count": 4
+      }
+    },
+    "social": {
+      "type": "lml-social",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/lml-social-1.jpg",
+            "alt": "",
+            "link": ""
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/lml-social-2.jpg",
+            "alt": "",
+            "link": ""
+          }
+        },
+        "image_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/lml-social-3.jpg",
+            "alt": "",
+            "link": ""
+          }
+        },
+        "image_4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/lml-social-4.jpg",
+            "alt": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2",
+        "image_3",
+        "image_4"
+      ],
+      "settings": {
+        "background": "#dfc8e7",
+        "heading": "lemme socialize",
+        "button_label": "Follow us",
+        "button_link": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "icon-list",
+    "ingredients",
+    "leave-out",
+    "recommendations",
+    "faq",
+    "marquee",
+    "reviews",
+    "social"
+  ]
+}
