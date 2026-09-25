@@ -185,23 +185,21 @@
       <div class="product-gallery product-gallery--png-only">
         <div class="product-gallery-main product-gallery-main--single product-gallery-product">
           {%- liquid
-            assign hero_image = section.settings.image | default: product.featured_media.preview_image
-            if section.settings.use_product_media == false
-              assign hero_image = section.settings.image
-            endif
-            assign hero_alt = section.settings.image_alt | default: product.title
+            assign hero_media = variant.featured_media | default: product.featured_media
+            assign hero_alt = hero_media.alt | default: product.title
           -%}
-          {%- render 'dizzy-image',
-            image: hero_image,
-            asset: section.settings.image_asset,
-            width: 972,
-            height: 1477,
-            alt: hero_alt,
-            class: 'is-contain',
-            sizes: '(min-width: 1200px) 522px, (min-width: 1051px) 45vw, 92vw',
-            widths: '486,972,1400',
-            priority: true
-          -%}
+          {%- if hero_media -%}
+            {%- render 'dizzy-image',
+              image: hero_media.preview_image,
+              alt: hero_alt,
+              class: 'is-contain',
+              sizes: '(min-width: 1200px) 522px, (min-width: 1051px) 45vw, 92vw',
+              widths: '486,972,1400',
+              priority: true
+            -%}
+          {%- else -%}
+            {{ 'product-apparel-1' | placeholder_svg_tag: 'is-contain' }}
+          {%- endif -%}
         </div>
       </div>
     </div>
@@ -312,11 +310,6 @@
   "name": "DIZZY main product",
   "class": "dizzy",
   "settings": [
-    { "type": "header", "content": "Image" },
-    { "type": "checkbox", "id": "use_product_media", "label": "Use product featured image", "info": "Used when no image is picked below.", "default": true },
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "info": "Used when no image is available.", "default": "dizzy-daily-flow-product-transparent-972.webp" },
-    { "type": "text", "id": "image_alt", "label": "Image alt text" },
     { "type": "header", "content": "Product info" },
     { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "buy" },
     { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the product title." },
