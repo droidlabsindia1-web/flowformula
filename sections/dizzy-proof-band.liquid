@@ -1,0 +1,37 @@
+{%- render 'dizzy-assets' -%}
+
+<ul class="product-proof-band" aria-label="{{ section.settings.label | escape }}">
+  {%- for block in section.blocks -%}
+    <li {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+  {%- endfor -%}
+</ul>
+
+{% schema %}
+{
+  "name": "DIZZY proof band",
+  "class": "dizzy",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label (screen readers)", "default": "Product facts" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "30 servings" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY proof band",
+      "blocks": [
+        { "type": "item", "settings": { "text": "30 servings" } },
+        { "type": "item", "settings": { "text": "Berry Lemonade" } },
+        { "type": "item", "settings": { "text": "Creatine for women" } },
+        { "type": "item", "settings": { "text": "Female founded" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

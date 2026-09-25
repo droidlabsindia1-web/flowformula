@@ -1,0 +1,86 @@
+{%- render 'dizzy-assets' -%}
+
+<section class="shop-inside" id="{{ section.settings.anchor | default: 'inside' | handleize }}" aria-labelledby="inside-title-{{ section.id }}" data-dizzy-section="ingredients">
+  <header class="shop-inside-heading">
+    <h2 id="inside-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+  </header>
+  <div class="ingredient-carousel">
+    <button class="ingredient-carousel-arrow ingredient-carousel-arrow--previous" type="button" aria-label="Show previous ingredient" aria-controls="ingredient-card-scroller-{{ section.id }}">
+      <span aria-hidden="true">←</span>
+    </button>
+    <div id="ingredient-card-scroller-{{ section.id }}" class="ingredient-card-scroller" role="region" aria-label="{{ section.settings.label | escape }}" tabindex="0">
+      <div class="ingredient-card-track">
+        {%- comment -%} The set renders twice so the CSS marquee loops seamlessly; the copy is hidden from assistive tech. {%- endcomment -%}
+        {%- for pass in (1..2) -%}
+          {%- liquid
+            assign duplicate = false
+            if pass == 2
+              assign duplicate = true
+            endif
+          -%}
+          <div class="ingredient-card-set"{% if duplicate %} aria-hidden="true"{% endif %}>
+            {%- for block in section.blocks -%}
+              <article class="ingredient-card" {% unless duplicate %}{{ block.shopify_attributes }}{% endunless %}>
+                <figure class="ingredient-card-visual">
+                  {%- render 'dizzy-image',
+                    image: block.settings.image,
+                    asset: block.settings.image_asset,
+                    width: 800,
+                    height: 800,
+                    alt: block.settings.alt,
+                    decorative: duplicate,
+                    sizes: '(max-width: 1050px) min(300px, 78vw), 320px',
+                    widths: '480,800'
+                  -%}
+                  <span aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                </figure>
+                <div class="ingredient-card-copy">
+                  <h3>{{ block.settings.title | escape }}</h3>
+                  <p>{{ block.settings.text | escape }}</p>
+                </div>
+              </article>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    <button class="ingredient-carousel-arrow ingredient-carousel-arrow--next" type="button" aria-label="Show next ingredient" aria-controls="ingredient-card-scroller-{{ section.id }}">
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DIZZY ingredients",
+  "class": "dizzy",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "inside" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The full line-up. One daily scoop." },
+    { "type": "text", "id": "label", "label": "Carousel label (screen readers)", "default": "Daily Flow formula components" }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "default": "dizzy-ingredient-creatine-800.webp" },
+        { "type": "text", "id": "alt", "label": "Alt text" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Creatine monohydrate" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Creatine increases physical performance in successive bursts of short-term, high intensity exercise." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY ingredients",
+      "blocks": [
+        { "type": "ingredient", "settings": { "image_asset": "dizzy-ingredient-creatine-800.webp", "alt": "A close-up of fine creatine powder", "title": "Creatine monohydrate", "text": "Creatine increases physical performance in successive bursts of short-term, high intensity exercise." } },
+        { "type": "ingredient", "settings": { "image_asset": "dizzy-ingredient-electrolytes-800.webp", "alt": "A close-up texture representing potassium mineral crystals", "title": "Potassium", "text": "Potassium contributes to normal muscle function." } },
+        { "type": "ingredient", "settings": { "image_asset": "dizzy-ingredient-calcium-800.webp", "alt": "A macro ingredient texture representing calcium powder", "title": "Calcium", "text": "Calcium supports natural energy production, healthy muscle function, and the maintenance of strong, healthy bones." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

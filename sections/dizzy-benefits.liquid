@@ -1,0 +1,44 @@
+{%- render 'dizzy-assets' -%}
+
+<section class="daily-flow-benefits" aria-labelledby="benefits-title-{{ section.id }}">
+  <h2 id="benefits-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+  <div class="daily-flow-benefits-grid">
+    {%- for block in section.blocks -%}
+      <article {{ block.shopify_attributes }}>
+        <h3><span aria-hidden="true">⚡︎</span>{{ block.settings.title | escape }}</h3>
+        <p>{{ block.settings.text | escape }}</p>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DIZZY benefits",
+  "class": "dizzy",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built for busy days" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Mental performance" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pantothenic acid contributes to normal mental performance." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY benefits",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Mental performance", "text": "Pantothenic acid contributes to normal mental performance." } },
+        { "type": "benefit", "settings": { "title": "Less tiredness", "text": "Magnesium, riboflavin and niacin contribute to the reduction of tiredness and fatigue." } },
+        { "type": "benefit", "settings": { "title": "Everyday energy", "text": "Magnesium, calcium and B vitamins contribute to normal energy-yielding metabolism." } },
+        { "type": "benefit", "settings": { "title": "Physical performance", "text": "Creatine increases physical performance in successive bursts of short-term, high-intensity exercise." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

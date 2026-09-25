@@ -1,296 +1,167 @@
 {
   "sections": {
     "main": {
-      "type": "lml-main-product",
+      "type": "dizzy-main-product",
       "blocks": {
-        "tab_details": {
-          "type": "tab",
+        "benefit_focus": {
+          "type": "benefit",
           "settings": {
-            "title": "Details",
-            "use_description": false,
-            "content": "<p>A daily gummy with clinically-studied SNZ 1969™ probiotics, made to support feminine health and freshness.*</p>",
-            "benefits": "<ul><li>Helps maintain healthy pH levels*</li><li>Supports a balanced microflora*</li><li>Supports feminine health*</li><li>Supports freshness*</li></ul>",
-            "benefits_open_label": "See benefits +",
-            "benefits_close_label": "Hide benefits −"
+            "text": "Focus Formula"
           }
         },
-        "tab_facts": {
-          "type": "tab",
+        "benefit_energy": {
+          "type": "benefit",
           "settings": {
-            "title": "Supplement Facts",
-            "use_description": false,
-            "content": "<ul><li><strong>Serving size:</strong> 2 gummies</li><li><strong>Servings per container:</strong> 30</li><li><strong>Vitamin C:</strong> 60 mg</li><li><strong>Pineapple extract:</strong> 100 mg</li><li><strong>Bacillus coagulans (SNZ 1969™):</strong> 1 billion CFU</li></ul><p>Other ingredients: placeholder list — replace with the approved label copy.</p>",
-            "benefits_open_label": "See benefits +",
-            "benefits_close_label": "Hide benefits −"
+            "text": "Energy Support"
           }
         },
-        "faq_take": {
-          "type": "faq",
+        "benefit_science": {
+          "type": "benefit",
           "settings": {
-            "question": "How do I take these?",
-            "answer": "<p>Placeholder answer — replace with approved FAQ copy.</p>"
+            "text": "Science Backed"
           }
         },
-        "faq_when": {
-          "type": "faq",
+        "benefit_vegan": {
+          "type": "benefit",
           "settings": {
-            "question": "When will I notice a difference?",
-            "answer": "<p>Placeholder answer — replace with approved FAQ copy.</p>"
+            "text": "Vegan"
           }
         },
-        "faq_tested": {
-          "type": "faq",
+        "benefit_uk": {
+          "type": "benefit",
           "settings": {
-            "question": "Are they third-party tested?",
-            "answer": "<p>Placeholder answer — replace with approved FAQ copy.</p>"
+            "text": "Made in UK"
           }
         },
-        "perk_shipping": {
-          "type": "perk",
+        "option_monthly": {
+          "type": "purchase_option",
           "settings": {
-            "icon_asset": "lml-sub-1.svg",
-            "text": "Free shipping on all US subscriptions"
+            "selling_plan_id": "691877445928",
+            "title": "1-Month Subscription",
+            "saving": "Save 10%",
+            "units": 1,
+            "badge": "Recommended",
+            "detail": "1 pouch (30 servings per pouch) every 1 month",
+            "selected": true
           }
         },
-        "perk_gifts": {
-          "type": "perk",
+        "option_bimonthly": {
+          "type": "purchase_option",
           "settings": {
-            "icon_asset": "lml-sub-2.svg",
-            "text": "Exclusive gifts & offers"
+            "selling_plan_id": "691877314856",
+            "title": "2-Month Subscription (most popular)",
+            "saving": "Save 15%",
+            "units": 2,
+            "badge": "",
+            "detail": "2 pouches (30 servings per pouch) every 2 months",
+            "selected": false
           }
         },
-        "perk_flex": {
-          "type": "perk",
+        "option_once": {
+          "type": "purchase_option",
           "settings": {
-            "icon_asset": "lml-sub-3.svg",
-            "text": "Skip, pause or swap anytime"
+            "selling_plan_id": "",
+            "title": "One-time purchase",
+            "saving": "",
+            "units": 1,
+            "badge": "",
+            "detail": "",
+            "selected": false
           }
         },
-        "perk_support": {
-          "type": "perk",
+        "disclosure_info": {
+          "type": "disclosure",
           "settings": {
-            "icon_asset": "lml-sub-4.svg",
-            "text": "Priority customer support"
+            "title": "Product information",
+            "layout": "product-information-copy",
+            "content": "<p>Creatine Monohydrate, Lion's Mane, Siberian Ginseng, Essential Electrolytes, B Vitamins and Biotin. 1.5 flat teaspoons, once a day, in Berry Lemonade.</p><p>The most-researched supplement ingredient there is, finally aimed at the right people.</p>",
+            "custom_html": "",
+            "open": false
           }
         },
-        "perk_manage": {
-          "type": "perk",
+        "disclosure_nutrition": {
+          "type": "disclosure",
           "settings": {
-            "icon_asset": "lml-sub-5.svg",
-            "text": "Manage your plan from your account"
+            "title": "Ingredients & nutrition",
+            "layout": "ingredients-nutrition-copy",
+            "content": "",
+            "custom_html": "<section aria-labelledby=\"ingredients-list-title\">\n<h3 id=\"ingredients-list-title\">Ingredients</h3>\n<p>Creatine Monohydrate, Potassium Chloride, Sodium Chloride, Calcium Chloride, Magnesium Citrate, Acidity Regulators (Citric Acid, Malic Acid), Natural Flavourings, Siberian Ginseng Extract, Lion&#x27;s Mane Extract, Vitamin C (Calcium Ascorbate), Colouring Food (Red Beetroot Powder), Sweetener (Steviol Glycosides from Stevia), Niacin (Nicotinamide), Pantothenic Acid (Calcium Pantothenate), Vitamin B2 (Riboflavin), Biotin.</p>\n<p>\n<strong>Allergens:</strong> None. Suitable for vegans.</p>\n</section>\n<section aria-labelledby=\"nutrition-title\">\n<h3 id=\"nutrition-title\">Nutritional information</h3>\n<p>\n<strong>Per 7.5g single serving · 30 servings per pouch</strong>\n</p>\n<h4>Vitamins &amp; minerals</h4>\n<table>\n<thead>\n<tr>\n<th scope=\"col\">Nutrient</th>\n<th scope=\"col\">Amount</th>\n<th scope=\"col\">NRV*</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<th scope=\"row\">Vitamin C</th>\n<td>80 mg</td>\n<td>100%</td>\n</tr>\n<tr>\n<th scope=\"row\">Riboflavin (B2)</th>\n<td>1.4 mg</td>\n<td>100%</td>\n</tr>\n<tr>\n<th scope=\"row\">Niacin (B3)</th>\n<td>8.0 mg NE</td>\n<td>50%</td>\n</tr>\n<tr>\n<th scope=\"row\">Biotin</th>\n<td>500 µg</td>\n<td>1000%</td>\n</tr>\n<tr>\n<th scope=\"row\">Pantothenic Acid (B5)</th>\n<td>6.0 mg</td>\n<td>100%</td>\n</tr>\n<tr>\n<th scope=\"row\">Potassium</th>\n<td>300 mg</td>\n<td>15%</td>\n</tr>\n<tr>\n<th scope=\"row\">Calcium</th>\n<td>120 mg</td>\n<td>15%</td>\n</tr>\n<tr>\n<th scope=\"row\">Magnesium</th>\n<td>56 mg</td>\n<td>15%</td>\n</tr>\n<tr>\n<th scope=\"row\">Sodium</th>\n<td>200 mg</td>\n<td>**</td>\n</tr>\n</tbody>\n</table>\n<h4>Other actives</h4>\n<table>\n<thead>\n<tr>\n<th scope=\"col\">Active</th>\n<th scope=\"col\">Amount</th>\n<th scope=\"col\">NRV*</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<th scope=\"row\">Creatine Monohydrate</th>\n<td>3.5 g</td>\n<td>**</td>\n</tr>\n<tr>\n<th scope=\"row\">Siberian Ginseng Extract (25:1)</th>\n<td>100 mg</td>\n<td>**</td>\n</tr>\n<tr>\n<th scope=\"row\">Lion&#x27;s Mane Extract (30:1)</th>\n<td>100 mg</td>\n<td>**</td>\n</tr>\n</tbody>\n</table>\n<p class=\"nutrition-footnotes\">\n<em>*NRV = Nutrient Reference Value<br>**NRV not established</em>\n</p>\n</section>\n<nav class=\"ingredients-nutrition-links\" aria-label=\"Ingredient and science information\">\n<a href=\"#inside\">Explore what’s inside the scoop ↓</a>\n<a href=\"#faqs\">Product FAQs →</a>\n<a href=\"#scientific-claims\">Take me to the scientific claims →</a>\n</nav>",
+            "open": false
           }
         },
-        "support_ph": {
-          "type": "support_icon",
+        "disclosure_shipping": {
+          "type": "disclosure",
           "settings": {
-            "image": "shopify://shop_images/lml-benefit-ph.png",
-            "label": "pH balance*"
-          }
-        },
-        "support_microbiome": {
-          "type": "support_icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-benefit-health.png",
-            "label": "Vaginal microbiome*"
-          }
-        },
-        "support_yeast": {
-          "type": "support_icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-benefit-taste.png",
-            "label": "Yeast balance*"
-          }
-        },
-        "support_health": {
-          "type": "support_icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-benefit-urinary.png",
-            "label": "Vaginal health*"
+            "title": "Shipping",
+            "layout": "shipping-copy",
+            "content": "<p>We only currently ship to the UK at the moment.</p><p>We are working on this.</p><ul><li>Free shipping on all subscriptions</li><li>48h and 24h tracked</li></ul>",
+            "custom_html": "",
+            "open": false
           }
         }
       },
       "block_order": [
-        "tab_details",
-        "tab_facts",
-        "faq_take",
-        "faq_when",
-        "faq_tested",
-        "perk_shipping",
-        "perk_gifts",
-        "perk_flex",
-        "perk_support",
-        "perk_manage",
-        "support_ph",
-        "support_microbiome",
-        "support_yeast",
-        "support_health"
+        "benefit_focus",
+        "benefit_energy",
+        "benefit_science",
+        "benefit_vegan",
+        "benefit_uk",
+        "option_monthly",
+        "option_bimonthly",
+        "option_once",
+        "disclosure_info",
+        "disclosure_nutrition",
+        "disclosure_shipping"
       ],
       "settings": {
-        "background": "#fbe01a",
-        "sticky_offset": 100,
-        "subtitle": "Vaginal Probiotic Gummies*",
-        "award_image": "shopify://shop_images/lml-purity-award.png",
-        "rating_fallback": "4.7",
-        "review_count_fallback": "2,804",
-        "reviews_anchor": "reviews",
-        "show_badge": true,
-        "badge_eyebrow": "FrontrowMD",
-        "badge_title": "Clinicians'\nChoice",
-        "badge_text": "544 clinicians & OB/GYNs share this product on FrontrowMD.",
-        "badge_link_label": "Learn more",
-        "badge_link": "",
-        "badge_footer": "Read their reviews",
-        "faq_tab_label": "FAQs",
-        "badge_suffix": "% off",
-        "perks_heading": "Subscription benefits:",
+        "use_product_media": true,
+        "image_asset": "dizzy-daily-flow-product-transparent-972.webp",
+        "image_alt": "DIZZY Daily Flow Berry Lemonade pouch",
+        "anchor": "buy",
+        "title": "",
+        "promise": "<p><strong>Creatine + Lion's Mane blend,</strong> built for those who demand more from their day.</p><p>Daily support, built into your routine.</p>",
+        "servings": 30,
+        "show_servings": true,
+        "flavour": "Berry Lemonade",
+        "legend": "Choose how to buy",
         "once_label": "One-time purchase",
-        "buy_once_label": "Buy once for",
-        "subscribe_instead_label": "Subscribe & save instead",
-        "atc_label": "Add to Bag",
+        "subscription_perks": "Pause or Cancel anytime\nFree shipping\nExclusive entry to our community events",
+        "atc_label": "Add to cart",
+        "adding_label": "Adding…",
         "sold_out_label": "Sold out",
-        "secondary_label": "Buy on iHerb",
-        "secondary_link": "",
-        "support_title": "Scientifically formulated with clinically-studied probiotics to support:",
-        "link_1_label": "Shipping & returns",
-        "link_1_url": "",
-        "link_2_label": "Read reviews",
-        "link_2_url": "",
-        "show_bundle": true,
-        "bundle_heading": "lemme get the full routine:",
-        "bundle_products": [],
-        "bundle_total_label": "Total price:",
-        "bundle_button": "Add Bundle to Cart",
-        "bundle_addons_label": "One-time add-ons",
-        "show_sticky_atc": true
+        "after_add": "cart",
+        "show_dynamic_checkout": true,
+        "apple_pay_note": "Available at checkout on eligible devices and orders",
+        "show_mobile_bar": true,
+        "mobile_bar_label": "DIZZY",
+        "mobile_bar_cta": "Choose & add ↑"
       }
     },
-    "icon-list": {
-      "type": "lml-icon-list",
-      "blocks": {
-        "icon_vegetarian": {
-          "type": "icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-icon-vegan.png",
-            "label": "Vegetarian"
-          }
-        },
-        "icon_sugar": {
-          "type": "icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-icon-heart.png",
-            "label": "No sugar alcohols"
-          }
-        },
-        "icon_colors": {
-          "type": "icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-icon-color.png",
-            "label": "No synthetic colors"
-          }
-        },
-        "icon_gluten": {
-          "type": "icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-icon-gluten.png",
-            "label": "Gluten-free"
-          }
-        },
-        "icon_gelatin": {
-          "type": "icon",
-          "settings": {
-            "image": "shopify://shop_images/lml-icon-gelatin.png",
-            "label": "Gelatin-free"
-          }
-        }
-      },
-      "block_order": [
-        "icon_vegetarian",
-        "icon_sugar",
-        "icon_colors",
-        "icon_gluten",
-        "icon_gelatin"
-      ],
-      "settings": {
-        "background": "#dfc8e7",
-        "heading": "made for you, daily",
-        "text": "<p>Placeholder intro copy — a two-to-three line summary of the formula, its hero probiotic strain and the supporting ingredients goes here. Swap in approved brand copy.*</p>"
-      }
-    },
-    "ingredients": {
-      "type": "lml-ingredients",
-      "blocks": {
-        "ing_snz": {
-          "type": "ingredient",
-          "settings": {
-            "title": "SNZ 1969™ (Bacillus coagulans)",
-            "image": "shopify://shop_images/lml-ing-snz.png",
-            "text": "<p>Placeholder: short description of the clinically-studied probiotic strain and why it survives to where it works.*</p>"
-          }
-        },
-        "ing_pineapple": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Pineapple extract",
-            "image": "shopify://shop_images/lml-ing-pineapple.png",
-            "text": "<p>Placeholder: one or two lines about the real fruit extract included in every serving.</p>"
-          }
-        },
-        "ing_vitc": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Vitamin C",
-            "image": "shopify://shop_images/lml-ing-vitc.png",
-            "text": "<p>Placeholder: one or two lines about antioxidant and collagen-support benefits.*</p>"
-          }
-        }
-      },
-      "block_order": [
-        "ing_snz",
-        "ing_pineapple",
-        "ing_vitc"
-      ],
-      "settings": {
-        "background": "#dfc8e7",
-        "heading": "what's inside?"
-      }
-    },
-    "leave-out": {
-      "type": "lml-leave-out",
+    "proof-band": {
+      "type": "dizzy-proof-band",
       "blocks": {
         "item_1": {
           "type": "item",
           "settings": {
-            "text": "Parabens"
+            "text": "30 servings"
           }
         },
         "item_2": {
           "type": "item",
           "settings": {
-            "text": "Talc"
+            "text": "Berry Lemonade"
           }
         },
         "item_3": {
           "type": "item",
           "settings": {
-            "text": "Silicon dioxide"
+            "text": "Creatine for women"
           }
         },
         "item_4": {
           "type": "item",
           "settings": {
-            "text": "Synthetic colors"
-          }
-        },
-        "item_5": {
-          "type": "item",
-          "settings": {
-            "text": "Gluten"
-          }
-        },
-        "item_6": {
-          "type": "item",
-          "settings": {
-            "text": "FD&C dyes"
+            "text": "Female founded"
           }
         }
       },
@@ -298,342 +169,473 @@
         "item_1",
         "item_2",
         "item_3",
-        "item_4",
-        "item_5",
-        "item_6"
+        "item_4"
       ],
       "settings": {
-        "background": "#dfc8e7",
-        "heading": "what we\nleave",
-        "highlight": "out",
-        "text": "Because the label matters as much as the formula",
-        "button_label": "Learn more",
-        "button_link": ""
+        "label": "Daily Flow product facts"
       }
     },
-    "recommendations": {
-      "type": "lml-product-recommendations",
-      "settings": {
-        "background": "#dfc8e7",
-        "heading": "you might also like",
-        "products": [],
-        "limit": 4,
-        "button_label": "Shop now"
-      }
-    },
-    "faq": {
-      "type": "lml-faq",
+    "benefits": {
+      "type": "dizzy-benefits",
       "blocks": {
-        "question_1": {
-          "type": "question",
+        "benefit_mental": {
+          "type": "benefit",
           "settings": {
-            "question": "How do I take these gummies?",
-            "answer": "<p>Placeholder answer. Explain serving size, timing and whether to take with food. Replace with approved FAQ copy.*</p>"
+            "title": "Mental performance",
+            "text": "Pantothenic acid contributes to normal mental performance."
           }
         },
-        "question_2": {
-          "type": "question",
+        "benefit_tiredness": {
+          "type": "benefit",
           "settings": {
-            "question": "Who is this product for?",
-            "answer": "<p>Placeholder answer describing the intended customer and use case.</p>"
+            "title": "Less tiredness",
+            "text": "Magnesium, riboflavin and niacin contribute to the reduction of tiredness and fatigue."
           }
         },
-        "question_3": {
-          "type": "question",
+        "benefit_energy": {
+          "type": "benefit",
           "settings": {
-            "question": "What's in the formula?",
-            "answer": "<p>Placeholder answer listing the key actives and serving amounts.</p>"
+            "title": "Everyday energy",
+            "text": "Magnesium, calcium and B vitamins contribute to normal energy-yielding metabolism."
           }
         },
-        "question_4": {
-          "type": "question",
+        "benefit_physical": {
+          "type": "benefit",
           "settings": {
-            "question": "How long until I notice a difference?",
-            "answer": "<p>Placeholder answer about consistency and typical timeframes.</p>"
-          }
-        },
-        "question_5": {
-          "type": "question",
-          "settings": {
-            "question": "Is it third-party tested?",
-            "answer": "<p>Placeholder answer about testing and certifications.</p>"
-          }
-        },
-        "question_6": {
-          "type": "question",
-          "settings": {
-            "question": "Is it vegetarian and gluten-free?",
-            "answer": "<p>Placeholder answer about dietary attributes.</p>"
-          }
-        },
-        "question_7": {
-          "type": "question",
-          "settings": {
-            "question": "What does it taste like?",
-            "answer": "<p>Placeholder answer describing the flavor.</p>"
-          }
-        },
-        "question_8": {
-          "type": "question",
-          "settings": {
-            "question": "Can I combine it with other products?",
-            "answer": "<p>Placeholder answer about stacking with other products.</p>"
-          }
-        },
-        "question_9": {
-          "type": "question",
-          "settings": {
-            "question": "Can I pause or cancel my subscription?",
-            "answer": "<p>Placeholder answer about managing a subscription from the account page.</p>"
+            "title": "Physical performance",
+            "text": "Creatine increases physical performance in successive bursts of short-term, high-intensity exercise."
           }
         }
       },
       "block_order": [
-        "question_1",
-        "question_2",
-        "question_3",
-        "question_4",
-        "question_5",
-        "question_6",
-        "question_7",
-        "question_8",
-        "question_9"
+        "benefit_mental",
+        "benefit_tiredness",
+        "benefit_energy",
+        "benefit_physical"
       ],
       "settings": {
-        "background": "#dfc8e7",
-        "heading": "got\nquestions?",
-        "button_label": "Read all FAQs",
-        "button_link": "",
-        "anchor": "faq",
-        "open_first": true,
-        "sticky_offset": 120
+        "heading": "Built for busy days"
       }
     },
-    "marquee": {
-      "type": "lml-marquee",
+    "lifestyle-gallery": {
+      "type": "dizzy-lifestyle-gallery",
+      "blocks": {
+        "image_laptop": {
+          "type": "image",
+          "settings": {
+            "image_asset": "dizzy-gallery-laptop-800.webp",
+            "alt": "Daily Flow carried with a laptop, bottle and sunglasses"
+          }
+        },
+        "image_scoop": {
+          "type": "image",
+          "settings": {
+            "image_asset": "dizzy-kitchen-scoop-800.webp",
+            "alt": "A woman scooping Daily Flow in her kitchen"
+          }
+        },
+        "image_bag": {
+          "type": "image",
+          "settings": {
+            "image_asset": "dizzy-weekend-bag-800.webp",
+            "alt": "Daily Flow packed inside a weekend bag"
+          }
+        },
+        "image_drink": {
+          "type": "image",
+          "settings": {
+            "image_asset": "dizzy-kitchen-drink-800.webp",
+            "alt": "A woman drinking Daily Flow in her kitchen"
+          }
+        }
+      },
+      "block_order": [
+        "image_laptop",
+        "image_scoop",
+        "image_bag",
+        "image_drink"
+      ],
       "settings": {
-        "text": "lemme live",
-        "repeat": 6,
-        "speed": 30,
-        "background": "#000000",
-        "text_color": "#c5ff89",
-        "alt_color": "#dfc8e7"
+        "label": "Daily Flow lifestyle gallery"
       }
     },
     "reviews": {
-      "type": "lml-reviews",
+      "type": "dizzy-reviews",
       "blocks": {
-        "review_1": {
+        "review_isobel": {
           "type": "review",
           "settings": {
-            "name": "Alex M.",
-            "verified": true,
-            "recommends": true,
+            "color": "pink",
             "rating": 5,
-            "date": "1 day ago",
-            "title": "Easy to stick with",
-            "body": "<p>Placeholder review text. Tastes good and easy to remember every morning.</p>",
-            "age": "25 - 34",
-            "purchases": "Subscription customer",
-            "helpful": 3
+            "source": "Verified Trustpilot review",
+            "name": "Isobel",
+            "topic": "Highly recommend",
+            "quote": "Highly recommend! Everyone should have DIZZY in their routine! :)",
+            "date": "10 September 2026"
           }
         },
-        "review_2": {
+        "review_robin": {
           "type": "review",
           "settings": {
-            "name": "Priya S.",
-            "verified": true,
-            "recommends": true,
+            "color": "yellow",
             "rating": 5,
-            "date": "2 days ago",
-            "title": "Part of my routine",
-            "body": "<p>Placeholder review text. Been taking these for a couple of months now.</p>",
-            "age": "35 - 44",
-            "purchases": "Subscription customer",
-            "helpful": 1
+            "source": "Verified Trustpilot review",
+            "name": "Robin",
+            "topic": "Everything in one scoop",
+            "quote": "The taste is delicious, not too sweet, with a bit of tang that makes sure it isn’t sickly. The packaging is beautiful, and the instructions are super clear.",
+            "date": "8 September 2026"
           }
         },
-        "review_3": {
+        "review_katie": {
           "type": "review",
           "settings": {
-            "name": "Jordan K.",
-            "verified": false,
-            "recommends": true,
-            "rating": 4,
-            "date": "3 days ago",
-            "title": "Good so far",
-            "body": "<p>Placeholder review text. Would love a bigger bottle option.</p>",
-            "age": "18 - 24",
-            "purchases": "1",
-            "helpful": 0
-          }
-        },
-        "review_4": {
-          "type": "review",
-          "settings": {
-            "name": "Sam T.",
-            "verified": true,
-            "recommends": true,
+            "color": "cream",
             "rating": 5,
-            "date": "5 days ago",
-            "title": "Great flavor",
-            "body": "<p>Placeholder review text. The flavor is the best part.</p>",
-            "age": "25 - 34",
-            "purchases": "2 - 3",
-            "helpful": 5
-          }
-        },
-        "review_5": {
-          "type": "review",
-          "settings": {
-            "name": "Riley P.",
-            "verified": true,
-            "recommends": false,
-            "rating": 3,
-            "date": "1 week ago",
-            "title": "Okay",
-            "body": "<p>Placeholder review text. Still waiting to see results.</p>",
-            "age": "45 - 54",
-            "purchases": "1",
-            "helpful": 2
-          }
-        },
-        "review_6": {
-          "type": "review",
-          "settings": {
-            "name": "Morgan L.",
-            "verified": true,
-            "recommends": true,
-            "rating": 5,
-            "date": "1 week ago",
-            "title": "Reordering",
-            "body": "<p>Placeholder review text. Already on my second bottle.</p>",
-            "age": "35 - 44",
-            "purchases": "Subscription customer",
-            "helpful": 4
-          }
-        },
-        "review_7": {
-          "type": "review",
-          "settings": {
-            "name": "Casey D.",
-            "verified": false,
-            "recommends": false,
-            "rating": 2,
-            "date": "2 weeks ago",
-            "title": "Not for me",
-            "body": "<p>Placeholder review text. The texture was not my favorite.</p>",
-            "age": "25 - 34",
-            "purchases": "1",
-            "helpful": 1
-          }
-        },
-        "review_8": {
-          "type": "review",
-          "settings": {
-            "name": "Taylor B.",
-            "verified": true,
-            "recommends": true,
-            "rating": 5,
-            "date": "3 weeks ago",
-            "title": "Love these",
-            "body": "<p>Placeholder review text. Recommended to friends.</p>",
-            "age": "18 - 24",
-            "purchases": "4+",
-            "helpful": 6
+            "source": "Verified Trustpilot review",
+            "name": "Katie",
+            "topic": "Great product",
+            "quote": "Really fast postage. Product itself is divine and tastes so good — not overly sweet or salty. Love the packaging.",
+            "date": "7 September 2026"
           }
         }
       },
       "block_order": [
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_4",
-        "review_5",
-        "review_6",
-        "review_7",
-        "review_8"
+        "review_isobel",
+        "review_robin",
+        "review_katie"
       ],
       "settings": {
-        "background": "#f7f1f9",
-        "heading": "the reviews are in",
-        "anchor": "reviews",
-        "rating_fallback": "4.7",
-        "review_count_fallback": "2,804",
-        "count_5": 2394,
-        "count_4": 220,
-        "count_3": 75,
-        "count_2": 32,
-        "count_1": 83,
-        "reviews_tab_label": "Reviews",
-        "questions_tab_label": "Questions",
-        "questions_empty": "No questions yet. Be the first to ask one.",
-        "filters_label": "Filters",
-        "write_label": "Write a review",
-        "write_link": "",
-        "more_label": "Show more",
-        "initial_count": 4
+        "heading": "Real routines.\nReal feedback.",
+        "label": "Recent five-star Trustpilot reviews",
+        "link_label": "Read all reviews on Trustpilot ↗",
+        "link_url": "https://www.trustpilot.com/review/dizzysupps.com"
       }
     },
-    "social": {
-      "type": "lml-social",
+    "comparison": {
+      "type": "dizzy-comparison",
       "blocks": {
-        "image_1": {
-          "type": "image",
+        "row_1": {
+          "type": "row",
           "settings": {
-            "image": "shopify://shop_images/lml-social-1.jpg",
-            "alt": "",
-            "link": ""
+            "label": "No. of ingredients",
+            "ours": "12 in one formula",
+            "theirs": "1 per product"
           }
         },
-        "image_2": {
-          "type": "image",
+        "row_2": {
+          "type": "row",
           "settings": {
-            "image": "shopify://shop_images/lml-social-2.jpg",
-            "alt": "",
-            "link": ""
+            "label": "Daily prep",
+            "ours": "1 scoop",
+            "theirs": "Multiple pills + drinks"
           }
         },
-        "image_3": {
-          "type": "image",
+        "row_3": {
+          "type": "row",
           "settings": {
-            "image": "shopify://shop_images/lml-social-3.jpg",
-            "alt": "",
-            "link": ""
+            "label": "Monthly price",
+            "ours": "£38 / month",
+            "theirs": "£93 / month"
           }
         },
-        "image_4": {
-          "type": "image",
+        "row_4": {
+          "type": "row",
           "settings": {
-            "image": "shopify://shop_images/lml-social-4.jpg",
-            "alt": "",
-            "link": ""
+            "label": "Fillers",
+            "ours": "None",
+            "theirs": "Often synthetic fillers"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "label": "Flavouring",
+            "ours": "Natural flavouring",
+            "theirs": "Often synthetic flavouring"
+          }
+        },
+        "row_6": {
+          "type": "row",
+          "settings": {
+            "label": "Customer insight",
+            "ours": "Shaped + built with 60 women in WhatsApp",
+            "theirs": "Not initially built from specific customer insights"
+          }
+        },
+        "row_7": {
+          "type": "row",
+          "settings": {
+            "label": "Designed for",
+            "ours": "A specific person",
+            "theirs": "A broad audience"
           }
         }
       },
       "block_order": [
-        "image_1",
-        "image_2",
-        "image_3",
-        "image_4"
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5",
+        "row_6",
+        "row_7"
       ],
       "settings": {
-        "background": "#dfc8e7",
-        "heading": "lemme socialize",
-        "button_label": "Follow us",
-        "button_link": ""
+        "heading": "Two ways to build your daily routine.",
+        "label": "Daily Flow and separate products comparison",
+        "corner_label": "At a glance",
+        "scroll_note": "Swipe or scroll to see the full comparison.",
+        "product_image_asset": "dizzy-daily-flow-comparison-pouch-960.webp",
+        "product_image_alt": "DIZZY Daily Flow Berry Lemonade pouch",
+        "product_title": "DIZZY Daily Flow",
+        "product_detail": "One pouch · 30 servings",
+        "separate_image_asset": "dizzy-neutral-supplement-pouch-360.webp",
+        "separate_labels": "Creatine\nElectrolytes\nB vitamins\nLion's Mane\nBiotin",
+        "separate_alt": "Five separate neutral supplement pouches for creatine, electrolytes, B vitamins, Lion's Mane and biotin",
+        "separate_title": "Separate products",
+        "separate_detail": "Five products sourced separately"
+      }
+    },
+    "ingredients": {
+      "type": "dizzy-ingredients",
+      "blocks": {
+        "ingredient_creatine": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-creatine-800.webp",
+            "alt": "A close-up of fine creatine powder",
+            "title": "Creatine monohydrate",
+            "text": "Creatine increases physical performance in successive bursts of short-term, high intensity exercise."
+          }
+        },
+        "ingredient_potassium": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-electrolytes-800.webp",
+            "alt": "A close-up texture representing potassium mineral crystals",
+            "title": "Potassium",
+            "text": "Potassium contributes to normal muscle function."
+          }
+        },
+        "ingredient_calcium": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-calcium-800.webp",
+            "alt": "A macro ingredient texture representing calcium powder",
+            "title": "Calcium",
+            "text": "Calcium supports natural energy production, healthy muscle function, and the maintenance of strong, healthy bones."
+          }
+        },
+        "ingredient_magnesium": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-magnesium-metallic-480.webp",
+            "alt": "A macro ingredient texture representing magnesium powder",
+            "title": "Magnesium",
+            "text": "Magnesium helps reduce tiredness and fatigue, supports energy production, healthy muscle function, psychological wellbeing, and hormonal balance."
+          }
+        },
+        "ingredient_sodium": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-sodium-800.webp",
+            "alt": "A macro ingredient texture representing sodium crystals",
+            "title": "Sodium",
+            "text": "Sodium contributes to normal water and mineral balance in the body, we've kept the amount lower, making it easy to enjoy as part of a balanced diet."
+          }
+        },
+        "ingredient_vitamin_c": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-vitamin-c-oranges-800.webp",
+            "alt": "A macro ingredient texture representing vitamin C powder",
+            "title": "Vitamin C",
+            "text": "Vitamin C contributes to the reduction of tiredness and fatigue and supports normal collagen formation for the healthy function of skin & bones."
+          }
+        },
+        "ingredient_riboflavin": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-vitamins-cracked-800.webp",
+            "alt": "A close-up texture representing the Daily Flow B-vitamin blend",
+            "title": "Riboflavin (Vitamin B2)",
+            "text": "Riboflavin contributes to normal energy metabolism, supports the nervous system, skin, and red blood cells, and helps reduce tiredness and fatigue."
+          }
+        },
+        "ingredient_biotin": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-biotin-gold-480.webp",
+            "alt": "A close-up texture representing biotin powder",
+            "title": "Biotin (Vitamin B7)",
+            "text": "Biotin supports natural energy and nutrient metabolism, helps maintain healthy skin and hair, and contributes to normal psychological wellbeing."
+          }
+        },
+        "ingredient_niacin": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-vitamins-cracked-800.webp",
+            "alt": "A close-up texture representing the Daily Flow B-vitamin blend",
+            "title": "Niacin (Vitamin B3)",
+            "text": "Niacin contributes to normal energy metabolism and psychological function, supports the nervous system and skin, and helps reduce tiredness and fatigue."
+          }
+        },
+        "ingredient_ginseng": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-ginseng-800.webp",
+            "alt": "A dried Siberian ginseng root on a pale background",
+            "title": "Siberian ginseng",
+            "text": "Traditionally used to support cognitive function (such as concentration and alertness)."
+          }
+        },
+        "ingredient_pantothenic": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-vitamins-cracked-800.webp",
+            "alt": "A close-up texture representing the Daily Flow B-vitamin blend",
+            "title": "Pantothenic acid (Vitamin B5)",
+            "text": "Pantothenic acid contributes to normal mental performance and energy metabolism, supports normal hormone synthesis, and helps reduce tiredness and fatigue."
+          }
+        },
+        "ingredient_lions_mane": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "dizzy-ingredient-lions-mane-800.webp",
+            "alt": "A close-up of Lion’s Mane mushrooms",
+            "title": "Lion’s Mane",
+            "text": "Used traditionally to support mental wellbeing. Part of a balanced lifestyle to support healthy brain function."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_creatine",
+        "ingredient_potassium",
+        "ingredient_calcium",
+        "ingredient_magnesium",
+        "ingredient_sodium",
+        "ingredient_vitamin_c",
+        "ingredient_riboflavin",
+        "ingredient_biotin",
+        "ingredient_niacin",
+        "ingredient_ginseng",
+        "ingredient_pantothenic",
+        "ingredient_lions_mane"
+      ],
+      "settings": {
+        "anchor": "inside",
+        "heading": "The full line-up. One daily scoop.",
+        "label": "Daily Flow formula components"
+      }
+    },
+    "how-to": {
+      "type": "dizzy-how-to",
+      "blocks": {
+        "photo_scoop": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "dizzy-kitchen-scoop-800.webp",
+            "alt": "A woman measuring a spoonful of Daily Flow"
+          }
+        },
+        "photo_stir": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "dizzy-stirring-glass-800.webp",
+            "alt": "A woman stirring Daily Flow in a glass"
+          }
+        },
+        "photo_drink": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "dizzy-kitchen-drink-800.webp",
+            "alt": "A woman drinking a prepared glass of Daily Flow"
+          }
+        },
+        "step_water": {
+          "type": "step",
+          "settings": {
+            "title": "Grab a glass of water",
+            "text": "Mix 1.5 flat teaspoons or 7.5 grams with 400ml of cold water."
+          }
+        },
+        "step_mix": {
+          "type": "step",
+          "settings": {
+            "title": "Mix as directed",
+            "text": "Stir thoroughly."
+          }
+        },
+        "step_moment": {
+          "type": "step",
+          "settings": {
+            "title": "Choose your moment",
+            "text": "Anchor it to a part of your day that is easy to repeat."
+          }
+        }
+      },
+      "block_order": [
+        "photo_scoop",
+        "photo_stir",
+        "photo_drink",
+        "step_water",
+        "step_mix",
+        "step_moment"
+      ],
+      "settings": {
+        "heading": "Read. Mix. Repeat."
+      }
+    },
+    "creatine-reasons": {
+      "type": "dizzy-creatine-reasons",
+      "blocks": {
+        "reason_age": {
+          "type": "reason",
+          "settings": {
+            "image_asset": "dizzy-pouch-balance-800.webp",
+            "alt": "A woman balancing a Daily Flow pouch on her head",
+            "title": "It drops further with age",
+            "text": "Levels decline with age and hormonal changes, particularly through perimenopause and menopause."
+          }
+        },
+        "reason_baseline": {
+          "type": "reason",
+          "settings": {
+            "image_asset": "dizzy-carrying-pouches-800.webp",
+            "alt": "A woman carrying two Daily Flow pouches",
+            "title": "70–80% less at baseline",
+            "text": "Women naturally store 70–80% less creatine than men at baseline."
+          }
+        },
+        "reason_6pm": {
+          "type": "reason",
+          "settings": {
+            "image_asset": "dizzy-laptop-drink-800.webp",
+            "alt": "A woman drinking Daily Flow beside her laptop",
+            "title": "Some of you back, by 6pm",
+            "text": "This isn’t about changing how you look. It’s about having enough left in the tank to get through your day without running on empty."
+          }
+        }
+      },
+      "block_order": [
+        "reason_age",
+        "reason_baseline",
+        "reason_6pm"
+      ],
+      "settings": {
+        "heading": "Why women choose creatine"
       }
     }
   },
   "order": [
     "main",
-    "icon-list",
-    "ingredients",
-    "leave-out",
-    "recommendations",
-    "faq",
-    "marquee",
+    "proof-band",
+    "benefits",
+    "lifestyle-gallery",
     "reviews",
-    "social"
+    "comparison",
+    "ingredients",
+    "how-to",
+    "creatine-reasons"
   ]
 }

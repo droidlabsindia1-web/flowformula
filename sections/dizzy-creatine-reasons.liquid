@@ -1,0 +1,55 @@
+{%- render 'dizzy-assets' -%}
+
+<section class="creatine-reasons" aria-labelledby="creatine-reasons-title-{{ section.id }}">
+  <h2 id="creatine-reasons-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+  <div class="creatine-reasons-grid">
+    {%- for block in section.blocks -%}
+      <article {{ block.shopify_attributes }}>
+        {%- render 'dizzy-image',
+          image: block.settings.image,
+          asset: block.settings.image_asset,
+          width: 1200,
+          height: 1800,
+          alt: block.settings.alt,
+          sizes: '(max-width: 700px) 100vw, 33vw',
+          style: 'object-fit:cover;max-width:1200px;max-height:1200px;aspect-ratio:1;width:100%'
+        -%}
+        <h3>{{ block.settings.title | escape }}</h3>
+        <p>{{ block.settings.text | escape }}</p>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DIZZY creatine reasons",
+  "class": "dizzy",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why women choose creatine" }
+  ],
+  "blocks": [
+    {
+      "type": "reason",
+      "name": "Reason",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "default": "dizzy-pouch-balance-800.webp" },
+        { "type": "text", "id": "alt", "label": "Alt text" },
+        { "type": "text", "id": "title", "label": "Title", "default": "It drops further with age" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Levels decline with age and hormonal changes, particularly through perimenopause and menopause." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY creatine reasons",
+      "blocks": [
+        { "type": "reason", "settings": { "image_asset": "dizzy-pouch-balance-800.webp", "alt": "A woman balancing a Daily Flow pouch on her head", "title": "It drops further with age", "text": "Levels decline with age and hormonal changes, particularly through perimenopause and menopause." } },
+        { "type": "reason", "settings": { "image_asset": "dizzy-carrying-pouches-800.webp", "alt": "A woman carrying two Daily Flow pouches", "title": "70–80% less at baseline", "text": "Women naturally store 70–80% less creatine than men at baseline." } },
+        { "type": "reason", "settings": { "image_asset": "dizzy-laptop-drink-800.webp", "alt": "A woman drinking Daily Flow beside her laptop", "title": "Some of you back, by 6pm", "text": "This isn’t about changing how you look. It’s about having enough left in the tank to get through your day without running on empty." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

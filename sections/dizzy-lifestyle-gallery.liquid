@@ -1,0 +1,51 @@
+{%- render 'dizzy-assets' -%}
+
+<section class="shop-review-feature" aria-label="{{ section.settings.label | escape }}">
+  <div class="shop-review-feature-grid">
+    {%- for block in section.blocks -%}
+      <article {{ block.shopify_attributes }}>
+        {%- render 'dizzy-image',
+          image: block.settings.image,
+          asset: block.settings.image_asset,
+          width: 1200,
+          height: 1800,
+          alt: block.settings.alt,
+          sizes: '(max-width: 700px) 86vw, 25vw',
+          style: 'object-fit:cover;max-width:1440px;max-height:1717px;aspect-ratio:0.8386721025043681;width:100%'
+        -%}
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DIZZY lifestyle gallery",
+  "class": "dizzy",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label (screen readers)", "default": "Lifestyle gallery" }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "default": "dizzy-gallery-laptop-800.webp" },
+        { "type": "text", "id": "alt", "label": "Alt text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY lifestyle gallery",
+      "blocks": [
+        { "type": "image", "settings": { "image_asset": "dizzy-gallery-laptop-800.webp", "alt": "Daily Flow carried with a laptop, bottle and sunglasses" } },
+        { "type": "image", "settings": { "image_asset": "dizzy-kitchen-scoop-800.webp", "alt": "A woman scooping Daily Flow in her kitchen" } },
+        { "type": "image", "settings": { "image_asset": "dizzy-weekend-bag-800.webp", "alt": "Daily Flow packed inside a weekend bag" } },
+        { "type": "image", "settings": { "image_asset": "dizzy-kitchen-drink-800.webp", "alt": "A woman drinking Daily Flow in her kitchen" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

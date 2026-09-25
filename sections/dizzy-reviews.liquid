@@ -1,0 +1,80 @@
+{%- render 'dizzy-assets' -%}
+
+<section class="shop-trust-placeholders" aria-labelledby="trust-title-{{ section.id }}">
+  <header class="shop-trust-heading">
+    <h2 id="trust-title-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }}</h2>
+  </header>
+  <div class="dizzy-review-stack" aria-label="{{ section.settings.label | escape }}">
+    {%- for block in section.blocks -%}
+      <article class="dizzy-review-card dizzy-review-card--{{ block.settings.color }}" {{ block.shopify_attributes }}>
+        <div class="dizzy-review-person">
+          <span class="dizzy-review-burst" aria-label="{{ block.settings.rating }} out of 5 stars">
+            {%- for i in (1..block.settings.rating) -%}★{%- endfor -%}
+          </span>
+          <div>
+            <p>{{ block.settings.source | escape }}</p>
+            <span>{{ block.settings.name | escape }}</span>
+          </div>
+        </div>
+        <p class="dizzy-review-topic">{{ block.settings.topic | escape }}</p>
+        <blockquote>
+          <p>“{{ block.settings.quote | escape }}”</p>
+        </blockquote>
+        <footer>{{ block.settings.date | escape }}</footer>
+      </article>
+    {%- endfor -%}
+  </div>
+  {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
+    <a class="text-link shop-trust-link" href="{{ section.settings.link_url }}" target="_blank" rel="noopener noreferrer">
+      {{- section.settings.link_label | escape -}}
+    </a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "DIZZY reviews",
+  "class": "dizzy",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Real routines.\nReal feedback." },
+    { "type": "text", "id": "label", "label": "Label (screen readers)", "default": "Recent five-star Trustpilot reviews" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Read all reviews on Trustpilot ↗" },
+    { "type": "url", "id": "link_url", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "select",
+          "id": "color",
+          "label": "Card colour",
+          "options": [
+            { "value": "pink", "label": "Pink" },
+            { "value": "yellow", "label": "Yellow" },
+            { "value": "cream", "label": "Cream" }
+          ],
+          "default": "pink"
+        },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "source", "label": "Source", "default": "Verified Trustpilot review" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Isobel" },
+        { "type": "text", "id": "topic", "label": "Topic", "default": "Highly recommend" },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Highly recommend! Everyone should have DIZZY in their routine! :)" },
+        { "type": "text", "id": "date", "label": "Date", "default": "10 September 2026" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY reviews",
+      "blocks": [
+        { "type": "review", "settings": { "color": "pink" } },
+        { "type": "review", "settings": { "color": "yellow", "name": "Robin", "topic": "Everything in one scoop", "quote": "The taste is delicious, not too sweet, with a bit of tang that makes sure it isn’t sickly. The packaging is beautiful, and the instructions are super clear.", "date": "8 September 2026" } },
+        { "type": "review", "settings": { "color": "cream", "name": "Katie", "topic": "Great product", "quote": "Really fast postage. Product itself is divine and tastes so good — not overly sweet or salty. Love the packaging.", "date": "7 September 2026" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

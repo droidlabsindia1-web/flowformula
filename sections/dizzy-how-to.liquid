@@ -1,0 +1,83 @@
+{%- render 'dizzy-assets' -%}
+
+{%- liquid
+  assign photo_blocks = section.blocks | where: 'type', 'photo'
+  assign step_blocks = section.blocks | where: 'type', 'step'
+-%}
+
+<section class="how-to-section" aria-labelledby="how-to-title-{{ section.id }}">
+  <div class="how-to-card">
+    <div class="how-to-photos">
+      {%- for block in photo_blocks -%}
+        <figure {{ block.shopify_attributes }}>
+          {%- render 'dizzy-image',
+            image: block.settings.image,
+            asset: block.settings.image_asset,
+            width: 1200,
+            height: 1800,
+            alt: block.settings.alt,
+            sizes: '(max-width: 700px) 50vw, 25vw',
+            style: 'object-fit:cover;max-width:364px;max-height:490px;aspect-ratio:0.74;width:100%'
+          -%}
+          <figcaption aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+    <div>
+      <h2 id="how-to-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <ol>
+        {%- for block in step_blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <div>
+              <h3>{{ block.settings.title | escape }}</h3>
+              <p>{{ block.settings.text | escape }}</p>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DIZZY how to",
+  "class": "dizzy",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Read. Mix. Repeat." }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "default": "dizzy-kitchen-scoop-800.webp" },
+        { "type": "text", "id": "alt", "label": "Alt text" }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Grab a glass of water" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Mix 1.5 flat teaspoons or 7.5 grams with 400ml of cold water." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY how to",
+      "blocks": [
+        { "type": "photo", "settings": { "image_asset": "dizzy-kitchen-scoop-800.webp", "alt": "A woman measuring a spoonful of Daily Flow" } },
+        { "type": "photo", "settings": { "image_asset": "dizzy-stirring-glass-800.webp", "alt": "A woman stirring Daily Flow in a glass" } },
+        { "type": "photo", "settings": { "image_asset": "dizzy-kitchen-drink-800.webp", "alt": "A woman drinking a prepared glass of Daily Flow" } },
+        { "type": "step", "settings": { "title": "Grab a glass of water", "text": "Mix 1.5 flat teaspoons or 7.5 grams with 400ml of cold water." } },
+        { "type": "step", "settings": { "title": "Mix as directed", "text": "Stir thoroughly." } },
+        { "type": "step", "settings": { "title": "Choose your moment", "text": "Anchor it to a part of your day that is easy to repeat." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

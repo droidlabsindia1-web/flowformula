@@ -1,0 +1,58 @@
+{%- comment -%}
+  Renders an uploaded image with a responsive srcset, or falls back to a
+  bundled theme asset so the sections look right before images are uploaded.
+
+  Accepts:
+  - image: {Object} image_picker value or media preview image (optional)
+  - asset: {String} theme asset filename used when image is blank
+  - width / height: {Number} intrinsic size of the asset fallback
+  - alt: {String} alt text (defaults to the uploaded image's alt)
+  - decorative: {Boolean} force alt=""
+  - sizes, class, style: {String}
+  - loading: {String} 'lazy' (default) or 'eager'
+  - priority: {Boolean} fetchpriority="high" for the LCP image
+  - widths: {String} candidate srcset widths for uploaded images
+{%- endcomment -%}
+{%- liquid
+  assign loading = loading | default: 'lazy'
+  assign widths = widths | default: '480,800,1200,1600' | split: ','
+  if decorative
+    assign alt_text = ''
+  elsif image != blank
+    assign alt_text = alt | default: image.alt
+  else
+    assign alt_text = alt
+  endif
+-%}
+{%- if image != blank -%}
+  <img
+    src="{{ image | image_url: width: 1200 }}"
+    srcset="
+      {%- for w in widths -%}
+        {%- assign w_num = w | strip | plus: 0 -%}
+        {%- if w_num <= image.width or forloop.first -%}
+          {{ image | image_url: width: w_num }} {{ w_num }}w,
+        {%- endif -%}
+      {%- endfor -%}
+    "
+    {% if sizes %}sizes="{{ sizes }}"{% endif %}
+    width="{{ image.width }}"
+    height="{{ image.height }}"
+    alt="{{ alt_text | escape }}"
+    {% if class %}class="{{ class }}"{% endif %}
+    {% if style %}style="{{ style }}"{% endif %}
+    {% if priority %}fetchpriority="high"{% else %}loading="{{ loading }}"{% endif %}
+    decoding="async"
+  >
+{%- elsif asset != blank -%}
+  <img
+    src="{{ asset | asset_url }}"
+    width="{{ width }}"
+    height="{{ height }}"
+    alt="{{ alt_text | escape }}"
+    {% if class %}class="{{ class }}"{% endif %}
+    {% if style %}style="{{ style }}"{% endif %}
+    {% if priority %}fetchpriority="high"{% else %}loading="{{ loading }}"{% endif %}
+    decoding="async"
+  >
+{%- endif -%}

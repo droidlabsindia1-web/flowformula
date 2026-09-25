@@ -1,0 +1,72 @@
+{%- render 'dizzy-assets' -%}
+
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+  assign cart_label = 'Open cart with ' | append: cart.item_count
+  if cart.item_count == 1
+    assign cart_label = cart_label | append: ' item'
+  else
+    assign cart_label = cart_label | append: ' items'
+  endif
+-%}
+
+<header class="site-header" data-dizzy-section="header">
+  <a href="{{ routes.root_url }}" class="header-logo" aria-label="{{ shop.name | escape }} home">
+    {%- render 'dizzy-image',
+      image: section.settings.logo,
+      asset: section.settings.logo_asset,
+      width: 1810,
+      height: 593,
+      alt: shop.name,
+      sizes: '160px',
+      widths: '180,360',
+      priority: true
+    -%}
+  </a>
+
+  <nav class="desktop-nav" aria-label="Main navigation">
+    {%- for link in menu.links -%}
+      <a href="{{ link.url }}"{% if link.current %} aria-current="page" data-scroll-top{% endif %}>{{ link.title | escape }}</a>
+    {%- endfor -%}
+  </nav>
+
+  <div class="header-utilities">
+    {%- if shop.customer_accounts_enabled -%}
+      <a href="{{ routes.account_url }}">{{ section.settings.account_label | escape }}</a>
+    {%- endif -%}
+    <a class="bag-trigger" href="{{ routes.cart_url }}" aria-label="{{ cart_label }}">{{ section.settings.cart_label | escape }} <span data-cart-count>{{ cart.item_count }}</span></a>
+  </div>
+
+  <div class="mobile-nav-control">
+    <button class="mobile-nav-trigger" type="button" aria-expanded="false" aria-controls="mobile-navigation-{{ section.id }}" aria-label="Open navigation">
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="mobile-navigation-{{ section.id }}" class="mobile-navigation" aria-label="Mobile navigation" hidden>
+      {%- for link in menu.links -%}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page" data-scroll-top{% endif %}>{{ link.title | escape }}</a>
+      {%- endfor -%}
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}">{{ section.settings.account_label | escape }}</a>
+      {%- endif -%}
+    </nav>
+  </div>
+
+  <a class="mobile-bag-trigger" href="{{ routes.cart_url }}" aria-label="{{ cart_label }}">{{ section.settings.cart_label | escape }} <span>(<span data-cart-count>{{ cart.item_count }}</span>)</span></a>
+</header>
+
+{% schema %}
+{
+  "name": "DIZZY header",
+  "class": "dizzy",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "text", "id": "logo_asset", "label": "Fallback theme asset", "default": "dizzy-primary-logo-red-360.webp" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "text", "id": "account_label", "label": "Account label", "default": "Account" },
+    { "type": "text", "id": "cart_label", "label": "Cart label", "default": "Cart" }
+  ],
+  "presets": [{ "name": "DIZZY header" }]
+}
+{% endschema %}

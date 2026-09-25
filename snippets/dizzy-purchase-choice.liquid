@@ -1,0 +1,30 @@
+{%- comment -%}
+  One purchase option inside dizzy-main-product.
+
+  Accepts:
+  - index: {Number} position in the options array (radio value)
+  - group: {String} radio group name
+  - selected: {Boolean}
+  - title: {String}
+  - saving: {String} e.g. "Save 10%" (optional)
+  - price: {Number} order price in cents (unit price × units)
+  - badge: {String} (optional)
+  - details: {String} rendered .choice-details markup for the selected subscription (optional)
+  - attributes: {String} block.shopify_attributes for the theme editor (optional)
+{%- endcomment -%}
+<label class="choice{% if selected %} is-selected{% endif %}" {{ attributes }}>
+  <input type="radio" name="{{ group }}" value="{{ index }}"{% if selected %} checked{% endif %}>
+  {%- if saving != blank -%}
+    <span class="choice-copy">
+      <span class="choice-title">{{ title | escape }}</span>
+      <small class="saving">{{ saving | escape }}</small>
+    </span>
+  {%- else -%}
+    <span>{{ title | escape }}</span>
+  {%- endif -%}
+  <strong>{{ price | money }}</strong>
+  {%- if badge != blank -%}
+    <em class="choice-badge">{{ badge | escape }}</em>
+  {%- endif -%}
+  {{- details -}}
+</label>

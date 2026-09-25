@@ -1,0 +1,396 @@
+{%- render 'dizzy-assets' -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign group = 'purchase-' | append: section.id
+  assign servings = section.settings.servings | at_least: 1
+
+  assign perk_lines = section.settings.subscription_perks | newline_to_br | split: '<br />'
+  capture perks_html
+    for line in perk_lines
+      assign perk = line | strip
+      assign perk_text = perk | escape
+      if perk != blank
+        echo '<small>' | append: perk_text | append: '</small>'
+      endif
+    endfor
+  endcapture
+
+  # Resolve configured purchase options against this variant's live selling plans.
+  # An option with a plan ID the variant doesn't offer is skipped.
+  assign option_blocks = section.blocks | where: 'type', 'purchase_option'
+  assign valid_ids = ''
+  assign selected_id = ''
+  assign options_json = ''
+  for block in option_blocks
+    assign plan_id = block.settings.selling_plan_id | strip
+    assign ok = false
+    if plan_id == blank
+      unless product.requires_selling_plan
+        assign ok = true
+      endunless
+    else
+      for allocation in variant.selling_plan_allocations
+        assign alloc_id = allocation.selling_plan.id | append: ''
+        if alloc_id == plan_id
+          assign ok = true
+        endif
+      endfor
+    endif
+    if ok
+      assign valid_ids = valid_ids | append: forloop.index0 | append: ','
+      if block.settings.selected and selected_id == blank
+        assign selected_id = forloop.index0 | append: ''
+      endif
+    endif
+  endfor
+  assign valid_list = valid_ids | split: ','
+  assign auto_mode = false
+  if valid_list.size == 0
+    assign auto_mode = true
+  elsif selected_id == blank
+    assign selected_id = valid_list.first
+  endif
+
+  assign title = section.settings.title | default: product.title
+-%}
+
+{%- capture options_html -%}
+  {%- assign option_index = 0 -%}
+  {%- if auto_mode -%}
+    {%- comment -%} No configured option matched: offer every selling plan, then one-time. {%- endcomment -%}
+    {%- for allocation in variant.selling_plan_allocations -%}
+      {%- liquid
+        assign selected = false
+        if forloop.first
+          assign selected = true
+          assign start_price = allocation.price
+          assign start_units = 1
+        endif
+        assign saving = ''
+        if allocation.compare_at_price > allocation.price
+          assign pct = allocation.compare_at_price | minus: allocation.price | times: 100.0 | divided_by: allocation.compare_at_price | round
+          assign saving = 'Save ' | append: pct | append: '%'
+        endif
+        assign details = ''
+        if selected
+          capture details
+            echo '<span class="choice-details"><small data-choice-detail></small>' | append: perks_html | append: '</span>'
+          endcapture
+        endif
+      -%}
+      {%- render 'dizzy-purchase-choice', index: option_index, group: group, selected: selected, title: allocation.selling_plan.name, saving: saving, price: allocation.price, details: details -%}
+      {%- capture option_json -%}{"plan":{{ allocation.selling_plan.id }},"price":{{ allocation.price }},"units":1,"detail":""}{%- endcapture -%}
+      {%- assign options_json = options_json | append: option_json | append: ',' -%}
+      {%- assign option_index = option_index | plus: 1 -%}
+    {%- endfor -%}
+    {%- unless product.requires_selling_plan -%}
+      {%- liquid
+        assign selected = false
+        if option_index == 0
+          assign selected = true
+          assign start_price = variant.price
+          assign start_units = 1
+        endif
+      -%}
+      {%- render 'dizzy-purchase-choice', index: option_index, group: group, selected: selected, title: section.settings.once_label, price: variant.price -%}
+      {%- capture option_json -%}{"plan":null,"price":{{ variant.price }},"units":1,"detail":""}{%- endcapture -%}
+      {%- assign options_json = options_json | append: option_json | append: ',' -%}
+    {%- endunless -%}
+  {%- else -%}
+    {%- for block in option_blocks -%}
+      {%- assign position = forloop.index0 | append: '' -%}
+      {%- unless valid_list contains position -%}{%- continue -%}{%- endunless -%}
+      {%- liquid
+        assign plan_id = block.settings.selling_plan_id | strip
+        assign units = block.settings.units | at_least: 1
+        assign unit_price = variant.price
+        assign unit_compare = variant.price
+        for allocation in variant.selling_plan_allocations
+          assign alloc_id = allocation.selling_plan.id | append: ''
+          if alloc_id == plan_id
+            assign unit_price = allocation.price
+            assign unit_compare = allocation.compare_at_price | default: variant.price
+            assign plan_name = allocation.selling_plan.name
+          endif
+        endfor
+
+        assign option_title = block.settings.title
+        if option_title == blank
+          if plan_id == blank
+            assign option_title = section.settings.once_label
+          else
+            assign option_title = plan_name
+          endif
+        endif
+
+        assign saving = block.settings.saving
+        if saving == blank and unit_compare > unit_price
+          assign pct = unit_compare | minus: unit_price | times: 100.0 | divided_by: unit_compare | round
+          assign saving = 'Save ' | append: pct | append: '%'
+        endif
+
+        assign selected = false
+        if position == selected_id
+          assign selected = true
+          assign start_price = unit_price
+          assign start_units = units
+        endif
+
+        assign details = ''
+        if selected and plan_id != blank
+          assign detail_text = block.settings.detail | escape
+          capture details
+            echo '<span class="choice-details"><small data-choice-detail>' | append: detail_text | append: '</small>' | append: perks_html | append: '</span>'
+          endcapture
+        endif
+        assign order_price = unit_price | times: units
+      -%}
+      {%- render 'dizzy-purchase-choice', index: option_index, group: group, selected: selected, title: option_title, saving: saving, price: order_price, badge: block.settings.badge, details: details, attributes: block.shopify_attributes -%}
+      {%- capture option_json -%}{"plan":{% if plan_id != blank %}{{ plan_id }}{% else %}null{% endif %},"price":{{ unit_price }},"units":{{ units }},"detail":{{ block.settings.detail | json }}}{%- endcapture -%}
+      {%- assign options_json = options_json | append: option_json | append: ',' -%}
+      {%- assign option_index = option_index | plus: 1 -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- liquid
+  assign start_price = start_price | default: variant.price
+  assign start_units = start_units | default: 1
+  assign start_total = start_price | times: start_units
+  assign per_serving = start_price | divided_by: servings
+  assign options_json = options_json | remove_last: ','
+  assign benefit_blocks = section.blocks | where: 'type', 'benefit'
+  assign disclosure_blocks = section.blocks | where: 'type', 'disclosure'
+-%}
+
+<div data-dizzy-section="main-product">
+  <script type="application/json" data-dizzy-product>
+    {
+      "moneyFormat": {{ shop.money_format | json }},
+      "variantId": {{ variant.id }},
+      "available": {{ variant.available | json }},
+      "servings": {{ servings }},
+      "afterAdd": {{ section.settings.after_add | json }},
+      "addLabel": {{ section.settings.atc_label | json }},
+      "addingLabel": {{ section.settings.adding_label | json }},
+      "soldOutLabel": {{ section.settings.sold_out_label | json }},
+      "perServingSuffix": " / serving",
+      "options": [{{ options_json }}]
+    }
+  </script>
+
+  <section class="shop-hero" id="{{ section.settings.anchor | default: 'buy' | handleize }}" aria-labelledby="shop-title-{{ section.id }}">
+    <div class="shop-gallery-column">
+      <div class="product-gallery product-gallery--png-only">
+        <div class="product-gallery-main product-gallery-main--single product-gallery-product">
+          {%- liquid
+            assign hero_image = section.settings.image | default: product.featured_media.preview_image
+            if section.settings.use_product_media == false
+              assign hero_image = section.settings.image
+            endif
+            assign hero_alt = section.settings.image_alt | default: product.title
+          -%}
+          {%- render 'dizzy-image',
+            image: hero_image,
+            asset: section.settings.image_asset,
+            width: 972,
+            height: 1477,
+            alt: hero_alt,
+            class: 'is-contain',
+            sizes: '(min-width: 1200px) 522px, (min-width: 1051px) 45vw, 92vw',
+            widths: '486,972,1400',
+            priority: true
+          -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-buy-column">
+      <div class="purchase-panel">
+        <div class="purchase-heading">
+          <h1 id="shop-title-{{ section.id }}">{{ title | escape }}</h1>
+          <p class="purchase-price" aria-live="polite" data-dizzy-price>{{ start_total | money }}</p>
+        </div>
+
+        {%- if section.settings.promise != blank -%}
+          <div class="purchase-promise">{{ section.settings.promise }}</div>
+        {%- endif -%}
+
+        <ul class="product-facts" aria-label="Product facts">
+          {%- if section.settings.show_servings -%}<li>{{ servings }} servings</li>{%- endif -%}
+          {%- if section.settings.flavour != blank -%}<li>{{ section.settings.flavour | escape }}</li>{%- endif -%}
+          <li data-dizzy-per-serving>{{ per_serving | money }} / serving</li>
+        </ul>
+
+        {%- if benefit_blocks.size > 0 -%}
+          <ul class="purchase-benefits" aria-label="{{ title | escape }} highlights">
+            {%- for block in benefit_blocks -%}
+              <li {{ block.shopify_attributes }}><span aria-hidden="true">⚡︎</span>{{ block.settings.text | escape }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <fieldset class="purchase-fieldset">
+          <legend class="purchase-method-legend">{{ section.settings.legend | escape }}</legend>
+          <div class="purchase-options">
+            {{ options_html }}
+          </div>
+          <template data-choice-details-template>
+            <span class="choice-details"><small data-choice-detail></small>{{ perks_html }}</span>
+          </template>
+        </fieldset>
+
+        {%- form 'product', product, class: 'purchase-actions', novalidate: 'novalidate', data-dizzy-form: 'true' -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="{{ start_units }}" data-dizzy-quantity>
+          <input type="hidden" name="selling_plan" value="" data-dizzy-plan>
+
+          <div class="quantity-control" aria-label="Quantity">
+            <button type="button" aria-label="Decrease quantity" data-dizzy-decrease disabled>−</button>
+            <output aria-live="polite">1</output>
+            <button type="button" aria-label="Increase quantity" data-dizzy-increase>+</button>
+          </div>
+          <button class="add-button" type="submit"{% unless variant.available %} disabled{% endunless %}>
+            {%- if variant.available -%}
+              {{ section.settings.atc_label | escape }} · {{ start_total | money }}
+            {%- else -%}
+              {{ section.settings.sold_out_label | escape }}
+            {%- endif -%}
+          </button>
+
+          {%- if section.settings.show_dynamic_checkout -%}
+            <div class="shop-pay-button-wrap">
+              <div class="shop-pay-button-slot">
+                {{ form | payment_button }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.apple_pay_note != blank -%}
+            <p class="apple-pay-note">
+              <span class="apple-pay-label">Apple Pay</span>
+              <span>{{ section.settings.apple_pay_note | escape }}</span>
+            </p>
+          {%- endif -%}
+          <p class="dizzy-form-error" role="alert" hidden data-dizzy-error></p>
+        {%- endform -%}
+
+        {%- if disclosure_blocks.size > 0 -%}
+          <div class="purchase-info-disclosures">
+            {%- for block in disclosure_blocks -%}
+              <details {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
+                <summary>
+                  <span>{{ block.settings.title | escape }}</span>
+                  <b aria-hidden="true">+</b>
+                </summary>
+                <div class="{{ block.settings.layout }}">
+                  {{- block.settings.content -}}
+                  {{- block.settings.custom_html -}}
+                </div>
+              </details>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- if section.settings.show_mobile_bar -%}
+    <a class="mobile-shop-bar" href="#{{ section.settings.anchor | default: 'buy' | handleize }}" aria-label="Go to purchase options" aria-hidden="true" tabindex="-1">
+      <span>
+        <small>{{ section.settings.mobile_bar_label | default: shop.name | escape }}</small>
+        <strong>{{ variant.price | money }}</strong>
+      </span>
+      <b>{{ section.settings.mobile_bar_cta | escape }}</b>
+    </a>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "DIZZY main product",
+  "class": "dizzy",
+  "settings": [
+    { "type": "header", "content": "Image" },
+    { "type": "checkbox", "id": "use_product_media", "label": "Use product featured image", "info": "Used when no image is picked below.", "default": true },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "info": "Used when no image is available.", "default": "dizzy-daily-flow-product-transparent-972.webp" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text" },
+    { "type": "header", "content": "Product info" },
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "buy" },
+    { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the product title." },
+    { "type": "richtext", "id": "promise", "label": "Intro", "default": "<p><strong>Creatine + Lion's Mane blend,</strong> built for those who demand more from their day.</p><p>Daily support, built into your routine.</p>" },
+    { "type": "number", "id": "servings", "label": "Servings per unit", "info": "Used for the per-serving price.", "default": 30 },
+    { "type": "checkbox", "id": "show_servings", "label": "Show servings", "default": true },
+    { "type": "text", "id": "flavour", "label": "Flavour", "default": "Berry Lemonade" },
+    { "type": "header", "content": "Purchase options" },
+    { "type": "text", "id": "legend", "label": "Options label (screen readers)", "default": "Choose how to buy" },
+    { "type": "text", "id": "once_label", "label": "One-time purchase label", "default": "One-time purchase" },
+    { "type": "textarea", "id": "subscription_perks", "label": "Subscription perks", "info": "One per line. Shown under the selected subscription.", "default": "Pause or Cancel anytime\nFree shipping\nExclusive entry to our community events" },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "atc_label", "label": "Add to cart label", "default": "Add to cart" },
+    { "type": "text", "id": "adding_label", "label": "Adding label", "default": "Adding…" },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold out" },
+    {
+      "type": "select",
+      "id": "after_add",
+      "label": "After adding to cart",
+      "options": [
+        { "value": "cart", "label": "Open cart drawer / cart page" },
+        { "value": "checkout", "label": "Go straight to checkout" }
+      ],
+      "default": "cart"
+    },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button (Shop Pay)", "default": true },
+    { "type": "text", "id": "apple_pay_note", "label": "Apple Pay note", "default": "Available at checkout on eligible devices and orders" },
+    { "type": "header", "content": "Mobile shop bar" },
+    { "type": "checkbox", "id": "show_mobile_bar", "label": "Show sticky bar on mobile", "default": true },
+    { "type": "text", "id": "mobile_bar_label", "label": "Label", "default": "DIZZY" },
+    { "type": "text", "id": "mobile_bar_cta", "label": "Call to action", "default": "Choose & add ↑" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Focus Formula" }
+      ]
+    },
+    {
+      "type": "purchase_option",
+      "name": "Purchase option",
+      "settings": [
+        { "type": "text", "id": "selling_plan_id", "label": "Selling plan ID", "info": "Leave blank for one-time purchase. Options whose plan isn't on the product are hidden; if none match, the product's own selling plans are shown." },
+        { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the selling plan name." },
+        { "type": "text", "id": "saving", "label": "Saving label", "info": "Defaults to the plan's discount, e.g. \"Save 10%\"." },
+        { "type": "number", "id": "units", "label": "Units per order", "default": 1 },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "text", "id": "detail", "label": "Delivery detail", "info": "First line under the selected subscription.", "default": "1 pouch (30 servings per pouch) every 1 month" },
+        { "type": "checkbox", "id": "selected", "label": "Selected by default", "default": false }
+      ]
+    },
+    {
+      "type": "disclosure",
+      "name": "Disclosure",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Product information" },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Layout",
+          "options": [
+            { "value": "product-information-copy", "label": "Text" },
+            { "value": "ingredients-nutrition-copy", "label": "Ingredients & nutrition" },
+            { "value": "shipping-copy", "label": "List" }
+          ],
+          "default": "product-information-copy"
+        },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "html", "id": "custom_html", "label": "Custom HTML", "info": "For tables and other markup rich text can't hold." },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,15 @@
+{%- comment -%}
+  Shared assets for the dizzy-* sections. Safe to render from several
+  sections on one page: dizzy.js guards against double init.
+
+  Fonts are declared here (not in dizzy.css) so the URLs resolve through asset_url.
+{%- endcomment -%}
+<style>
+  @font-face { font-family: Anton; font-style: normal; font-weight: 400; font-display: swap; src: url({{ 'dizzy-anton-latin-400-normal-Byf51wtH.woff2' | asset_url }}) format('woff2'), url({{ 'dizzy-anton-latin-400-normal-AUNGEG_V.woff' | asset_url }}) format('woff'); }
+  @font-face { font-family: Poppins; font-style: normal; font-weight: 400; font-display: swap; src: url({{ 'dizzy-poppins-latin-400-normal-cpxAROuN.woff2' | asset_url }}) format('woff2'), url({{ 'dizzy-poppins-latin-400-normal-BOb3E3N0.woff' | asset_url }}) format('woff'); }
+  @font-face { font-family: Poppins; font-style: normal; font-weight: 500; font-display: swap; src: url({{ 'dizzy-poppins-latin-500-normal-C8OXljZJ.woff2' | asset_url }}) format('woff2'), url({{ 'dizzy-poppins-latin-500-normal-DGXqpDMm.woff' | asset_url }}) format('woff'); }
+  @font-face { font-family: Poppins; font-style: normal; font-weight: 600; font-display: swap; src: url({{ 'dizzy-poppins-latin-600-normal-zEkxB9Mr.woff2' | asset_url }}) format('woff2'), url({{ 'dizzy-poppins-latin-600-normal-BJdTmd5m.woff' | asset_url }}) format('woff'); }
+  @font-face { font-family: Poppins; font-style: normal; font-weight: 700; font-display: swap; src: url({{ 'dizzy-poppins-latin-700-normal-Qrb0O0WB.woff2' | asset_url }}) format('woff2'), url({{ 'dizzy-poppins-latin-700-normal-BVuQR_eA.woff' | asset_url }}) format('woff'); }
+</style>
+{{ 'dizzy.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'dizzy.js' | asset_url }}" defer="defer"></script>

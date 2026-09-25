@@ -1,0 +1,116 @@
+{%- render 'dizzy-assets' -%}
+
+{%- assign lineup = section.settings.separate_labels | newline_to_br | split: '<br />' -%}
+
+<section class="product-positioning" aria-labelledby="positioning-title-{{ section.id }}">
+  <div class="product-positioning-card">
+    <header class="section-heading section-heading--split">
+      <div>
+        <h2 id="positioning-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+    </header>
+    <div class="daily-comparison-scroll" role="region" aria-label="{{ section.settings.label | escape }}" tabindex="0">
+      <div class="daily-comparison">
+        <div class="daily-comparison-head">
+          <div class="daily-comparison-corner" aria-hidden="true">{{ section.settings.corner_label | escape }}</div>
+          <article class="comparison-product comparison-product--dizzy">
+            {%- render 'dizzy-image',
+              image: section.settings.product_image,
+              asset: section.settings.product_image_asset,
+              width: 960,
+              height: 960,
+              alt: section.settings.product_image_alt,
+              sizes: '(min-width: 1051px) 240px, 45vw',
+              widths: '480,960'
+            -%}
+            <h3>{{ section.settings.product_title | escape }}</h3>
+            <p class="comparison-product-detail">{{ section.settings.product_detail | escape }}</p>
+          </article>
+          <article class="comparison-product comparison-product--separate">
+            <div class="separate-pouch-lineup" role="img" aria-label="{{ section.settings.separate_alt | escape }}">
+              {%- for line in lineup -%}
+                {%- assign label = line | strip -%}
+                {%- if label == blank -%}{%- continue -%}{%- endif -%}
+                <figure>
+                  {%- render 'dizzy-image',
+                    image: section.settings.separate_image,
+                    asset: section.settings.separate_image_asset,
+                    width: 360,
+                    height: 360,
+                    decorative: true,
+                    sizes: '(min-width: 1051px) 61px, 112px',
+                    widths: '180,360'
+                  -%}
+                  <figcaption>{{ label | escape }}</figcaption>
+                </figure>
+              {%- endfor -%}
+            </div>
+            <h3>{{ section.settings.separate_title | escape }}</h3>
+            <p class="comparison-product-detail">{{ section.settings.separate_detail | escape }}</p>
+          </article>
+        </div>
+        {%- for block in section.blocks -%}
+          <div class="daily-comparison-row" {{ block.shopify_attributes }}>
+            <h3>{{ block.settings.label | escape }}</h3>
+            <p>{{ block.settings.ours | escape }}</p>
+            <p>{{ block.settings.theirs | escape }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    {%- if section.settings.scroll_note != blank -%}
+      <p class="comparison-scroll-note">{{ section.settings.scroll_note | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DIZZY comparison",
+  "class": "dizzy",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Two ways to build your daily routine." },
+    { "type": "text", "id": "label", "label": "Table label (screen readers)", "default": "Daily Flow and separate products comparison" },
+    { "type": "text", "id": "corner_label", "label": "Corner label", "default": "At a glance" },
+    { "type": "text", "id": "scroll_note", "label": "Scroll note", "default": "Swipe or scroll to see the full comparison." },
+    { "type": "header", "content": "Our product" },
+    { "type": "image_picker", "id": "product_image", "label": "Image" },
+    { "type": "text", "id": "product_image_asset", "label": "Fallback theme asset", "default": "dizzy-daily-flow-comparison-pouch-960.webp" },
+    { "type": "text", "id": "product_image_alt", "label": "Alt text", "default": "DIZZY Daily Flow Berry Lemonade pouch" },
+    { "type": "text", "id": "product_title", "label": "Title", "default": "DIZZY Daily Flow" },
+    { "type": "text", "id": "product_detail", "label": "Detail", "default": "One pouch · 30 servings" },
+    { "type": "header", "content": "Separate products" },
+    { "type": "image_picker", "id": "separate_image", "label": "Pouch image" },
+    { "type": "text", "id": "separate_image_asset", "label": "Fallback theme asset", "default": "dizzy-neutral-supplement-pouch-360.webp" },
+    { "type": "textarea", "id": "separate_labels", "label": "Pouch labels", "info": "One per line.", "default": "Creatine\nElectrolytes\nB vitamins\nLion's Mane\nBiotin" },
+    { "type": "text", "id": "separate_alt", "label": "Line-up description (screen readers)", "default": "Five separate neutral supplement pouches for creatine, electrolytes, B vitamins, Lion's Mane and biotin" },
+    { "type": "text", "id": "separate_title", "label": "Title", "default": "Separate products" },
+    { "type": "text", "id": "separate_detail", "label": "Detail", "default": "Five products sourced separately" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Daily prep" },
+        { "type": "text", "id": "ours", "label": "Our product", "default": "1 scoop" },
+        { "type": "text", "id": "theirs", "label": "Separate products", "default": "Multiple pills + drinks" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DIZZY comparison",
+      "blocks": [
+        { "type": "row", "settings": { "label": "No. of ingredients", "ours": "12 in one formula", "theirs": "1 per product" } },
+        { "type": "row", "settings": { "label": "Daily prep", "ours": "1 scoop", "theirs": "Multiple pills + drinks" } },
+        { "type": "row", "settings": { "label": "Monthly price", "ours": "£38 / month", "theirs": "£93 / month" } },
+        { "type": "row", "settings": { "label": "Fillers", "ours": "None", "theirs": "Often synthetic fillers" } },
+        { "type": "row", "settings": { "label": "Flavouring", "ours": "Natural flavouring", "theirs": "Often synthetic flavouring" } },
+        { "type": "row", "settings": { "label": "Customer insight", "ours": "Shaped + built with 60 women in WhatsApp", "theirs": "Not initially built from specific customer insights" } },
+        { "type": "row", "settings": { "label": "Designed for", "ours": "A specific person", "theirs": "A broad audience" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
