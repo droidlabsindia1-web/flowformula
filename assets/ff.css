@@ -214,6 +214,7 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   font-weight: 700;
   line-height: 1;
 }
+.ff .cart-count[hidden] { display: none; }
 
 .ff .icon-btn {
   display: inline-flex;

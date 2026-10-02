@@ -1,1 +1,44 @@
-{"name":"t:sections.footer.name","type":"footer","sections":{"footer":{"type":"footer","settings":{"color_scheme":"scheme-1","newsletter_enable":true,"newsletter_heading":"Subscribe to our emails","enable_follow_on_shop":true,"show_social":true,"enable_country_selector":true,"enable_language_selector":true,"payment_enable":true,"show_policy":true,"margin_top":0,"padding_top":36,"padding_bottom":36}}},"order":["footer"]}
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "ff-footer",
+      "blocks": {
+        "social_instagram": {
+          "type": "social",
+          "settings": {
+            "label": "Instagram",
+            "link": ""
+          }
+        },
+        "social_tiktok": {
+          "type": "social",
+          "settings": {
+            "label": "TikTok",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "social_instagram",
+        "social_tiktok"
+      ],
+      "settings": {
+        "logo_asset": "ff-logo-wordmark.png",
+        "about": "PCOS support, for every flow. One sachet. 18 ingredients. Built from lived experience.",
+        "shop_menu": "shop",
+        "support_menu": "support",
+        "newsletter_heading": "Join the Flow Formula community",
+        "newsletter_text": "Cycle education, real stories, and early access to new products.",
+        "newsletter_placeholder": "your@email.com",
+        "newsletter_button": "Join",
+        "copyright": "© [year] Flow Formula Ltd. All rights reserved. Made with love in the UK.",
+        "rating_text": "Trustpilot ★★★★★ 4.9"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

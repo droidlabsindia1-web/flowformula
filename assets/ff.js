@@ -1,5 +1,5 @@
 /* Flow Formula — ff-* section interactions
-   1. Mobile / tablet navigation panel
+   1. Header — mobile / tablet navigation panel, live cart count
    2. Carousels — reviews, UGC (arrows, dots, active card)
    3. UGC videos (play while on screen, pause / sound buttons)
    4. FAQ accordion
@@ -80,6 +80,30 @@
     // The panel doesn't exist on desktop, so reset state when crossing the breakpoint
     desktop.addEventListener("change", function (e) {
       if (e.matches && isOpen()) setOpen(false);
+    });
+  }
+
+  /* Keep the header cart badge in sync. Dawn's cart scripts (and dizzy.js)
+     publish cartUpdate after every change; pubsub.js loads before this file. */
+  function renderCartCount(count) {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ff-cart]"), function (link) {
+      var badge = link.querySelector("[data-ff-cart-count]");
+      var template = count === 1 ? link.dataset.labelOne : link.dataset.labelOther;
+      link.setAttribute("aria-label", count > 0 ? link.dataset.label + ", " + template.replace("[count]", count) : link.dataset.label);
+      if (badge) {
+        badge.textContent = String(Math.min(count, 99));
+        badge.hidden = count === 0;
+      }
+    });
+  }
+
+  function watchCart() {
+    if (typeof subscribe !== "function" || typeof PUB_SUB_EVENTS === "undefined") return;
+    subscribe(PUB_SUB_EVENTS.cartUpdate, function () {
+      fetch(((window.routes && window.routes.cart_url) || "/cart") + ".js", { headers: { Accept: "application/json" } })
+        .then(function (res) { return res.json(); })
+        .then(function (cart) { renderCartCount(cart.item_count); })
+        .catch(function () { /* badge keeps its last value */ });
     });
   }
 
@@ -351,6 +375,8 @@
   }
 
   window.FlowFormula = { init: init };
+
+  watchCart();
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () { init(document); });

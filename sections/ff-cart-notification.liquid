@@ -1,0 +1,30 @@
+{%- comment -%}
+  Keeps Dawn's add-to-cart popup working with the FF header. Dawn's cart
+  scripts re-render #cart-icon-bubble after every add; the FF header draws its
+  own cart badge, so this one only receives that markup and stays hidden.
+
+  Kept out of the .ff section class so ff.css resets don't touch Dawn's popup.
+{%- endcomment -%}
+<div id="cart-icon-bubble" hidden></div>
+
+{%- if settings.cart_type == 'notification' -%}
+  {{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
+  {%- assign color_scheme = section.settings.color_scheme | default: 'scheme-1' -%}
+  {%- render 'cart-notification',
+    color_scheme: color_scheme,
+    desktop_menu_type: 'dropdown'
+  -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FF cart notification",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "paragraph", "content": "Shows the \"added to cart\" popup under the FF header. Only used when Theme settings > Cart > Cart type is Popup notification." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme" }
+  ],
+  "presets": [{ "name": "FF cart notification" }]
+}
+{% endschema %}

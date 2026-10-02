@@ -86,11 +86,19 @@
       <a class="icon-btn icon-btn--desktop" href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t }}">
         {%- render 'ff-icon', icon: 'search', size: 24 -%}
       </a>
-      <a class="icon-btn icon-btn--cart" href="{{ routes.cart_url }}" aria-label="{{ cart_label | escape }}">
+      <a
+        class="icon-btn icon-btn--cart"
+        href="{{ routes.cart_url }}"
+        aria-label="{{ cart_label | escape }}"
+        data-ff-cart
+        data-label="{{ 'templates.cart.cart' | t }}"
+        data-label-one="{{ 'sections.header.cart_count.one' | t: count: '[count]' }}"
+        data-label-other="{{ 'sections.header.cart_count.other' | t: count: '[count]' }}"
+      >
         {%- render 'ff-icon', icon: 'cart', size: 24 -%}
-        {%- if cart.item_count > 0 -%}
-          <span class="cart-count" aria-hidden="true">{{ cart.item_count | at_most: 99 }}</span>
-        {%- endif -%}
+        <span class="cart-count" aria-hidden="true" data-ff-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>
+          {{- cart.item_count | at_most: 99 -}}
+        </span>
       </a>
       {%- if shop.customer_accounts_enabled -%}
         <a class="icon-btn icon-btn--desktop" href="{{ routes.account_url }}" aria-label="{{ 'customer.account_fallback' | t }}">
