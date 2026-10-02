@@ -5,6 +5,7 @@
   {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
   aria-labelledby="reviews-title-{{ section.id }}"
   data-carousel
+  data-dot-label="Show review [index] of [count]"
 >
   <h2 class="section-title reviews__title" id="reviews-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
 
@@ -50,7 +51,7 @@
       {%- endfor -%}
     </ul>
 
-    <div class="reviews__controls">
+    <div class="carousel-controls" data-carousel-controls>
       <div class="dots" data-carousel-dots></div>
       <div class="arrows">
         <button class="arrow arrow--prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}" data-carousel-prev>

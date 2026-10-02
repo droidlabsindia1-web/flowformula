@@ -1,8 +1,9 @@
 /* Flow Formula — ff-* section interactions
    1. Mobile / tablet navigation panel
-   2. Reviews carousel (arrows, dots, active card)
-   3. FAQ accordion
-   4. Newsletter form (client-side validation; Shopify handles the submit)
+   2. Carousels — reviews, UGC (arrows, dots, active card)
+   3. UGC videos (play while on screen, pause / sound buttons)
+   4. FAQ accordion
+   5. Newsletter form (client-side validation; Shopify handles the submit)
 
    Every ff-* section renders ff-assets, so this file can be included more
    than once per page: the global guard keeps it to a single run, and each
@@ -15,15 +16,14 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  function claim(el) {
-    if (el.hasAttribute("data-ff-ready")) return false;
-    el.setAttribute("data-ff-ready", "");
-    return true;
-  }
-
+  // Runs fn once per element per component; one element can host several
+  // components (the UGC section is both a carousel and a video player).
   function each(scope, selector, fn) {
     Array.prototype.forEach.call(scope.querySelectorAll(selector), function (el) {
-      if (claim(el)) fn(el);
+      var done = el.ffReady || (el.ffReady = {});
+      if (done[selector]) return;
+      done[selector] = true;
+      fn(el);
     });
   }
 
@@ -84,7 +84,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * 2. Reviews carousel
+   * 2. Carousel
    *    The track scrolls natively (swipe / trackpad / keyboard); the
    *    arrows and dots just drive and reflect that scroll position.
    * ------------------------------------------------------------------ */
@@ -93,7 +93,8 @@
     var dotsWrap = root.querySelector("[data-carousel-dots]");
     var prev = root.querySelector("[data-carousel-prev]");
     var next = root.querySelector("[data-carousel-next]");
-    var controls = root.querySelector(".reviews__controls");
+    var controls = root.querySelector("[data-carousel-controls]");
+    var dotLabel = root.dataset.dotLabel || "Show slide [index] of [count]";
     if (!track) return;
 
     var cards = Array.prototype.slice.call(track.children);
@@ -131,7 +132,7 @@
       for (var i = 0; i < pageCount; i++) {
         var dot = document.createElement("button");
         dot.type = "button";
-        dot.setAttribute("aria-label", "Show review " + (i + 1) + " of " + pageCount);
+        dot.setAttribute("aria-label", dotLabel.replace("[index]", i + 1).replace("[count]", pageCount));
         dot.addEventListener("click", goTo.bind(null, i));
         dotsWrap.appendChild(dot);
       }
@@ -173,7 +174,7 @@
       if (e.key === "ArrowLeft") { e.preventDefault(); goTo(currentIndex() - 1); }
     });
 
-    // Theme editor: bring the selected review into view
+    // Theme editor: bring the selected block into view
     root.addEventListener("shopify:block:select", function (e) {
       var i = cards.indexOf(e.target);
       if (i > -1) track.scrollTo({ left: Math.min(i * step(), maxScroll()), behavior: "auto" });
@@ -193,7 +194,87 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * 3. FAQ accordion — one open item per list
+   * 3. UGC videos
+   *    With autoplay on, each video plays muted while mostly on screen and
+   *    pauses when scrolled away. Pressing pause keeps it paused until the
+   *    visitor presses play again. Only one video has sound at a time.
+   * ------------------------------------------------------------------ */
+  function initVideos(root) {
+    var labels = root.dataset;
+    var autoplay = root.hasAttribute("data-autoplay") && !reduceMotion.matches;
+    var players = [];
+
+    Array.prototype.forEach.call(root.querySelectorAll("[data-ugc-video]"), function (item) {
+      var video = item.querySelector("video");
+      var playButton = item.querySelector("[data-ugc-play]");
+      var soundButton = item.querySelector("[data-ugc-sound]");
+      if (!video) return;
+
+      var player = {
+        item: item,
+        userPaused: !autoplay,
+        play: function () {
+          var attempt = video.play();
+          if (attempt && attempt.catch) attempt.catch(function () {});
+        },
+        pause: function () { video.pause(); },
+        setMuted: function (muted) {
+          video.muted = muted;
+          item.classList.toggle("is-unmuted", !muted);
+          if (soundButton) soundButton.setAttribute("aria-label", muted ? labels.labelUnmute : labels.labelMute);
+        }
+      };
+
+      function syncPlaying() {
+        var playing = !video.paused;
+        item.classList.toggle("is-playing", playing);
+        if (playButton) playButton.setAttribute("aria-label", playing ? labels.labelPause : labels.labelPlay);
+      }
+
+      video.addEventListener("play", syncPlaying);
+      video.addEventListener("pause", syncPlaying);
+      player.setMuted(true);
+
+      if (playButton) playButton.addEventListener("click", function () {
+        player.userPaused = !video.paused;
+        if (video.paused) player.play();
+        else player.pause();
+      });
+
+      if (soundButton) soundButton.addEventListener("click", function () {
+        var unmute = video.muted;
+        if (unmute) {
+          players.forEach(function (other) { if (other !== player) other.setMuted(true); });
+          player.userPaused = false;
+          player.play();
+        }
+        player.setMuted(!unmute);
+      });
+
+      players.push(player);
+    });
+
+    if (!players.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      if (autoplay) players.forEach(function (p) { p.play(); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var player = players.filter(function (p) { return p.item === entry.target; })[0];
+        if (!player) return;
+        if (entry.isIntersecting && !player.userPaused) player.play();
+        else if (!entry.isIntersecting) player.pause();
+      });
+    }, { threshold: 0.6 });
+
+    players.forEach(function (p) { observer.observe(p.item); });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 4. FAQ accordion — one open item per list
    * ------------------------------------------------------------------ */
   function initAccordion(root) {
     var items = Array.prototype.slice.call(root.querySelectorAll(".faq__item"));
@@ -226,7 +307,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * 4. Newsletter form
+   * 5. Newsletter form
    *    Validates client-side; a valid submit posts to Shopify's customer
    *    form and the section renders the success / error message.
    * ------------------------------------------------------------------ */
@@ -264,6 +345,7 @@
   function init(scope) {
     each(scope, "[data-ff-header]", initNav);
     each(scope, "[data-carousel]", initCarousel);
+    each(scope, "[data-ugc]", initVideos);
     each(scope, "[data-accordion]", initAccordion);
     each(scope, "[data-join-form]", initJoinForm);
   }

@@ -366,7 +366,8 @@
       ],
       "settings": {
         "heading": "Results actually\nworth posting",
-        "lead": "Join the community that trust us"
+        "lead": "Join the community that trust us",
+        "autoplay": true
       }
     },
     "reviews": {

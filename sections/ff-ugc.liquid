@@ -7,6 +7,14 @@
   {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
   aria-labelledby="ugc-title-{{ section.id }}"
   {% if bg != blank and bg.alpha != 0.0 %}style="--ff-bg: {{ bg }};"{% endif %}
+  data-carousel
+  data-dot-label="Show video [index] of [count]"
+  data-ugc
+  {% if section.settings.autoplay %}data-autoplay{% endif %}
+  data-label-play="Play video"
+  data-label-pause="Pause video"
+  data-label-unmute="Turn sound on"
+  data-label-mute="Turn sound off"
 >
   <h2 class="section-title ugc__title" id="ugc-title-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }}</h2>
   {%- if section.settings.lead != blank -%}
@@ -14,28 +22,48 @@
   {%- endif -%}
 
   {%- if section.blocks.size > 0 -%}
-    <ul class="ugc__track">
+    <ul class="ugc__track" data-carousel-track tabindex="0" aria-label="{{ section.settings.heading | strip_newlines | escape }}">
       {%- for block in section.blocks -%}
-        {%- capture post_image -%}
-          {%- render 'dizzy-image',
-            image: block.settings.image,
-            asset: block.settings.image_asset,
-            width: 580,
-            height: 1142,
-            alt: block.settings.alt,
-            sizes: '(max-width: 767px) 196px, (max-width: 1023px) 240px, 25vw',
-            widths: '400,600,900'
-          -%}
-        {%- endcapture -%}
-        <li {{ block.shopify_attributes }}>
-          {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}">{{ post_image }}</a>
+        {%- assign video = block.settings.video -%}
+        <li class="ugc__item" {{ block.shopify_attributes }}{% if video != blank %} data-ugc-video{% endif %}>
+          {%- if video != blank -%}
+            {{ video | video_tag: image_size: '600x', autoplay: false, loop: true, muted: true, controls: false }}
+            <div class="ugc__buttons">
+              <button class="ugc__button" type="button" aria-label="Play video" data-ugc-play>
+                {%- render 'ff-icon', icon: 'play', class: 'icon-play' -%}
+                {%- render 'ff-icon', icon: 'pause', class: 'icon-pause' -%}
+              </button>
+              <button class="ugc__button" type="button" aria-label="Turn sound on" data-ugc-sound>
+                {%- render 'ff-icon', icon: 'sound-off', class: 'icon-sound-off' -%}
+                {%- render 'ff-icon', icon: 'sound-on', class: 'icon-sound-on' -%}
+              </button>
+            </div>
           {%- else -%}
-            {{ post_image }}
+            {%- render 'dizzy-image',
+              image: block.settings.image,
+              asset: block.settings.image_asset,
+              width: 580,
+              height: 1142,
+              alt: block.settings.alt,
+              sizes: '(max-width: 767px) 196px, (max-width: 1023px) 240px, 25vw',
+              widths: '400,600,900'
+            -%}
           {%- endif -%}
         </li>
       {%- endfor -%}
     </ul>
+
+    <div class="carousel-controls" data-carousel-controls>
+      <div class="dots" data-carousel-dots></div>
+      <div class="arrows">
+        <button class="arrow arrow--prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}" data-carousel-prev>
+          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+        </button>
+        <button class="arrow" type="button" aria-label="{{ 'general.slider.next_slide' | t }}" data-carousel-next>
+          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+        </button>
+      </div>
+    </div>
   {%- endif -%}
 </section>
 
@@ -46,6 +74,8 @@
   "settings": [
     { "type": "textarea", "id": "heading", "label": "Heading", "info": "Line breaks show on mobile only." },
     { "type": "text", "id": "lead", "label": "Text" },
+    { "type": "header", "content": "Videos" },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay videos", "info": "Videos play muted while on screen. Visitors who prefer reduced motion get a play button instead." },
     { "type": "header", "content": "Section" },
     { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand coral." },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
@@ -53,12 +83,14 @@
   "blocks": [
     {
       "type": "post",
-      "name": "Post",
+      "name": "Video",
       "settings": [
+        { "type": "video", "id": "video", "label": "Video", "info": "Upload a vertical video, around 9:16. Set its alt text in Content > Files." },
+        { "type": "header", "content": "Fallback image" },
+        { "type": "paragraph", "content": "Shown when no video is selected." },
         { "type": "image_picker", "id": "image", "label": "Image", "info": "Tall portrait, around 580 × 1142px." },
         { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "info": "Used until an image is uploaded." },
-        { "type": "text", "id": "alt", "label": "Alt text" },
-        { "type": "url", "id": "link", "label": "Link", "info": "Optional, e.g. the original post." }
+        { "type": "text", "id": "alt", "label": "Alt text" }
       ]
     }
   ],
