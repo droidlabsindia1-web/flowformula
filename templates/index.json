@@ -1,75 +1,541 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "ff-hero",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "stat_reviews": {
+          "type": "stat",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "value": "4.9★",
+            "label": "1,247 reviews"
           }
         },
-        "button": {
-          "type": "buttons",
+        "stat_sachets": {
+          "type": "stat",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "value": "30",
+            "label": "daily sachets"
+          }
+        },
+        "stat_ingredients": {
+          "type": "stat",
+          "settings": {
+            "value": "18",
+            "label": "active ingredients"
+          }
+        },
+        "button_shop": {
+          "type": "button",
+          "settings": {
+            "label": "Shop Flow Formula",
+            "link": "shopify://collections/all",
+            "style": "peach"
+          }
+        },
+        "button_explore": {
+          "type": "button",
+          "settings": {
+            "label": "Explore Formula",
+            "link": "/#how-it-works",
+            "style": "teal"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "stat_reviews",
+        "stat_sachets",
+        "stat_ingredients",
+        "button_shop",
+        "button_explore"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "heading": "One sachet. Your daily wellness, simplified.",
+        "image_asset": "ff-hero.webp",
+        "image_alt": "A Flow Formula sachet being poured into a glass of water",
+        "anchor_id": "shop"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "trust_bar": {
+      "type": "ff-trust-bar",
+      "blocks": {
+        "item_ingredients": {
+          "type": "item",
+          "settings": {
+            "icon": "🌊",
+            "text": "18 clinically-dosed ingredients"
+          }
+        },
+        "item_sachets": {
+          "type": "item",
+          "settings": {
+            "icon": "📦",
+            "text": "30 daily sachets per box"
+          }
+        },
+        "item_tested": {
+          "type": "item",
+          "settings": {
+            "icon": "🔬",
+            "text": "Third-party lab tested"
+          }
+        },
+        "item_cancel": {
+          "type": "item",
+          "settings": {
+            "icon": "♻️",
+            "text": "Pause or cancel anytime"
+          }
+        }
+      },
+      "block_order": [
+        "item_ingredients",
+        "item_sachets",
+        "item_tested",
+        "item_cancel"
+      ],
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "show_on_mobile": false
+      }
+    },
+    "comparison": {
+      "type": "ff-comparison",
+      "blocks": {
+        "ours_1": {
+          "type": "ours",
+          "settings": {
+            "text": "One sachet. Everything in one place. One ritual."
+          }
+        },
+        "ours_2": {
+          "type": "ours",
+          "settings": {
+            "text": "Clinical doses of all 18 ingredients — verified"
+          }
+        },
+        "ours_3": {
+          "type": "ours",
+          "settings": {
+            "text": "From £49/month — less than one specialist brand"
+          }
+        },
+        "ours_4": {
+          "type": "ours",
+          "settings": {
+            "text": "Third-party tested. Certificate of analysis available."
+          }
+        },
+        "ours_5": {
+          "type": "ours",
+          "settings": {
+            "text": "Formulated by a woman with PCOS, for PCOS"
+          }
+        },
+        "ours_6": {
+          "type": "ours",
+          "settings": {
+            "text": "So simple it becomes automatic"
+          }
+        },
+        "theirs_1": {
+          "type": "theirs",
+          "settings": {
+            "text": "8-12 separate supplements to track every day"
+          }
+        },
+        "theirs_2": {
+          "type": "theirs",
+          "settings": {
+            "text": "Sub-clinical 'dusting' doses that look good on labels"
+          }
+        },
+        "theirs_3": {
+          "type": "theirs",
+          "settings": {
+            "text": "£120+ per month across different brands"
+          }
+        },
+        "theirs_4": {
+          "type": "theirs",
+          "settings": {
+            "text": "No third-party testing — quality unverified"
+          }
+        },
+        "theirs_5": {
+          "type": "theirs",
+          "settings": {
+            "text": "Nothing formulated specifically for PCOS"
+          }
+        },
+        "theirs_6": {
+          "type": "theirs",
+          "settings": {
+            "text": "Pill fatigue — impossible to stay consistent"
+          }
+        }
+      },
+      "block_order": [
+        "ours_1",
+        "ours_2",
+        "ours_3",
+        "ours_4",
+        "ours_5",
+        "ours_6",
+        "theirs_1",
+        "theirs_2",
+        "theirs_3",
+        "theirs_4",
+        "theirs_5",
+        "theirs_6"
+      ],
+      "settings": {
+        "ours_image_asset": "ff-sachet.webp",
+        "ours_name": "Flow\nFormula",
+        "ours_tag": "The old way",
+        "theirs_image_asset": "ff-sachet.webp",
+        "theirs_mask_label": true,
+        "theirs_name": "Other\nProduct",
+        "theirs_tag": "The old way"
+      }
+    },
+    "how_it_works": {
+      "type": "ff-how-it-works",
+      "blocks": {
+        "photo_tear": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-1.webp",
+            "alt": "Hands tearing open a Flow Formula sachet"
+          }
+        },
+        "photo_pour": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-2.webp",
+            "alt": "Pink powder being poured into a glass of water"
+          }
+        },
+        "photo_flow": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-3.webp",
+            "alt": "A glass of the finished pink drink"
+          }
+        },
+        "step_tear": {
+          "type": "step",
+          "settings": {
+            "title": "Tear",
+            "text": "Grab a glass with 300ml of water and open the Schet"
+          }
+        },
+        "step_pour": {
+          "type": "step",
+          "settings": {
+            "title": "Pour",
+            "text": "Pour powder into water and mix it well"
+          }
+        },
+        "step_flow": {
+          "type": "step",
+          "settings": {
+            "title": "Flow",
+            "text": "Ready to drink"
+          }
+        }
+      },
+      "block_order": [
+        "photo_tear",
+        "photo_pour",
+        "photo_flow",
+        "step_tear",
+        "step_pour",
+        "step_flow"
+      ],
+      "settings": {
+        "heading": "Read. Mix. Repeat.",
+        "lead": "A simple 3-step ritual to help you stay consistent with your wellness, wherever life takes you",
+        "banner_image_asset": "ff-lifestyle-banner.webp",
+        "banner_alt": "Take it at home, at work, on the go or while travelling. The right nutrition, a healthier you.",
+        "anchor_id": "how-it-works"
+      }
+    },
+    "benefits": {
+      "type": "ff-benefits",
+      "blocks": {
+        "benefit_energy": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-energy.webp",
+            "title": "Energy",
+            "tagline": "Feel more you",
+            "points": "Reduce fatigue & tiredness\nSupports sustained energy throughout the day",
+            "image_asset": "ff-benefit-energy.webp",
+            "image_mobile_asset": "ff-benefit-energy-m.webp",
+            "image_alt": "Woman stretching, feeling energised"
+          }
+        },
+        "benefit_hormonal": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-hormonal.webp",
+            "title": "Harmonal Activity",
+            "tagline": "Bring balance",
+            "points": "Help regulate harmones\nSupports menstrual cycle and overall balance",
+            "image_asset": "ff-benefit-hormonal.webp",
+            "image_mobile_asset": "ff-benefit-hormonal-m.webp",
+            "image_alt": "Cycle calendar surrounded by flowers"
+          }
+        },
+        "benefit_hair": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-hair.webp",
+            "title": "Hair, Skin & Nails",
+            "tagline": "Natural radiance",
+            "points": "Support healthy hair growth\nImprove skin texture and nail strength",
+            "image_asset": "ff-benefit-hair.webp",
+            "image_mobile_asset": "ff-benefit-hair-m.webp",
+            "image_alt": "Woman with glowing skin"
+          }
+        },
+        "benefit_immune": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-immune.webp",
+            "title": "Immune Function",
+            "tagline": "Stay strong",
+            "points": "Build natural immunity\nHelp your body stay resilient",
+            "image_asset": "ff-benefit-immune.webp",
+            "image_mobile_asset": "ff-benefit-immune-m.webp",
+            "image_alt": "Pink shield with a cross, surrounded by flowers"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_energy",
+        "benefit_hormonal",
+        "benefit_hair",
+        "benefit_immune"
+      ],
+      "settings": {
+        "heading": "Everyday",
+        "heading_highlight": "Benifits",
+        "lead": "Thoughtfully crafted to support your wellness, inside and out - every single day",
+        "note_icon_asset": "ff-icon-drop.webp",
+        "note_text": "These benefits work together, helping you feel stronger, healthier and more balanced -  from the inside out.",
+        "anchor_id": "ingredients"
+      }
+    },
+    "ugc": {
+      "type": "ff-ugc",
+      "blocks": {
+        "post_1": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-1.webp",
+            "alt": "Customer post"
+          }
+        },
+        "post_2": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-1.webp",
+            "alt": "Customer post"
+          }
+        },
+        "post_3": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-2.webp",
+            "alt": "Customer post"
+          }
+        },
+        "post_4": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-1.webp",
+            "alt": "Customer post"
+          }
+        }
+      },
+      "block_order": [
+        "post_1",
+        "post_2",
+        "post_3",
+        "post_4"
+      ],
+      "settings": {
+        "heading": "Results actually\nworth posting",
+        "lead": "Join the community that trust us"
+      }
+    },
+    "reviews": {
+      "type": "ff-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6"
+      ],
+      "settings": {
+        "heading": "Why people love us"
+      }
+    },
+    "faq": {
+      "type": "ff-faq",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8"
+      ],
+      "settings": {
+        "heading": "faq’s",
+        "mobile_limit": 6,
+        "anchor_id": "faqs"
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hero",
+    "trust_bar",
+    "comparison",
+    "how_it_works",
+    "benefits",
+    "ugc",
+    "reviews",
+    "faq"
   ]
 }

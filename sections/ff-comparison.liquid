@@ -1,0 +1,109 @@
+{%- render 'ff-assets' -%}
+
+{%- liquid
+  assign ours_points = section.blocks | where: 'type', 'ours'
+  assign theirs_points = section.blocks | where: 'type', 'theirs'
+-%}
+
+<section
+  class="compare"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+>
+  <div class="compare__box">
+    <div class="compare__col compare__col--ours">
+      <div class="compare__head">
+        {%- render 'dizzy-image',
+          image: section.settings.ours_image,
+          asset: section.settings.ours_image_asset,
+          width: 90,
+          height: 191,
+          decorative: true,
+          class: 'compare__pack',
+          sizes: '102px',
+          widths: '204,306'
+        -%}
+        <h2 class="compare__name">{{ section.settings.ours_name | escape | newline_to_br }}</h2>
+        {%- if section.settings.ours_tag != blank -%}
+          <p class="compare__tag">{{ section.settings.ours_tag | escape }}</p>
+        {%- endif -%}
+      </div>
+      <ul class="compare__list">
+        {%- for block in ours_points -%}
+          <li {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div class="compare__col compare__col--theirs">
+      <div class="compare__head">
+        {%- liquid
+          assign mask = section.settings.theirs_mask_label
+          assign theirs_class = 'compare__pack'
+          if mask
+            assign theirs_class = nil
+          endif
+        -%}
+        {%- if mask -%}<span class="compare__pack compare__pack--blank">{%- endif -%}
+        {%- render 'dizzy-image',
+          image: section.settings.theirs_image,
+          asset: section.settings.theirs_image_asset,
+          width: 90,
+          height: 191,
+          decorative: true,
+          class: theirs_class,
+          sizes: '102px',
+          widths: '204,306'
+        -%}
+        {%- if mask -%}</span>{%- endif -%}
+        <h2 class="compare__name">{{ section.settings.theirs_name | escape | newline_to_br }}</h2>
+        {%- if section.settings.theirs_tag != blank -%}
+          <p class="compare__tag">{{ section.settings.theirs_tag | escape }}</p>
+        {%- endif -%}
+      </div>
+      <ul class="compare__list">
+        {%- for block in theirs_points -%}
+          <li {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF comparison",
+  "class": "ff",
+  "settings": [
+    { "type": "header", "content": "Flow Formula column" },
+    { "type": "image_picker", "id": "ours_image", "label": "Product image" },
+    { "type": "text", "id": "ours_image_asset", "label": "Fallback theme asset", "info": "Used until an image is uploaded." },
+    { "type": "textarea", "id": "ours_name", "label": "Name", "info": "Line breaks are kept." },
+    { "type": "text", "id": "ours_tag", "label": "Tag" },
+    { "type": "header", "content": "Other product column" },
+    { "type": "image_picker", "id": "theirs_image", "label": "Product image" },
+    { "type": "text", "id": "theirs_image_asset", "label": "Fallback theme asset", "info": "Used until an image is uploaded." },
+    { "type": "checkbox", "id": "theirs_mask_label", "label": "Cover product label", "info": "Draws a plain block over the pack's label. Use when the image is your own sachet." },
+    { "type": "textarea", "id": "theirs_name", "label": "Name", "info": "Line breaks are kept." },
+    { "type": "text", "id": "theirs_tag", "label": "Tag" },
+    { "type": "header", "content": "Section" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
+  ],
+  "blocks": [
+    {
+      "type": "ours",
+      "name": "Flow Formula point",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "info": "Shown with a tick." }
+      ]
+    },
+    {
+      "type": "theirs",
+      "name": "Other product point",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "info": "Shown with a cross." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF comparison" }]
+}
+{% endschema %}

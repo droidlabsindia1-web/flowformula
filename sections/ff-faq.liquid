@@ -1,0 +1,76 @@
+{%- render 'ff-assets' -%}
+
+{%- liquid
+  assign half = section.blocks.size | plus: 1 | divided_by: 2
+  assign mobile_limit = section.settings.mobile_limit | plus: 0
+-%}
+
+<section
+  class="faq"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+  aria-labelledby="faq-title-{{ section.id }}"
+>
+  <h2 class="section-title faq__title" id="faq-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="faq__list" data-accordion>
+      {%- for column in (1..2) -%}
+        {%- if column == 1 -%}
+          {%- assign offset = 0 -%}
+        {%- else -%}
+          {%- assign offset = half -%}
+        {%- endif -%}
+        {%- if section.blocks.size > offset -%}
+          <ul class="faq__col">
+            {%- for block in section.blocks limit: half offset: offset -%}
+              {%- assign position = forloop.index | plus: offset -%}
+              <li
+                class="faq__item{% if mobile_limit > 0 and position > mobile_limit %} faq__item--mobile-hidden{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <h3>
+                  <button
+                    class="faq__q"
+                    id="faq-q-{{ block.id }}"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="faq-a-{{ block.id }}"
+                  >
+                    {{- block.settings.question | escape -}}
+                    {%- render 'ff-icon', icon: 'chevron' -%}
+                  </button>
+                </h3>
+                <div class="faq__a" id="faq-a-{{ block.id }}" role="region" aria-labelledby="faq-q-{{ block.id }}">
+                  <div>{{ block.settings.answer }}</div>
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "FF FAQ",
+  "class": "ff",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "number", "id": "mobile_limit", "label": "Questions shown on mobile", "info": "Leave empty to show all." },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #faqs." }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF FAQ" }]
+}
+{% endschema %}

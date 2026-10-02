@@ -1,0 +1,124 @@
+{%- render 'ff-assets' -%}
+
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+  assign bg = section.settings.background
+  assign cart_label = 'templates.cart.cart' | t
+  if cart.item_count > 0
+    assign cart_count_label = 'sections.header.cart_count' | t: count: cart.item_count
+    assign cart_label = cart_label | append: ', ' | append: cart_count_label
+  endif
+-%}
+
+<header
+  class="site-header"
+  data-ff-header
+  {% if bg != blank and bg.alpha != 0.0 %}style="--ff-bg: {{ bg }};"{% endif %}
+>
+  <div class="site-header__inner">
+    <button
+      class="icon-btn nav-toggle"
+      type="button"
+      aria-label="{{ 'sections.header.menu' | t }}"
+      aria-expanded="false"
+      aria-controls="primary-nav-{{ section.id }}"
+      data-label-open="{{ 'sections.header.menu' | t }}"
+      data-label-close="{{ 'accessibility.close' | t }}"
+    >
+      {%- render 'ff-icon', icon: 'menu', size: 28, class: 'nav-toggle__open' -%}
+      {%- render 'ff-icon', icon: 'close', size: 28, class: 'nav-toggle__close' -%}
+    </button>
+
+    <a class="brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {%- render 'dizzy-image',
+        image: section.settings.logo_mark,
+        asset: section.settings.logo_mark_asset,
+        width: 180,
+        height: 178,
+        decorative: true,
+        class: 'brand__mark',
+        sizes: '45px',
+        widths: '90,180',
+        priority: true
+      -%}
+      {%- render 'dizzy-image',
+        image: section.settings.logo,
+        asset: section.settings.logo_asset,
+        width: 480,
+        height: 193,
+        alt: shop.name,
+        class: 'brand__word',
+        sizes: '110px',
+        widths: '220,330',
+        priority: true
+      -%}
+    </a>
+
+    <nav class="primary-nav" id="primary-nav-{{ section.id }}" aria-label="{{ menu.title | default: shop.name | escape }}">
+      <ul>
+        {%- for link in menu.links -%}
+          <li>
+            <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+          </li>
+        {%- endfor -%}
+        {%- if shop.customer_accounts_enabled -%}
+          <li class="primary-nav__extra">
+            <a href="{{ routes.account_url }}">{{ 'customer.account_fallback' | t }}</a>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.cta_label != blank -%}
+          <li class="primary-nav__cta">
+            <a class="btn btn--teal" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+              {{- section.settings.cta_label | escape -}}
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    </nav>
+
+    {%- if section.settings.cta_label != blank -%}
+      <a class="btn btn--teal btn--nav" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+        {{- section.settings.cta_label | escape -}}
+      </a>
+    {%- endif -%}
+
+    <div class="header-icons">
+      <a class="icon-btn icon-btn--desktop" href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t }}">
+        {%- render 'ff-icon', icon: 'search', size: 24 -%}
+      </a>
+      <a class="icon-btn icon-btn--cart" href="{{ routes.cart_url }}" aria-label="{{ cart_label | escape }}">
+        {%- render 'ff-icon', icon: 'cart', size: 24 -%}
+        {%- if cart.item_count > 0 -%}
+          <span class="cart-count" aria-hidden="true">{{ cart.item_count | at_most: 99 }}</span>
+        {%- endif -%}
+      </a>
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="icon-btn icon-btn--desktop" href="{{ routes.account_url }}" aria-label="{{ 'customer.account_fallback' | t }}">
+          {%- render 'ff-icon', icon: 'profile', size: 24 -%}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "FF header",
+  "class": "ff",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "header", "content": "Logo" },
+    { "type": "image_picker", "id": "logo_mark", "label": "Logo mark", "info": "Hidden below 1280px." },
+    { "type": "text", "id": "logo_mark_asset", "label": "Logo mark fallback theme asset", "info": "Used until a logo mark is uploaded." },
+    { "type": "image_picker", "id": "logo", "label": "Wordmark" },
+    { "type": "text", "id": "logo_asset", "label": "Wordmark fallback theme asset", "info": "Used until a wordmark is uploaded." },
+    { "type": "header", "content": "Navigation" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "info": "Top-level links only." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "info": "Shown in the header on desktop and at the bottom of the mobile menu." },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand cream." }
+  ],
+  "presets": [{ "name": "FF header" }]
+}
+{% endschema %}

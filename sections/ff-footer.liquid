@@ -1,0 +1,162 @@
+{%- render 'ff-assets' -%}
+
+{%- liquid
+  assign shop_menu = linklists[section.settings.shop_menu]
+  assign support_menu = linklists[section.settings.support_menu]
+  assign social_blocks = section.blocks | where: 'type', 'social'
+  assign bg = section.settings.background
+  assign current_year = 'now' | date: '%Y'
+-%}
+
+<footer class="site-footer"{% if bg != blank and bg.alpha != 0.0 %} style="--ff-bg: {{ bg }};"{% endif %}>
+  <div class="site-footer__inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        {%- render 'dizzy-image',
+          image: section.settings.logo,
+          asset: section.settings.logo_asset,
+          width: 480,
+          height: 193,
+          alt: shop.name,
+          sizes: '120px',
+          widths: '240,360'
+        -%}
+        {%- if section.settings.about != blank -%}
+          <p>{{ section.settings.about | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if social_blocks.size > 0 -%}
+        <ul class="footer-social">
+          {%- for block in social_blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.link | default: '#' }}"{% if block.settings.link != blank %} target="_blank" rel="noopener"{% endif %}>
+                {{- block.settings.label | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if shop_menu.links.size > 0 -%}
+        <nav class="footer-links footer-links--shop" aria-labelledby="f-shop-{{ section.id }}">
+          <h2 id="f-shop-{{ section.id }}">{{ shop_menu.title | escape }}</h2>
+          <ul>
+            {%- for link in shop_menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      {%- if support_menu.links.size > 0 -%}
+        <nav class="footer-links footer-links--support" aria-labelledby="f-support-{{ section.id }}">
+          <h2 id="f-support-{{ section.id }}">{{ support_menu.title | escape }}</h2>
+          <ul>
+            {%- for link in support_menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      <div class="footer-join">
+        {%- if section.settings.newsletter_heading != blank -%}
+          <h2>{{ section.settings.newsletter_heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.newsletter_text != blank -%}
+          <p>{{ section.settings.newsletter_text | escape }}</p>
+        {%- endif -%}
+
+        {%- assign form_id = 'ff-join-' | append: section.id -%}
+        {%- form 'customer',
+          id: form_id,
+          class: 'join-form',
+          novalidate: 'novalidate',
+          data-join-form: '',
+          data-error-message: 'Please enter a valid email address.'
+        -%}
+          {%- liquid
+            if form.posted_successfully?
+              assign join_status = 'newsletter.success' | t
+              assign join_status_class = 'is-success'
+            elsif form.errors
+              assign join_status = form.errors.translated_fields.email | capitalize | append: ' ' | append: form.errors.messages.email
+              assign join_status_class = 'is-error'
+            endif
+          -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="join-email-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
+          <input
+            id="join-email-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            placeholder="{% if section.settings.newsletter_placeholder != blank %}{{ section.settings.newsletter_placeholder | escape }}{% else %}{{ 'newsletter.label' | t }}{% endif %}"
+            autocomplete="email"
+            aria-describedby="join-status-{{ section.id }}"
+            {% if form.errors %}aria-invalid="true"{% endif %}
+            required
+          >
+          <button class="btn btn--teal" type="submit">
+            {%- if section.settings.newsletter_button != blank -%}
+              {{ section.settings.newsletter_button | escape }}
+            {%- else -%}
+              {{ 'newsletter.button_label' | t }}
+            {%- endif -%}
+          </button>
+        {%- endform -%}
+        <p class="join-form__status {{ join_status_class }}" id="join-status-{{ section.id }}" role="status" aria-live="polite">
+          {{- join_status | escape -}}
+        </p>
+      </div>
+    </div>
+
+    {%- if section.settings.copyright != blank or section.settings.rating_text != blank -%}
+      <div class="footer-bottom">
+        <p>{{ section.settings.copyright | replace: '[year]', current_year | escape }}</p>
+        {%- if section.settings.rating_text != blank -%}
+          <p class="footer-bottom__rating">{{ section.settings.rating_text | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "FF footer",
+  "class": "ff",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    { "type": "header", "content": "Brand" },
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "text", "id": "logo_asset", "label": "Logo fallback theme asset", "info": "Used until a logo is uploaded." },
+    { "type": "textarea", "id": "about", "label": "Text" },
+    { "type": "header", "content": "Menus" },
+    { "type": "link_list", "id": "shop_menu", "label": "First menu", "info": "The menu title is used as the heading." },
+    { "type": "link_list", "id": "support_menu", "label": "Second menu", "info": "The menu title is used as the heading." },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "text", "id": "newsletter_heading", "label": "Heading" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Text" },
+    { "type": "text", "id": "newsletter_placeholder", "label": "Email placeholder" },
+    { "type": "text", "id": "newsletter_button", "label": "Button label" },
+    { "type": "paragraph", "content": "Subscribers are added to Customers with the \"newsletter\" tag." },
+    { "type": "header", "content": "Bottom bar" },
+    { "type": "text", "id": "copyright", "label": "Copyright text", "info": "Use [year] for the current year." },
+    { "type": "text", "id": "rating_text", "label": "Rating text" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand navy." }
+  ],
+  "blocks": [
+    {
+      "type": "social",
+      "name": "Social link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF footer" }]
+}
+{% endschema %}

@@ -1,0 +1,59 @@
+{%- comment -%}
+  Inline icons for the ff-* sections (exported from Figma).
+
+  Accepts:
+  - icon: {String} search | cart | profile | menu | close | chevron | arrow | verify | star
+  - size: {Number} width and height in px (optional)
+  - class: {String} (optional)
+  - label: {String} accessible name; omit for decorative icons
+{%- endcomment -%}
+{%- liquid
+  case icon
+    when 'search'
+      assign view_box = '0 0 24 24'
+    when 'cart'
+      assign view_box = '0 0 24 24'
+    when 'profile'
+      assign view_box = '0 0 24 24'
+    when 'verify'
+      assign view_box = '0 0 24 24'
+    when 'menu'
+      assign view_box = '0 0 28 28'
+    when 'close'
+      assign view_box = '0 0 28 28'
+    when 'chevron'
+      assign view_box = '0 0 13 20'
+    when 'arrow'
+      assign view_box = '0 0 20 20'
+    when 'star'
+      assign view_box = '0 0 14 14.3'
+  endcase
+-%}
+<svg
+  viewBox="{{ view_box }}"
+  {% if size %}width="{{ size }}" height="{{ size }}"{% endif %}
+  {% if class %}class="{{ class }}"{% endif %}
+  {% if label %}role="img" aria-label="{{ label | escape }}"{% else %}aria-hidden="true"{% endif %}
+  focusable="false"
+>
+  {%- case icon -%}
+    {%- when 'search' -%}
+      <path d="M11.5 21a9.5 9.5 0 1 0 0-19 9.5 9.5 0 0 0 0 19ZM22 22l-2-2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    {%- when 'cart' -%}
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.08" cy="20.08" r="1.16"/><circle cx="16.95" cy="20.08" r="1.16"/><path d="M18.45 15.42H8.17c-.54 0-1.01-.38-1.13-.92L5.52 7.51c-.16-.73.39-1.41 1.13-1.41h13.32c.74 0 1.29.69 1.13 1.41l-1.52 6.99c-.11.54-.58.92-1.13.92Z"/><path d="M2.75 2.75h.83c.55 0 1.02.38 1.13.91L5.64 8M17.35 15.42H6.92a1.5 1.5 0 0 0 0 3h12.51"/></g>
+    {%- when 'profile' -%}
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.12 12.78a.9.9 0 0 0-.24 0 3.28 3.28 0 1 1 .24 0Z"/><path d="M18.74 19.38A9.93 9.93 0 0 1 12 22c-2.6 0-4.96-.99-6.74-2.62.1-.94.7-1.86 1.77-2.58 2.74-1.82 7.22-1.82 9.94 0 1.07.72 1.67 1.64 1.77 2.58Z"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></g>
+    {%- when 'menu' -%}
+      <path d="M3.5 8.167h21M3.5 14h21M3.5 19.833h21" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    {%- when 'close' -%}
+      <path d="M7 7l14 14M21 7 7 21" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    {%- when 'chevron' -%}
+      <path d="M3.053 18.041 1.136 16.088l6.466-6.51-6.466-6.467L3.053 1.149l6.511 6.511 1.962 1.917-1.962 1.962-6.511 6.51Z" fill="currentColor"/>
+    {%- when 'arrow' -%}
+      <path d="M0 10h15M10 4.167 15.832 10 10 15.833" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    {%- when 'verify' -%}
+      <path d="m19.103 9.866-1.224-1.421c-.234-.27-.423-.774-.423-1.134v-1.53c0-.954-.783-1.737-1.736-1.737H14.19c-.351 0-.864-.189-1.134-.423l-1.422-1.224c-.62-.53-1.638-.53-2.267 0L7.955 3.631c-.27.225-.783.414-1.134.414H5.264c-.953 0-1.736.783-1.736 1.736V7.32c0 .351-.19.855-.414 1.125L1.9 9.875c-.522.621-.522 1.629 0 2.25l1.215 1.43c.225.27.414.774.414 1.125v1.539c0 .954.783 1.736 1.736 1.736H6.82c.351 0 .864.19 1.134.423l1.422 1.224c.62.531 1.638.531 2.268 0l1.421-1.224c.27-.234.774-.423 1.134-.423h1.53c.954 0 1.737-.782 1.737-1.736v-1.53c0-.35.189-.863.423-1.133l1.223-1.422c.522-.62.522-1.646-.009-2.268Zm-4.859-.567-4.346 4.346a.675.675 0 0 1-.954 0l-2.177-2.177a.678.678 0 0 1 0-.954.678.678 0 0 1 .954 0l1.7 1.7 3.87-3.869a.678.678 0 0 1 .953 0 .678.678 0 0 1 0 .954Z" fill="currentColor"/>
+    {%- when 'star' -%}
+      <path d="M6.104.679c.282-.905 1.51-.905 1.791 0l1.007 3.236c.062.198.181.37.342.491.16.122.354.188.553.188h3.26c.912 0 1.29 1.219.553 1.78l-2.636 1.999a1.05 1.05 0 0 0-.343.491c-.061.198-.062.41 0 .608l1.007 3.236c.283.906-.71 1.66-1.45 1.1L7.553 11.81a.93.93 0 0 0-.553-.188.93.93 0 0 0-.553.188l-2.637 1.999c-.738.56-1.73-.194-1.449-1.1l1.007-3.236c.062-.197.062-.41 0-.608a1.05 1.05 0 0 0-.342-.491L.39 6.374C-.348 5.814.032 4.595.943 4.595h3.259c.199 0 .392-.066.553-.188.161-.122.28-.293.342-.491L6.104.68Z" fill="currentColor" stroke="#717171" stroke-width=".2"/>
+  {%- endcase -%}
+</svg>

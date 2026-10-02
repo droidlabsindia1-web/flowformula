@@ -1,0 +1,9 @@
+{%- comment -%}
+  Shared assets for the ff-* (Flow Formula) sections. Safe to render from
+  several sections on one page: ff.js guards against double init.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+{{ 'ff.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ff.js' | asset_url }}" defer="defer"></script>

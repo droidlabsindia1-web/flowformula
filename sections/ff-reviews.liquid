@@ -1,0 +1,103 @@
+{%- render 'ff-assets' -%}
+
+<section
+  class="reviews"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+  aria-labelledby="reviews-title-{{ section.id }}"
+  data-carousel
+>
+  <h2 class="section-title reviews__title" id="reviews-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+
+  {%- if section.blocks.size > 0 -%}
+    <ul class="reviews__track" data-carousel-track tabindex="0" aria-label="{{ section.settings.heading | escape }}">
+      {%- for block in section.blocks -%}
+        {%- assign rating = block.settings.rating | default: 5 | plus: 0 -%}
+        <li class="review{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+          <div class="review__photo">
+            {%- render 'dizzy-image',
+              image: block.settings.photo,
+              asset: block.settings.photo_asset,
+              width: 200,
+              height: 200,
+              decorative: true,
+              sizes: '200px',
+              widths: '200,400'
+            -%}
+          </div>
+          <div class="review__rating">
+            <span class="stars" role="img" aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: rating, rating_max: 5 }}">
+              {%- for i in (1..5) -%}
+                {%- if i <= rating -%}
+                  {%- render 'ff-icon', icon: 'star' -%}
+                {%- else -%}
+                  {%- render 'ff-icon', icon: 'star', class: 'is-empty' -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </span>
+            <strong>{{ rating | times: 1.0 }}</strong>
+          </div>
+          {%- if block.settings.product != blank -%}
+            <h3 class="review__product">{{ block.settings.product | escape }}</h3>
+          {%- endif -%}
+          <blockquote class="review__quote">{{ block.settings.quote | escape | newline_to_br }}</blockquote>
+          <p class="review__author">
+            {{ block.settings.author | escape }}
+            {%- if block.settings.verified -%}
+              {% render 'ff-icon', icon: 'verify', size: 24, label: 'Verified buyer' %}
+            {%- endif -%}
+          </p>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <div class="reviews__controls">
+      <div class="dots" data-carousel-dots></div>
+      <div class="arrows">
+        <button class="arrow arrow--prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}" data-carousel-prev>
+          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+        </button>
+        <button class="arrow" type="button" aria-label="{{ 'general.slider.next_slide' | t }}" data-carousel-next>
+          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "FF reviews",
+  "class": "ff",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Photo" },
+        { "type": "text", "id": "photo_asset", "label": "Fallback theme asset", "info": "Used until a photo is uploaded." },
+        {
+          "type": "select",
+          "id": "rating",
+          "label": "Rating",
+          "options": [
+            { "value": "5", "label": "5 stars" },
+            { "value": "4", "label": "4 stars" },
+            { "value": "3", "label": "3 stars" },
+            { "value": "2", "label": "2 stars" },
+            { "value": "1", "label": "1 star" }
+          ]
+        },
+        { "type": "text", "id": "product", "label": "Product" },
+        { "type": "textarea", "id": "quote", "label": "Review" },
+        { "type": "text", "id": "author", "label": "Name" },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF reviews" }]
+}
+{% endschema %}

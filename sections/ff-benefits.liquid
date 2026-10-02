@@ -1,0 +1,136 @@
+{%- render 'ff-assets' -%}
+
+<section
+  class="benefits"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+  aria-labelledby="benefits-title-{{ section.id }}"
+>
+  <h2 class="section-title benefits__title" id="benefits-title-{{ section.id }}">
+    {{- section.settings.heading | escape -}}
+    {%- if section.settings.heading_highlight != blank -%}
+      {%- if section.settings.heading != blank %} <br>{% endif -%}
+      <span>{{ section.settings.heading_highlight | escape }}</span>
+    {%- endif -%}
+  </h2>
+  {%- if section.settings.lead != blank -%}
+    <p class="benefits__lead">{{ section.settings.lead | escape }}</p>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="benefits__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign points = block.settings.points | newline_to_br | split: '<br />'
+          assign flip = forloop.index0 | modulo: 2
+          if block.settings.image_mobile != blank
+            assign mobile_src = block.settings.image_mobile | image_url: width: 400
+          elsif block.settings.image_mobile_asset != blank
+            assign mobile_src = block.settings.image_mobile_asset | asset_url
+          else
+            assign mobile_src = nil
+          endif
+        -%}
+        <article class="benefit{% if flip == 1 %} benefit--flip{% endif %}" {{ block.shopify_attributes }}>
+          <div class="benefit__body">
+            <header class="benefit__head">
+              {%- render 'dizzy-image',
+                image: block.settings.icon,
+                asset: block.settings.icon_asset,
+                width: 44,
+                height: 44,
+                decorative: true,
+                sizes: '44px',
+                widths: '88,132'
+              -%}
+              <div>
+                <h3 class="benefit__title">{{ block.settings.title | escape }}</h3>
+                {%- if block.settings.tagline != blank -%}
+                  <p class="benefit__tag">{{ block.settings.tagline | escape }}</p>
+                {%- endif -%}
+              </div>
+            </header>
+            {%- if block.settings.points != blank -%}
+              <ul class="benefit__list">
+                {%- for point in points -%}
+                  {%- assign point = point | strip -%}
+                  {%- if point != blank -%}
+                    <li>{{ point | escape }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+          <picture class="benefit__img">
+            {%- if mobile_src -%}
+              <source media="(max-width: 1279px)" srcset="{{ mobile_src }}">
+            {%- endif -%}
+            {%- render 'dizzy-image',
+              image: block.settings.image,
+              asset: block.settings.image_asset,
+              width: 291,
+              height: 167,
+              alt: block.settings.image_alt,
+              sizes: '(max-width: 767px) 120px, (max-width: 1279px) 120px, 300px',
+              widths: '300,600'
+            -%}
+          </picture>
+        </article>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.note_text != blank -%}
+    <div class="benefits__note">
+      {%- render 'dizzy-image',
+        image: section.settings.note_icon,
+        asset: section.settings.note_icon_asset,
+        width: 67,
+        height: 67,
+        decorative: true,
+        sizes: '67px',
+        widths: '134,201'
+      -%}
+      <span class="benefits__rule" aria-hidden="true"></span>
+      <p>{{ section.settings.note_text | escape }}</p>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "FF benefits",
+  "class": "ff",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "text", "id": "heading_highlight", "label": "Highlighted heading", "info": "Shown on a new line in coral." },
+    { "type": "textarea", "id": "lead", "label": "Text" },
+    { "type": "header", "content": "Closing note" },
+    { "type": "image_picker", "id": "note_icon", "label": "Icon" },
+    { "type": "text", "id": "note_icon_asset", "label": "Icon fallback theme asset", "info": "Used until an icon is uploaded." },
+    { "type": "textarea", "id": "note_text", "label": "Text", "info": "Leave empty to hide the note." },
+    { "type": "header", "content": "Section" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #ingredients." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "icon_asset", "label": "Icon fallback theme asset", "info": "Used until an icon is uploaded." },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "tagline", "label": "Tagline" },
+        { "type": "textarea", "id": "points", "label": "Points", "info": "One per line." },
+        { "type": "header", "content": "Image" },
+        { "type": "paragraph", "content": "Every second card puts its image first on tablet and mobile." },
+        { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "Landscape, around 291 × 167px." },
+        { "type": "text", "id": "image_asset", "label": "Desktop fallback theme asset", "info": "Used until an image is uploaded." },
+        { "type": "image_picker", "id": "image_mobile", "label": "Tablet and mobile image", "info": "Portrait, around 114 × 132px. Uses the desktop image when empty." },
+        { "type": "text", "id": "image_mobile_asset", "label": "Tablet and mobile fallback theme asset" },
+        { "type": "text", "id": "image_alt", "label": "Alt text" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF benefits" }]
+}
+{% endschema %}

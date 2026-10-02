@@ -1,0 +1,45 @@
+{%- render 'ff-assets' -%}
+
+{%- assign bg = section.settings.background -%}
+
+{%- if section.blocks.size > 0 -%}
+  <section
+    class="trust-bar{% if section.settings.show_on_mobile %} trust-bar--mobile{% endif %}"
+    {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+    {% if bg != blank and bg.alpha != 0.0 %}style="--ff-bg: {{ bg }};"{% endif %}
+  >
+    <ul>
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != blank -%}
+            <span aria-hidden="true">{{ block.settings.icon | escape }}</span>
+          {%- endif -%}
+          {{ block.settings.text | escape }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FF trust bar",
+  "class": "ff",
+  "settings": [
+    { "type": "checkbox", "id": "show_on_mobile", "label": "Show on mobile", "info": "Hidden below 768px unless checked." },
+    { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand navy." },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon", "info": "An emoji, e.g. 🌊" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF trust bar" }]
+}
+{% endschema %}

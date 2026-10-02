@@ -1,0 +1,105 @@
+{%- render 'ff-assets' -%}
+
+{%- liquid
+  assign photo_blocks = section.blocks | where: 'type', 'photo'
+  assign step_blocks = section.blocks | where: 'type', 'step'
+-%}
+
+<section
+  class="ritual"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+  aria-labelledby="ritual-title-{{ section.id }}"
+>
+  {%- if photo_blocks.size > 0 -%}
+    <div class="ritual__gallery">
+      {%- for block in photo_blocks -%}
+        <figure class="ritual__img ritual__img--{{ forloop.index }}" {{ block.shopify_attributes }}>
+          {%- render 'dizzy-image',
+            image: block.settings.image,
+            asset: block.settings.image_asset,
+            width: 166,
+            height: 120,
+            alt: block.settings.alt,
+            sizes: '(max-width: 767px) 50vw, 270px',
+            widths: '300,540,800'
+          -%}
+          <span class="ritual__badge">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        </figure>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="ritual__content">
+    <h2 class="section-title ritual__title" id="ritual-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+    {%- if section.settings.lead != blank -%}
+      <p class="ritual__lead">{{ section.settings.lead | escape }}</p>
+    {%- endif -%}
+
+    {%- if step_blocks.size > 0 -%}
+      <ol class="steps">
+        {%- for block in step_blocks -%}
+          <li class="step" {{ block.shopify_attributes }}>
+            <span class="step__num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <div>
+              <h3 class="step__title">{{ block.settings.title | escape }}</h3>
+              {%- if block.settings.text != blank -%}
+                <p class="step__text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+
+    {%- render 'dizzy-image',
+      image: section.settings.banner_image,
+      asset: section.settings.banner_image_asset,
+      width: 350,
+      height: 193,
+      alt: section.settings.banner_alt,
+      class: 'ritual__banner',
+      sizes: '100vw',
+      widths: '390,780'
+    -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF how it works",
+  "class": "ff",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "lead", "label": "Text" },
+    { "type": "header", "content": "Mobile banner" },
+    { "type": "paragraph", "content": "Shown under the steps on mobile only." },
+    { "type": "image_picker", "id": "banner_image", "label": "Image" },
+    { "type": "text", "id": "banner_image_asset", "label": "Fallback theme asset", "info": "Used until an image is uploaded." },
+    { "type": "text", "id": "banner_alt", "label": "Alt text", "info": "Describe any text that appears in the image." },
+    { "type": "header", "content": "Section" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #how-it-works." }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "limit": 3,
+      "settings": [
+        { "type": "paragraph", "content": "Photos are numbered in order. The third one spans the full width." },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "info": "Used until an image is uploaded." },
+        { "type": "text", "id": "alt", "label": "Alt text" }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF how it works" }]
+}
+{% endschema %}
