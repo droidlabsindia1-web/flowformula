@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -52,6 +61,7 @@
         "heading": "One sachet. Your daily wellness, simplified.",
         "image_asset": "ff-hero.webp",
         "image_alt": "A Flow Formula sachet being poured into a glass of water",
+        "background": "",
         "anchor_id": "shop"
       }
     },
@@ -94,7 +104,9 @@
         "item_cancel"
       ],
       "settings": {
-        "show_on_mobile": false
+        "show_on_mobile": false,
+        "background": "",
+        "anchor_id": ""
       }
     },
     "comparison": {
@@ -194,7 +206,8 @@
         "theirs_image_asset": "ff-sachet.webp",
         "theirs_mask_label": true,
         "theirs_name": "Other\nProduct",
-        "theirs_tag": "The old way"
+        "theirs_tag": "The old way",
+        "anchor_id": ""
       }
     },
     "how_it_works": {
@@ -356,18 +369,28 @@
             "image_asset": "ff-ugc-1.webp",
             "alt": "Customer post"
           }
+        },
+        "post_6ywfpy": {
+          "type": "post",
+          "settings": {
+            "image_asset": "",
+            "alt": ""
+          }
         }
       },
       "block_order": [
         "post_1",
         "post_2",
         "post_3",
-        "post_4"
+        "post_4",
+        "post_6ywfpy"
       ],
       "settings": {
         "heading": "Results actually\nworth posting",
         "lead": "Join the community that trust us",
-        "autoplay": true
+        "autoplay": true,
+        "background": "",
+        "anchor_id": ""
       }
     },
     "reviews": {
@@ -449,7 +472,8 @@
         "review_6"
       ],
       "settings": {
-        "heading": "Why people love us"
+        "heading": "Why people love us",
+        "anchor_id": ""
       }
     },
     "faq": {
