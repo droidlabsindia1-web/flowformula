@@ -47,9 +47,10 @@
         "option_subscription": {
           "type": "option",
           "settings": {
-            "selling_plan_id": "693412430154",
-            "title": "1-Month Subscription",
-            "saving": "Save 10%",
+            "kind": "subscription",
+            "plan": "1-Month Subscriptionsss",
+            "title": "1-Month Subscriptionsss",
+            "saving": "",
             "badge": "Recommended",
             "features": "30 sachets delivered every 30 days\nFree UK delivery\nReminder before the next order\nPrice and renewal frequency shown clearly",
             "selected": true
