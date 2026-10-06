@@ -15,6 +15,7 @@
         "image_pour": {
           "type": "image",
           "settings": {
+            "image": "{{ product.featured_image }}",
             "image_asset": "ff-pdp-hero.jpg",
             "alt": "A Flow Formula sachet being poured into a glass of water"
           }
