@@ -38,7 +38,8 @@
         "option_subscription": {
           "type": "option",
           "settings": {
-            "selling_plan_id": "691877445928",
+            "kind": "subscription",
+            "plan": "1-Month Subscription",
             "title": "1-Month Subscription",
             "saving": "Save 10%",
             "badge": "Recommended",
@@ -49,7 +50,8 @@
         "option_once": {
           "type": "option",
           "settings": {
-            "selling_plan_id": "",
+            "kind": "one_time",
+            "plan": "",
             "title": "One-Time Purchase",
             "saving": "Save 10%",
             "badge": "",

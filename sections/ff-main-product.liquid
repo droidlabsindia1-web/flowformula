@@ -10,33 +10,50 @@
   assign option_blocks = section.blocks | where: 'type', 'option'
   assign detail_blocks = section.blocks | where: 'type', 'detail'
 
-  # Resolve the configured options against this variant's live selling plans.
-  # An option whose plan the variant doesn't offer is skipped; if none match,
-  # the product's own selling plans are listed instead.
+  # Resolve each purchase option to one of this variant's selling plans.
+  # A subscription option can name its plan (as shown in Apps > Subscriptions
+  # > Plans) or a plan ID; left empty it takes the product's first plan.
+  # resolved_list holds one entry per option: a plan ID, 'once' or 'missing'.
+  # Options that can't be offered are skipped; if none can, the product's own
+  # selling plans are listed instead.
+  assign resolved = ''
   assign valid_ids = ''
   assign selected_id = ''
   for block in option_blocks
-    assign plan_id = block.settings.selling_plan_id | strip
-    assign ok = false
-    if plan_id == blank
+    assign entry = 'missing'
+    if block.settings.kind == 'one_time'
       unless product.requires_selling_plan
-        assign ok = true
+        assign entry = 'once'
       endunless
     else
+      assign wanted = block.settings.plan | strip | downcase
       for allocation in variant.selling_plan_allocations
-        assign alloc_id = allocation.selling_plan.id | append: ''
-        if alloc_id == plan_id
-          assign ok = true
+        assign plan = allocation.selling_plan
+        assign plan_id = plan.id | append: ''
+        assign plan_name = plan.name | downcase
+        assign group_name = ''
+        for plan_group in product.selling_plan_groups
+          assign group_id = plan_group.id | append: ''
+          assign alloc_group_id = allocation.selling_plan_group_id | append: ''
+          if group_id == alloc_group_id
+            assign group_name = plan_group.name | downcase
+          endif
+        endfor
+        if wanted == blank or wanted == plan_id or wanted == group_name or plan_name contains wanted
+          assign entry = plan_id
+          break
         endif
       endfor
     endif
-    if ok
+    assign resolved = resolved | append: entry | append: ','
+    if entry != 'missing'
       assign valid_ids = valid_ids | append: forloop.index0 | append: ','
       if block.settings.selected and selected_id == blank
         assign selected_id = forloop.index0 | append: ''
       endif
     endif
   endfor
+  assign resolved_list = resolved | split: ','
   assign valid_list = valid_ids | split: ','
   assign auto_mode = false
   if valid_list.size == 0
@@ -86,10 +103,30 @@
     {%- endunless -%}
   {%- else -%}
     {%- for block in option_blocks -%}
-      {%- assign position = forloop.index0 | append: '' -%}
-      {%- unless valid_list contains position -%}{%- continue -%}{%- endunless -%}
       {%- liquid
-        assign plan_id = block.settings.selling_plan_id | strip
+        assign position = forloop.index0 | append: ''
+        assign entry = resolved_list[forloop.index0]
+      -%}
+      {%- if entry == 'missing' -%}
+        {%- if request.design_mode -%}
+          <p class="plan-notice" {{ block.shopify_attributes }}>
+            {%- if block.settings.kind == 'one_time' -%}
+              This product can only be bought on subscription, so the one-time option is hidden.
+            {%- elsif block.settings.plan != blank -%}
+              Hidden: no subscription plan called “{{ block.settings.plan | escape }}” is on this product. Check the name in Apps › Subscriptions › Plans.
+            {%- else -%}
+              Hidden: this product isn’t in a subscription plan yet. Add it in Apps › Subscriptions › Plans.
+            {%- endif -%}
+            <small>Only shown in the theme editor.</small>
+          </p>
+        {%- endif -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- liquid
+        assign plan_id = entry
+        if entry == 'once'
+          assign plan_id = ''
+        endif
         assign price = variant.price
         assign compare = variant.compare_at_price | default: variant.price
         assign plan_name = ''
@@ -312,7 +349,7 @@
     { "type": "text", "id": "rating", "label": "Rating", "info": "e.g. 4.5. Leave empty to hide." },
     { "type": "richtext", "id": "description", "label": "Description", "info": "Defaults to the product description." },
     { "type": "header", "content": "Purchase options" },
-    { "type": "paragraph", "content": "Add Purchase option blocks. Options whose selling plan isn't on the product are hidden; if none match, the product's own selling plans are listed." },
+    { "type": "paragraph", "content": "Add a Purchase option block for each way to buy. Subscription prices and plans come from Apps > Subscriptions; an option whose plan isn't on the product is hidden and flagged here in the editor." },
     { "type": "text", "id": "legend", "label": "Options label (screen readers)" },
     { "type": "text", "id": "once_label", "label": "One-time purchase label", "info": "Used when an option has no title." },
     { "type": "number", "id": "max_quantity", "label": "Maximum quantity" },
@@ -355,8 +392,17 @@
       "type": "option",
       "name": "Purchase option",
       "settings": [
-        { "type": "text", "id": "selling_plan_id", "label": "Selling plan ID", "info": "Leave empty for one-time purchase." },
-        { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the selling plan name." },
+        {
+          "type": "select",
+          "id": "kind",
+          "label": "Type",
+          "options": [
+            { "value": "subscription", "label": "Subscription" },
+            { "value": "one_time", "label": "One-time purchase" }
+          ]
+        },
+        { "type": "text", "id": "plan", "label": "Subscription plan", "info": "Type the plan name exactly as it appears in Apps > Subscriptions > Plans, e.g. 1-Month Subscription. Leave empty to use the product's first plan. Not used for one-time purchase." },
+        { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the plan name." },
         { "type": "text", "id": "saving", "label": "Saving label", "info": "Defaults to the plan's discount, e.g. \"Save 10%\"." },
         { "type": "text", "id": "badge", "label": "Badge" },
         { "type": "textarea", "id": "features", "label": "Features", "info": "One per line, shown with ticks." },

@@ -1633,6 +1633,18 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   text-transform: uppercase;
 }
 
+/* Theme editor only: explains why a purchase option is hidden */
+.ff .plan-notice {
+  padding: 10px 12px;
+  border: 1px dashed var(--coral);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 18px;
+}
+.ff .plan-notice small { display: block; margin-top: 4px; color: var(--grey); font-size: 11px; }
+
 /* Quantity + add to basket */
 .ff .buy-form__row { display: flex; gap: 10px; }
 
