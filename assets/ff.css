@@ -1778,7 +1778,7 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* ---------- Highlights strip ---------- */
 .ff .usp-strip {
   overflow: hidden;
-  padding: 14.5px 28px;
+  padding: 14.5px 0;
   background: var(--ff-bg, var(--peach));
   color: var(--ink);
   font-size: 14px;
@@ -1786,12 +1786,17 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   line-height: 22.2px;
   text-transform: lowercase;
 }
-.ff .usp-strip__track { display: flex; justify-content: center; }
+/* Continuous marquee: four identical lists, the track loops by one list */
+.ff .usp-strip__track {
+  display: flex;
+  width: max-content;
+  animation: ff-usp-ticker 30s linear infinite;
+}
 .ff .usp-strip__list {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px 60px;
+  flex-shrink: 0;
+  gap: 60px;
+  padding: 0 30px; /* half the gap each side so the seam matches */
 }
 .ff .usp-strip__list li {
   white-space: nowrap;
@@ -1800,7 +1805,6 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   text-underline-position: from-font;
 }
 .ff .usp-strip__list a { text-decoration: inherit; }
-.ff .usp-strip__list--clone { display: none; }
 
 /* ---------- Ingredients ---------- */
 .ff .ingredients {
@@ -1907,12 +1911,10 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ff .pdp-acc__q { font-size: 12px; }
   .ff .pdp-acc__content { font-size: 12px; line-height: 20px; }
 
-  /* Highlights strip becomes a continuous ticker */
   .ff .usp-strip { height: 41px; padding: 0; font-size: 12px; }
-  .ff .usp-strip__track { justify-content: flex-start; width: max-content; height: 100%; }
-  .ff .usp-strip__list { flex-wrap: nowrap; align-items: center; gap: 30px; padding: 0 15px; }
+  .ff .usp-strip__track { height: 100%; animation-duration: 22s; }
+  .ff .usp-strip__list { align-items: center; gap: 30px; padding: 0 15px; }
   .ff .usp-strip__list li { text-decoration: none; }
-  .ff .usp-strip__list--clone { display: flex; }
 
   /* Ingredients: centred carousel, the middle card is enlarged */
   .ff .ingredients { width: 100%; margin-top: 40px; }
@@ -1951,15 +1953,6 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ff:has(> .ritual) + .ff > .reviews { margin-top: 40px; }
 }
 
-@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
-  .ff .usp-strip__track { animation: ff-usp-ticker 22s linear infinite; }
-  .ff .usp-strip:hover .usp-strip__track { animation-play-state: paused; }
-}
-@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
-  .ff .usp-strip { overflow-x: auto; scrollbar-width: none; }
-  .ff .usp-strip__list--clone { display: none; }
-}
-
 @keyframes ff-usp-ticker {
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-25%); } /* one of the four lists */
 }

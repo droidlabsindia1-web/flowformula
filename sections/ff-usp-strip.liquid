@@ -9,12 +9,13 @@
     {% if bg != blank and bg.alpha != 0.0 %}style="--ff-bg: {{ bg }};"{% endif %}
   >
     <div class="usp-strip__track">
-      {%- for copy in (1..2) -%}
-        <ul class="usp-strip__list{% if copy == 2 %} usp-strip__list--clone{% endif %}"{% if copy == 2 %} aria-hidden="true"{% endif %}>
+      {%- comment -%} Four copies so one copy's width always covers wide screens; the track loops by one copy. {%- endcomment -%}
+      {%- for copy in (1..4) -%}
+        <ul class="usp-strip__list{% if copy > 1 %} usp-strip__list--clone{% endif %}"{% if copy > 1 %} aria-hidden="true"{% endif %}>
           {%- for block in section.blocks -%}
             <li {% if copy == 1 %}{{ block.shopify_attributes }}{% endif %}>
               {%- if block.settings.link != blank -%}
-                <a href="{{ block.settings.link }}"{% if copy == 2 %} tabindex="-1"{% endif %}>{{ block.settings.text | escape }}</a>
+                <a href="{{ block.settings.link }}"{% if copy > 1 %} tabindex="-1"{% endif %}>{{ block.settings.text | escape }}</a>
               {%- else -%}
                 {{ block.settings.text | escape }}
               {%- endif -%}
@@ -31,7 +32,7 @@
   "name": "FF highlights strip",
   "class": "ff",
   "settings": [
-    { "type": "paragraph", "content": "A centred row on desktop; scrolls continuously on mobile." },
+    { "type": "paragraph", "content": "Scrolls continuously as a marquee on all screen sizes." },
     { "type": "text", "id": "label", "label": "Label (screen readers)" },
     { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand peach." }
   ],
