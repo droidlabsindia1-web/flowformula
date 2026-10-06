@@ -71,24 +71,28 @@
         "item_ingredients": {
           "type": "item",
           "settings": {
+            "icon_image": "shopify://shop_images/feda1f919a3670b896116738161a3a74.png",
             "text": "18 clinically-dosed ingredients"
           }
         },
         "item_sachets": {
           "type": "item",
           "settings": {
+            "icon_image": "shopify://shop_images/de80454eac896248e6df8d33b6819f78.png",
             "text": "30 daily sachets per box"
           }
         },
         "item_tested": {
           "type": "item",
           "settings": {
+            "icon_image": "shopify://shop_images/f9119b7551b83db68bf8ef9d1ef94aea.png",
             "text": "Third-party lab tested"
           }
         },
         "item_cancel": {
           "type": "item",
           "settings": {
+            "icon_image": "shopify://shop_images/fc895ba2625c240b092ea4ba1dd000b3.png",
             "text": "Pause or cancel anytime"
           }
         }
@@ -102,6 +106,7 @@
       "settings": {
         "show_on_mobile": false,
         "background": "",
+        "text_color": "",
         "anchor_id": ""
       }
     },
@@ -374,7 +379,13 @@
           }
         }
       },
-      "block_order": ["post_1", "post_2", "post_3", "post_4", "post_6ywfpy"],
+      "block_order": [
+        "post_1",
+        "post_2",
+        "post_3",
+        "post_4",
+        "post_6ywfpy"
+      ],
       "settings": {
         "heading": "Results actually\nworth posting",
         "lead": "Join the community that trust us",
