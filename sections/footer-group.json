@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
@@ -27,14 +36,15 @@
       "settings": {
         "logo_asset": "ff-logo-wordmark.png",
         "about": "PCOS support, for every flow. One sachet. 18 ingredients. Built from lived experience.",
-        "shop_menu": "shop",
-        "support_menu": "support",
+        "shop_menu": "footer",
+        "support_menu": "main-menu",
         "newsletter_heading": "Join the Flow Formula community",
         "newsletter_text": "Cycle education, real stories, and early access to new products.",
         "newsletter_placeholder": "your@email.com",
         "newsletter_button": "Join",
         "copyright": "© [year] Flow Formula Ltd. All rights reserved. Made with love in the UK.",
-        "rating_text": "Trustpilot ★★★★★ 4.9"
+        "rating_text": "Trustpilot ★★★★★ 4.9",
+        "background": ""
       }
     }
   },
