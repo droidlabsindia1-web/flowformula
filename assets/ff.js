@@ -4,6 +4,7 @@
    3. UGC videos (play while on screen, pause / sound buttons)
    4. FAQ accordion
    5. Newsletter form (client-side validation; Shopify handles the submit)
+   6. Product page — gallery, buy form, details accordion, ingredients
 
    Every ff-* section renders ff-assets, so this file can be included more
    than once per page: the global guard keeps it to a single run, and each
@@ -365,6 +366,289 @@
     });
   }
 
+  /* ------------------------------------------------------------------ *
+   * 6. Product page
+   * ------------------------------------------------------------------ */
+  var mobile = window.matchMedia("(max-width: 767px)");
+
+  function scrollBehavior() {
+    return reduceMotion.matches ? "auto" : "smooth";
+  }
+
+  // Gallery: swipeable track with one dot per image
+  function initGallery(root) {
+    var track = root.querySelector("[data-gallery-track]");
+    var dotsWrap = root.querySelector("[data-gallery-dots]");
+    var dotLabel = root.dataset.dotLabel || "Show image [index] of [count]";
+    if (!track || !dotsWrap) return;
+
+    var slides = Array.prototype.slice.call(track.children);
+    var ticking = false;
+    if (slides.length < 2) return;
+
+    function currentIndex() {
+      return Math.round(track.scrollLeft / track.clientWidth);
+    }
+
+    function goTo(index, behavior) {
+      index = Math.max(0, Math.min(slides.length - 1, index));
+      track.scrollTo({ left: index * track.clientWidth, behavior: behavior || scrollBehavior() });
+    }
+
+    slides.forEach(function (slide, i) {
+      var dot = document.createElement("button");
+      dot.type = "button";
+      dot.setAttribute("aria-label", dotLabel.replace("[index]", i + 1).replace("[count]", slides.length));
+      dot.addEventListener("click", goTo.bind(null, i, null));
+      dotsWrap.appendChild(dot);
+    });
+
+    function update() {
+      ticking = false;
+      var index = currentIndex();
+      Array.prototype.forEach.call(dotsWrap.children, function (dot, i) {
+        if (i === index) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    }
+
+    track.addEventListener("scroll", function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    }, { passive: true });
+
+    track.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); goTo(currentIndex() + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(currentIndex() - 1); }
+    });
+
+    // Theme editor: show the selected image block
+    root.addEventListener("shopify:block:select", function (e) {
+      var i = slides.indexOf(e.target);
+      if (i > -1) goTo(i, "auto");
+    });
+
+    update();
+  }
+
+  /* Buy form: plan cards mirror their radio, the hidden selling_plan input
+     follows the chosen plan (so the dynamic checkout button agrees), and the
+     add goes through the AJAX cart into Dawn's popup / drawer. */
+  function initBuyForm(section) {
+    var form = section.querySelector("[data-ff-buy-form]");
+    var configEl = section.querySelector("[data-ff-product-config]");
+    if (!form || !configEl) return;
+
+    var config = JSON.parse(configEl.textContent);
+    var plans = Array.prototype.slice.call(form.querySelectorAll(".plan"));
+    var planInput = form.querySelector("[data-ff-plan]");
+    var qty = form.querySelector(".qty__input");
+    var dec = form.querySelector("[data-qty-dec]");
+    var inc = form.querySelector("[data-qty-inc]");
+    var submit = form.querySelector('button[type="submit"]');
+    var errorEl = form.querySelector("[data-ff-buy-error]");
+    var min = parseInt(qty.min, 10) || 1;
+    var max = parseInt(qty.max, 10) || 99;
+    var busy = false;
+
+    function syncPlans() {
+      var plan = "";
+      plans.forEach(function (card) {
+        var input = card.querySelector(".plan__input");
+        card.classList.toggle("is-selected", input.checked);
+        if (input.checked) plan = input.value;
+      });
+      if (planInput) {
+        planInput.value = plan;
+        planInput.disabled = !plan;
+      }
+    }
+
+    function setQty(value) {
+      var n = parseInt(value, 10);
+      if (isNaN(n)) n = min;
+      n = Math.min(max, Math.max(min, n));
+      qty.value = n;
+      dec.disabled = busy || n <= min;
+      inc.disabled = busy || n >= max;
+    }
+
+    function setBusy(state) {
+      busy = state;
+      submit.disabled = busy || !config.available;
+      submit.setAttribute("aria-busy", String(busy));
+      submit.textContent = !config.available ? config.soldOutLabel : busy ? config.addingLabel : config.addLabel;
+      setQty(qty.value);
+    }
+
+    function showError(message) {
+      if (!errorEl) return;
+      errorEl.textContent = message || "";
+      errorEl.hidden = !message;
+    }
+
+    form.addEventListener("change", function (e) {
+      if (e.target.classList.contains("plan__input")) syncPlans();
+    });
+    dec.addEventListener("click", function () { setQty(+qty.value - 1); });
+    inc.addEventListener("click", function () { setQty(+qty.value + 1); });
+    qty.addEventListener("change", function () { setQty(qty.value); });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (busy || !config.available) return;
+      showError("");
+      setBusy(true);
+
+      var cart = document.querySelector("cart-drawer") || document.querySelector("cart-notification");
+      var item = { id: Number(form.querySelector('[name="id"]').value), quantity: Number(qty.value) };
+      if (planInput && !planInput.disabled) item.selling_plan = Number(planInput.value);
+      var body = { items: [item] };
+      if (cart && cart.getSectionsToRender) {
+        body.sections = cart.getSectionsToRender().map(function (s) { return s.id; });
+        body.sections_url = window.location.pathname;
+        if (cart.setActiveElement) cart.setActiveElement(document.activeElement);
+      }
+
+      var routes = window.routes || {};
+      fetch((routes.cart_add_url || "/cart/add") + ".js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json", "X-Requested-With": "XMLHttpRequest" },
+        body: JSON.stringify(body)
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.status) throw new Error(data.description || data.message);
+          // Dawn declares these as top-level lexical globals (not window props)
+          if (typeof publish === "function" && typeof PUB_SUB_EVENTS !== "undefined") {
+            publish(PUB_SUB_EVENTS.cartUpdate, { source: "ff-main-product", productVariantId: item.id, cartData: data });
+          }
+
+          var cartUrl = routes.cart_url || "/cart";
+          if (config.afterAdd === "checkout") {
+            window.location.assign(cartUrl.replace(/cart$/, "checkout"));
+            return;
+          }
+          if (!cart || !cart.renderContents) {
+            window.location.assign(cartUrl);
+            return;
+          }
+          // Dawn expects a single line item shape (id / key) plus the rendered sections
+          var first = (data.items && data.items[0]) || {};
+          cart.classList.remove("is-empty");
+          cart.renderContents(Object.assign({}, first, { sections: data.sections }));
+          setBusy(false);
+        })
+        .catch(function (error) {
+          setBusy(false);
+          showError(error.message || "Something went wrong. Please try again.");
+        });
+    });
+
+    // Back from checkout (bfcache): reset the button
+    window.addEventListener("pageshow", function (e) {
+      if (e.persisted) setBusy(false);
+    });
+
+    syncPlans();
+    setQty(qty.value);
+  }
+
+  /* Details accordion: items toggle independently. Items marked
+     data-open-from="768" start open only at or above that width. */
+  function initDetails(root) {
+    var items = Array.prototype.slice.call(root.querySelectorAll(".pdp-acc__item"));
+
+    function setItem(item, open) {
+      item.classList.toggle("is-open", open);
+      item.querySelector(".pdp-acc__q").setAttribute("aria-expanded", String(open));
+    }
+
+    items.forEach(function (item) {
+      var button = item.querySelector(".pdp-acc__q");
+      if (!button) return;
+      var from = item.getAttribute("data-open-from");
+      if (from) setItem(item, window.matchMedia("(min-width: " + from + "px)").matches);
+      button.addEventListener("click", function () {
+        setItem(item, !item.classList.contains("is-open"));
+      });
+    });
+
+    root.addEventListener("shopify:block:select", function (e) {
+      if (items.indexOf(e.target) > -1) setItem(e.target, true);
+    });
+  }
+
+  /* Ingredients: a static row on desktop / tablet. On mobile the track
+     scrolls and the card nearest the centre gets .is-active (CSS enlarges it). */
+  function initIngredients(track) {
+    var cards = Array.prototype.slice.call(track.children);
+    var ticking = false;
+    if (!cards.length) return;
+
+    function centreOf(card) {
+      return card.offsetLeft + card.offsetWidth / 2;
+    }
+
+    function nearestIndex() {
+      var mid = track.scrollLeft + track.clientWidth / 2;
+      var best = 0;
+      cards.forEach(function (card, i) {
+        if (Math.abs(centreOf(card) - mid) < Math.abs(centreOf(cards[best]) - mid)) best = i;
+      });
+      return best;
+    }
+
+    function setActive(index) {
+      cards.forEach(function (card, i) {
+        card.classList.toggle("is-active", i === index);
+      });
+    }
+
+    function scrollToCard(index, smooth) {
+      track.scrollTo({
+        left: centreOf(cards[index]) - track.clientWidth / 2,
+        behavior: smooth ? scrollBehavior() : "auto"
+      });
+    }
+
+    track.addEventListener("scroll", function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(function () {
+          ticking = false;
+          if (mobile.matches) setActive(nearestIndex());
+        });
+      }
+    }, { passive: true });
+
+    track.addEventListener("keydown", function (e) {
+      if (!mobile.matches) return;
+      var index = nearestIndex();
+      if (e.key === "ArrowRight") { e.preventDefault(); scrollToCard(Math.min(cards.length - 1, index + 1), true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); scrollToCard(Math.max(0, index - 1), true); }
+    });
+
+    // Theme editor: centre the selected ingredient
+    track.addEventListener("shopify:block:select", function (e) {
+      var i = cards.indexOf(e.target);
+      if (i < 0) return;
+      setActive(i);
+      if (mobile.matches) scrollToCard(i, false);
+    });
+
+    // Start on the middle card, as in the design
+    function reset() {
+      var middle = Math.floor((cards.length - 1) / 2);
+      setActive(middle);
+      if (mobile.matches) scrollToCard(middle, false);
+    }
+    mobile.addEventListener("change", reset);
+    reset();
+  }
+
   /* ------------------------------------------------------------------ */
   function init(scope) {
     each(scope, "[data-ff-header]", initNav);
@@ -372,6 +656,10 @@
     each(scope, "[data-ugc]", initVideos);
     each(scope, "[data-accordion]", initAccordion);
     each(scope, "[data-join-form]", initJoinForm);
+    each(scope, "[data-ff-gallery]", initGallery);
+    each(scope, "[data-ff-product]", initBuyForm);
+    each(scope, "[data-ff-details]", initDetails);
+    each(scope, "[data-ff-ingredients]", initIngredients);
   }
 
   window.FlowFormula = { init: init };

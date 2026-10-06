@@ -1,0 +1,377 @@
+{%- render 'ff-assets' -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign group = 'plan-' | append: section.id
+  assign title = section.settings.title | default: product.title
+
+  assign image_blocks = section.blocks | where: 'type', 'image'
+  assign usp_blocks = section.blocks | where: 'type', 'usp'
+  assign option_blocks = section.blocks | where: 'type', 'option'
+  assign detail_blocks = section.blocks | where: 'type', 'detail'
+
+  # Resolve the configured options against this variant's live selling plans.
+  # An option whose plan the variant doesn't offer is skipped; if none match,
+  # the product's own selling plans are listed instead.
+  assign valid_ids = ''
+  assign selected_id = ''
+  for block in option_blocks
+    assign plan_id = block.settings.selling_plan_id | strip
+    assign ok = false
+    if plan_id == blank
+      unless product.requires_selling_plan
+        assign ok = true
+      endunless
+    else
+      for allocation in variant.selling_plan_allocations
+        assign alloc_id = allocation.selling_plan.id | append: ''
+        if alloc_id == plan_id
+          assign ok = true
+        endif
+      endfor
+    endif
+    if ok
+      assign valid_ids = valid_ids | append: forloop.index0 | append: ','
+      if block.settings.selected and selected_id == blank
+        assign selected_id = forloop.index0 | append: ''
+      endif
+    endif
+  endfor
+  assign valid_list = valid_ids | split: ','
+  assign auto_mode = false
+  if valid_list.size == 0
+    assign auto_mode = true
+  elsif selected_id == blank
+    assign selected_id = valid_list.first
+  endif
+  assign start_plan = ''
+-%}
+
+{%- capture options_html -%}
+  {%- if auto_mode -%}
+    {%- for allocation in variant.selling_plan_allocations -%}
+      {%- liquid
+        assign saving = ''
+        if allocation.compare_at_price > allocation.price
+          assign pct = allocation.compare_at_price | minus: allocation.price | times: 100.0 | divided_by: allocation.compare_at_price | round
+          assign saving = 'Save ' | append: pct | append: '%'
+        endif
+        if forloop.first
+          assign start_plan = allocation.selling_plan.id
+        endif
+      -%}
+      {%- render 'ff-plan',
+        group: group,
+        plan: allocation.selling_plan.id,
+        selected: forloop.first,
+        title: allocation.selling_plan.name,
+        price: allocation.price,
+        saving: saving
+      -%}
+    {%- endfor -%}
+    {%- unless product.requires_selling_plan -%}
+      {%- liquid
+        assign once_selected = false
+        if variant.selling_plan_allocations.size == 0
+          assign once_selected = true
+        endif
+      -%}
+      {%- render 'ff-plan',
+        group: group,
+        plan: '',
+        selected: once_selected,
+        title: section.settings.once_label,
+        price: variant.price
+      -%}
+    {%- endunless -%}
+  {%- else -%}
+    {%- for block in option_blocks -%}
+      {%- assign position = forloop.index0 | append: '' -%}
+      {%- unless valid_list contains position -%}{%- continue -%}{%- endunless -%}
+      {%- liquid
+        assign plan_id = block.settings.selling_plan_id | strip
+        assign price = variant.price
+        assign compare = variant.compare_at_price | default: variant.price
+        assign plan_name = ''
+        for allocation in variant.selling_plan_allocations
+          assign alloc_id = allocation.selling_plan.id | append: ''
+          if alloc_id == plan_id
+            assign price = allocation.price
+            assign compare = allocation.compare_at_price | default: variant.price
+            assign plan_name = allocation.selling_plan.name
+          endif
+        endfor
+
+        assign option_title = block.settings.title
+        if option_title == blank
+          if plan_id == blank
+            assign option_title = section.settings.once_label
+          else
+            assign option_title = plan_name
+          endif
+        endif
+
+        assign saving = block.settings.saving
+        if saving == blank and compare > price
+          assign pct = compare | minus: price | times: 100.0 | divided_by: compare | round
+          assign saving = 'Save ' | append: pct | append: '%'
+        endif
+
+        assign selected = false
+        if position == selected_id
+          assign selected = true
+          assign start_plan = plan_id
+        endif
+      -%}
+      {%- render 'ff-plan',
+        group: group,
+        plan: plan_id,
+        selected: selected,
+        title: option_title,
+        price: price,
+        saving: saving,
+        badge: block.settings.badge,
+        features: block.settings.features,
+        attributes: block.shopify_attributes
+      -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<section
+  class="pdp-hero"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+  aria-labelledby="product-title-{{ section.id }}"
+  data-ff-product
+>
+  <script type="application/json" data-ff-product-config>
+    {
+      "available": {{ variant.available | json }},
+      "afterAdd": {{ section.settings.after_add | json }},
+      "addLabel": {{ section.settings.atc_label | json }},
+      "addingLabel": {{ section.settings.adding_label | json }},
+      "soldOutLabel": {{ section.settings.sold_out_label | json }}
+    }
+  </script>
+
+  <div class="pdp-hero__inner">
+    <div class="gallery" data-ff-gallery data-dot-label="Show image [index] of [count]">
+      <ul class="gallery__track" data-gallery-track tabindex="0" aria-label="{{ title | escape }} images">
+        {%- if image_blocks.size > 0 -%}
+          {%- for block in image_blocks -%}
+            <li class="gallery__slide" {{ block.shopify_attributes }}>
+              {%- render 'dizzy-image',
+                image: block.settings.image,
+                asset: block.settings.image_asset,
+                width: 700,
+                height: 875,
+                alt: block.settings.alt,
+                sizes: '(max-width: 767px) 100vw, (max-width: 1279px) 46vw, 627px',
+                widths: '480,700,1000,1300',
+                priority: forloop.first
+              -%}
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign images = product.media | where: 'media_type', 'image' -%}
+          {%- for media in images -%}
+            <li class="gallery__slide">
+              {%- render 'dizzy-image',
+                image: media.preview_image,
+                alt: media.alt,
+                sizes: '(max-width: 767px) 100vw, (max-width: 1279px) 46vw, 627px',
+                widths: '480,700,1000,1300',
+                priority: forloop.first
+              -%}
+            </li>
+          {%- else -%}
+            <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'gallery__placeholder' }}</li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+      {%- if section.settings.tagline != blank -%}
+        <p class="gallery__tagline">{{ section.settings.tagline | escape | newline_to_br }}</p>
+      {%- endif -%}
+      <div class="gallery__dots" data-gallery-dots></div>
+    </div>
+
+    <div class="buybox">
+      <div class="buybox__head">
+        <h1 class="buybox__title" id="product-title-{{ section.id }}">{{ title | escape }}</h1>
+
+        {%- if section.settings.rating != blank -%}
+          <p class="buybox__rating" role="img" aria-label="Rated {{ section.settings.rating | escape }} out of 5">
+            <img src="{{ 'ff-icon-rating-star.svg' | asset_url }}" width="31" height="31" alt="">
+            <span aria-hidden="true">{{ section.settings.rating | escape }}</span>
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <div class="buybox__lead">{{ section.settings.description }}</div>
+        {%- elsif product.description != blank -%}
+          <div class="buybox__lead">{{ product.description }}</div>
+        {%- endif -%}
+
+        {%- if usp_blocks.size > 0 -%}
+          <ul class="buybox__usps">
+            {%- for block in usp_blocks -%}
+              <li {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- form 'product', product, class: 'buy-form', novalidate: 'novalidate', data-ff-buy-form: 'true' -%}
+        <input type="hidden" name="id" value="{{ variant.id }}">
+        <input type="hidden" name="selling_plan" value="{{ start_plan }}" data-ff-plan{% if start_plan == blank %} disabled{% endif %}>
+
+        <fieldset class="plans">
+          <legend class="visually-hidden">{{ section.settings.legend | default: 'Choose how to buy' | escape }}</legend>
+          {{ options_html }}
+        </fieldset>
+
+        <div class="buy-form__row">
+          <div class="qty">
+            <button class="qty__btn" type="button" aria-label="Decrease quantity" data-qty-dec>
+              <img src="{{ 'ff-icon-minus.svg' | asset_url }}" width="20" height="20" alt="">
+            </button>
+            <input
+              class="qty__input"
+              id="qty-{{ section.id }}"
+              type="number"
+              name="quantity"
+              inputmode="numeric"
+              min="1"
+              max="{{ section.settings.max_quantity | default: 10 }}"
+              value="1"
+              aria-label="Quantity"
+            >
+            <button class="qty__btn" type="button" aria-label="Increase quantity" data-qty-inc>
+              <img src="{{ 'ff-icon-plus.svg' | asset_url }}" width="20" height="20" alt="">
+            </button>
+          </div>
+          <button class="btn btn--atc" type="submit"{% unless variant.available %} disabled{% endunless %}>
+            {%- if variant.available -%}
+              {{ section.settings.atc_label | escape }}
+            {%- else -%}
+              {{ section.settings.sold_out_label | escape }}
+            {%- endif -%}
+          </button>
+        </div>
+
+        {%- if section.settings.show_dynamic_checkout -%}
+          <div class="buy-form__checkout">{{ form | payment_button }}</div>
+        {%- endif -%}
+        <p class="buy-form__error" role="alert" hidden data-ff-buy-error></p>
+      {%- endform -%}
+
+      {%- if detail_blocks.size > 0 -%}
+        <div class="pdp-acc" data-ff-details>
+          {%- for block in detail_blocks -%}
+            <div
+              class="pdp-acc__item{% if block.settings.open %} is-open{% endif %}"
+              {% if block.settings.open %}data-open-from="768"{% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <h2>
+                <button
+                  class="pdp-acc__q"
+                  id="pdp-q-{{ block.id }}"
+                  type="button"
+                  aria-expanded="{{ block.settings.open }}"
+                  aria-controls="pdp-a-{{ block.id }}"
+                >
+                  {{ block.settings.title | escape }}
+                  <span class="pdp-acc__icon" aria-hidden="true">
+                    <img class="pdp-acc__minus" src="{{ 'ff-icon-minus.svg' | asset_url }}" width="20" height="20" alt="">
+                    <img class="pdp-acc__plus" src="{{ 'ff-icon-plus-sm.svg' | asset_url }}" width="18" height="18" alt="">
+                  </span>
+                </button>
+              </h2>
+              <div class="pdp-acc__a" id="pdp-a-{{ block.id }}" role="region" aria-labelledby="pdp-q-{{ block.id }}">
+                <div class="pdp-acc__content">{{ block.settings.content }}</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF main product",
+  "class": "ff",
+  "settings": [
+    { "type": "header", "content": "Gallery" },
+    { "type": "paragraph", "content": "Add Image blocks to choose the gallery images. Without any, the product's own media is shown." },
+    { "type": "textarea", "id": "tagline", "label": "Image heading", "info": "Shown over the first image." },
+    { "type": "header", "content": "Product info" },
+    { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the product title." },
+    { "type": "text", "id": "rating", "label": "Rating", "info": "e.g. 4.5. Leave empty to hide." },
+    { "type": "richtext", "id": "description", "label": "Description", "info": "Defaults to the product description." },
+    { "type": "header", "content": "Purchase options" },
+    { "type": "paragraph", "content": "Add Purchase option blocks. Options whose selling plan isn't on the product are hidden; if none match, the product's own selling plans are listed." },
+    { "type": "text", "id": "legend", "label": "Options label (screen readers)" },
+    { "type": "text", "id": "once_label", "label": "One-time purchase label", "info": "Used when an option has no title." },
+    { "type": "number", "id": "max_quantity", "label": "Maximum quantity" },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "atc_label", "label": "Add to basket label" },
+    { "type": "text", "id": "adding_label", "label": "Adding label" },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out label" },
+    {
+      "type": "select",
+      "id": "after_add",
+      "label": "After adding to basket",
+      "options": [
+        { "value": "cart", "label": "Open cart popup / drawer" },
+        { "value": "checkout", "label": "Go straight to checkout" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button" },
+    { "type": "header", "content": "Section" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Portrait, around 700 × 875px." },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "info": "Used until an image is uploaded." },
+        { "type": "text", "id": "alt", "label": "Alt text" }
+      ]
+    },
+    {
+      "type": "usp",
+      "name": "Highlight",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "option",
+      "name": "Purchase option",
+      "settings": [
+        { "type": "text", "id": "selling_plan_id", "label": "Selling plan ID", "info": "Leave empty for one-time purchase." },
+        { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the selling plan name." },
+        { "type": "text", "id": "saving", "label": "Saving label", "info": "Defaults to the plan's discount, e.g. \"Save 10%\"." },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "textarea", "id": "features", "label": "Features", "info": "One per line, shown with ticks." },
+        { "type": "checkbox", "id": "selected", "label": "Selected by default" }
+      ]
+    },
+    {
+      "type": "detail",
+      "name": "Detail",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "checkbox", "id": "open", "label": "Open by default on desktop" }
+      ]
+    }
+  ]
+}
+{% endschema %}

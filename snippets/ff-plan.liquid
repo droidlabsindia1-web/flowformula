@@ -1,0 +1,45 @@
+{%- comment -%}
+  One purchase option card inside ff-main-product.
+
+  Accepts:
+  - group: {String} radio group name
+  - plan: {String} selling plan ID, blank for one-time purchase
+  - selected: {Boolean}
+  - title: {String}
+  - price: {Number} price in cents
+  - saving: {String} pill text, e.g. "Save 10%" (optional)
+  - badge: {String} corner badge, e.g. "Recommended" (optional)
+  - features: {String} one per line, shown with ticks (optional)
+  - attributes: {String} block.shopify_attributes for the theme editor (optional)
+{%- endcomment -%}
+{%- assign feature_lines = features | newline_to_br | split: '<br />' -%}
+<label class="plan{% if selected %} is-selected{% endif %}" {{ attributes }}>
+  <input
+    class="plan__input"
+    type="radio"
+    name="{{ group }}"
+    value="{{ plan }}"
+    {% if selected %}checked{% endif %}
+  >
+  <span class="plan__control" aria-hidden="true"><span class="plan__radio"></span></span>
+  <span class="plan__body">
+    <span class="plan__head">
+      <span class="plan__name">{{ title | escape }}</span>
+      <span class="plan__price">{{ price | money }}</span>
+    </span>
+    {%- if saving != blank -%}
+      <span class="pill">{{ saving | escape }}</span>
+    {%- endif -%}
+    {%- if features != blank -%}
+      <span class="plan__features">
+        {%- for line in feature_lines -%}
+          {%- assign feature = line | strip -%}
+          {%- if feature != blank -%}<span>{{ feature | escape }}</span>{%- endif -%}
+        {%- endfor -%}
+      </span>
+    {%- endif -%}
+  </span>
+  {%- if badge != blank -%}
+    <span class="plan__badge">{{ badge | escape }}</span>
+  {%- endif -%}
+</label>

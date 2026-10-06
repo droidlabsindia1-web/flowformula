@@ -1,0 +1,50 @@
+{%- render 'ff-assets' -%}
+
+{%- assign bg = section.settings.background -%}
+
+{%- if section.blocks.size > 0 -%}
+  <section
+    class="usp-strip"
+    aria-label="{{ section.settings.label | default: 'Product highlights' | escape }}"
+    {% if bg != blank and bg.alpha != 0.0 %}style="--ff-bg: {{ bg }};"{% endif %}
+  >
+    <div class="usp-strip__track">
+      {%- for copy in (1..2) -%}
+        <ul class="usp-strip__list{% if copy == 2 %} usp-strip__list--clone{% endif %}"{% if copy == 2 %} aria-hidden="true"{% endif %}>
+          {%- for block in section.blocks -%}
+            <li {% if copy == 1 %}{{ block.shopify_attributes }}{% endif %}>
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}"{% if copy == 2 %} tabindex="-1"{% endif %}>{{ block.settings.text | escape }}</a>
+              {%- else -%}
+                {{ block.settings.text | escape }}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FF highlights strip",
+  "class": "ff",
+  "settings": [
+    { "type": "paragraph", "content": "A centred row on desktop; scrolls continuously on mobile." },
+    { "type": "text", "id": "label", "label": "Label (screen readers)" },
+    { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand peach." }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Highlight",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FF highlights strip" }]
+}
+{% endschema %}

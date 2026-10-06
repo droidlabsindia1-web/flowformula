@@ -1,164 +1,151 @@
 {
   "sections": {
     "main": {
-      "type": "dizzy-main-product",
+      "type": "ff-main-product",
       "blocks": {
-        "benefit_focus": {
-          "type": "benefit",
+        "image_pour": {
+          "type": "image",
           "settings": {
-            "text": "Focus Formula"
+            "image_asset": "ff-pdp-hero.jpg",
+            "alt": "A Flow Formula sachet being poured into a glass of water"
           }
         },
-        "benefit_energy": {
-          "type": "benefit",
+        "image_pour_close": {
+          "type": "image",
           "settings": {
-            "text": "Energy Support"
+            "image_asset": "ff-hero.webp",
+            "alt": "Pink Flow Formula powder pouring from the sachet into water"
           }
         },
-        "benefit_science": {
-          "type": "benefit",
+        "usp_delivery": {
+          "type": "usp",
           "settings": {
-            "text": "Science Backed"
+            "text": "Free UK delivery"
           }
         },
-        "benefit_vegan": {
-          "type": "benefit",
+        "usp_sachets": {
+          "type": "usp",
           "settings": {
-            "text": "Vegan"
+            "text": "30 daily sachets"
           }
         },
-        "benefit_uk": {
-          "type": "benefit",
+        "usp_save": {
+          "type": "usp",
           "settings": {
-            "text": "Made in UK"
+            "text": "Subscribe & save 20%"
           }
         },
-        "option_monthly": {
-          "type": "purchase_option",
+        "option_subscription": {
+          "type": "option",
           "settings": {
             "selling_plan_id": "691877445928",
             "title": "1-Month Subscription",
             "saving": "Save 10%",
-            "units": 1,
             "badge": "Recommended",
-            "detail": "1 pouch (30 servings per pouch) every 1 month",
+            "features": "30 sachets delivered every 30 days\nFree UK delivery\nReminder before the next order\nPrice and renewal frequency shown clearly",
             "selected": true
           }
         },
-        "option_bimonthly": {
-          "type": "purchase_option",
-          "settings": {
-            "selling_plan_id": "691877314856",
-            "title": "2-Month Subscription (most popular)",
-            "saving": "Save 15%",
-            "units": 2,
-            "badge": "",
-            "detail": "2 pouches (30 servings per pouch) every 2 months",
-            "selected": false
-          }
-        },
         "option_once": {
-          "type": "purchase_option",
+          "type": "option",
           "settings": {
             "selling_plan_id": "",
-            "title": "One-time purchase",
-            "saving": "",
-            "units": 1,
+            "title": "One-Time Purchase",
+            "saving": "Save 10%",
             "badge": "",
-            "detail": "",
+            "features": "",
             "selected": false
           }
         },
-        "disclosure_info": {
-          "type": "disclosure",
+        "detail_info": {
+          "type": "detail",
           "settings": {
             "title": "Product information",
-            "layout": "product-information-copy",
-            "content": "<p>Creatine Monohydrate, Lion's Mane, Siberian Ginseng, Essential Electrolytes, B Vitamins and Biotin. 1.5 flat teaspoons, once a day, in Berry Lemonade.</p><p>The most-researched supplement ingredient there is, finally aimed at the right people.</p>",
-            "custom_html": "",
-            "open": false
+            "content": "<ul><li>30 daily sachets</li><li>4,000 mg Myo-Inositol</li><li>100 mg D-Chiro Inositol</li><li>5 billion CFU live cultures</li></ul>",
+            "open": true
           }
         },
-        "disclosure_nutrition": {
-          "type": "disclosure",
+        "detail_ingredients": {
+          "type": "detail",
           "settings": {
             "title": "Ingredients & nutrition",
-            "layout": "ingredients-nutrition-copy",
-            "content": "",
-            "custom_html": "<section aria-labelledby=\"ingredients-list-title\">\n<h3 id=\"ingredients-list-title\">Ingredients</h3>\n<p>Creatine Monohydrate, Potassium Chloride, Sodium Chloride, Calcium Chloride, Magnesium Citrate, Acidity Regulators (Citric Acid, Malic Acid), Natural Flavourings, Siberian Ginseng Extract, Lion&#x27;s Mane Extract, Vitamin C (Calcium Ascorbate), Colouring Food (Red Beetroot Powder), Sweetener (Steviol Glycosides from Stevia), Niacin (Nicotinamide), Pantothenic Acid (Calcium Pantothenate), Vitamin B2 (Riboflavin), Biotin.</p>\n<p>\n<strong>Allergens:</strong> None. Suitable for vegans.</p>\n</section>\n<section aria-labelledby=\"nutrition-title\">\n<h3 id=\"nutrition-title\">Nutritional information</h3>\n<p>\n<strong>Per 7.5g single serving · 30 servings per pouch</strong>\n</p>\n<h4>Vitamins &amp; minerals</h4>\n<table>\n<thead>\n<tr>\n<th scope=\"col\">Nutrient</th>\n<th scope=\"col\">Amount</th>\n<th scope=\"col\">NRV*</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<th scope=\"row\">Vitamin C</th>\n<td>80 mg</td>\n<td>100%</td>\n</tr>\n<tr>\n<th scope=\"row\">Riboflavin (B2)</th>\n<td>1.4 mg</td>\n<td>100%</td>\n</tr>\n<tr>\n<th scope=\"row\">Niacin (B3)</th>\n<td>8.0 mg NE</td>\n<td>50%</td>\n</tr>\n<tr>\n<th scope=\"row\">Biotin</th>\n<td>500 µg</td>\n<td>1000%</td>\n</tr>\n<tr>\n<th scope=\"row\">Pantothenic Acid (B5)</th>\n<td>6.0 mg</td>\n<td>100%</td>\n</tr>\n<tr>\n<th scope=\"row\">Potassium</th>\n<td>300 mg</td>\n<td>15%</td>\n</tr>\n<tr>\n<th scope=\"row\">Calcium</th>\n<td>120 mg</td>\n<td>15%</td>\n</tr>\n<tr>\n<th scope=\"row\">Magnesium</th>\n<td>56 mg</td>\n<td>15%</td>\n</tr>\n<tr>\n<th scope=\"row\">Sodium</th>\n<td>200 mg</td>\n<td>**</td>\n</tr>\n</tbody>\n</table>\n<h4>Other actives</h4>\n<table>\n<thead>\n<tr>\n<th scope=\"col\">Active</th>\n<th scope=\"col\">Amount</th>\n<th scope=\"col\">NRV*</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<th scope=\"row\">Creatine Monohydrate</th>\n<td>3.5 g</td>\n<td>**</td>\n</tr>\n<tr>\n<th scope=\"row\">Siberian Ginseng Extract (25:1)</th>\n<td>100 mg</td>\n<td>**</td>\n</tr>\n<tr>\n<th scope=\"row\">Lion&#x27;s Mane Extract (30:1)</th>\n<td>100 mg</td>\n<td>**</td>\n</tr>\n</tbody>\n</table>\n<p class=\"nutrition-footnotes\">\n<em>*NRV = Nutrient Reference Value<br>**NRV not established</em>\n</p>\n</section>\n<nav class=\"ingredients-nutrition-links\" aria-label=\"Ingredient and science information\">\n<a href=\"#inside\">Explore what’s inside the scoop ↓</a>\n<a href=\"#faqs\">Product FAQs →</a>\n<a href=\"#scientific-claims\">Take me to the scientific claims →</a>\n</nav>",
+            "content": "<p>Full ingredient and nutrition information coming soon.</p>",
             "open": false
           }
         },
-        "disclosure_shipping": {
-          "type": "disclosure",
+        "detail_shipping": {
+          "type": "detail",
           "settings": {
             "title": "Shipping",
-            "layout": "shipping-copy",
-            "content": "<p>We only currently ship to the UK at the moment.</p><p>We are working on this.</p><ul><li>Free shipping on all subscriptions</li><li>48h and 24h tracked</li></ul>",
-            "custom_html": "",
+            "content": "<p>Free UK delivery on every order. Subscriptions ship every 30 days — pause or cancel anytime.</p>",
             "open": false
           }
         }
       },
       "block_order": [
-        "benefit_focus",
-        "benefit_energy",
-        "benefit_science",
-        "benefit_vegan",
-        "benefit_uk",
-        "option_monthly",
-        "option_bimonthly",
+        "image_pour",
+        "image_pour_close",
+        "usp_delivery",
+        "usp_sachets",
+        "usp_save",
+        "option_subscription",
         "option_once",
-        "disclosure_info",
-        "disclosure_nutrition",
-        "disclosure_shipping"
+        "detail_info",
+        "detail_ingredients",
+        "detail_shipping"
       ],
       "settings": {
-        "anchor": "buy",
-        "title": "",
-        "promise": "<p><strong>Creatine + Lion's Mane blend,</strong> built for those who demand more from their day.</p><p>Daily support, built into your routine.</p>",
-        "servings": 30,
-        "show_servings": true,
-        "flavour": "Berry Lemonade",
+        "tagline": "One sachet. Your daily wellness, simplified.",
+        "title": "Flow Formula",
+        "rating": "4.5",
+        "description": "<p>A thoughtfully formulated daily drink combining key vitamins, minerals, live cultures and carefully selected ingredients in one pre-measured sachet.</p>",
         "legend": "Choose how to buy",
         "once_label": "One-time purchase",
-        "subscription_perks": "Pause or Cancel anytime\nFree shipping\nExclusive entry to our community events",
-        "atc_label": "Add to cart",
+        "max_quantity": 10,
+        "atc_label": "Add to basket",
         "adding_label": "Adding…",
         "sold_out_label": "Sold out",
         "after_add": "cart",
-        "show_dynamic_checkout": true,
-        "apple_pay_note": "Available at checkout on eligible devices and orders",
-        "show_mobile_bar": true,
-        "mobile_bar_label": "DIZZY",
-        "mobile_bar_cta": "Choose & add ↑"
+        "show_dynamic_checkout": false,
+        "anchor_id": "shop"
       }
     },
-    "proof-band": {
-      "type": "dizzy-proof-band",
+    "usp_strip": {
+      "type": "ff-usp-strip",
       "blocks": {
         "item_1": {
           "type": "item",
           "settings": {
-            "text": "30 servings"
+            "text": "Suitable for vegans",
+            "link": ""
           }
         },
         "item_2": {
           "type": "item",
           "settings": {
-            "text": "Berry Lemonade"
+            "text": "Free UK delivery",
+            "link": ""
           }
         },
         "item_3": {
           "type": "item",
           "settings": {
-            "text": "Creatine for women"
+            "text": "Secure checkout",
+            "link": ""
           }
         },
         "item_4": {
           "type": "item",
           "settings": {
-            "text": "Female founded"
+            "text": "Made in the UK",
+            "link": ""
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Quality-controlled manufacturing",
+            "link": ""
           }
         }
       },
@@ -166,473 +153,430 @@
         "item_1",
         "item_2",
         "item_3",
-        "item_4"
+        "item_4",
+        "item_5"
       ],
       "settings": {
-        "label": "Daily Flow product facts"
-      }
-    },
-    "benefits": {
-      "type": "dizzy-benefits",
-      "blocks": {
-        "benefit_mental": {
-          "type": "benefit",
-          "settings": {
-            "title": "Mental performance",
-            "text": "Pantothenic acid contributes to normal mental performance."
-          }
-        },
-        "benefit_tiredness": {
-          "type": "benefit",
-          "settings": {
-            "title": "Less tiredness",
-            "text": "Magnesium, riboflavin and niacin contribute to the reduction of tiredness and fatigue."
-          }
-        },
-        "benefit_energy": {
-          "type": "benefit",
-          "settings": {
-            "title": "Everyday energy",
-            "text": "Magnesium, calcium and B vitamins contribute to normal energy-yielding metabolism."
-          }
-        },
-        "benefit_physical": {
-          "type": "benefit",
-          "settings": {
-            "title": "Physical performance",
-            "text": "Creatine increases physical performance in successive bursts of short-term, high-intensity exercise."
-          }
-        }
-      },
-      "block_order": [
-        "benefit_mental",
-        "benefit_tiredness",
-        "benefit_energy",
-        "benefit_physical"
-      ],
-      "settings": {
-        "heading": "Built for busy days"
-      }
-    },
-    "lifestyle-gallery": {
-      "type": "dizzy-lifestyle-gallery",
-      "blocks": {
-        "image_laptop": {
-          "type": "image",
-          "settings": {
-            "image_asset": "dizzy-gallery-laptop-800.webp",
-            "alt": "Daily Flow carried with a laptop, bottle and sunglasses"
-          }
-        },
-        "image_scoop": {
-          "type": "image",
-          "settings": {
-            "image_asset": "dizzy-kitchen-scoop-800.webp",
-            "alt": "A woman scooping Daily Flow in her kitchen"
-          }
-        },
-        "image_bag": {
-          "type": "image",
-          "settings": {
-            "image_asset": "dizzy-weekend-bag-800.webp",
-            "alt": "Daily Flow packed inside a weekend bag"
-          }
-        },
-        "image_drink": {
-          "type": "image",
-          "settings": {
-            "image_asset": "dizzy-kitchen-drink-800.webp",
-            "alt": "A woman drinking Daily Flow in her kitchen"
-          }
-        }
-      },
-      "block_order": [
-        "image_laptop",
-        "image_scoop",
-        "image_bag",
-        "image_drink"
-      ],
-      "settings": {
-        "label": "Daily Flow lifestyle gallery"
-      }
-    },
-    "reviews": {
-      "type": "dizzy-reviews",
-      "blocks": {
-        "review_isobel": {
-          "type": "review",
-          "settings": {
-            "color": "pink",
-            "rating": 5,
-            "source": "Verified Trustpilot review",
-            "name": "Isobel",
-            "topic": "Highly recommend",
-            "quote": "Highly recommend! Everyone should have DIZZY in their routine! :)",
-            "date": "10 September 2026"
-          }
-        },
-        "review_robin": {
-          "type": "review",
-          "settings": {
-            "color": "yellow",
-            "rating": 5,
-            "source": "Verified Trustpilot review",
-            "name": "Robin",
-            "topic": "Everything in one scoop",
-            "quote": "The taste is delicious, not too sweet, with a bit of tang that makes sure it isn’t sickly. The packaging is beautiful, and the instructions are super clear.",
-            "date": "8 September 2026"
-          }
-        },
-        "review_katie": {
-          "type": "review",
-          "settings": {
-            "color": "cream",
-            "rating": 5,
-            "source": "Verified Trustpilot review",
-            "name": "Katie",
-            "topic": "Great product",
-            "quote": "Really fast postage. Product itself is divine and tastes so good — not overly sweet or salty. Love the packaging.",
-            "date": "7 September 2026"
-          }
-        }
-      },
-      "block_order": [
-        "review_isobel",
-        "review_robin",
-        "review_katie"
-      ],
-      "settings": {
-        "heading": "Real routines.\nReal feedback.",
-        "label": "Recent five-star Trustpilot reviews",
-        "link_label": "Read all reviews on Trustpilot ↗",
-        "link_url": "https://www.trustpilot.com/review/dizzysupps.com"
+        "label": "Product highlights"
       }
     },
     "comparison": {
-      "type": "dizzy-comparison",
+      "type": "ff-comparison",
       "blocks": {
-        "row_1": {
-          "type": "row",
+        "ours_1": {
+          "type": "ours",
           "settings": {
-            "label": "No. of ingredients",
-            "ours": "12 in one formula",
-            "theirs": "1 per product"
+            "text": "One sachet. Everything in one place. One ritual."
           }
         },
-        "row_2": {
-          "type": "row",
+        "ours_2": {
+          "type": "ours",
           "settings": {
-            "label": "Daily prep",
-            "ours": "1 scoop",
-            "theirs": "Multiple pills + drinks"
+            "text": "Clinical doses of all 18 ingredients — verified"
           }
         },
-        "row_3": {
-          "type": "row",
+        "ours_3": {
+          "type": "ours",
           "settings": {
-            "label": "Monthly price",
-            "ours": "£38 / month",
-            "theirs": "£93 / month"
+            "text": "From £49/month — less than one specialist brand"
           }
         },
-        "row_4": {
-          "type": "row",
+        "ours_4": {
+          "type": "ours",
           "settings": {
-            "label": "Fillers",
-            "ours": "None",
-            "theirs": "Often synthetic fillers"
+            "text": "Third-party tested. Certificate of analysis available."
           }
         },
-        "row_5": {
-          "type": "row",
+        "ours_5": {
+          "type": "ours",
           "settings": {
-            "label": "Flavouring",
-            "ours": "Natural flavouring",
-            "theirs": "Often synthetic flavouring"
+            "text": "Formulated by a woman with PCOS, for PCOS"
           }
         },
-        "row_6": {
-          "type": "row",
+        "ours_6": {
+          "type": "ours",
           "settings": {
-            "label": "Customer insight",
-            "ours": "Shaped + built with 60 women in WhatsApp",
-            "theirs": "Not initially built from specific customer insights"
+            "text": "So simple it becomes automatic"
           }
         },
-        "row_7": {
-          "type": "row",
+        "theirs_1": {
+          "type": "theirs",
           "settings": {
-            "label": "Designed for",
-            "ours": "A specific person",
-            "theirs": "A broad audience"
+            "text": "8-12 separate supplements to track every day"
+          }
+        },
+        "theirs_2": {
+          "type": "theirs",
+          "settings": {
+            "text": "Sub-clinical 'dusting' doses that look good on labels"
+          }
+        },
+        "theirs_3": {
+          "type": "theirs",
+          "settings": {
+            "text": "£120+ per month across different brands"
+          }
+        },
+        "theirs_4": {
+          "type": "theirs",
+          "settings": {
+            "text": "No third-party testing — quality unverified"
+          }
+        },
+        "theirs_5": {
+          "type": "theirs",
+          "settings": {
+            "text": "Nothing formulated specifically for PCOS"
+          }
+        },
+        "theirs_6": {
+          "type": "theirs",
+          "settings": {
+            "text": "Pill fatigue — impossible to stay consistent"
           }
         }
       },
       "block_order": [
-        "row_1",
-        "row_2",
-        "row_3",
-        "row_4",
-        "row_5",
-        "row_6",
-        "row_7"
+        "ours_1",
+        "ours_2",
+        "ours_3",
+        "ours_4",
+        "ours_5",
+        "ours_6",
+        "theirs_1",
+        "theirs_2",
+        "theirs_3",
+        "theirs_4",
+        "theirs_5",
+        "theirs_6"
       ],
       "settings": {
-        "heading": "Two ways to build your daily routine.",
-        "label": "Daily Flow and separate products comparison",
-        "corner_label": "At a glance",
-        "scroll_note": "Swipe or scroll to see the full comparison.",
-        "product_image_asset": "dizzy-daily-flow-comparison-pouch-960.webp",
-        "product_image_alt": "DIZZY Daily Flow Berry Lemonade pouch",
-        "product_title": "DIZZY Daily Flow",
-        "product_detail": "One pouch · 30 servings",
-        "separate_image_asset": "dizzy-neutral-supplement-pouch-360.webp",
-        "separate_labels": "Creatine\nElectrolytes\nB vitamins\nLion's Mane\nBiotin",
-        "separate_alt": "Five separate neutral supplement pouches for creatine, electrolytes, B vitamins, Lion's Mane and biotin",
-        "separate_title": "Separate products",
-        "separate_detail": "Five products sourced separately"
+        "ours_image_asset": "ff-sachet.webp",
+        "ours_name": "Flow\nFormula",
+        "ours_tag": "The old way",
+        "theirs_image_asset": "ff-sachet.webp",
+        "theirs_mask_label": true,
+        "theirs_name": "Other\nProduct",
+        "theirs_tag": "The old way"
       }
     },
     "ingredients": {
-      "type": "dizzy-ingredients",
+      "type": "ff-ingredients",
       "blocks": {
-        "ingredient_creatine": {
+        "ingredient_ginseng": {
           "type": "ingredient",
           "settings": {
-            "image_asset": "dizzy-ingredient-creatine-800.webp",
-            "alt": "A close-up of fine creatine powder",
-            "title": "Creatine monohydrate",
-            "text": "Creatine increases physical performance in successive bursts of short-term, high intensity exercise."
-          }
-        },
-        "ingredient_potassium": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-electrolytes-800.webp",
-            "alt": "A close-up texture representing potassium mineral crystals",
-            "title": "Potassium",
-            "text": "Potassium contributes to normal muscle function."
-          }
-        },
-        "ingredient_calcium": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-calcium-800.webp",
-            "alt": "A macro ingredient texture representing calcium powder",
-            "title": "Calcium",
-            "text": "Calcium supports natural energy production, healthy muscle function, and the maintenance of strong, healthy bones."
-          }
-        },
-        "ingredient_magnesium": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-magnesium-metallic-480.webp",
-            "alt": "A macro ingredient texture representing magnesium powder",
-            "title": "Magnesium",
-            "text": "Magnesium helps reduce tiredness and fatigue, supports energy production, healthy muscle function, psychological wellbeing, and hormonal balance."
-          }
-        },
-        "ingredient_sodium": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-sodium-800.webp",
-            "alt": "A macro ingredient texture representing sodium crystals",
-            "title": "Sodium",
-            "text": "Sodium contributes to normal water and mineral balance in the body, we've kept the amount lower, making it easy to enjoy as part of a balanced diet."
+            "image_asset": "ff-ingredient-ginseng.jpg",
+            "alt": "Siberian ginseng root",
+            "crop": 6,
+            "title": "Siberian ginseng",
+            "text": "Traditionally used to support cognitive function (such as concentration and alertness)."
           }
         },
         "ingredient_vitamin_c": {
           "type": "ingredient",
           "settings": {
-            "image_asset": "dizzy-ingredient-vitamin-c-oranges-800.webp",
-            "alt": "A macro ingredient texture representing vitamin C powder",
+            "image_asset": "ff-ingredient-vitc.jpg",
+            "alt": "Halved oranges",
+            "crop": 0,
             "title": "Vitamin C",
-            "text": "Vitamin C contributes to the reduction of tiredness and fatigue and supports normal collagen formation for the healthy function of skin & bones."
-          }
-        },
-        "ingredient_riboflavin": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-vitamins-cracked-800.webp",
-            "alt": "A close-up texture representing the Daily Flow B-vitamin blend",
-            "title": "Riboflavin (Vitamin B2)",
-            "text": "Riboflavin contributes to normal energy metabolism, supports the nervous system, skin, and red blood cells, and helps reduce tiredness and fatigue."
+            "text": "Biotin supports natural energy and nutrient metabolism, helps maintain healthy skin and hair, and contributes to normal psychological wellbeing."
           }
         },
         "ingredient_biotin": {
           "type": "ingredient",
           "settings": {
-            "image_asset": "dizzy-ingredient-biotin-gold-480.webp",
-            "alt": "A close-up texture representing biotin powder",
+            "image_asset": "ff-ingredient-biotin.jpg",
+            "alt": "Golden oil droplets",
+            "crop": 89,
             "title": "Biotin (Vitamin B7)",
-            "text": "Biotin supports natural energy and nutrient metabolism, helps maintain healthy skin and hair, and contributes to normal psychological wellbeing."
-          }
-        },
-        "ingredient_niacin": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-vitamins-cracked-800.webp",
-            "alt": "A close-up texture representing the Daily Flow B-vitamin blend",
-            "title": "Niacin (Vitamin B3)",
-            "text": "Niacin contributes to normal energy metabolism and psychological function, supports the nervous system and skin, and helps reduce tiredness and fatigue."
-          }
-        },
-        "ingredient_ginseng": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-ginseng-800.webp",
-            "alt": "A dried Siberian ginseng root on a pale background",
-            "title": "Siberian ginseng",
             "text": "Traditionally used to support cognitive function (such as concentration and alertness)."
           }
-        },
-        "ingredient_pantothenic": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-vitamins-cracked-800.webp",
-            "alt": "A close-up texture representing the Daily Flow B-vitamin blend",
-            "title": "Pantothenic acid (Vitamin B5)",
-            "text": "Pantothenic acid contributes to normal mental performance and energy metabolism, supports normal hormone synthesis, and helps reduce tiredness and fatigue."
-          }
-        },
-        "ingredient_lions_mane": {
-          "type": "ingredient",
-          "settings": {
-            "image_asset": "dizzy-ingredient-lions-mane-800.webp",
-            "alt": "A close-up of Lion’s Mane mushrooms",
-            "title": "Lion’s Mane",
-            "text": "Used traditionally to support mental wellbeing. Part of a balanced lifestyle to support healthy brain function."
-          }
         }
       },
       "block_order": [
-        "ingredient_creatine",
-        "ingredient_potassium",
-        "ingredient_calcium",
-        "ingredient_magnesium",
-        "ingredient_sodium",
-        "ingredient_vitamin_c",
-        "ingredient_riboflavin",
-        "ingredient_biotin",
-        "ingredient_niacin",
         "ingredient_ginseng",
-        "ingredient_pantothenic",
-        "ingredient_lions_mane"
+        "ingredient_vitamin_c",
+        "ingredient_biotin"
       ],
       "settings": {
-        "anchor": "inside",
-        "heading": "The full line-up. One daily scoop.",
-        "label": "Daily Flow formula components"
+        "heading": "Flow Formula",
+        "anchor_id": "ingredients"
       }
     },
-    "how-to": {
-      "type": "dizzy-how-to",
+    "how_it_works": {
+      "type": "ff-how-it-works",
       "blocks": {
-        "photo_scoop": {
+        "photo_tear": {
           "type": "photo",
           "settings": {
-            "image_asset": "dizzy-kitchen-scoop-800.webp",
-            "alt": "A woman measuring a spoonful of Daily Flow"
+            "image_asset": "ff-step-1.webp",
+            "alt": "Hands tearing open a Flow Formula sachet"
           }
         },
-        "photo_stir": {
+        "photo_pour": {
           "type": "photo",
           "settings": {
-            "image_asset": "dizzy-stirring-glass-800.webp",
-            "alt": "A woman stirring Daily Flow in a glass"
+            "image_asset": "ff-step-2.webp",
+            "alt": "Pink powder being poured into a glass of water"
           }
         },
-        "photo_drink": {
+        "photo_flow": {
           "type": "photo",
           "settings": {
-            "image_asset": "dizzy-kitchen-drink-800.webp",
-            "alt": "A woman drinking a prepared glass of Daily Flow"
+            "image_asset": "ff-step-3.webp",
+            "alt": "A glass of the finished pink drink"
           }
         },
-        "step_water": {
+        "step_tear": {
           "type": "step",
           "settings": {
-            "title": "Grab a glass of water",
-            "text": "Mix 1.5 flat teaspoons or 7.5 grams with 400ml of cold water."
+            "title": "Tear",
+            "text": "Grab a glass with 300ml of water and open the Schet"
           }
         },
-        "step_mix": {
+        "step_pour": {
           "type": "step",
           "settings": {
-            "title": "Mix as directed",
-            "text": "Stir thoroughly."
+            "title": "Pour",
+            "text": "Pour powder into water and mix it well"
           }
         },
-        "step_moment": {
+        "step_flow": {
           "type": "step",
           "settings": {
-            "title": "Choose your moment",
-            "text": "Anchor it to a part of your day that is easy to repeat."
+            "title": "Flow",
+            "text": "Ready to drink"
           }
         }
       },
       "block_order": [
-        "photo_scoop",
-        "photo_stir",
-        "photo_drink",
-        "step_water",
-        "step_mix",
-        "step_moment"
+        "photo_tear",
+        "photo_pour",
+        "photo_flow",
+        "step_tear",
+        "step_pour",
+        "step_flow"
       ],
       "settings": {
-        "heading": "Read. Mix. Repeat."
+        "heading": "Read. Mix. Repeat.",
+        "lead": "A simple 3-step ritual to help you stay consistent with your wellness, wherever life takes you",
+        "banner_image_asset": "ff-lifestyle-banner.webp",
+        "banner_alt": "Take it at home, at work, on the go or while travelling. The right nutrition, a healthier you.",
+        "anchor_id": "how-it-works"
       }
     },
-    "creatine-reasons": {
-      "type": "dizzy-creatine-reasons",
+    "reviews": {
+      "type": "ff-reviews",
       "blocks": {
-        "reason_age": {
-          "type": "reason",
+        "review_1": {
+          "type": "review",
           "settings": {
-            "image_asset": "dizzy-pouch-balance-800.webp",
-            "alt": "A woman balancing a Daily Flow pouch on her head",
-            "title": "It drops further with age",
-            "text": "Levels decline with age and hormonal changes, particularly through perimenopause and menopause."
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
           }
         },
-        "reason_baseline": {
-          "type": "reason",
+        "review_2": {
+          "type": "review",
           "settings": {
-            "image_asset": "dizzy-carrying-pouches-800.webp",
-            "alt": "A woman carrying two Daily Flow pouches",
-            "title": "70–80% less at baseline",
-            "text": "Women naturally store 70–80% less creatine than men at baseline."
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
           }
         },
-        "reason_6pm": {
-          "type": "reason",
+        "review_3": {
+          "type": "review",
           "settings": {
-            "image_asset": "dizzy-laptop-drink-800.webp",
-            "alt": "A woman drinking Daily Flow beside her laptop",
-            "title": "Some of you back, by 6pm",
-            "text": "This isn’t about changing how you look. It’s about having enough left in the tank to get through your day without running on empty."
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
           }
         }
       },
       "block_order": [
-        "reason_age",
-        "reason_baseline",
-        "reason_6pm"
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6"
       ],
       "settings": {
-        "heading": "Why women choose creatine"
+        "heading": "Why people love us"
+      }
+    },
+    "ugc": {
+      "type": "ff-ugc",
+      "blocks": {
+        "post_1": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-1.webp",
+            "alt": "Customer post"
+          }
+        },
+        "post_2": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-1.webp",
+            "alt": "Customer post"
+          }
+        },
+        "post_3": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-2.webp",
+            "alt": "Customer post"
+          }
+        },
+        "post_4": {
+          "type": "post",
+          "settings": {
+            "image_asset": "ff-ugc-1.webp",
+            "alt": "Customer post"
+          }
+        }
+      },
+      "block_order": [
+        "post_1",
+        "post_2",
+        "post_3",
+        "post_4"
+      ],
+      "settings": {
+        "heading": "Results actually\nworth posting",
+        "lead": "Join the community that trust us",
+        "autoplay": true
+      }
+    },
+    "faq": {
+      "type": "ff-faq",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "What can I customize on my bottle or cup?",
+            "answer": "<p>Answer copy coming soon.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8"
+      ],
+      "settings": {
+        "heading": "faq’s",
+        "mobile_limit": 6,
+        "anchor_id": "faqs"
       }
     }
   },
   "order": [
     "main",
-    "proof-band",
-    "benefits",
-    "lifestyle-gallery",
-    "reviews",
+    "usp_strip",
     "comparison",
     "ingredients",
-    "how-to",
-    "creatine-reasons"
+    "how_it_works",
+    "reviews",
+    "ugc",
+    "faq"
   ]
 }
