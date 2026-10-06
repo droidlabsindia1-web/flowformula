@@ -1780,7 +1780,7 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   overflow: hidden;
   padding: 14.5px 0;
   background: var(--ff-bg, var(--peach));
-  color: var(--ink);
+  color: var(--ff-text, var(--ink));
   font-size: 14px;
   font-weight: 600;
   line-height: 22.2px;

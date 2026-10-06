@@ -1,12 +1,16 @@
 {%- render 'ff-assets' -%}
 
 {%- assign bg = section.settings.background -%}
+{%- assign text_color = section.settings.text_color -%}
 
 {%- if section.blocks.size > 0 -%}
   <section
     class="usp-strip"
     aria-label="{{ section.settings.label | default: 'Product highlights' | escape }}"
-    {% if bg != blank and bg.alpha != 0.0 %}style="--ff-bg: {{ bg }};"{% endif %}
+    style="
+      {%- if bg != blank and bg.alpha != 0.0 %}--ff-bg: {{ bg }};{% endif -%}
+      {%- if text_color != blank and text_color.alpha != 0.0 %}--ff-text: {{ text_color }};{% endif -%}
+    "
   >
     <div class="usp-strip__track">
       {%- comment -%} Four copies so one copy's width always covers wide screens; the track loops by one copy. {%- endcomment -%}
@@ -34,7 +38,8 @@
   "settings": [
     { "type": "paragraph", "content": "Scrolls continuously as a marquee on all screen sizes." },
     { "type": "text", "id": "label", "label": "Label (screen readers)" },
-    { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand peach." }
+    { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand peach." },
+    { "type": "color", "id": "text_color", "label": "Text", "info": "Leave empty to use the brand ink." }
   ],
   "blocks": [
     {
