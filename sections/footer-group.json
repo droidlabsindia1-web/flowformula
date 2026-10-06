@@ -36,8 +36,8 @@
       "settings": {
         "logo_asset": "ff-logo-wordmark.png",
         "about": "PCOS support, for every flow. One sachet. 18 ingredients. Built from lived experience.",
-        "shop_menu": "footer",
-        "support_menu": "footer",
+        "shop_menu": "shop",
+        "support_menu": "support",
         "newsletter_heading": "Join the Flow Formula community",
         "newsletter_text": "Cycle education, real stories, and early access to new products.",
         "newsletter_placeholder": "your@email.com",
