@@ -374,13 +374,7 @@
           }
         }
       },
-      "block_order": [
-        "post_1",
-        "post_2",
-        "post_3",
-        "post_4",
-        "post_6ywfpy"
-      ],
+      "block_order": ["post_1", "post_2", "post_3", "post_4", "post_6ywfpy"],
       "settings": {
         "heading": "Results actually\nworth posting",
         "lead": "Join the community that trust us",

@@ -322,16 +322,24 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    Trust bar
    ========================================================================== */
 .ff .trust-bar {
+  overflow: hidden;
   background: var(--ff-bg, var(--navy));
-  padding: 26px 28px;
+  padding: 26px 0;
 }
-.ff .trust-bar ul {
+/* Continuous marquee: four identical lists, the track loops by one list */
+.ff .trust-bar__track {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px 56px;
+  width: max-content;
+  animation: ff-usp-ticker 30s linear infinite;
+}
+.ff .trust-bar__list {
+  display: flex;
+  flex-shrink: 0;
+  gap: 56px;
+  padding: 0 28px; /* half the gap each side so the seam matches */
 }
 .ff .trust-bar li {
+  white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 10px;

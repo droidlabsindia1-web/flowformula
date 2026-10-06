@@ -12,16 +12,21 @@
       {%- if text_color != blank and text_color.alpha != 0.0 %}--ff-text: {{ text_color }};{% endif -%}
     "
   >
-    <ul>
-      {%- for block in section.blocks -%}
-        <li {{ block.shopify_attributes }}>
-          {%- if block.settings.icon_image != blank -%}
-            {{ block.settings.icon_image | image_url: width: 48 | image_tag: width: 24, height: 24, alt: '', loading: 'lazy', class: 'trust-bar__icon' }}
-          {%- endif -%}
-          {{ block.settings.text | escape }}
-        </li>
+    <div class="trust-bar__track">
+      {%- comment -%} Four copies so one copy's width always covers wide screens; the track loops by one copy. {%- endcomment -%}
+      {%- for copy in (1..4) -%}
+        <ul class="trust-bar__list"{% if copy > 1 %} aria-hidden="true"{% endif %}>
+          {%- for block in section.blocks -%}
+            <li {% if copy == 1 %}{{ block.shopify_attributes }}{% endif %}>
+              {%- if block.settings.icon_image != blank -%}
+                {{ block.settings.icon_image | image_url: width: 48 | image_tag: width: 24, height: 24, alt: '', class: 'trust-bar__icon' }}
+              {%- endif -%}
+              {{ block.settings.text | escape }}
+            </li>
+          {%- endfor -%}
+        </ul>
       {%- endfor -%}
-    </ul>
+    </div>
   </section>
 {%- endif -%}
 
