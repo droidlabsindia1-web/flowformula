@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -38,8 +47,7 @@
         "option_subscription": {
           "type": "option",
           "settings": {
-            "kind": "subscription",
-            "plan": "1-Month Subscription",
+            "selling_plan_id": "693412430154",
             "title": "1-Month Subscription",
             "saving": "Save 10%",
             "badge": "Recommended",
@@ -159,7 +167,8 @@
         "item_5"
       ],
       "settings": {
-        "label": "Product highlights"
+        "label": "Product highlights",
+        "background": ""
       }
     },
     "comparison": {
@@ -259,7 +268,8 @@
         "theirs_image_asset": "ff-sachet.webp",
         "theirs_mask_label": true,
         "theirs_name": "Other\nProduct",
-        "theirs_tag": "The old way"
+        "theirs_tag": "The old way",
+        "anchor_id": ""
       }
     },
     "ingredients": {
@@ -447,7 +457,8 @@
         "review_6"
       ],
       "settings": {
-        "heading": "Why people love us"
+        "heading": "Why people love us",
+        "anchor_id": ""
       }
     },
     "ugc": {
@@ -491,7 +502,9 @@
       "settings": {
         "heading": "Results actually\nworth posting",
         "lead": "Join the community that trust us",
-        "autoplay": true
+        "autoplay": true,
+        "background": "",
+        "anchor_id": ""
       }
     },
     "faq": {
