@@ -1868,7 +1868,9 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ff .gallery { flex: none; width: 100%; aspect-ratio: 392 / 497; }
   .ff .gallery__slide img { object-position: 50% 0; }
   .ff .gallery__tagline { top: 21px; left: 11px; width: 317px; font-size: 26px; line-height: 32px; }
-  .ff .gallery__arrow { display: none; }
+  .ff .gallery__arrow { width: 36px; height: 36px; }
+  .ff .gallery__arrow--prev { left: 10px; }
+  .ff .gallery__arrow--next { right: 10px; }
 
   .ff .buybox { padding: 0 16px; }
   .ff .buybox__head { gap: 12px; }
