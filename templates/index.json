@@ -71,28 +71,24 @@
         "item_ingredients": {
           "type": "item",
           "settings": {
-            "icon": "🌊",
             "text": "18 clinically-dosed ingredients"
           }
         },
         "item_sachets": {
           "type": "item",
           "settings": {
-            "icon": "📦",
             "text": "30 daily sachets per box"
           }
         },
         "item_tested": {
           "type": "item",
           "settings": {
-            "icon": "🔬",
             "text": "Third-party lab tested"
           }
         },
         "item_cancel": {
           "type": "item",
           "settings": {
-            "icon": "♻️",
             "text": "Pause or cancel anytime"
           }
         }

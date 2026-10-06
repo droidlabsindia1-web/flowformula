@@ -335,12 +335,12 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   display: flex;
   align-items: center;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--ff-text, rgba(255, 255, 255, 0.7));
   font-size: 13px;
   font-weight: 500;
   line-height: 19.5px;
 }
-.ff .trust-bar li span { font-size: 16px; line-height: 24px; }
+.ff .trust-bar__icon { flex-shrink: 0; width: 24px; height: 24px; object-fit: contain; }
 
 /* ==========================================================================
    Comparison

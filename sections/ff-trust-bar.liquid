@@ -1,18 +1,22 @@
 {%- render 'ff-assets' -%}
 
 {%- assign bg = section.settings.background -%}
+{%- assign text_color = section.settings.text_color -%}
 
 {%- if section.blocks.size > 0 -%}
   <section
     class="trust-bar{% if section.settings.show_on_mobile %} trust-bar--mobile{% endif %}"
     {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
-    {% if bg != blank and bg.alpha != 0.0 %}style="--ff-bg: {{ bg }};"{% endif %}
+    style="
+      {%- if bg != blank and bg.alpha != 0.0 %}--ff-bg: {{ bg }};{% endif -%}
+      {%- if text_color != blank and text_color.alpha != 0.0 %}--ff-text: {{ text_color }};{% endif -%}
+    "
   >
     <ul>
       {%- for block in section.blocks -%}
         <li {{ block.shopify_attributes }}>
-          {%- if block.settings.icon != blank -%}
-            <span aria-hidden="true">{{ block.settings.icon | escape }}</span>
+          {%- if block.settings.icon_image != blank -%}
+            {{ block.settings.icon_image | image_url: width: 48 | image_tag: width: 24, height: 24, alt: '', loading: 'lazy', class: 'trust-bar__icon' }}
           {%- endif -%}
           {{ block.settings.text | escape }}
         </li>
@@ -28,6 +32,7 @@
   "settings": [
     { "type": "checkbox", "id": "show_on_mobile", "label": "Show on mobile", "info": "Hidden below 768px unless checked." },
     { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the brand navy." },
+    { "type": "color", "id": "text_color", "label": "Text", "info": "Leave empty to use white at 70% opacity." },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
   ],
   "blocks": [
@@ -35,7 +40,7 @@
       "type": "item",
       "name": "Item",
       "settings": [
-        { "type": "text", "id": "icon", "label": "Icon", "info": "An emoji, e.g. 🌊" },
+        { "type": "image_picker", "id": "icon_image", "label": "Icon", "info": "Shown at 24 × 24px. Square PNG or SVG works best." },
         { "type": "text", "id": "text", "label": "Text" }
       ]
     }
