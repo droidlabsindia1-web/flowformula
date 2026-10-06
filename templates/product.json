@@ -12,14 +12,6 @@
     "main": {
       "type": "ff-main-product",
       "blocks": {
-        "image_pour": {
-          "type": "image",
-          "settings": {
-            "image": "{{ product.featured_image }}",
-            "image_asset": "ff-pdp-hero.jpg",
-            "alt": "A Flow Formula sachet being poured into a glass of water"
-          }
-        },
         "usp_delivery": {
           "type": "usp",
           "settings": {
@@ -88,7 +80,6 @@
         }
       },
       "block_order": [
-        "image_pour",
         "usp_delivery",
         "usp_sachets",
         "usp_save",

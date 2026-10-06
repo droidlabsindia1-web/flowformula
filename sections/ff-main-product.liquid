@@ -5,7 +5,7 @@
   assign group = 'plan-' | append: section.id
   assign title = section.settings.title | default: product.title
 
-  assign image_blocks = section.blocks | where: 'type', 'image'
+  assign images = product.media | where: 'media_type', 'image'
   assign usp_blocks = section.blocks | where: 'type', 'usp'
   assign option_blocks = section.blocks | where: 'type', 'option'
   assign detail_blocks = section.blocks | where: 'type', 'detail'
@@ -194,40 +194,30 @@
   <div class="pdp-hero__inner">
     <div class="gallery" data-ff-gallery data-dot-label="Show image [index] of [count]">
       <ul class="gallery__track" data-gallery-track tabindex="0" aria-label="{{ title | escape }} images">
-        {%- if image_blocks.size > 0 -%}
-          {%- for block in image_blocks -%}
-            <li class="gallery__slide" {{ block.shopify_attributes }}>
-              {%- render 'dizzy-image',
-                image: block.settings.image,
-                asset: block.settings.image_asset,
-                width: 700,
-                height: 875,
-                alt: block.settings.alt,
-                sizes: '(max-width: 767px) 100vw, (max-width: 1279px) 46vw, 627px',
-                widths: '480,700,1000,1300',
-                priority: forloop.first
-              -%}
-            </li>
-          {%- endfor -%}
+        {%- for media in images -%}
+          <li class="gallery__slide">
+            {%- render 'dizzy-image',
+              image: media.preview_image,
+              alt: media.alt,
+              sizes: '(max-width: 767px) 100vw, (max-width: 1279px) 46vw, 627px',
+              widths: '480,700,1000,1300',
+              priority: forloop.first
+            -%}
+          </li>
         {%- else -%}
-          {%- assign images = product.media | where: 'media_type', 'image' -%}
-          {%- for media in images -%}
-            <li class="gallery__slide">
-              {%- render 'dizzy-image',
-                image: media.preview_image,
-                alt: media.alt,
-                sizes: '(max-width: 767px) 100vw, (max-width: 1279px) 46vw, 627px',
-                widths: '480,700,1000,1300',
-                priority: forloop.first
-              -%}
-            </li>
-          {%- else -%}
-            <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'gallery__placeholder' }}</li>
-          {%- endfor -%}
-        {%- endif -%}
+          <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'gallery__placeholder' }}</li>
+        {%- endfor -%}
       </ul>
       {%- if section.settings.tagline != blank -%}
         <p class="gallery__tagline">{{ section.settings.tagline | escape | newline_to_br }}</p>
+      {%- endif -%}
+      {%- if images.size > 1 -%}
+        <button class="gallery__arrow gallery__arrow--prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}" data-gallery-prev>
+          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+        </button>
+        <button class="gallery__arrow gallery__arrow--next" type="button" aria-label="{{ 'general.slider.next_slide' | t }}" data-gallery-next>
+          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+        </button>
       {%- endif -%}
       <div class="gallery__dots" data-gallery-dots></div>
     </div>
@@ -342,7 +332,7 @@
   "class": "ff",
   "settings": [
     { "type": "header", "content": "Gallery" },
-    { "type": "paragraph", "content": "Add Image blocks to choose the gallery images. Without any, the product's own media is shown." },
+    { "type": "paragraph", "content": "Images come from the product's media. Add, remove or reorder them in Products > [product] > Media." },
     { "type": "textarea", "id": "tagline", "label": "Image heading", "info": "Shown over the first image." },
     { "type": "header", "content": "Product info" },
     { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the product title." },
@@ -371,15 +361,6 @@
     { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
   ],
   "blocks": [
-    {
-      "type": "image",
-      "name": "Image",
-      "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image", "info": "Portrait, around 700 × 875px." },
-        { "type": "text", "id": "image_asset", "label": "Fallback theme asset", "info": "Used until an image is uploaded." },
-        { "type": "text", "id": "alt", "label": "Alt text" }
-      ]
-    },
     {
       "type": "usp",
       "name": "Highlight",

@@ -375,10 +375,12 @@
     return reduceMotion.matches ? "auto" : "smooth";
   }
 
-  // Gallery: swipeable track with one dot per image
+  // Gallery: swipeable track of the product's images, with arrows and one dot per image
   function initGallery(root) {
     var track = root.querySelector("[data-gallery-track]");
     var dotsWrap = root.querySelector("[data-gallery-dots]");
+    var prev = root.querySelector("[data-gallery-prev]");
+    var next = root.querySelector("[data-gallery-next]");
     var dotLabel = root.dataset.dotLabel || "Show image [index] of [count]";
     if (!track || !dotsWrap) return;
 
@@ -403,6 +405,9 @@
       dotsWrap.appendChild(dot);
     });
 
+    if (prev) prev.addEventListener("click", function () { goTo(currentIndex() - 1); });
+    if (next) next.addEventListener("click", function () { goTo(currentIndex() + 1); });
+
     function update() {
       ticking = false;
       var index = currentIndex();
@@ -410,6 +415,8 @@
         if (i === index) dot.setAttribute("aria-current", "true");
         else dot.removeAttribute("aria-current");
       });
+      if (prev) prev.disabled = index === 0;
+      if (next) next.disabled = index === slides.length - 1;
     }
 
     track.addEventListener("scroll", function () {
@@ -422,12 +429,6 @@
     track.addEventListener("keydown", function (e) {
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(currentIndex() + 1); }
       if (e.key === "ArrowLeft") { e.preventDefault(); goTo(currentIndex() - 1); }
-    });
-
-    // Theme editor: show the selected image block
-    root.addEventListener("shopify:block:select", function (e) {
-      var i = slides.indexOf(e.target);
-      if (i > -1) goTo(i, "auto");
     });
 
     update();
