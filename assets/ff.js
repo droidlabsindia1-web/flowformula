@@ -375,14 +375,12 @@
     return reduceMotion.matches ? "auto" : "smooth";
   }
 
-  // Gallery: swipeable track of the product's images, with arrows and one dot per image
+  // Gallery: swipeable track of the product's images, with prev/next arrows
   function initGallery(root) {
     var track = root.querySelector("[data-gallery-track]");
-    var dotsWrap = root.querySelector("[data-gallery-dots]");
     var prev = root.querySelector("[data-gallery-prev]");
     var next = root.querySelector("[data-gallery-next]");
-    var dotLabel = root.dataset.dotLabel || "Show image [index] of [count]";
-    if (!track || !dotsWrap) return;
+    if (!track) return;
 
     var slides = Array.prototype.slice.call(track.children);
     var ticking = false;
@@ -397,24 +395,12 @@
       track.scrollTo({ left: index * track.clientWidth, behavior: behavior || scrollBehavior() });
     }
 
-    slides.forEach(function (slide, i) {
-      var dot = document.createElement("button");
-      dot.type = "button";
-      dot.setAttribute("aria-label", dotLabel.replace("[index]", i + 1).replace("[count]", slides.length));
-      dot.addEventListener("click", goTo.bind(null, i, null));
-      dotsWrap.appendChild(dot);
-    });
-
     if (prev) prev.addEventListener("click", function () { goTo(currentIndex() - 1); });
     if (next) next.addEventListener("click", function () { goTo(currentIndex() + 1); });
 
     function update() {
       ticking = false;
       var index = currentIndex();
-      Array.prototype.forEach.call(dotsWrap.children, function (dot, i) {
-        if (i === index) dot.setAttribute("aria-current", "true");
-        else dot.removeAttribute("aria-current");
-      });
       if (prev) prev.disabled = index === 0;
       if (next) next.disabled = index === slides.length - 1;
     }

@@ -1430,25 +1430,6 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   pointer-events: none;
 }
 
-.ff .gallery__dots {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  display: flex;
-  gap: 5px;
-  transform: translateX(-50%);
-}
-.ff .gallery__dots button {
-  position: relative;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #fff;
-  transition: background-color 0.2s ease;
-}
-.ff .gallery__dots button::before { content: ""; position: absolute; inset: -8px -3px; }
-.ff .gallery__dots button[aria-current="true"] { background: var(--teal); }
-
 .ff .gallery__arrow {
   position: absolute;
   top: 50%;

@@ -192,7 +192,7 @@
   </script>
 
   <div class="pdp-hero__inner">
-    <div class="gallery" data-ff-gallery data-dot-label="Show image [index] of [count]">
+    <div class="gallery" data-ff-gallery>
       <ul class="gallery__track" data-gallery-track tabindex="0" aria-label="{{ title | escape }} images">
         {%- for media in images -%}
           <li class="gallery__slide">
@@ -219,7 +219,6 @@
           {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
         </button>
       {%- endif -%}
-      <div class="gallery__dots" data-gallery-dots></div>
     </div>
 
     <div class="buybox">
