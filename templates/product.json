@@ -20,13 +20,6 @@
             "alt": "A Flow Formula sachet being poured into a glass of water"
           }
         },
-        "image_pour_close": {
-          "type": "image",
-          "settings": {
-            "image_asset": "ff-hero.webp",
-            "alt": "Pink Flow Formula powder pouring from the sachet into water"
-          }
-        },
         "usp_delivery": {
           "type": "usp",
           "settings": {
@@ -96,7 +89,6 @@
       },
       "block_order": [
         "image_pour",
-        "image_pour_close",
         "usp_delivery",
         "usp_sachets",
         "usp_save",
