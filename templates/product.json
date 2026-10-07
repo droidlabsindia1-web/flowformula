@@ -12,6 +12,24 @@
     "main": {
       "type": "ff-main-product",
       "blocks": {
+        "bullet_kfqKXA": {
+          "type": "bullet",
+          "settings": {
+            "text": "Free UK delivery"
+          }
+        },
+        "bullet_WNbDbJ": {
+          "type": "bullet",
+          "settings": {
+            "text": "Clinical doses of all 18 ingredients - verified"
+          }
+        },
+        "bullet_NCpwCF": {
+          "type": "bullet",
+          "settings": {
+            "text": "Formulated by a woman with PCOS, for PCOS"
+          }
+        },
         "usp_delivery": {
           "type": "usp",
           "settings": {
@@ -80,6 +98,9 @@
         }
       },
       "block_order": [
+        "bullet_kfqKXA",
+        "bullet_WNbDbJ",
+        "bullet_NCpwCF",
         "usp_delivery",
         "usp_sachets",
         "usp_save",
