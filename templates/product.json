@@ -92,7 +92,8 @@
       "settings": {
         "tagline": "",
         "title": "Flow Formula",
-        "rating": "4.5",
+        "show_rating": true,
+        "rating": "4.5 outof 5",
         "description": "<p>A thoughtfully formulated daily drink combining key vitamins, minerals, live cultures and carefully selected ingredients in one pre-measured sachet.</p>",
         "legend": "Choose how to buy",
         "once_label": "One-time purchase",
@@ -102,6 +103,7 @@
         "sold_out_label": "Sold out",
         "after_add": "cart",
         "show_dynamic_checkout": false,
+        "show_sticky_atc": true,
         "anchor_id": "shop"
       }
     },
@@ -299,7 +301,8 @@
       ],
       "settings": {
         "heading": "Flow Formula",
-        "anchor_id": "ingredients"
+        "anchor_id": "ingredients",
+        "speed": 40
       }
     },
     "how_it_works": {
