@@ -13,7 +13,7 @@
     when 'search'
       assign view_box = '0 0 24 24'
     when 'cart'
-      assign view_box = '0 0 24 24'
+      assign view_box = '0 0 40 40'
     when 'profile'
       assign view_box = '0 0 24 24'
     when 'verify', 'play', 'pause', 'sound-on', 'sound-off'
@@ -41,7 +41,7 @@
     {%- when 'search' -%}
       <path d="M11.5 21a9.5 9.5 0 1 0 0-19 9.5 9.5 0 0 0 0 19ZM22 22l-2-2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     {%- when 'cart' -%}
-      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.08" cy="20.08" r="1.16"/><circle cx="16.95" cy="20.08" r="1.16"/><path d="M18.45 15.42H8.17c-.54 0-1.01-.38-1.13-.92L5.52 7.51c-.16-.73.39-1.41 1.13-1.41h13.32c.74 0 1.29.69 1.13 1.41l-1.52 6.99c-.11.54-.58.92-1.13.92Z"/><path d="M2.75 2.75h.83c.55 0 1.02.38 1.13.91L5.64 8M17.35 15.42H6.92a1.5 1.5 0 0 0 0 3h12.51"/></g>
+      <path fill="currentColor" fill-rule="evenodd" d="M20.5 6.5a4.75 4.75 0 0 0-4.75 4.75v.56h-3.16l-.77 11.6a5 5 0 0 0 4.99 5.34h7.38a5 5 0 0 0 4.99-5.33l-.77-11.6h-3.16v-.57A4.75 4.75 0 0 0 20.5 6.5m3.75 5.31v-.56a3.75 3.75 0 1 0-7.5 0v.56zm-7.5 1h7.5v.56a3.75 3.75 0 1 1-7.5 0zm-1 0v.56a4.75 4.75 0 1 0 9.5 0v-.56h2.22l.71 10.67a4 4 0 0 1-3.99 4.27h-7.38a4 4 0 0 1-4-4.27l.72-10.67z"/>
     {%- when 'profile' -%}
       <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.12 12.78a.9.9 0 0 0-.24 0 3.28 3.28 0 1 1 .24 0Z"/><path d="M18.74 19.38A9.93 9.93 0 0 1 12 22c-2.6 0-4.96-.99-6.74-2.62.1-.94.7-1.86 1.77-2.58 2.74-1.82 7.22-1.82 9.94 0 1.07.72 1.67 1.64 1.77 2.58Z"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></g>
     {%- when 'menu' -%}
