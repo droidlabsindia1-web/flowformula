@@ -34,9 +34,9 @@
           "type": "option",
           "settings": {
             "kind": "subscription",
-            "plan": "1-Month Subscriptionsss",
-            "title": "1-Month Subscriptionsss",
-            "saving": "",
+            "plan": "",
+            "title": "Monthly Subscription",
+            "saving": "Monthly Subscription",
             "badge": "Recommended",
             "features": "30 sachets delivered every 30 days\nFree UK delivery\nReminder before the next order\nPrice and renewal frequency shown clearly",
             "selected": true
@@ -153,7 +153,8 @@
       ],
       "settings": {
         "label": "Product highlights",
-        "background": ""
+        "background": "",
+        "text_color": ""
       }
     },
     "comparison": {
