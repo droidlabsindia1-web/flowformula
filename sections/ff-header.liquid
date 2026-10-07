@@ -92,7 +92,7 @@
         data-label-one="{{ 'sections.header.cart_count.one' | t: count: '[count]' }}"
         data-label-other="{{ 'sections.header.cart_count.other' | t: count: '[count]' }}"
       >
-        {%- render 'ff-icon', icon: 'cart', size: 24 -%}
+        {%- render 'ff-icon', icon: 'cart', size: 36 -%}
         <span class="cart-count" aria-hidden="true" data-ff-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>
           {{- cart.item_count | at_most: 99 -}}
         </span>
