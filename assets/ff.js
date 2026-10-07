@@ -437,9 +437,7 @@
     var submit = form.querySelector('button[type="submit"]');
     var errorEl = form.querySelector("[data-ff-buy-error]");
     var sticky = section.querySelector("[data-ff-sticky-atc]");
-    var stickyQty = sticky && sticky.querySelector(".qty__input");
-    var stickyDec = sticky && sticky.querySelector("[data-qty-dec]");
-    var stickyInc = sticky && sticky.querySelector("[data-qty-inc]");
+    var stickyPrice = sticky && sticky.querySelector("[data-ff-sticky-price]");
     var stickyAdd = sticky && sticky.querySelector("[data-ff-sticky-add]");
     var min = parseInt(qty.min, 10) || 1;
     var max = parseInt(qty.max, 10) || 99;
@@ -450,7 +448,10 @@
       plans.forEach(function (card) {
         var input = card.querySelector(".plan__input");
         card.classList.toggle("is-selected", input.checked);
-        if (input.checked) plan = input.value;
+        if (!input.checked) return;
+        plan = input.value;
+        var price = card.querySelector(".plan__price");
+        if (stickyPrice && price) stickyPrice.textContent = price.textContent;
       });
       if (planInput) {
         planInput.value = plan;
@@ -465,11 +466,6 @@
       qty.value = n;
       dec.disabled = busy || n <= min;
       inc.disabled = busy || n >= max;
-      if (sticky) {
-        stickyQty.value = n;
-        stickyDec.disabled = dec.disabled;
-        stickyInc.disabled = inc.disabled;
-      }
     }
 
     function setBusy(state) {
@@ -499,9 +495,6 @@
     qty.addEventListener("change", function () { setQty(qty.value); });
 
     if (sticky) {
-      stickyDec.addEventListener("click", function () { setQty(+qty.value - 1); });
-      stickyInc.addEventListener("click", function () { setQty(+qty.value + 1); });
-      stickyQty.addEventListener("change", function () { setQty(stickyQty.value); });
       // Submit the real form so plan, quantity and errors all go through one path
       stickyAdd.addEventListener("click", function () {
         if (form.requestSubmit) form.requestSubmit(submit);

@@ -331,38 +331,23 @@
   </div>
 
   {%- comment -%}
-    Sticky add to basket (mobile only): mirrors the buy form's quantity and
-    button. Shown while neither the form's own button nor the footer is on
-    screen.
+    Sticky add to basket (mobile only): title, the chosen option's price and
+    an add button that submits the buy form. Shown while neither the form's
+    own button nor the footer is on screen.
   {%- endcomment -%}
   {%- if section.settings.show_sticky_atc -%}
     <div class="sticky-atc" aria-hidden="true" inert data-ff-sticky-atc>
-      <div class="buy-form__row">
-        <div class="qty">
-          <button class="qty__btn" type="button" aria-label="Decrease quantity" data-qty-dec>
-            <img src="{{ 'ff-icon-minus.svg' | asset_url }}" width="20" height="20" alt="">
-          </button>
-          <input
-            class="qty__input"
-            type="number"
-            inputmode="numeric"
-            min="1"
-            max="{{ section.settings.max_quantity | default: 10 }}"
-            value="1"
-            aria-label="Quantity"
-          >
-          <button class="qty__btn" type="button" aria-label="Increase quantity" data-qty-inc>
-            <img src="{{ 'ff-icon-plus.svg' | asset_url }}" width="20" height="20" alt="">
-          </button>
-        </div>
-        <button class="btn btn--atc" type="button"{% unless variant.available %} disabled{% endunless %} data-ff-sticky-add>
-          {%- if variant.available -%}
-            {{ section.settings.atc_label | escape }}
-          {%- else -%}
-            {{ section.settings.sold_out_label | escape }}
-          {%- endif -%}
-        </button>
+      <div class="sticky-atc__info">
+        <p class="sticky-atc__title">{{ title | escape }}</p>
+        <p class="sticky-atc__price" data-ff-sticky-price></p>
       </div>
+      <button class="btn btn--atc" type="button"{% unless variant.available %} disabled{% endunless %} data-ff-sticky-add>
+        {%- if variant.available -%}
+          {{ section.settings.atc_label | escape }}
+        {%- else -%}
+          {{ section.settings.sold_out_label | escape }}
+        {%- endif -%}
+      </button>
     </div>
   {%- endif -%}
 </section>

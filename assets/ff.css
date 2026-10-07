@@ -1908,7 +1908,9 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
   /* Same quantity + button row, pinned to the bottom of the screen */
   .ff .sticky-atc {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     position: fixed;
     right: 0;
     bottom: 0;
@@ -1927,6 +1929,18 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     transform: none;
     transition: transform 0.3s ease, visibility 0s;
   }
+  .ff .sticky-atc__info { flex: 1 1 auto; min-width: 0; }
+  .ff .sticky-atc__title {
+    margin: 0;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ff .sticky-atc__price { margin: 2px 0 0; font-size: 14px; font-weight: 500; line-height: 18px; }
+  .ff .sticky-atc .btn--atc { flex: 0 0 auto; }
 
   .ff .pdp-acc__q { font-size: 12px; }
   .ff .pdp-acc__content { font-size: 12px; line-height: 20px; }
