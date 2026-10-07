@@ -436,6 +436,11 @@
     var inc = form.querySelector("[data-qty-inc]");
     var submit = form.querySelector('button[type="submit"]');
     var errorEl = form.querySelector("[data-ff-buy-error]");
+    var sticky = section.querySelector("[data-ff-sticky-atc]");
+    var stickyQty = sticky && sticky.querySelector(".qty__input");
+    var stickyDec = sticky && sticky.querySelector("[data-qty-dec]");
+    var stickyInc = sticky && sticky.querySelector("[data-qty-inc]");
+    var stickyAdd = sticky && sticky.querySelector("[data-ff-sticky-add]");
     var min = parseInt(qty.min, 10) || 1;
     var max = parseInt(qty.max, 10) || 99;
     var busy = false;
@@ -460,6 +465,11 @@
       qty.value = n;
       dec.disabled = busy || n <= min;
       inc.disabled = busy || n >= max;
+      if (sticky) {
+        stickyQty.value = n;
+        stickyDec.disabled = dec.disabled;
+        stickyInc.disabled = inc.disabled;
+      }
     }
 
     function setBusy(state) {
@@ -467,6 +477,11 @@
       submit.disabled = busy || !config.available;
       submit.setAttribute("aria-busy", String(busy));
       submit.textContent = !config.available ? config.soldOutLabel : busy ? config.addingLabel : config.addLabel;
+      if (stickyAdd) {
+        stickyAdd.disabled = submit.disabled;
+        stickyAdd.setAttribute("aria-busy", String(busy));
+        stickyAdd.textContent = submit.textContent;
+      }
       setQty(qty.value);
     }
 
@@ -482,6 +497,18 @@
     dec.addEventListener("click", function () { setQty(+qty.value - 1); });
     inc.addEventListener("click", function () { setQty(+qty.value + 1); });
     qty.addEventListener("change", function () { setQty(qty.value); });
+
+    if (sticky) {
+      stickyDec.addEventListener("click", function () { setQty(+qty.value - 1); });
+      stickyInc.addEventListener("click", function () { setQty(+qty.value + 1); });
+      stickyQty.addEventListener("change", function () { setQty(stickyQty.value); });
+      // Submit the real form so plan, quantity and errors all go through one path
+      stickyAdd.addEventListener("click", function () {
+        if (form.requestSubmit) form.requestSubmit(submit);
+        else submit.click();
+      });
+      initStickyAtc(sticky, form.querySelector(".buy-form__row"));
+    }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -543,6 +570,29 @@
     setQty(qty.value);
   }
 
+  /* Sticky add to basket: shown only while neither the buy form's own
+     button row nor the footer is in the viewport. */
+  function initStickyAtc(sticky, row) {
+    var footer = document.querySelector(".site-footer") || document.querySelector("footer");
+    var onScreen = new Map();
+
+    function update() {
+      var show = !Array.from(onScreen.values()).some(Boolean);
+      sticky.classList.toggle("is-visible", show);
+      sticky.setAttribute("aria-hidden", String(!show));
+      sticky.inert = !show;
+    }
+
+    if (!("IntersectionObserver" in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { onScreen.set(entry.target, entry.isIntersecting); });
+      update();
+    });
+    [row, footer].forEach(function (el) {
+      if (el) observer.observe(el);
+    });
+  }
+
   /* Details accordion: items toggle independently. Items marked
      data-open-from="768" start open only at or above that width. */
   function initDetails(root) {
@@ -568,72 +618,120 @@
     });
   }
 
-  /* Ingredients: a static row on desktop / tablet. On mobile the track
-     scrolls and the card nearest the centre gets .is-active (CSS enlarges it). */
+  /* Ingredients: a continuous marquee the visitor can still take over by hand
+     (same behaviour as the gumdum PDP ingredient cards).
+
+     The drift advances the track's scrollLeft rather than animating a
+     transform, so the track stays a real scroller: touch swipe, trackpad and
+     keyboard keep working, and a drag moves the same scrollLeft the loop
+     reads, so the two never disagree about where the cards are.
+
+     The card set is cloned (as often as the screen width needs); whenever the
+     scroll passes one copy it is rewound by exactly one copy, which lands on
+     an identical frame. */
   function initIngredients(track) {
+    var RESUME_DELAY = 500; // ms after the visitor lets go
     var cards = Array.prototype.slice.call(track.children);
-    var ticking = false;
+    var cycle = 0;
+    var carry = 0; // sub-pixel remainder; scrollLeft is integer in some browsers
+    var lastTime = null;
+    var interacting = false;
+    var visible = true;
+    var resumeTimer;
     if (!cards.length) return;
 
-    function centreOf(card) {
-      return card.offsetLeft + card.offsetWidth / 2;
-    }
-
-    function nearestIndex() {
-      var mid = track.scrollLeft + track.clientWidth / 2;
-      var best = 0;
-      cards.forEach(function (card, i) {
-        if (Math.abs(centreOf(card) - mid) < Math.abs(centreOf(cards[best]) - mid)) best = i;
-      });
-      return best;
-    }
-
-    function setActive(index) {
-      cards.forEach(function (card, i) {
-        card.classList.toggle("is-active", i === index);
+    // Clones are hidden from assistive tech and the tab order, and carry no
+    // block attributes so the theme editor only targets the real cards
+    function addCopy() {
+      cards.forEach(function (card) {
+        var clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        clone.removeAttribute("data-shopify-editor-block");
+        clone.removeAttribute("id");
+        clone.inert = true;
+        track.appendChild(clone);
       });
     }
 
-    function scrollToCard(index, smooth) {
-      track.scrollTo({
-        left: centreOf(cards[index]) - track.clientWidth / 2,
-        behavior: smooth ? scrollBehavior() : "auto"
-      });
+    // One cycle is the distance from a card to its first clone. With only a
+    // few cards one clone isn't enough on wide screens: the track must be able
+    // to scroll a full cycle past the viewport, or the drift parks at the end
+    // before it ever reaches the wrap point.
+    function measure() {
+      cycle = track.children[cards.length].offsetLeft - cards[0].offsetLeft;
+      while (cycle > 0 && track.scrollWidth - track.clientWidth <= cycle) addCopy();
     }
 
+    addCopy();
+
+    function interactStart() {
+      interacting = true;
+      clearTimeout(resumeTimer);
+    }
+
+    function interactEnd() {
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function () {
+        interacting = false;
+        lastTime = null;
+      }, RESUME_DELAY);
+    }
+
+    ["pointerdown", "mouseenter", "focusin"].forEach(function (type) {
+      track.addEventListener(type, interactStart);
+    });
+    ["pointerup", "pointercancel", "mouseleave", "focusout"].forEach(function (type) {
+      track.addEventListener(type, interactEnd);
+    });
+    track.addEventListener("touchstart", interactStart, { passive: true });
+    track.addEventListener("touchend", interactEnd, { passive: true });
+    // A wheel has no natural end, so each event is a fresh pause
+    track.addEventListener("wheel", function () { interactStart(); interactEnd(); }, { passive: true });
+
+    // Keep the scroll inside the first copy however it was moved (drift,
+    // drag, momentum, keyboard), so the visitor never reaches an end
     track.addEventListener("scroll", function () {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(function () {
-          ticking = false;
-          if (mobile.matches) setActive(nearestIndex());
-        });
-      }
+      if (cycle <= 0) return;
+      if (track.scrollLeft >= cycle) track.scrollLeft -= cycle;
+      else if (track.scrollLeft < 0) track.scrollLeft += cycle;
     }, { passive: true });
 
-    track.addEventListener("keydown", function (e) {
-      if (!mobile.matches) return;
-      var index = nearestIndex();
-      if (e.key === "ArrowRight") { e.preventDefault(); scrollToCard(Math.min(cards.length - 1, index + 1), true); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); scrollToCard(Math.max(0, index - 1), true); }
-    });
-
-    // Theme editor: centre the selected ingredient
+    // Theme editor: bring the selected ingredient into view and hold it there
     track.addEventListener("shopify:block:select", function (e) {
-      var i = cards.indexOf(e.target);
-      if (i < 0) return;
-      setActive(i);
-      if (mobile.matches) scrollToCard(i, false);
+      interactStart();
+      track.scrollLeft = e.target.offsetLeft - (track.clientWidth - e.target.offsetWidth) / 2;
     });
+    track.addEventListener("shopify:block:deselect", interactEnd);
 
-    // Start on the middle card, as in the design
-    function reset() {
-      var middle = Math.floor((cards.length - 1) / 2);
-      setActive(middle);
-      if (mobile.matches) scrollToCard(middle, false);
+    if ("ResizeObserver" in window) new ResizeObserver(measure).observe(track);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+      }, { rootMargin: "200px" }).observe(track);
     }
-    mobile.addEventListener("change", reset);
-    reset();
+    // A backgrounded tab throttles rAF; reset the clock so cards don't jump
+    document.addEventListener("visibilitychange", function () { lastTime = null; });
+
+    function tick(time) {
+      window.requestAnimationFrame(tick);
+      if (lastTime === null) { lastTime = time; return; }
+      var delta = (time - lastTime) / 1000;
+      lastTime = time;
+      if (interacting || !visible || cycle <= 0 || reduceMotion.matches) return;
+
+      var speed = Number(track.dataset.speed) || 40;
+      var step = Math.min(delta, 0.1) * speed + carry;
+      var whole = Math.trunc(step);
+      carry = step - whole;
+      if (!whole) return;
+
+      // Wrap before writing: a scrollLeft past the maximum is silently clamped
+      var next = track.scrollLeft + whole;
+      track.scrollLeft = next >= cycle ? next - cycle : next;
+    }
+
+    measure();
+    window.requestAnimationFrame(tick);
   }
 
   /* ------------------------------------------------------------------ */

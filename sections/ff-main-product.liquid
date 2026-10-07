@@ -323,6 +323,44 @@
       {%- endif -%}
     </div>
   </div>
+
+  {%- comment -%}
+    Sticky add to basket: mirrors the buy form's quantity and button. Shown
+    while neither the form's own button nor the footer is on screen.
+  {%- endcomment -%}
+  {%- if section.settings.show_sticky_atc -%}
+    <div class="sticky-atc" aria-hidden="true" inert data-ff-sticky-atc>
+      <div class="sticky-atc__inner">
+        <p class="sticky-atc__title">{{ title | escape }}</p>
+        <div class="buy-form__row sticky-atc__row">
+          <div class="qty">
+            <button class="qty__btn" type="button" aria-label="Decrease quantity" data-qty-dec>
+              <img src="{{ 'ff-icon-minus.svg' | asset_url }}" width="20" height="20" alt="">
+            </button>
+            <input
+              class="qty__input"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="{{ section.settings.max_quantity | default: 10 }}"
+              value="1"
+              aria-label="Quantity"
+            >
+            <button class="qty__btn" type="button" aria-label="Increase quantity" data-qty-inc>
+              <img src="{{ 'ff-icon-plus.svg' | asset_url }}" width="20" height="20" alt="">
+            </button>
+          </div>
+          <button class="btn btn--atc" type="button"{% unless variant.available %} disabled{% endunless %} data-ff-sticky-add>
+            {%- if variant.available -%}
+              {{ section.settings.atc_label | escape }}
+            {%- else -%}
+              {{ section.settings.sold_out_label | escape }}
+            {%- endif -%}
+          </button>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -356,6 +394,7 @@
       ]
     },
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button" },
+    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to basket bar", "default": true, "info": "Pinned to the bottom of the screen; hidden while the main add to basket button or the footer is visible." },
     { "type": "header", "content": "Section" },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
   ],

@@ -1711,6 +1711,51 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .ff .btn--atc:disabled { cursor: default; opacity: 0.6; }
 .ff .btn--atc[aria-busy="true"] { opacity: 1; cursor: progress; }
 
+/* Sticky add to basket: same quantity + button row, pinned to the bottom */
+.ff .sticky-atc {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  background: var(--ff-bg, var(--cream));
+  border-top: 0.8px solid var(--cream-line);
+  box-shadow: 0 -4px 16px rgba(21, 35, 64, 0.08);
+  visibility: hidden;
+  transform: translateY(100%);
+  transition: transform 0.3s ease, visibility 0s linear 0.3s;
+}
+.ff .sticky-atc.is-visible {
+  visibility: visible;
+  transform: none;
+  transition: transform 0.3s ease, visibility 0s;
+}
+.ff .sticky-atc__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 12px 60px calc(12px + env(safe-area-inset-bottom));
+}
+.ff .sticky-atc__title {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: var(--tight);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ff .sticky-atc__row { flex: 0 1 560px; }
+@media (prefers-reduced-motion: reduce) {
+  .ff .sticky-atc,
+  .ff .sticky-atc.is-visible { transition: none; }
+}
+
 .ff .buy-form__error { margin-top: -8px; color: #c0392b; font-size: 13px; line-height: 18px; }
 
 /* Details accordion */
@@ -1796,10 +1841,7 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .ff .usp-strip__list a { text-decoration: inherit; }
 
 /* ---------- Ingredients ---------- */
-.ff .ingredients {
-  width: min(1163px, 100% - 48px);
-  margin: 60px auto 0;
-}
+.ff .ingredients { margin-top: 60px; }
 
 .ff .ingredients__title {
   padding: 10px;
@@ -1812,16 +1854,24 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   text-transform: lowercase;
 }
 
+/* Continuous marquee (ff.js initIngredients): the JS clones the cards once
+   and drifts the track's scrollLeft, so it stays a real scroller that can be
+   swiped. No snap or smooth scrolling, which would fight the per-frame drift. */
 .ff .ingredients__track {
   position: relative;
   display: flex;
-  justify-content: center;
   gap: 40px;
   margin-top: 20px;
+  padding-bottom: 8px; /* room for the card shadow */
+  overflow-x: auto;
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
 }
-.ff .ingredients__track:focus-visible { outline-offset: 4px; }
+.ff .ingredients__track::-webkit-scrollbar { display: none; }
+.ff .ingredients__track:focus-visible { outline-offset: -4px; }
 
-.ff .ingredient { flex: 0 1 361px; min-width: 0; }
+.ff .ingredient { flex: 0 0 361px; min-width: 0; }
 .ff .ingredient__card { display: flex; flex-direction: column; gap: 10px; }
 .ff .ingredient__img {
   width: 100%;
@@ -1856,10 +1906,10 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 @media (max-width: 1279px) {
   .ff .pdp-hero__inner { padding: 40px; }
+  .ff .sticky-atc__inner { padding-right: 40px; padding-left: 40px; }
   .ff .gallery { flex: 0 1 46%; height: auto; aspect-ratio: 627 / 617; }
   .ff .gallery__tagline { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.33; }
   .ff .buybox__title { font-size: clamp(36px, 3.9vw, 50px); }
-  .ff .ingredients__track { gap: 24px; }
 }
 
 @media (max-width: 1023px) {
@@ -1899,6 +1949,13 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ff .qty { height: 40px; }
   .ff .btn--atc { flex: none; height: 40px; font-size: 16px; }
 
+  .ff .sticky-atc { background: var(--ff-bg, #fff); }
+  .ff .sticky-atc__inner { padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); }
+  .ff .sticky-atc__title { display: none; }
+  /* Side by side here so the bar stays one control tall */
+  .ff .sticky-atc__row { flex: 1 1 auto; flex-direction: row; gap: 10px; }
+  .ff .sticky-atc__row .btn--atc { flex: 1 1 0; }
+
   .ff .pdp-acc__q { font-size: 12px; }
   .ff .pdp-acc__content { font-size: 12px; line-height: 20px; }
 
@@ -1907,38 +1964,13 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ff .usp-strip__list { align-items: center; gap: 30px; padding: 0 15px; }
   .ff .usp-strip__list li { text-decoration: none; }
 
-  /* Ingredients: centred carousel, the middle card is enlarged */
-  .ff .ingredients { width: 100%; margin-top: 40px; }
+  .ff .ingredients { margin-top: 40px; }
   .ff .ingredients__title { font-size: 28px; }
-  .ff .ingredients__track {
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0;
-    min-height: 399px;
-    margin-top: 6px;
-    padding: 0 calc(50% - 159.5px) 8px; /* bottom room for the card shadow */
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
-  }
-  .ff .ingredients__track::-webkit-scrollbar { display: none; }
-
-  /* Each slot is as wide as the active card so nothing reflows while
-     swiping; slots overlap so inactive cards sit 16px from the active one */
-  .ff .ingredient { display: flex; flex: 0 0 319px; justify-content: center; scroll-snap-align: center; }
-  .ff .ingredient + .ingredient { margin-left: -8.5px; }
-  .ff .ingredient__card { width: 270px; transition: width 0.3s ease; }
-  .ff .ingredient__body {
-    gap: 14px;
-    min-height: 126px;
-    padding: 10px;
-    transition: min-height 0.3s ease, padding 0.3s ease, gap 0.3s ease;
-  }
+  .ff .ingredients__track { gap: 16px; margin-top: 6px; }
+  .ff .ingredient { flex-basis: 270px; }
+  .ff .ingredient__body { gap: 14px; min-height: 126px; padding: 10px; }
   .ff .ingredient__name { font-size: 20px; }
   .ff .ingredient__text { font-size: 12px; }
-  .ff .ingredient.is-active .ingredient__card { width: 319px; }
-  .ff .ingredient.is-active .ingredient__body { gap: 20px; min-height: 167px; padding: 14px; }
 
   .ff:has(> .ingredients) + .ff > .ritual { padding-top: 40px; }
   .ff:has(> .ritual) + .ff > .reviews { margin-top: 40px; }
