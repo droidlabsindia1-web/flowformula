@@ -223,14 +223,20 @@
 
     <div class="buybox">
       <div class="buybox__head">
-        <h1 class="buybox__title" id="product-title-{{ section.id }}">{{ title | escape }}</h1>
-
-        {%- if section.settings.rating != blank -%}
-          <p class="buybox__rating" role="img" aria-label="Rated {{ section.settings.rating | escape }} out of 5">
-            <img src="{{ 'ff-icon-rating-star.svg' | asset_url }}" width="31" height="31" alt="">
-            <span aria-hidden="true">{{ section.settings.rating | escape }}</span>
+        {%- if section.settings.show_rating -%}
+          <p class="buybox__rating">
+            <span class="buybox__stars" role="img" aria-label="{% if section.settings.rating != blank %}Rated {{ section.settings.rating | escape }} out of 5{% else %}5 star rating{% endif %}">
+              {%- for i in (1..5) -%}
+                <img src="{{ 'ff-icon-rating-star.svg' | asset_url }}" width="31" height="31" alt="">
+              {%- endfor -%}
+            </span>
+            {%- if section.settings.rating != blank -%}
+              <span aria-hidden="true">{{ section.settings.rating | escape }}</span>
+            {%- endif -%}
           </p>
         {%- endif -%}
+
+        <h1 class="buybox__title" id="product-title-{{ section.id }}">{{ title | escape }}</h1>
 
         {%- if section.settings.description != blank -%}
           <div class="buybox__lead">{{ section.settings.description }}</div>
@@ -371,7 +377,8 @@
     { "type": "textarea", "id": "tagline", "label": "Image heading", "info": "Shown over the first image." },
     { "type": "header", "content": "Product info" },
     { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the product title." },
-    { "type": "text", "id": "rating", "label": "Rating", "info": "e.g. 4.5. Leave empty to hide." },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+    { "type": "text", "id": "rating", "label": "Rating", "info": "Shown next to the 5 stars, e.g. 4.5. Leave empty to show stars only." },
     { "type": "richtext", "id": "description", "label": "Description", "info": "Defaults to the product description." },
     { "type": "header", "content": "Purchase options" },
     { "type": "paragraph", "content": "Add a Purchase option block for each way to buy. Subscription prices and plans come from Apps > Subscriptions; an option whose plan isn't on the product is hidden and flagged here in the editor." },

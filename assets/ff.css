@@ -1480,7 +1480,7 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 .ff .buybox__rating {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 13px;
   color: var(--ink);
   font-family: var(--font-serif);
@@ -1488,7 +1488,8 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   font-weight: 700;
   line-height: 30.8px;
 }
-.ff .buybox__rating img { width: 31px; height: 31px; }
+.ff .buybox__stars { display: flex; gap: 4px; }
+.ff .buybox__rating img { width: 20px; height: 20px; }
 
 .ff .buybox__lead,
 .ff .buybox__lead p {
@@ -1891,7 +1892,7 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ff .buybox__head { gap: 12px; }
   .ff .buybox__title { font-size: 28px; }
   .ff .buybox__rating { font-size: 26px; }
-  .ff .buybox__rating img { width: 25px; height: 25px; }
+  .ff .buybox__rating img { width: 16px; height: 16px; }
   .ff .buybox__lead,
   .ff .buybox__lead p { font-size: 14px; }
   .ff .buybox__usps { font-size: 10px; text-transform: uppercase; }
