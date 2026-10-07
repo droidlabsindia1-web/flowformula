@@ -1500,6 +1500,18 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 .ff .buybox__lead p + p { margin-top: 8px; }
 
+.ff .buybox__bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+}
+.ff .buybox__bullets li { display: flex; align-items: center; gap: 8px; }
+.ff .buybox__tick { flex: 0 0 14px; color: var(--teal); }
+
 .ff .buybox__usps {
   display: flex;
   justify-content: space-between;
@@ -1895,6 +1907,7 @@ html:has(.ff) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ff .buybox__rating img { width: 16px; height: 16px; }
   .ff .buybox__lead,
   .ff .buybox__lead p { font-size: 14px; }
+  .ff .buybox__bullets { font-size: 14px; line-height: 20px; }
   .ff .buybox__usps { font-size: 10px; text-transform: uppercase; }
 
   .ff .plan__head { font-size: 12px; }

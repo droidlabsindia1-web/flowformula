@@ -6,6 +6,7 @@
   assign title = section.settings.title | default: product.title
 
   assign images = product.media | where: 'media_type', 'image'
+  assign bullet_blocks = section.blocks | where: 'type', 'bullet'
   assign usp_blocks = section.blocks | where: 'type', 'usp'
   assign option_blocks = section.blocks | where: 'type', 'option'
   assign detail_blocks = section.blocks | where: 'type', 'detail'
@@ -244,6 +245,19 @@
           <div class="buybox__lead">{{ product.description }}</div>
         {%- endif -%}
 
+        {%- if bullet_blocks.size > 0 -%}
+          <ul class="buybox__bullets">
+            {%- for block in bullet_blocks -%}
+              <li {{ block.shopify_attributes }}>
+                <svg class="buybox__tick" width="14" height="11" viewBox="0 0 14 11" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M1.5 5.5 5 9l7.5-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ block.settings.text | escape }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
         {%- if usp_blocks.size > 0 -%}
           <ul class="buybox__usps">
             {%- for block in usp_blocks -%}
@@ -389,6 +403,13 @@
     { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
   ],
   "blocks": [
+    {
+      "type": "bullet",
+      "name": "Bullet point",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free UK delivery" }
+      ]
+    },
     {
       "type": "usp",
       "name": "Highlight",
