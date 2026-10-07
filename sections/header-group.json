@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
@@ -5,7 +14,10 @@
     "announcement": {
       "type": "ff-announcement",
       "settings": {
-        "text": "Subscribe & save 20% — free UK shipping on every order"
+        "text": "Subscribe & save 20% — free UK shipping on every order",
+        "link": "",
+        "background": "#162138",
+        "text_color": ""
       }
     },
     "header": {
@@ -15,7 +27,8 @@
         "logo_asset": "ff-logo-wordmark.png",
         "menu": "main-menu",
         "cta_label": "Subscribe & Save",
-        "cta_link": "shopify://collections/all"
+        "cta_link": "shopify://collections/all",
+        "background": ""
       }
     },
     "cart_notification": {
