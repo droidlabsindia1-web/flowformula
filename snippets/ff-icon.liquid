@@ -31,6 +31,7 @@
   endcase
 -%}
 <svg
+  viewBox="{{ view_box }}"
   {% if size %}width="{{ size }}" height="{{ size }}"{% endif %}
   {% if class %}class="{{ class }}"{% endif %}
   {% if label %}role="img" aria-label="{{ label | escape }}"{% else %}aria-hidden="true"{% endif %}
