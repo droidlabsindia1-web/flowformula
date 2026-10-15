@@ -35,6 +35,7 @@
         },
         "button_shop": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "label": "Shop Flow Formula",
             "link": "shopify://collections/all",
