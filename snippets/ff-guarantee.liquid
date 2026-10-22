@@ -1,0 +1,72 @@
+{%- comment -%}
+  Guarantee box below the buy form in ff-main-product: an icon (defaults to
+  a shield) beside a small heading, heading and text.
+
+  Accepts:
+  - block: {Object} the section's guarantee block
+{%- endcomment -%}
+
+{%- liquid
+  # Every look setting becomes a CSS variable on the guarantee box
+  assign bs = block.settings
+  capture guarantee_style
+    echo '--guar-border-w: ' | append: bs.border_width | append: 'px;'
+    echo '--guar-border-style: ' | append: bs.border_style | append: ';'
+    echo '--guar-radius: ' | append: bs.radius | append: 'px;'
+    echo '--guar-px: ' | append: bs.padding_x | append: 'px;'
+    echo '--guar-py: ' | append: bs.padding_y | append: 'px;'
+    echo '--guar-gap: ' | append: bs.icon_gap | append: 'px;'
+    echo '--guar-icon: ' | append: bs.icon_size | append: 'px;'
+    echo '--guar-icon-m: ' | append: bs.icon_size_mobile | append: 'px;'
+    echo '--guar-eyebrow-fs: ' | append: bs.eyebrow_size | append: 'px;'
+    echo '--guar-eyebrow-fs-m: ' | append: bs.eyebrow_size_mobile | append: 'px;'
+    echo '--guar-title-fs: ' | append: bs.title_size | append: 'px;'
+    echo '--guar-title-fs-m: ' | append: bs.title_size_mobile | append: 'px;'
+    echo '--guar-text-fs: ' | append: bs.text_size | append: 'px;'
+    echo '--guar-text-fs-m: ' | append: bs.text_size_mobile | append: 'px;'
+    if bs.background != blank and bs.background.alpha != 0.0
+      echo '--guar-bg: ' | append: bs.background | append: ';'
+    endif
+    if bs.border_color != blank and bs.border_color.alpha != 0.0
+      echo '--guar-border-c: ' | append: bs.border_color | append: ';'
+    endif
+    if bs.eyebrow_color != blank and bs.eyebrow_color.alpha != 0.0
+      echo '--guar-eyebrow-c: ' | append: bs.eyebrow_color | append: ';'
+    endif
+    if bs.title_color != blank and bs.title_color.alpha != 0.0
+      echo '--guar-title-c: ' | append: bs.title_color | append: ';'
+    endif
+    if bs.text_color != blank and bs.text_color.alpha != 0.0
+      echo '--guar-text-c: ' | append: bs.text_color | append: ';'
+    endif
+  endcapture
+  assign icon_src = bs.icon.src | downcase
+-%}
+
+<div
+  class="guarantee guarantee--align-{{ bs.align }}{% if bs.title_uppercase %} guarantee--upper{% endif %}"
+  style="{{ guarantee_style | strip_newlines }}"
+  {{ block.shopify_attributes }}
+>
+  {%- if bs.link != blank -%}<a class="guarantee__inner" href="{{ bs.link }}">{%- else -%}<div class="guarantee__inner">{%- endif -%}
+    {%- if bs.show_icon -%}
+      {%- if bs.icon != blank -%}
+        {%- if icon_src contains '.gif' -%}
+          {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
+          {{- bs.icon | image_url | image_tag: class: 'guarantee__icon', loading: 'lazy', alt: '' -}}
+        {%- else -%}
+          {{- bs.icon | image_url: width: 240 | image_tag: class: 'guarantee__icon', widths: '96,160,240', sizes: '80px', loading: 'lazy', alt: '' -}}
+        {%- endif -%}
+      {%- elsif bs.icon_url != blank -%}
+        <img class="guarantee__icon" src="{{ bs.icon_url | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
+      {%- else -%}
+        <img class="guarantee__icon" src="{{ 'ff-icon-shield.svg' | asset_url }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
+      {%- endif -%}
+    {%- endif -%}
+    <div class="guarantee__body">
+      {%- if bs.eyebrow != blank -%}<p class="guarantee__eyebrow">{{ bs.eyebrow | escape }}</p>{%- endif -%}
+      {%- if bs.title != blank -%}<p class="guarantee__title">{{ bs.title | escape }}</p>{%- endif -%}
+      {%- if bs.text != blank -%}<div class="guarantee__text">{{ bs.text }}</div>{%- endif -%}
+    </div>
+  {%- if bs.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+</div>

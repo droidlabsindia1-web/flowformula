@@ -30,6 +30,33 @@
             "text": "Formulated by a woman with PCOS, for PCOS"
           }
         },
+        "ribbon_results": {
+          "type": "ribbon",
+          "settings": {
+            "text": "<p>Best results seen after <strong>a few months</strong> of consistent use</p>",
+            "link": "",
+            "icon_url": "https://cdn.shopify.com/s/files/1/0933/4630/0234/files/fc895ba2625c240b092ea4ba1dd000b3.png?v=1791313033",
+            "icon_position": "left",
+            "icon_size": 20,
+            "icon_size_mobile": 18,
+            "icon_gap": 16,
+            "background": "#d64ba1",
+            "gradient": "",
+            "text_color": "#ffffff",
+            "border_color": "",
+            "border_width": 0,
+            "radius": 6,
+            "shadow": false,
+            "height": 40,
+            "height_mobile": 36,
+            "padding_x": 20,
+            "padding_y": 8,
+            "align": "start",
+            "font_size": 16,
+            "font_size_mobile": 12,
+            "font_weight": "400"
+          }
+        },
         "usp_delivery": {
           "type": "usp",
           "settings": {
@@ -72,6 +99,38 @@
             "selected": false
           }
         },
+        "guarantee": {
+          "type": "guarantee",
+          "settings": {
+            "eyebrow": "Your order is protected by",
+            "title": "60-Days Money-Back Guarantee",
+            "text": "<p>If you don’t love it - even in day 59 - full refund.</p>",
+            "link": "",
+            "show_icon": true,
+            "icon_url": "",
+            "icon_size": 64,
+            "icon_size_mobile": 48,
+            "icon_gap": 40,
+            "background": "#ffffff",
+            "border_color": "#d64ba1",
+            "eyebrow_color": "#d64ba1",
+            "title_color": "#000000",
+            "text_color": "#000000",
+            "border_style": "dashed",
+            "border_width": 2,
+            "radius": 20,
+            "padding_x": 40,
+            "padding_y": 24,
+            "align": "start",
+            "title_uppercase": true,
+            "eyebrow_size": 22,
+            "eyebrow_size_mobile": 16,
+            "title_size": 22,
+            "title_size_mobile": 16,
+            "text_size": 16,
+            "text_size_mobile": 13
+          }
+        },
         "detail_info": {
           "type": "detail",
           "settings": {
@@ -95,17 +154,47 @@
             "content": "<p>Free UK delivery on every order. Subscriptions ship every 30 days — pause or cancel anytime.</p>",
             "open": false
           }
+        },
+        "pill_odor": {
+          "type": "pill",
+          "settings": {
+            "text": "Odor Control That Lasts"
+          }
+        },
+        "pill_uti": {
+          "type": "pill",
+          "settings": {
+            "text": "UTI + pH Support"
+          }
+        },
+        "pill_stomach": {
+          "type": "pill",
+          "settings": {
+            "text": "No Stomach Upset"
+          }
+        },
+        "pill_balance": {
+          "type": "pill",
+          "settings": {
+            "text": "Daily Balance"
+          }
         }
       },
       "block_order": [
         "bullet_kfqKXA",
         "bullet_WNbDbJ",
         "bullet_NCpwCF",
+        "pill_odor",
+        "pill_uti",
+        "pill_stomach",
+        "pill_balance",
+        "ribbon_results",
         "usp_delivery",
         "usp_sachets",
         "usp_save",
         "option_subscription",
         "option_once",
+        "guarantee",
         "detail_info",
         "detail_ingredients",
         "detail_shipping"
@@ -125,6 +214,8 @@
         "after_add": "cart",
         "show_dynamic_checkout": false,
         "show_sticky_atc": true,
+        "label_button": "View Nutrient Label",
+        "label_image_url": "https://cdn.shopify.com/s/files/1/0933/4630/0234/files/Screenshot_2026-05-30_at_7.40.55_PM.png?v=1792701664",
         "anchor_id": "shop"
       }
     },
@@ -471,6 +562,205 @@
         "anchor_id": ""
       }
     },
+    "split_cta": {
+      "type": "ff-split-cta",
+      "blocks": {
+        "trust_tested": {
+          "type": "trust",
+          "settings": {
+            "text": "Third-Party Tested",
+            "icon": "check"
+          }
+        },
+        "trust_doctors": {
+          "type": "trust",
+          "settings": {
+            "text": "Developed with Doctors",
+            "icon": "heart"
+          }
+        },
+        "trust_guarantee": {
+          "type": "trust",
+          "settings": {
+            "text": "60-Day Money-Back Guarantee",
+            "icon": "shield"
+          }
+        }
+      },
+      "block_order": [
+        "trust_tested",
+        "trust_doctors",
+        "trust_guarantee"
+      ],
+      "settings": {
+        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
+        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
+        "button_label": "Try It Risk-Free - 60 Days to Decide",
+        "button_link": "",
+        "image_alt": "",
+        "image_ratio": "16 / 12.3",
+        "image_position": "right",
+        "mobile_image_first": true,
+        "image_radius": 34,
+        "image_radius_mobile": 24,
+        "container_width": 1350,
+        "image_width": 50,
+        "content_width": 540,
+        "column_gap": 60,
+        "column_gap_mobile": 35,
+        "text_align": "left",
+        "text_align_mobile": "center",
+        "margin_top": 60,
+        "margin_bottom": 0,
+        "margin_top_mobile": 60,
+        "margin_bottom_mobile": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "font": "montserrat",
+        "heading_size": 50,
+        "heading_size_mobile": 36,
+        "heading_weight": "600",
+        "heading_letter_spacing": -1.3,
+        "heading_line_height": 1.1,
+        "heading_lowercase": true,
+        "text_size": 18,
+        "text_size_mobile": 14,
+        "button_size": 20,
+        "button_size_mobile": 16,
+        "trust_size": 11,
+        "trust_size_mobile": 9,
+        "trust_icon_size": 12,
+        "background": "#d64ba1",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "trust_color": "#ffffff",
+        "button_background": "#ffffff",
+        "button_text_color": "#000000",
+        "button_border_color": "#d64ba1",
+        "button_border_width": 3,
+        "button_radius": 12,
+        "button_lowercase": true,
+        "button_shadow": true,
+        "full_width_button": true,
+        "reveal": true,
+        "anchor_id": ""
+      }
+    },
+    "daily_timeline": {
+      "type": "ff-daily-timeline",
+      "blocks": {
+        "step_day_1": {
+          "type": "step",
+          "settings": {
+            "title": "Day 1",
+            "text": "<p>The good bacteria get to work, kickstarting your gut microbiome and digestive balance.‡</p>"
+          }
+        },
+        "step_day_3": {
+          "type": "step",
+          "settings": {
+            "title": "Day 3",
+            "text": "<p>Less bloat, smoother digestion, and noticeably better daily comfort.‡</p>"
+          }
+        },
+        "step_day_5": {
+          "type": "step",
+          "settings": {
+            "title": "Day 5",
+            "text": "<p>Your body settles into a steadier rhythm gut and feminine wellness working in sync.‡</p>"
+          }
+        },
+        "step_day_7": {
+          "type": "step",
+          "settings": {
+            "title": "Day 7",
+            "text": "<p>Ongoing support for gut harmony, vaginal flora balance, and everyday wellness.‡</p>"
+          }
+        },
+        "feature_support": {
+          "type": "feature",
+          "settings": {
+            "title": "Women's probiotic support",
+            "icon": "sparkle",
+            "text": "<p>Science-backed probiotic strains that support digestive health, urinary tract balance, immune function, and overall wellness.</p>"
+          }
+        },
+        "feature_health": {
+          "type": "feature",
+          "settings": {
+            "title": "Digestive & feminine health",
+            "icon": "heart",
+            "text": "<p>Built for women to promote digestive comfort and urinary tract health, without artificial fillers or harsh ingredients.</p>"
+          }
+        },
+        "feature_how": {
+          "type": "feature",
+          "settings": {
+            "title": "How to take it",
+            "icon": "clock",
+            "text": "<p>Take one capsule daily with water, preferably with a meal. Easy to add to your routine no refrigeration required.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_day_1",
+        "step_day_3",
+        "step_day_5",
+        "step_day_7",
+        "feature_support",
+        "feature_health",
+        "feature_how"
+      ],
+      "settings": {
+        "heading": "One Capsule. Once a Day. That's It.",
+        "text": "<p>Women's Probiotic delivers 50 billion CFUs from 6 targeted strains, plus cranberry and D-Mannose for urinary tract support in one easy-to-swallow capsule.</p><p>No horse pills. No complicated routine. No aftertaste. Just real support for your gut, your immunity, and your day-to-day comfort.‡</p>",
+        "image_alt": "",
+        "image_width": 295,
+        "image_width_mobile": 220,
+        "highlight": "mobile",
+        "show_dots": false,
+        "feature_columns": 3,
+        "feature_columns_mobile": "1",
+        "feature_gap": 60,
+        "icon_size": 70,
+        "icon_size_mobile": 60,
+        "round_icons": false,
+        "container_width": 1340,
+        "content_width": 440,
+        "steps_width": 340,
+        "column_gap": 30,
+        "features_spacing": 60,
+        "features_spacing_mobile": 40,
+        "text_align_mobile": "center",
+        "margin_top": 60,
+        "margin_bottom": 0,
+        "margin_top_mobile": 60,
+        "margin_bottom_mobile": 0,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0,
+        "font": "montserrat",
+        "lowercase_titles": true,
+        "heading_size": 50,
+        "heading_size_mobile": 36,
+        "text_size": 16,
+        "text_size_mobile": 14,
+        "step_title_size": 28,
+        "step_title_size_mobile": 24,
+        "feature_title_size": 24,
+        "feature_title_size_mobile": 20,
+        "background": "",
+        "heading_color": "",
+        "text_color": "",
+        "line_color": "",
+        "icon_background": "",
+        "icon_color": "#FFFFFF",
+        "anchor_id": ""
+      }
+    },
     "ugc": {
       "type": "ff-ugc",
       "blocks": {
@@ -601,6 +891,8 @@
     "ingredients",
     "how_it_works",
     "reviews",
+    "split_cta",
+    "daily_timeline",
     "ugc",
     "faq"
   ]

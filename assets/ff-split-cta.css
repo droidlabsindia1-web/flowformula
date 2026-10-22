@@ -1,0 +1,263 @@
+/* ==========================================================================
+   Flow Formula — Split CTA (sections/ff-split-cta.liquid)
+   Text, a risk-free button and trust badges beside a rounded image.
+   Layout from physicianschoice.com/products/womens-probiotics ("fiber-cups"),
+   type and colour from the ff theme (Montserrat, lowercase titles, pink).
+
+   Every look setting arrives as a --sc-* variable on .split-cta, so the
+   fallbacks below are only used if a value is missing.
+   Breakpoints: >=992 desktop · 768–991 tablet · <=767 mobile · <=575 small
+   ========================================================================== */
+
+.ff .split-cta {
+  margin: var(--sc-mt, 60px) 0 var(--sc-mb, 0);
+  padding: var(--sc-pt, 60px) 0 var(--sc-pb, 60px);
+  background: var(--sc-bg, var(--pink, #d64ba1));
+  font-family: var(--sc-font, var(--font-sans));
+}
+
+.ff .split-cta__container {
+  width: 100%;
+  max-width: var(--sc-container, 1350px);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Two columns pushed apart; the text column centres itself in whatever
+   space the image leaves, like the reference. */
+.ff .split-cta__grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ff .split-cta--media-left .split-cta__grid {
+  flex-direction: row-reverse;
+}
+
+.ff .split-cta__content {
+  width: calc(100% - var(--sc-media-w, 50%) - var(--sc-gap, 60px) / 2);
+  max-width: var(--sc-content-w, 540px);
+  margin: 0 auto;
+  min-width: 0;
+}
+.ff .split-cta--align-center .split-cta__content {
+  text-align: center;
+}
+
+.ff .split-cta__media {
+  width: calc(var(--sc-media-w, 50%) - var(--sc-gap, 60px) / 2);
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: var(--sc-img-radius, 34px);
+  /* Keeps the rounded clip on Safari while images fade in */
+  isolation: isolate;
+}
+
+/* ---------- Text ---------- */
+.ff .split-cta__title {
+  margin: 0 0 24px;
+  color: var(--sc-heading-c, #fff);
+  font-size: var(--sc-h-fs, 50px);
+  font-weight: var(--sc-h-fw, 600);
+  line-height: var(--sc-h-lh, 1.1);
+  letter-spacing: var(--sc-h-ls, var(--tight));
+}
+.ff .split-cta--title-lower .split-cta__title {
+  text-transform: lowercase;
+}
+
+.ff .split-cta__text {
+  margin: 0 0 24px;
+  color: var(--sc-text-c, #fff);
+  font-size: var(--sc-text-fs, 18px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.ff .split-cta__text > * + * {
+  margin-top: 0.8em;
+}
+.ff .split-cta__text a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Button ---------- */
+.ff .split-cta__btn {
+  display: inline-block;
+  max-width: 100%;
+  padding: 20px 40px;
+  border: var(--sc-btn-border-w, 3px) solid var(--sc-btn-border-c, var(--pink, #d64ba1));
+  border-radius: var(--sc-btn-radius, 12px);
+  background: var(--sc-btn-bg, #fff);
+  color: var(--sc-btn-c, #000);
+  font-size: var(--sc-btn-fs, 20px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.32px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.ff .split-cta--btn-lower .split-cta__btn {
+  text-transform: lowercase;
+}
+.ff .split-cta--btn-full .split-cta__btn {
+  display: block;
+  width: 100%;
+  padding-inline: 20px;
+}
+.ff .split-cta--btn-shadow .split-cta__btn {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+@media (hover: hover) {
+  .ff .split-cta__btn:hover {
+    transform: translateY(-2px);
+  }
+  .ff .split-cta--btn-shadow .split-cta__btn:hover {
+    box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.25);
+  }
+}
+.ff .split-cta__btn:active {
+  transform: translateY(0);
+}
+
+/* ---------- Trust badges ---------- */
+.ff .split-cta__trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 30px 0 0;
+  color: var(--sc-trust-c, #fff);
+}
+.ff .split-cta--align-left:not(.split-cta--btn-full) .split-cta__trust {
+  justify-content: flex-start;
+}
+.ff .split-cta__trust-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--sc-trust-fs, 11px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.ff .split-cta__trust-icon {
+  flex: 0 0 auto;
+  width: var(--sc-trust-icon, 12px);
+  height: var(--sc-trust-icon, 12px);
+  object-fit: contain;
+}
+
+/* ---------- Image ---------- */
+.ff .split-cta__img {
+  width: 100%;
+  aspect-ratio: var(--sc-img-ratio, 16 / 12.3);
+  object-fit: cover;
+}
+.ff .split-cta--natural .split-cta__img {
+  aspect-ratio: auto;
+}
+.ff .split-cta__img--mobile {
+  display: none;
+}
+.ff .split-cta__placeholder {
+  height: auto;
+  background: rgba(255, 255, 255, 0.25);
+  fill: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- Fade in (class added by ff-split-cta.js) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .ff .split-cta[data-reveal="pending"] :is(.split-cta__content, .split-cta__media) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .ff .split-cta[data-reveal] :is(.split-cta__content, .split-cta__media) {
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .ff .split-cta[data-reveal] .split-cta__media {
+    transition-delay: 0.12s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 991px) {
+  /* --sc-gap is set inline, so cap it here rather than redefine it */
+  .ff .split-cta__content {
+    width: calc(100% - var(--sc-media-w, 50%) - min(var(--sc-gap, 60px), 30px) / 2);
+    max-width: 100%;
+  }
+  .ff .split-cta__media {
+    width: calc(var(--sc-media-w, 50%) - min(var(--sc-gap, 60px), 30px) / 2);
+  }
+  .ff .split-cta__title {
+    font-size: max(var(--sc-h-fs-m, 36px), calc(var(--sc-h-fs, 50px) * 0.75));
+  }
+  .ff .split-cta__btn {
+    font-size: var(--sc-btn-fs-m, 16px);
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767px) {
+  .ff .split-cta {
+    margin: var(--sc-mt-m, 60px) 0 var(--sc-mb-m, 0);
+    padding: var(--sc-pt-m, 40px) 0 var(--sc-pb-m, 40px);
+  }
+  .ff .split-cta__grid,
+  .ff .split-cta--media-left .split-cta__grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sc-gap-m, 35px);
+  }
+  .ff .split-cta--media-first-m .split-cta__grid {
+    flex-direction: column-reverse;
+  }
+  .ff .split-cta__content,
+  .ff .split-cta__media {
+    width: 100%;
+  }
+  .ff .split-cta__media {
+    border-radius: var(--sc-img-radius-m, 24px);
+  }
+  .ff .split-cta--align-m-center .split-cta__content {
+    text-align: center;
+  }
+  .ff .split-cta--align-m-left .split-cta__content {
+    text-align: left;
+  }
+  .ff .split-cta--align-m-center .split-cta__trust {
+    justify-content: center;
+  }
+  .ff .split-cta--align-m-left:not(.split-cta--btn-full) .split-cta__trust {
+    justify-content: flex-start;
+  }
+  .ff .split-cta__title {
+    font-size: var(--sc-h-fs-m, 36px);
+  }
+  .ff .split-cta__text {
+    font-size: var(--sc-text-fs-m, 14px);
+  }
+  .ff .split-cta__btn {
+    font-size: var(--sc-btn-fs-m, 16px);
+  }
+  .ff .split-cta__trust-item {
+    font-size: var(--sc-trust-fs-m, 9px);
+  }
+  .ff .split-cta__img--desktop {
+    display: none;
+  }
+  .ff .split-cta__img--mobile {
+    display: block;
+  }
+}
+
+@media (max-width: 575px) {
+  .ff .split-cta__btn,
+  .ff .split-cta--btn-full .split-cta__btn {
+    padding-inline: 10px;
+  }
+  .ff .split-cta__trust {
+    margin-top: 15px;
+  }
+}

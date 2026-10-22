@@ -1,0 +1,257 @@
+/* ==========================================================================
+   Flow Formula — Daily timeline (sections/ff-daily-timeline.liquid)
+   Intro text · product image · day-by-day timeline, then a row of features.
+   Layout from physicianschoice.com/products/womens-probiotics
+   ("easy-mix-fiber-progress"), type and colour from the ff theme.
+
+   Every look setting arrives as a --dt-* variable on .timeline-sec, so the
+   fallbacks below are only used if a value is missing.
+   Breakpoints: >=992 desktop · 768–991 tablet · <=767 mobile
+   ========================================================================== */
+
+.ff .timeline-sec {
+  --dt-step-lh: calc(var(--dt-step-fs, 28px) * 1.1);
+  margin: var(--dt-mt, 60px) 0 var(--dt-mb, 0);
+  padding: var(--dt-pt, 0) 0 var(--dt-pb, 0);
+  background: var(--dt-bg, transparent);
+  color: var(--dt-text-c, var(--text));
+  font-family: var(--dt-font, var(--font-sans));
+}
+
+.ff .timeline-sec__container {
+  width: 100%;
+  max-width: var(--dt-container, 1340px);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.ff .timeline-sec__grid {
+  display: grid;
+  grid-template-columns:
+    min(var(--dt-content-w, 440px), 35%)
+    minmax(0, 1fr)
+    min(var(--dt-steps-w, 340px), 32%);
+  align-items: center;
+  gap: var(--dt-gap, 30px);
+}
+
+/* ---------- Titles (shared look) ---------- */
+.ff :is(.timeline-sec__title, .timeline-sec__step-title, .timeline-sec__feature-title) {
+  color: var(--dt-heading-c, var(--navy));
+  font-weight: 600;
+  letter-spacing: var(--tight);
+}
+.ff .timeline-sec--lower :is(.timeline-sec__title, .timeline-sec__step-title, .timeline-sec__feature-title) {
+  text-transform: lowercase;
+}
+
+/* Rich text paragraphs */
+.ff :is(.timeline-sec__text, .timeline-sec__step-text, .timeline-sec__feature-text) {
+  font-size: var(--dt-text-fs, 16px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.ff :is(.timeline-sec__text, .timeline-sec__step-text, .timeline-sec__feature-text) > * + * {
+  margin-top: 1em;
+}
+.ff :is(.timeline-sec__text, .timeline-sec__step-text, .timeline-sec__feature-text) a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Intro ---------- */
+.ff .timeline-sec__title {
+  font-size: var(--dt-h-fs, 50px);
+  line-height: 1.1;
+  text-wrap: pretty;
+}
+.ff .timeline-sec__text {
+  margin-top: 25px;
+}
+
+/* ---------- Image ---------- */
+.ff .timeline-sec__media {
+  width: 100%;
+  max-width: var(--dt-img-w, 295px);
+  margin: 0 auto;
+}
+.ff .timeline-sec__img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.ff .timeline-sec__placeholder {
+  aspect-ratio: 1000 / 1194;
+  background: var(--blush, #feeeed);
+  fill: rgba(21, 35, 64, 0.25);
+}
+
+/* ---------- Timeline ---------- */
+.ff .timeline-sec__steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ff .timeline-sec__step {
+  position: relative;
+  padding-left: 22px;
+}
+.ff .timeline-sec__step + .timeline-sec__step {
+  margin-top: 20px;
+}
+/* Line runs from the middle of this title to the middle of the next */
+.ff .timeline-sec__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--dt-step-lh) / 2);
+  left: 7px;
+  width: 1px;
+  height: calc(100% + 20px);
+  background: var(--dt-line-c, var(--pink, #d64ba1));
+}
+.ff .timeline-sec--dots .timeline-sec__step::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--dt-step-lh) / 2 - 5px);
+  left: 2.5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dt-line-c, var(--pink, #d64ba1));
+}
+.ff .timeline-sec__step-title {
+  font-size: var(--dt-step-fs, 28px);
+  line-height: var(--dt-step-lh);
+}
+.ff .timeline-sec__step-text {
+  margin-top: 10px;
+}
+
+/* Step in view stays solid, the rest fade (ff-daily-timeline.js) */
+.ff .timeline-sec[data-ready] .timeline-sec__step {
+  transition: opacity 0.3s ease;
+}
+.ff .timeline-sec--highlight-always[data-ready] .timeline-sec__step:not(.is-active) {
+  opacity: 0.4;
+}
+
+/* ---------- Features ---------- */
+.ff .timeline-sec__features {
+  display: grid;
+  grid-template-columns: repeat(var(--dt-feat-cols, 3), minmax(0, 1fr));
+  gap: 30px var(--dt-feat-gap, 60px);
+  margin: var(--dt-feat-mt, 60px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ff .timeline-sec__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dt-icon, 70px);
+  height: var(--dt-icon, 70px);
+  border-radius: 50%;
+  background: var(--dt-icon-bg, var(--pink, #d64ba1));
+  color: var(--dt-icon-c, #fff);
+}
+.ff .timeline-sec__icon svg {
+  width: 50%;
+  height: 50%;
+}
+.ff .timeline-sec__icon--image {
+  border-radius: 0;
+  background: none;
+}
+.ff .timeline-sec__icon--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ff .timeline-sec--round-icons .timeline-sec__icon--image {
+  overflow: hidden;
+  border-radius: 50%;
+}
+.ff .timeline-sec--round-icons .timeline-sec__icon--image img {
+  object-fit: cover;
+}
+
+.ff .timeline-sec__feature-body {
+  margin-top: 20px;
+}
+.ff .timeline-sec__feature-title {
+  font-size: var(--dt-feat-fs, 24px);
+  line-height: 1.1;
+}
+.ff .timeline-sec__feature-text {
+  margin-top: 14px;
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 991px) {
+  .ff .timeline-sec__title {
+    font-size: max(var(--dt-h-fs-m, 36px), calc(var(--dt-h-fs, 50px) * 0.75));
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767px) {
+  .ff .timeline-sec {
+    --dt-step-lh: calc(var(--dt-step-fs-m, 24px) * 1.1);
+    margin: var(--dt-mt-m, 60px) 0 var(--dt-mb-m, 0);
+    padding: var(--dt-pt-m, 0) 0 var(--dt-pb-m, 0);
+  }
+  .ff .timeline-sec__container {
+    padding: 0 16px;
+  }
+  .ff .timeline-sec__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .ff .timeline-sec--align-m-center .timeline-sec__intro {
+    text-align: center;
+  }
+  .ff .timeline-sec__title {
+    font-size: var(--dt-h-fs-m, 36px);
+  }
+  .ff :is(.timeline-sec__text, .timeline-sec__step-text, .timeline-sec__feature-text) {
+    font-size: var(--dt-text-fs-m, 14px);
+  }
+  .ff .timeline-sec__text {
+    margin-top: 16px;
+  }
+  .ff .timeline-sec__media {
+    max-width: var(--dt-img-w-m, 220px);
+  }
+  .ff .timeline-sec__step-title {
+    font-size: var(--dt-step-fs-m, 24px);
+  }
+  .ff .timeline-sec--highlight-mobile[data-ready] .timeline-sec__step:not(.is-active) {
+    opacity: 0.4;
+  }
+  .ff .timeline-sec__features {
+    grid-template-columns: repeat(var(--dt-feat-cols-m, 1), minmax(0, 1fr));
+    gap: 30px 20px;
+    margin-top: var(--dt-feat-mt-m, 40px);
+  }
+  .ff .timeline-sec__icon {
+    width: var(--dt-icon-m, 60px);
+    height: var(--dt-icon-m, 60px);
+  }
+  .ff .timeline-sec__feature-body {
+    margin-top: 14px;
+  }
+  .ff .timeline-sec__feature-title {
+    font-size: var(--dt-feat-fs-m, 20px);
+  }
+  .ff .timeline-sec__feature-text {
+    margin-top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff .timeline-sec[data-ready] .timeline-sec__step {
+    transition: none;
+  }
+}

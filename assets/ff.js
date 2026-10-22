@@ -376,10 +376,14 @@
   }
 
   // Gallery: swipeable track of the product's images, with prev/next arrows
+  // and a rail of thumbnails that jump to their image
   function initGallery(root) {
     var track = root.querySelector("[data-gallery-track]");
     var prev = root.querySelector("[data-gallery-prev]");
     var next = root.querySelector("[data-gallery-next]");
+    var rail = root.querySelector("[data-gallery-thumbs]");
+    var thumbs = Array.prototype.slice.call(root.querySelectorAll("[data-gallery-thumb]"));
+    var active = -1;
     if (!track) return;
 
     var slides = Array.prototype.slice.call(track.children);
@@ -398,11 +402,40 @@
     if (prev) prev.addEventListener("click", function () { goTo(currentIndex() - 1); });
     if (next) next.addEventListener("click", function () { goTo(currentIndex() + 1); });
 
+    thumbs.forEach(function (thumb, i) {
+      thumb.addEventListener("click", function () { goTo(i); });
+    });
+
+    // Keep the active thumbnail in view by scrolling the rail only, so the
+    // page itself never jumps
+    function revealThumb(thumb) {
+      var item = thumb.parentElement;
+      var vertical = rail.scrollHeight > rail.clientHeight;
+      var start = vertical ? item.offsetTop : item.offsetLeft;
+      var size = vertical ? item.offsetHeight : item.offsetWidth;
+      var view = vertical ? rail.clientHeight : rail.clientWidth;
+      var pos = vertical ? rail.scrollTop : rail.scrollLeft;
+      var target = pos;
+      if (start < pos) target = start;
+      else if (start + size > pos + view) target = start + size - view;
+      if (target === pos) return;
+      rail.scrollTo(vertical
+        ? { top: target, behavior: scrollBehavior() }
+        : { left: target, behavior: scrollBehavior() });
+    }
+
     function update() {
       ticking = false;
       var index = currentIndex();
       if (prev) prev.disabled = index === 0;
       if (next) next.disabled = index === slides.length - 1;
+      if (index === active || !thumbs[index]) return;
+      active = index;
+      thumbs.forEach(function (thumb, i) {
+        if (i === index) thumb.setAttribute("aria-current", "true");
+        else thumb.removeAttribute("aria-current");
+      });
+      if (rail) revealThumb(thumbs[index]);
     }
 
     track.addEventListener("scroll", function () {
@@ -421,8 +454,9 @@
   }
 
   /* Buy form: plan cards mirror their radio, the hidden selling_plan input
-     follows the chosen plan (so the dynamic checkout button agrees), and the
-     add goes through the AJAX cart into Dawn's popup / drawer. */
+     follows the chosen plan (so the dynamic checkout button agrees), a card's
+     frequency dropdown swaps which plan its radio carries, and the add goes
+     through the AJAX cart into Dawn's popup / drawer. */
   function initBuyForm(section) {
     var form = section.querySelector("[data-ff-buy-form]");
     var configEl = section.querySelector("[data-ff-product-config]");
@@ -487,8 +521,118 @@
       errorEl.hidden = !message;
     }
 
+    // The radio carries the chosen frequency's plan, and the card shows its price
+    function applyFrequency(card) {
+      var select = card.querySelector("[data-ff-frequency]");
+      var option = select && select.options[select.selectedIndex];
+      if (!option) return;
+      card.querySelector(".plan__input").value = option.value;
+      var price = card.querySelector(".plan__price");
+      if (price) price.textContent = option.dataset.price;
+      var compare = card.querySelector("[data-ff-compare]");
+      if (compare) {
+        compare.textContent = option.dataset.compare;
+        compare.hidden = !option.dataset.compare;
+      }
+      var saving = card.querySelector("[data-ff-saving]");
+      if (saving) {
+        saving.textContent = option.dataset.saving;
+        saving.hidden = !option.dataset.saving;
+      }
+    }
+
+    // Using a card's dropdown chooses that card
+    function chooseCard(select) {
+      var card = select.closest(".plan");
+      card.querySelector(".plan__input").checked = true;
+      applyFrequency(card);
+      syncPlans();
+    }
+
     form.addEventListener("change", function (e) {
-      if (e.target.classList.contains("plan__input")) syncPlans();
+      if (e.target.matches("[data-ff-frequency]")) chooseCard(e.target);
+      else if (e.target.classList.contains("plan__input")) syncPlans();
+    });
+    form.addEventListener("focusin", function (e) {
+      if (e.target.matches("[data-ff-frequency]")) chooseCard(e.target);
+    });
+
+    // Variant picker: the chosen values pick a variant, then the section is
+    // rendered for it and its picker, plans, price and stock swapped in
+    var request = 0;
+
+    function findVariant(picker, changed) {
+      var variants = JSON.parse(picker.querySelector("[data-ff-variants]").textContent);
+      var chosen = Array.prototype.map.call(picker.querySelectorAll(".variant-picker__input:checked"), function (input) {
+        return input.value;
+      });
+      var index = Number(changed.dataset.optionIndex);
+      var exact = variants.filter(function (v) {
+        return v.options.every(function (value, i) { return value === chosen[i]; });
+      })[0];
+      // No variant for that combination: take the first with the value just picked
+      return exact || variants.filter(function (v) { return v.options[index] === changed.value; })[0];
+    }
+
+    function showVariantMedia(mediaId) {
+      var track = section.querySelector("[data-gallery-track]");
+      var slide = mediaId && track && track.querySelector('[data-media-id="' + mediaId + '"]');
+      if (!slide) return;
+      var index = Array.prototype.indexOf.call(track.children, slide);
+      track.scrollTo({ left: index * track.clientWidth, behavior: scrollBehavior() });
+    }
+
+    function selectVariant(variant) {
+      var current = request += 1;
+      var url = window.location.pathname + "?variant=" + variant.id;
+      submit.disabled = true;
+      if (stickyAdd) stickyAdd.disabled = true;
+      showError("");
+      showVariantMedia(variant.media);
+
+      fetch(url + "&section_id=" + encodeURIComponent(section.dataset.sectionId))
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.statusText);
+          return res.text();
+        })
+        .then(function (html) {
+          if (current !== request) return;
+          var fresh = new DOMParser().parseFromString(html, "text/html").querySelector("[data-ff-product]");
+          var checked = plans.map(function (card) { return card.querySelector(".plan__input").checked; }).indexOf(true);
+          var frequencies = plans.map(function (card) {
+            var select = card.querySelector("[data-ff-frequency]");
+            return select && select.value;
+          });
+
+          section.querySelector("[data-ff-variant-picker]").replaceWith(fresh.querySelector("[data-ff-variant-picker]"));
+          configEl.textContent = fresh.querySelector("[data-ff-product-config]").textContent;
+          config = JSON.parse(configEl.textContent);
+          form.querySelector('[name="id"]').value = variant.id;
+          form.querySelector(".plans").innerHTML = fresh.querySelector(".plans").innerHTML;
+
+          // Keep the same purchase option and frequency chosen when the new variant offers them
+          plans = Array.prototype.slice.call(form.querySelectorAll(".plan"));
+          plans.forEach(function (card, i) {
+            var select = card.querySelector("[data-ff-frequency]");
+            if (!select || !frequencies[i]) return;
+            if (select.querySelector('option[value="' + frequencies[i] + '"]')) select.value = frequencies[i];
+            applyFrequency(card);
+          });
+          if (plans[checked]) plans[checked].querySelector(".plan__input").checked = true;
+          syncPlans();
+          setBusy(busy);
+          window.history.replaceState(window.history.state, "", url);
+        })
+        .catch(function () {
+          window.location.assign(url);
+        });
+    }
+
+    section.addEventListener("change", function (e) {
+      var picker = e.target.closest("[data-ff-variant-picker]");
+      if (!picker) return;
+      var variant = findVariant(picker, e.target);
+      if (variant) selectVariant(variant);
     });
     dec.addEventListener("click", function () { setQty(+qty.value - 1); });
     inc.addEventListener("click", function () { setQty(+qty.value + 1); });
@@ -583,6 +727,30 @@
     });
     [row, footer].forEach(function (el) {
       if (el) observer.observe(el);
+    });
+  }
+
+  /* Dialog opener: a button names the <dialog> it opens. Escape and the
+     dialog's own close button are native; a click on the backdrop closes too.
+     Lazy images inside start loading as soon as the button is hovered or
+     focused, so they're usually ready by the time it opens. */
+  function initDialogOpener(button) {
+    var dialog = document.getElementById(button.getAttribute("data-ff-dialog-open"));
+    if (!dialog || typeof dialog.showModal !== "function") return;
+
+    function preload() {
+      each(dialog, 'img[loading="lazy"]', function (img) { img.loading = "eager"; });
+    }
+    button.addEventListener("pointerenter", preload, { once: true });
+    button.addEventListener("focus", preload, { once: true });
+    button.addEventListener("click", function () {
+      preload();
+      dialog.showModal();
+    });
+    if (dialog.hasAttribute("data-ff-dialog-ready")) return;
+    dialog.setAttribute("data-ff-dialog-ready", "");
+    dialog.addEventListener("click", function (e) {
+      if (e.target === dialog) dialog.close();
     });
   }
 
@@ -737,6 +905,7 @@
     each(scope, "[data-ff-gallery]", initGallery);
     each(scope, "[data-ff-product]", initBuyForm);
     each(scope, "[data-ff-details]", initDetails);
+    each(scope, "[data-ff-dialog-open]", initDialogOpener);
     each(scope, "[data-ff-ingredients]", initIngredients);
   }
 

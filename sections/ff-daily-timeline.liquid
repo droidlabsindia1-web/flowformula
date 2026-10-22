@@ -1,0 +1,354 @@
+{%- render 'ff-assets' -%}
+{%- if section.settings.font == 'inter' -%}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap" rel="stylesheet">
+{%- endif -%}
+{{ 'ff-daily-timeline.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ff-daily-timeline.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # Every look setting becomes a CSS variable on the section
+  assign s = section.settings
+  case s.font
+    when 'inter'
+      assign font_stack = '"Inter", system-ui, -apple-system, "Segoe UI", sans-serif'
+    when 'fraunces'
+      assign font_stack = 'var(--font-serif)'
+    when 'poppins'
+      assign font_stack = 'var(--font-poppins)'
+    else
+      assign font_stack = 'var(--font-sans)'
+  endcase
+  capture timeline_style
+    echo '--dt-font: ' | append: font_stack | append: ';'
+    echo '--dt-container: ' | append: s.container_width | append: 'px;'
+    echo '--dt-content-w: ' | append: s.content_width | append: 'px;'
+    echo '--dt-steps-w: ' | append: s.steps_width | append: 'px;'
+    echo '--dt-gap: ' | append: s.column_gap | append: 'px;'
+    echo '--dt-img-w: ' | append: s.image_width | append: 'px;'
+    echo '--dt-img-w-m: ' | append: s.image_width_mobile | append: 'px;'
+    echo '--dt-feat-cols: ' | append: s.feature_columns | append: ';'
+    echo '--dt-feat-cols-m: ' | append: s.feature_columns_mobile | append: ';'
+    echo '--dt-feat-gap: ' | append: s.feature_gap | append: 'px;'
+    echo '--dt-feat-mt: ' | append: s.features_spacing | append: 'px;'
+    echo '--dt-feat-mt-m: ' | append: s.features_spacing_mobile | append: 'px;'
+    echo '--dt-icon: ' | append: s.icon_size | append: 'px;'
+    echo '--dt-icon-m: ' | append: s.icon_size_mobile | append: 'px;'
+    echo '--dt-mt: ' | append: s.margin_top | append: 'px;'
+    echo '--dt-mb: ' | append: s.margin_bottom | append: 'px;'
+    echo '--dt-mt-m: ' | append: s.margin_top_mobile | append: 'px;'
+    echo '--dt-mb-m: ' | append: s.margin_bottom_mobile | append: 'px;'
+    echo '--dt-pt: ' | append: s.padding_top | append: 'px;'
+    echo '--dt-pb: ' | append: s.padding_bottom | append: 'px;'
+    echo '--dt-pt-m: ' | append: s.padding_top_mobile | append: 'px;'
+    echo '--dt-pb-m: ' | append: s.padding_bottom_mobile | append: 'px;'
+    echo '--dt-h-fs: ' | append: s.heading_size | append: 'px;'
+    echo '--dt-h-fs-m: ' | append: s.heading_size_mobile | append: 'px;'
+    echo '--dt-text-fs: ' | append: s.text_size | append: 'px;'
+    echo '--dt-text-fs-m: ' | append: s.text_size_mobile | append: 'px;'
+    echo '--dt-step-fs: ' | append: s.step_title_size | append: 'px;'
+    echo '--dt-step-fs-m: ' | append: s.step_title_size_mobile | append: 'px;'
+    echo '--dt-feat-fs: ' | append: s.feature_title_size | append: 'px;'
+    echo '--dt-feat-fs-m: ' | append: s.feature_title_size_mobile | append: 'px;'
+    if s.background != blank and s.background.alpha != 0.0
+      echo '--dt-bg: ' | append: s.background | append: ';'
+    endif
+    if s.heading_color != blank and s.heading_color.alpha != 0.0
+      echo '--dt-heading-c: ' | append: s.heading_color | append: ';'
+    endif
+    if s.text_color != blank and s.text_color.alpha != 0.0
+      echo '--dt-text-c: ' | append: s.text_color | append: ';'
+    endif
+    if s.line_color != blank and s.line_color.alpha != 0.0
+      echo '--dt-line-c: ' | append: s.line_color | append: ';'
+    endif
+    if s.icon_background != blank and s.icon_background.alpha != 0.0
+      echo '--dt-icon-bg: ' | append: s.icon_background | append: ';'
+    endif
+    if s.icon_color != blank and s.icon_color.alpha != 0.0
+      echo '--dt-icon-c: ' | append: s.icon_color | append: ';'
+    endif
+  endcapture
+
+  assign step_blocks = section.blocks | where: 'type', 'step'
+  assign feature_blocks = section.blocks | where: 'type', 'feature'
+
+  assign classes = 'timeline-sec timeline-sec--align-m-' | append: s.text_align_mobile
+  if s.lowercase_titles
+    assign classes = classes | append: ' timeline-sec--lower'
+  endif
+  if s.show_dots
+    assign classes = classes | append: ' timeline-sec--dots'
+  endif
+  if s.highlight != 'off'
+    assign classes = classes | append: ' timeline-sec--highlight-' | append: s.highlight
+  endif
+  if s.round_icons
+    assign classes = classes | append: ' timeline-sec--round-icons'
+  endif
+
+  # Falls back to the product's own photo on product pages
+  assign media_image = s.image
+  if media_image == blank and product != blank
+    assign media_image = product.featured_image
+  endif
+-%}
+
+<section
+  class="{{ classes }}"
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | handleize }}"{% endif %}
+  style="{{ timeline_style | strip_newlines }}"
+  {% if s.heading != blank %}aria-labelledby="timeline-title-{{ section.id }}"{% endif %}
+  data-ff-timeline
+>
+  <div class="timeline-sec__container">
+    <div class="timeline-sec__grid">
+      <div class="timeline-sec__intro">
+        {%- if s.heading != blank -%}
+          <h2 class="timeline-sec__title" id="timeline-title-{{ section.id }}">{{ s.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if s.text != blank -%}
+          <div class="timeline-sec__text">{{ s.text }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="timeline-sec__media">
+        {%- if media_image != blank -%}
+          {%- render 'dizzy-image',
+            image: media_image,
+            alt: s.image_alt,
+            class: 'timeline-sec__img',
+            sizes: '(max-width: 767px) 70vw, 300px',
+            widths: '300,450,600,900'
+          -%}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'timeline-sec__img timeline-sec__placeholder' }}
+        {%- endif -%}
+      </div>
+
+      {%- if step_blocks.size > 0 -%}
+        <ol class="timeline-sec__steps" role="list">
+          {%- for block in step_blocks -%}
+            <li
+              class="timeline-sec__step{% if forloop.first %} is-active{% endif %}"
+              data-ff-timeline-step
+              data-block-id="{{ block.id }}"
+              {{ block.shopify_attributes }}
+            >
+              <h3 class="timeline-sec__step-title">{{ block.settings.title | escape }}</h3>
+              {%- if block.settings.text != blank -%}
+                <div class="timeline-sec__step-text">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ol>
+      {%- endif -%}
+    </div>
+
+    {%- if feature_blocks.size > 0 -%}
+      <ul class="timeline-sec__features" role="list">
+        {%- for block in feature_blocks -%}
+          {%- assign bs = block.settings -%}
+          <li class="timeline-sec__feature" {{ block.shopify_attributes }}>
+            {%- if bs.icon_image != blank -%}
+              <div class="timeline-sec__icon timeline-sec__icon--image">
+                {{- bs.icon_image | image_url: width: 200 | image_tag: widths: '100,150,200', sizes: '70px', loading: 'lazy', alt: '' -}}
+              </div>
+            {%- elsif bs.icon != 'none' -%}
+              <div class="timeline-sec__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    {%- case bs.icon -%}
+                      {%- when 'sachet' -%}
+                        <path d="M6 3.5h12v17H6zM6 7h12M9.5 3.5 8.5 2M14.5 3.5l1-1.5"/><path d="M12 10.5c-1.4 1.6-2.2 2.8-2.2 3.8a2.2 2.2 0 0 0 4.4 0c0-1-.8-2.2-2.2-3.8Z"/>
+                      {%- when 'capsule' -%}
+                        <path d="m10.5 20.5-7-7a4.95 4.95 0 0 1 7-7l7 7a4.95 4.95 0 0 1-7 7ZM7 10l7 7"/>
+                      {%- when 'heart' -%}
+                        <path d="M12 20.5s-8.5-5-8.5-11A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8.5 2.5c0 6-8.5 11-8.5 11Z"/>
+                      {%- when 'leaf' -%}
+                        <path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l7-7"/>
+                      {%- when 'clock' -%}
+                        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+                      {%- when 'shield' -%}
+                        <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.6 7.5 10 4.3-1.4 7.5-5.4 7.5-10v-6L12 2.5Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/>
+                      {%- when 'sparkle' -%}
+                        <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>
+                    {%- endcase -%}
+                  </g>
+                </svg>
+              </div>
+            {%- endif -%}
+            <div class="timeline-sec__feature-body">
+              {%- if bs.title != blank -%}
+                <h3 class="timeline-sec__feature-title">{{ bs.title | escape }}</h3>
+              {%- endif -%}
+              {%- if bs.text != blank -%}
+                <div class="timeline-sec__feature-text">{{ bs.text }}</div>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF daily timeline",
+  "class": "ff",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One Capsule. Once a Day. That's It." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Women's Probiotic delivers 50 billion CFUs from 6 targeted strains, plus cranberry and D-Mannose for urinary tract support in one easy-to-swallow capsule.</p><p>No horse pills. No complicated routine. No aftertaste. Just real support for your gut, your immunity, and your day-to-day comfort.‡</p>" },
+
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Transparent product shot works best. Uses the product's featured image when empty." },
+    { "type": "text", "id": "image_alt", "label": "Alt text" },
+    { "type": "range", "id": "image_width", "label": "Image width on desktop", "min": 150, "max": 500, "step": 5, "unit": "px", "default": 295 },
+    { "type": "range", "id": "image_width_mobile", "label": "Image width on mobile", "min": 120, "max": 360, "step": 4, "unit": "px", "default": 220 },
+
+    { "type": "header", "content": "Timeline" },
+    {
+      "type": "select",
+      "id": "highlight",
+      "label": "Highlight the step in view",
+      "info": "Fades the other steps as visitors scroll.",
+      "options": [
+        { "value": "mobile", "label": "On mobile" },
+        { "value": "always", "label": "On all screens" },
+        { "value": "off", "label": "Off" }
+      ],
+      "default": "mobile"
+    },
+    { "type": "checkbox", "id": "show_dots", "label": "Show dots on the line", "default": false },
+
+    { "type": "header", "content": "Features" },
+    { "type": "range", "id": "feature_columns", "label": "Columns on desktop", "min": 2, "max": 4, "step": 1, "default": 3 },
+    {
+      "type": "select",
+      "id": "feature_columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    },
+    { "type": "range", "id": "feature_gap", "label": "Space between features", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "icon_size", "label": "Icon size on desktop", "min": 32, "max": 120, "step": 2, "unit": "px", "default": 70 },
+    { "type": "range", "id": "icon_size_mobile", "label": "Icon size on mobile", "min": 32, "max": 120, "step": 2, "unit": "px", "default": 60 },
+    { "type": "checkbox", "id": "round_icons", "label": "Crop uploaded icons to a circle", "default": false },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "container_width", "label": "Maximum width", "min": 960, "max": 1600, "step": 10, "unit": "px", "default": 1340 },
+    { "type": "range", "id": "content_width", "label": "Text column width", "info": "Never more than 35% of the row.", "min": 280, "max": 600, "step": 10, "unit": "px", "default": 440 },
+    { "type": "range", "id": "steps_width", "label": "Timeline column width", "info": "Never more than 32% of the row.", "min": 240, "max": 500, "step": 10, "unit": "px", "default": 340 },
+    { "type": "range", "id": "column_gap", "label": "Space between columns", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 30 },
+    { "type": "range", "id": "features_spacing", "label": "Space above features on desktop", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "features_spacing_mobile", "label": "Space above features on mobile", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Heading and text alignment on mobile",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "margin_top", "label": "Top margin on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom", "label": "Bottom margin on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_top_mobile", "label": "Top margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom_mobile", "label": "Bottom margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Top padding on desktop", "info": "Useful with a background colour.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
+
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "Font",
+      "options": [
+        { "value": "montserrat", "label": "Montserrat (theme)" },
+        { "value": "inter", "label": "Inter" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "poppins", "label": "Poppins" }
+      ],
+      "default": "montserrat"
+    },
+    { "type": "checkbox", "id": "lowercase_titles", "label": "Lowercase titles", "default": true },
+    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled to about 75% on tablet.", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 50 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 16, "max": 48, "step": 1, "unit": "px", "default": 36 },
+    { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "step_title_size", "label": "Step title size on desktop", "min": 14, "max": 48, "step": 1, "unit": "px", "default": 28 },
+    { "type": "range", "id": "step_title_size_mobile", "label": "Step title size on mobile", "min": 14, "max": 40, "step": 1, "unit": "px", "default": 24 },
+    { "type": "range", "id": "feature_title_size", "label": "Feature title size on desktop", "min": 14, "max": 40, "step": 1, "unit": "px", "default": 24 },
+    { "type": "range", "id": "feature_title_size_mobile", "label": "Feature title size on mobile", "min": 14, "max": 36, "step": 1, "unit": "px", "default": 20 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "info": "Leave empty to use the page background." },
+    { "type": "color", "id": "heading_color", "label": "Titles", "info": "Leave empty for the theme navy." },
+    { "type": "color", "id": "text_color", "label": "Text", "info": "Leave empty for the theme grey." },
+    { "type": "color", "id": "line_color", "label": "Timeline line", "info": "Leave empty for the theme pink." },
+    { "type": "color", "id": "icon_background", "label": "Icon circle", "info": "Built-in icons only. Leave empty for the theme pink." },
+    { "type": "color", "id": "icon_color", "label": "Icon", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Section" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #results." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Timeline step",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Day 1" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>The good bacteria get to work, kickstarting your gut microbiome and digestive balance.‡</p>" }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Women's probiotic support" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Science-backed probiotic strains that support digestive health, urinary tract balance, immune function, and overall wellness.</p>" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "sachet", "label": "Sachet" },
+            { "value": "capsule", "label": "Capsule" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "heart"
+        },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon", "info": "Replaces the icon above. Square, around 200 × 200px." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FF daily timeline",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Day 1", "text": "<p>The good bacteria get to work, kickstarting your gut microbiome and digestive balance.‡</p>" } },
+        { "type": "step", "settings": { "title": "Day 3", "text": "<p>Less bloat, smoother digestion, and noticeably better daily comfort.‡</p>" } },
+        { "type": "step", "settings": { "title": "Day 5", "text": "<p>Your body settles into a steadier rhythm gut and feminine wellness working in sync.‡</p>" } },
+        { "type": "step", "settings": { "title": "Day 7", "text": "<p>Ongoing support for gut harmony, vaginal flora balance, and everyday wellness.‡</p>" } },
+        { "type": "feature", "settings": { "title": "Women's probiotic support", "icon": "sparkle", "text": "<p>Science-backed probiotic strains that support digestive health, urinary tract balance, immune function, and overall wellness.</p>" } },
+        { "type": "feature", "settings": { "title": "Digestive & feminine health", "icon": "heart", "text": "<p>Built for women to promote digestive comfort and urinary tract health, without artificial fillers or harsh ingredients.</p>" } },
+        { "type": "feature", "settings": { "title": "How to take it", "icon": "clock", "text": "<p>Take one capsule daily with water, preferably with a meal. Easy to add to your routine no refrigeration required.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

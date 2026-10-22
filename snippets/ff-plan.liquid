@@ -7,12 +7,33 @@
   - selected: {Boolean}
   - title: {String}
   - price: {Number} price in cents
+  - compare: {Number} price before the plan's discount, struck through when
+    higher than price (optional)
   - saving: {String} pill text, e.g. "Save 10%" (optional)
   - badge: {String} corner badge, e.g. "Recommended" (optional)
   - features: {String} one per line, shown with ticks (optional)
+  - allocations: {Array} the variant's selling_plan_allocations (optional)
+  - plan_group: {String} selling plan group ID; when it holds more than one of
+    the allocations, they're offered as a delivery frequency dropdown (optional)
+  - frequency_label: {String} shown above the dropdown (optional)
+  - auto_saving: {Boolean} saving was worked out from the price, so it follows
+    the chosen frequency (optional)
   - attributes: {String} block.shopify_attributes for the theme editor (optional)
 {%- endcomment -%}
-{%- assign feature_lines = features | newline_to_br | split: '<br />' -%}
+{%- liquid
+  assign feature_lines = features | newline_to_br | split: '<br />'
+  assign current_plan = plan | append: ''
+
+  assign frequency_count = 0
+  if plan_group != blank
+    for allocation in allocations
+      assign allocation_group = allocation.selling_plan_group_id | append: ''
+      if allocation_group == plan_group
+        assign frequency_count = frequency_count | plus: 1
+      endif
+    endfor
+  endif
+-%}
 <label class="plan{% if selected %} is-selected{% endif %}" {{ attributes }}>
   <input
     class="plan__input"
@@ -25,10 +46,23 @@
   <span class="plan__body">
     <span class="plan__head">
       <span class="plan__name">{{ title | escape }}</span>
-      <span class="plan__price">{{ price | money }}</span>
+      <span class="plan__prices">
+        {%- if compare > price or frequency_count > 1 -%}
+          <s class="plan__compare" data-ff-compare{% unless compare > price %} hidden{% endunless %}>
+            {{- compare | money -}}
+          </s>
+        {%- endif -%}
+        <span class="plan__price">{{ price | money }}</span>
+      </span>
     </span>
-    {%- if saving != blank -%}
-      <span class="pill">{{ saving | escape }}</span>
+    {%- if saving != blank or frequency_count > 1 and auto_saving -%}
+      <span
+        class="pill"
+        {% if frequency_count > 1 and auto_saving %}data-ff-saving{% endif %}
+        {% if saving == blank %}hidden{% endif %}
+      >
+        {{- saving | escape -}}
+      </span>
     {%- endif -%}
     {%- if features != blank -%}
       <span class="plan__features">
@@ -36,6 +70,49 @@
           {%- assign feature = line | strip -%}
           {%- if feature != blank -%}<span>{{ feature | escape }}</span>{%- endif -%}
         {%- endfor -%}
+      </span>
+    {%- endif -%}
+    {%- if frequency_count > 1 -%}
+      {%- assign frequency_id = group | append: '-frequency-' | append: current_plan -%}
+      <span class="plan__frequency">
+        {%- if frequency_label != blank -%}
+          <span class="plan__frequency-label" id="{{ frequency_id }}">{{ frequency_label | escape }}</span>
+        {%- endif -%}
+        <select
+          class="plan__select"
+          data-ff-frequency
+          {% if frequency_label != blank %}
+            aria-labelledby="{{ frequency_id }}"
+          {% else %}
+            aria-label="Delivery frequency"
+          {% endif %}
+        >
+          {%- for allocation in allocations -%}
+            {%- liquid
+              assign allocation_group = allocation.selling_plan_group_id | append: ''
+              if allocation_group != plan_group
+                continue
+              endif
+              assign allocation_plan = allocation.selling_plan.id | append: ''
+              assign option_saving = ''
+              if allocation.compare_at_price > allocation.price
+                assign pct = allocation.compare_at_price | minus: allocation.price | times: 100.0 | divided_by: allocation.compare_at_price | round
+                assign option_saving = 'Save ' | append: pct | append: '%'
+              endif
+            -%}
+            <option
+              value="{{ allocation_plan }}"
+              data-price="{{ allocation.price | money | escape }}"
+              data-compare="{% if allocation.compare_at_price > allocation.price %}{{ allocation.compare_at_price | money | escape }}{% endif %}"
+              data-saving="{{ option_saving }}"
+              {% if allocation_plan == current_plan %}
+                selected
+              {% endif %}
+            >
+              {{- allocation.selling_plan.options.first.value | default: allocation.selling_plan.name | escape -}}
+            </option>
+          {%- endfor -%}
+        </select>
       </span>
     {%- endif -%}
   </span>

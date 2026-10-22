@@ -1,0 +1,367 @@
+{%- render 'ff-assets' -%}
+{%- if section.settings.font == 'inter' -%}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap" rel="stylesheet">
+{%- endif -%}
+{{ 'ff-split-cta.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ff-split-cta.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # Every look setting becomes a CSS variable on the section
+  assign s = section.settings
+  case s.font
+    when 'inter'
+      assign font_stack = '"Inter", system-ui, -apple-system, "Segoe UI", sans-serif'
+    when 'fraunces'
+      assign font_stack = 'var(--font-serif)'
+    when 'poppins'
+      assign font_stack = 'var(--font-poppins)'
+    else
+      assign font_stack = 'var(--font-sans)'
+  endcase
+  capture split_style
+    echo '--sc-font: ' | append: font_stack | append: ';'
+    echo '--sc-bg: ' | append: s.background | append: ';'
+    echo '--sc-heading-c: ' | append: s.heading_color | append: ';'
+    echo '--sc-text-c: ' | append: s.text_color | append: ';'
+    echo '--sc-trust-c: ' | append: s.trust_color | append: ';'
+    echo '--sc-btn-bg: ' | append: s.button_background | append: ';'
+    echo '--sc-btn-c: ' | append: s.button_text_color | append: ';'
+    echo '--sc-btn-border-c: ' | append: s.button_border_color | append: ';'
+    echo '--sc-btn-border-w: ' | append: s.button_border_width | append: 'px;'
+    echo '--sc-btn-radius: ' | append: s.button_radius | append: 'px;'
+    echo '--sc-container: ' | append: s.container_width | append: 'px;'
+    echo '--sc-content-w: ' | append: s.content_width | append: 'px;'
+    echo '--sc-media-w: ' | append: s.image_width | append: '%;'
+    echo '--sc-gap: ' | append: s.column_gap | append: 'px;'
+    echo '--sc-gap-m: ' | append: s.column_gap_mobile | append: 'px;'
+    echo '--sc-mt: ' | append: s.margin_top | append: 'px;'
+    echo '--sc-mb: ' | append: s.margin_bottom | append: 'px;'
+    echo '--sc-mt-m: ' | append: s.margin_top_mobile | append: 'px;'
+    echo '--sc-mb-m: ' | append: s.margin_bottom_mobile | append: 'px;'
+    echo '--sc-pt: ' | append: s.padding_top | append: 'px;'
+    echo '--sc-pb: ' | append: s.padding_bottom | append: 'px;'
+    echo '--sc-pt-m: ' | append: s.padding_top_mobile | append: 'px;'
+    echo '--sc-pb-m: ' | append: s.padding_bottom_mobile | append: 'px;'
+    echo '--sc-h-fs: ' | append: s.heading_size | append: 'px;'
+    echo '--sc-h-fs-m: ' | append: s.heading_size_mobile | append: 'px;'
+    echo '--sc-h-fw: ' | append: s.heading_weight | append: ';'
+    echo '--sc-h-ls: ' | append: s.heading_letter_spacing | append: 'px;'
+    echo '--sc-h-lh: ' | append: s.heading_line_height | append: ';'
+    echo '--sc-text-fs: ' | append: s.text_size | append: 'px;'
+    echo '--sc-text-fs-m: ' | append: s.text_size_mobile | append: 'px;'
+    echo '--sc-btn-fs: ' | append: s.button_size | append: 'px;'
+    echo '--sc-btn-fs-m: ' | append: s.button_size_mobile | append: 'px;'
+    echo '--sc-trust-fs: ' | append: s.trust_size | append: 'px;'
+    echo '--sc-trust-fs-m: ' | append: s.trust_size_mobile | append: 'px;'
+    echo '--sc-trust-icon: ' | append: s.trust_icon_size | append: 'px;'
+    echo '--sc-img-radius: ' | append: s.image_radius | append: 'px;'
+    echo '--sc-img-radius-m: ' | append: s.image_radius_mobile | append: 'px;'
+    if s.image_ratio != 'natural'
+      echo '--sc-img-ratio: ' | append: s.image_ratio | append: ';'
+    endif
+  endcapture
+
+  assign trust_blocks = section.blocks | where: 'type', 'trust'
+  assign button_href = s.button_link
+  if button_href == blank
+    assign button_href = '#'
+  endif
+
+  assign classes = 'split-cta'
+  if s.image_position == 'left'
+    assign classes = classes | append: ' split-cta--media-left'
+  endif
+  if s.mobile_image_first
+    assign classes = classes | append: ' split-cta--media-first-m'
+  endif
+  assign classes = classes | append: ' split-cta--align-' | append: s.text_align | append: ' split-cta--align-m-' | append: s.text_align_mobile
+  if s.image_ratio == 'natural'
+    assign classes = classes | append: ' split-cta--natural'
+  endif
+  if s.heading_lowercase
+    assign classes = classes | append: ' split-cta--title-lower'
+  endif
+  if s.button_lowercase
+    assign classes = classes | append: ' split-cta--btn-lower'
+  endif
+  if s.button_shadow
+    assign classes = classes | append: ' split-cta--btn-shadow'
+  endif
+  if s.full_width_button
+    assign classes = classes | append: ' split-cta--btn-full'
+  endif
+  if s.reveal
+    assign classes = classes | append: ' split-cta--reveal'
+  endif
+-%}
+
+<section
+  class="{{ classes }}"
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | handleize }}"{% endif %}
+  style="{{ split_style | strip_newlines }}"
+  {% if s.heading != blank %}aria-labelledby="split-cta-title-{{ section.id }}"{% endif %}
+  data-ff-split-cta
+>
+  <div class="split-cta__container">
+    <div class="split-cta__grid">
+      <div class="split-cta__content">
+        {%- if s.heading != blank -%}
+          <h2 class="split-cta__title" id="split-cta-title-{{ section.id }}">{{ s.heading | escape }}</h2>
+        {%- endif -%}
+
+        {%- if s.text != blank -%}
+          <div class="split-cta__text">{{ s.text }}</div>
+        {%- endif -%}
+
+        {%- if s.button_label != blank or trust_blocks.size > 0 -%}
+          <div class="split-cta__actions">
+            {%- if s.button_label != blank -%}
+              <a
+                class="split-cta__btn"
+                href="{{ button_href }}"
+                {% if s.button_link == blank %}data-ff-scroll-to-buy{% endif %}
+              >
+                {{- s.button_label | escape -}}
+              </a>
+            {%- endif -%}
+
+            {%- if trust_blocks.size > 0 -%}
+              <ul class="split-cta__trust">
+                {%- for block in trust_blocks -%}
+                  <li class="split-cta__trust-item" {{ block.shopify_attributes }}>
+                    {%- if block.settings.icon_image != blank -%}
+                      {{- block.settings.icon_image | image_url: width: 72 | image_tag: class: 'split-cta__trust-icon', loading: 'lazy', alt: '' -}}
+                    {%- elsif block.settings.icon != 'none' -%}
+                      <svg class="split-cta__trust-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          {%- case block.settings.icon -%}
+                            {%- when 'check' -%}
+                              <circle cx="12" cy="12" r="9.5"/><path d="m8 12.3 2.7 2.7L16.2 9.5"/>
+                            {%- when 'heart' -%}
+                              <path d="M12 20.5s-8.5-5-8.5-11A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8.5 2.5c0 6-8.5 11-8.5 11Z"/>
+                            {%- when 'shield' -%}
+                              <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.6 7.5 10 4.3-1.4 7.5-5.4 7.5-10v-6L12 2.5Z"/>
+                            {%- when 'star' -%}
+                              <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"/>
+                            {%- when 'leaf' -%}
+                              <path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l7-7"/>
+                            {%- when 'truck' -%}
+                              <path d="M2.5 6.5h11v10h-11zM13.5 10h4l3 3.5v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>
+                          {%- endcase -%}
+                        </g>
+                      </svg>
+                    {%- endif -%}
+                    <span>{{ block.settings.text | escape }}</span>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="split-cta__media">
+        {%- if s.image != blank -%}
+          {%- liquid
+            assign img_class = 'split-cta__img'
+            if s.image_mobile != blank
+              assign img_class = 'split-cta__img split-cta__img--desktop'
+            endif
+          -%}
+          {%- render 'dizzy-image',
+            image: s.image,
+            alt: s.image_alt,
+            class: img_class,
+            sizes: '(max-width: 767px) 100vw, 50vw',
+            widths: '480,800,1200,1600'
+          -%}
+          {%- if s.image_mobile != blank -%}
+            {%- render 'dizzy-image',
+              image: s.image_mobile,
+              alt: s.image_alt,
+              class: 'split-cta__img split-cta__img--mobile',
+              sizes: '100vw',
+              widths: '480,800,1200'
+            -%}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'product-apparel-1' | placeholder_svg_tag: 'split-cta__img split-cta__placeholder' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF split CTA",
+  "class": "ff",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your Body Knows When Something's Off. This Helps Fix It." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Try It Risk-Free - 60 Days to Decide" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll up to the add to cart form on product pages." },
+
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Landscape, around 1300 × 1000px." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional. Uses the main image when empty." },
+    { "type": "text", "id": "image_alt", "label": "Alt text" },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image shape",
+      "options": [
+        { "value": "16 / 12.3", "label": "Landscape (reference)" },
+        { "value": "4 / 3", "label": "4:3" },
+        { "value": "1", "label": "Square" },
+        { "value": "4 / 5", "label": "Portrait" },
+        { "value": "natural", "label": "Original image shape" }
+      ],
+      "default": "16 / 12.3"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position on desktop",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    { "type": "checkbox", "id": "mobile_image_first", "label": "Show image above text on mobile", "default": true },
+    { "type": "range", "id": "image_radius", "label": "Corner radius on desktop", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 34 },
+    { "type": "range", "id": "image_radius_mobile", "label": "Corner radius on mobile", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 24 },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "container_width", "label": "Maximum width", "min": 960, "max": 1600, "step": 10, "unit": "px", "default": 1350 },
+    { "type": "range", "id": "image_width", "label": "Image column width", "info": "Share of the row on desktop. The text column takes the rest.", "min": 35, "max": 65, "step": 1, "unit": "%", "default": 50 },
+    { "type": "range", "id": "content_width", "label": "Text column maximum width", "min": 320, "max": 700, "step": 10, "unit": "px", "default": 540 },
+    { "type": "range", "id": "column_gap", "label": "Space between columns", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "column_gap_mobile", "label": "Space between image and text on mobile", "min": 0, "max": 80, "step": 1, "unit": "px", "default": 35 },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment on desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text alignment on mobile",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "margin_top", "label": "Top margin on desktop", "info": "Space above the coloured background.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom", "label": "Bottom margin on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_top_mobile", "label": "Top margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom_mobile", "label": "Bottom margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Top padding on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "Font",
+      "options": [
+        { "value": "montserrat", "label": "Montserrat (theme)" },
+        { "value": "inter", "label": "Inter" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "poppins", "label": "Poppins" }
+      ],
+      "default": "montserrat"
+    },
+    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled to about 75% on tablet.", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 50 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 16, "max": 48, "step": 1, "unit": "px", "default": 36 },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
+    { "type": "range", "id": "heading_line_height", "label": "Heading line height", "min": 0.8, "max": 1.6, "step": 0.1, "default": 1.1 },
+    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": true },
+    { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "button_size", "label": "Button text size on desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "button_size_mobile", "label": "Button text size on mobile", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "trust_size", "label": "Badge text size on desktop", "min": 8, "max": 16, "step": 1, "unit": "px", "default": 11 },
+    { "type": "range", "id": "trust_size_mobile", "label": "Badge text size on mobile", "min": 7, "max": 16, "step": 1, "unit": "px", "default": 9 },
+    { "type": "range", "id": "trust_icon_size", "label": "Badge icon size", "min": 8, "max": 32, "step": 1, "unit": "px", "default": 12 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#D64BA1" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FFFFFF" },
+    { "type": "color", "id": "trust_color", "label": "Badges", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Button" },
+    { "type": "color", "id": "button_background", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "button_text_color", "label": "Text", "default": "#000000" },
+    { "type": "color", "id": "button_border_color", "label": "Border", "default": "#D64BA1" },
+    { "type": "range", "id": "button_border_width", "label": "Border width", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 3 },
+    { "type": "range", "id": "button_radius", "label": "Corner radius", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 12 },
+    { "type": "checkbox", "id": "button_lowercase", "label": "Lowercase label", "default": true },
+    { "type": "checkbox", "id": "button_shadow", "label": "Drop shadow", "default": true },
+    { "type": "checkbox", "id": "full_width_button", "label": "Full width", "default": true },
+
+    { "type": "header", "content": "Section" },
+    { "type": "checkbox", "id": "reveal", "label": "Fade in on scroll", "default": true },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #risk-free." }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Badge",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Third-Party Tested" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "check"
+        },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon", "info": "Replaces the icon above." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FF split CTA",
+      "blocks": [
+        { "type": "trust", "settings": { "text": "Third-Party Tested", "icon": "check" } },
+        { "type": "trust", "settings": { "text": "Developed with Doctors", "icon": "heart" } },
+        { "type": "trust", "settings": { "text": "60-Day Money-Back Guarantee", "icon": "shield" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -8,8 +8,11 @@
   assign images = product.media | where: 'media_type', 'image'
   assign bullet_blocks = section.blocks | where: 'type', 'bullet'
   assign usp_blocks = section.blocks | where: 'type', 'usp'
+  assign pill_blocks = section.blocks | where: 'type', 'pill'
+  assign ribbon_blocks = section.blocks | where: 'type', 'ribbon'
   assign option_blocks = section.blocks | where: 'type', 'option'
   assign detail_blocks = section.blocks | where: 'type', 'detail'
+  assign guarantee_blocks = section.blocks | where: 'type', 'guarantee'
 
   # Resolve each purchase option to one of this variant's selling plans.
   # A subscription option can name its plan (as shown in Apps > Subscriptions
@@ -17,11 +20,15 @@
   # resolved_list holds one entry per option: a plan ID, 'once' or 'missing'.
   # Options that can't be offered are skipped; if none can, the product's own
   # selling plans are listed instead.
+  # resolved_groups holds each option's selling plan group, so the other
+  # frequencies in that group can be offered in a dropdown on the card.
   assign resolved = ''
+  assign resolved_groups = ''
   assign valid_ids = ''
   assign selected_id = ''
   for block in option_blocks
     assign entry = 'missing'
+    assign entry_group = '-'
     if block.settings.kind == 'one_time'
       unless product.requires_selling_plan
         assign entry = 'once'
@@ -42,11 +49,13 @@
         endfor
         if wanted == blank or wanted == plan_id or wanted == group_name or plan_name contains wanted
           assign entry = plan_id
+          assign entry_group = allocation.selling_plan_group_id | append: ''
           break
         endif
       endfor
     endif
     assign resolved = resolved | append: entry | append: ','
+    assign resolved_groups = resolved_groups | append: entry_group | append: ','
     if entry != 'missing'
       assign valid_ids = valid_ids | append: forloop.index0 | append: ','
       if block.settings.selected and selected_id == blank
@@ -55,6 +64,7 @@
     endif
   endfor
   assign resolved_list = resolved | split: ','
+  assign resolved_group_list = resolved_groups | split: ','
   assign valid_list = valid_ids | split: ','
   assign auto_mode = false
   if valid_list.size == 0
@@ -67,8 +77,34 @@
 
 {%- capture options_html -%}
   {%- if auto_mode -%}
+    {%- assign shown_groups = ',' -%}
     {%- for allocation in variant.selling_plan_allocations -%}
       {%- liquid
+        # One card per selling plan group; its other plans go in the dropdown
+        assign plan_group = allocation.selling_plan_group_id | append: ''
+        assign group_key = ',' | append: plan_group | append: ','
+        if shown_groups contains group_key
+          continue
+        endif
+        assign shown_groups = shown_groups | append: plan_group | append: ','
+
+        assign option_title = allocation.selling_plan.name
+        assign frequency_count = 0
+        for sibling in variant.selling_plan_allocations
+          assign sibling_group = sibling.selling_plan_group_id | append: ''
+          if sibling_group == plan_group
+            assign frequency_count = frequency_count | plus: 1
+          endif
+        endfor
+        if frequency_count > 1
+          for plan_group_item in product.selling_plan_groups
+            assign group_id = plan_group_item.id | append: ''
+            if group_id == plan_group
+              assign option_title = plan_group_item.name
+            endif
+          endfor
+        endif
+
         assign saving = ''
         if allocation.compare_at_price > allocation.price
           assign pct = allocation.compare_at_price | minus: allocation.price | times: 100.0 | divided_by: allocation.compare_at_price | round
@@ -82,9 +118,13 @@
         group: group,
         plan: allocation.selling_plan.id,
         selected: forloop.first,
-        title: allocation.selling_plan.name,
+        title: option_title,
         price: allocation.price,
-        saving: saving
+        compare: allocation.compare_at_price,
+        saving: saving,
+        allocations: variant.selling_plan_allocations,
+        plan_group: plan_group,
+        auto_saving: true
       -%}
     {%- endfor -%}
     {%- unless product.requires_selling_plan -%}
@@ -107,6 +147,7 @@
       {%- liquid
         assign position = forloop.index0 | append: ''
         assign entry = resolved_list[forloop.index0]
+        assign plan_group = resolved_group_list[forloop.index0]
       -%}
       {%- if entry == 'missing' -%}
         {%- if request.design_mode -%}
@@ -149,7 +190,23 @@
           endif
         endif
 
+        # Offer the plan's other frequencies only when no other option uses
+        # the same plan, so two cards never show the same dropdown
+        assign group_uses = 0
+        for other_group in resolved_group_list
+          if other_group == plan_group
+            assign group_uses = group_uses | plus: 1
+          endif
+        endfor
+        if plan_group == '-' or group_uses > 1
+          assign plan_group = ''
+        endif
+
         assign saving = block.settings.saving
+        assign auto_saving = false
+        if saving == blank
+          assign auto_saving = true
+        endif
         if saving == blank and compare > price
           assign pct = compare | minus: price | times: 100.0 | divided_by: compare | round
           assign saving = 'Save ' | append: pct | append: '%'
@@ -167,9 +224,14 @@
         selected: selected,
         title: option_title,
         price: price,
+        compare: compare,
         saving: saving,
         badge: block.settings.badge,
         features: block.settings.features,
+        allocations: variant.selling_plan_allocations,
+        plan_group: plan_group,
+        frequency_label: block.settings.frequency_label,
+        auto_saving: auto_saving,
         attributes: block.shopify_attributes
       -%}
     {%- endfor -%}
@@ -181,6 +243,7 @@
   {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
   aria-labelledby="product-title-{{ section.id }}"
   data-ff-product
+  data-section-id="{{ section.id }}"
 >
   <script type="application/json" data-ff-product-config>
     {
@@ -193,31 +256,65 @@
   </script>
 
   <div class="pdp-hero__inner">
-    <div class="gallery" data-ff-gallery>
-      <ul class="gallery__track" data-gallery-track tabindex="0" aria-label="{{ title | escape }} images">
-        {%- for media in images -%}
-          <li class="gallery__slide">
-            {%- render 'dizzy-image',
-              image: media.preview_image,
-              alt: media.alt,
-              sizes: '(max-width: 767px) 100vw, (max-width: 1279px) 46vw, 627px',
-              widths: '480,700,1000,1300',
-              priority: forloop.first
-            -%}
-          </li>
-        {%- else -%}
-          <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'gallery__placeholder' }}</li>
-        {%- endfor -%}
-      </ul>
-      {%- if section.settings.tagline != blank -%}
-        <p class="gallery__tagline">{{ section.settings.tagline | escape | newline_to_br }}</p>
-      {%- endif -%}
-      {%- if images.size > 1 -%}
-        <button class="gallery__arrow gallery__arrow--prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}" data-gallery-prev>
-          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
-        </button>
-        <button class="gallery__arrow gallery__arrow--next" type="button" aria-label="{{ 'general.slider.next_slide' | t }}" data-gallery-next>
-          {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+    <div class="pdp-media{% if images.size > 1 %} pdp-media--thumbs{% endif %}" data-ff-gallery>
+      <div class="pdp-media__stage">
+        <div class="gallery"{% if images.size > 0 %} style="--gallery-ratio: {{ images.first.preview_image.aspect_ratio }};"{% endif %}>
+          <ul class="gallery__track" data-gallery-track tabindex="0" aria-label="{{ title | escape }} images">
+            {%- for media in images -%}
+              <li class="gallery__slide" data-media-id="{{ media.id }}">
+                {%- render 'dizzy-image',
+                  image: media.preview_image,
+                  alt: media.alt,
+                  sizes: '(max-width: 767px) 100vw, (max-width: 1279px) 46vw, 627px',
+                  widths: '480,700,1000,1300',
+                  priority: forloop.first
+                -%}
+              </li>
+            {%- else -%}
+              <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'gallery__placeholder' }}</li>
+            {%- endfor -%}
+          </ul>
+          {%- if section.settings.tagline != blank -%}
+            <p class="gallery__tagline">{{ section.settings.tagline | escape | newline_to_br }}</p>
+          {%- endif -%}
+          {%- if images.size > 1 -%}
+            <button class="gallery__arrow gallery__arrow--prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}" data-gallery-prev>
+              {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+            </button>
+            <button class="gallery__arrow gallery__arrow--next" type="button" aria-label="{{ 'general.slider.next_slide' | t }}" data-gallery-next>
+              {%- render 'ff-icon', icon: 'arrow', size: 20 -%}
+            </button>
+          {%- endif -%}
+        </div>
+        {%- if images.size > 1 -%}
+          <ul class="gallery__thumbs" data-gallery-thumbs>
+            {%- for media in images -%}
+              <li>
+                <button
+                  class="gallery__thumb"
+                  type="button"
+                  aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+                  {% if forloop.first %}aria-current="true"{% endif %}
+                  data-gallery-thumb="{{ forloop.index0 }}"
+                >
+                  {{- media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', widths: '100,200', sizes: '64px', alt: '' -}}
+                </button>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- liquid
+        assign show_label = false
+        if section.settings.label_image != blank or section.settings.label_image_url != blank
+          assign show_label = true
+        endif
+        assign label_text = section.settings.label_button | default: 'View Nutrient Label'
+      -%}
+      {%- if show_label -%}
+        <button class="label-btn" type="button" aria-haspopup="dialog" data-ff-dialog-open="label-{{ section.id }}">
+          {{- label_text | escape -}}
         </button>
       {%- endif -%}
     </div>
@@ -245,6 +342,87 @@
           <div class="buybox__lead">{{ product.description }}</div>
         {%- endif -%}
 
+        {%- if pill_blocks.size > 0 -%}
+          {%- liquid
+            # Every look setting becomes a CSS variable on the list; a pill's
+            # own colours and image override them on that pill only.
+            assign ps = section.settings
+            capture pill_style
+              echo '--pill-cols: ' | append: ps.pill_columns | append: ';'
+              echo '--pill-cols-m: ' | append: ps.pill_columns_mobile | append: ';'
+              echo '--pill-gap: ' | append: ps.pill_gap | append: 'px;'
+              echo '--pill-gap-m: ' | append: ps.pill_gap_mobile | append: 'px;'
+              echo '--pill-h: ' | append: ps.pill_height | append: 'px;'
+              echo '--pill-h-m: ' | append: ps.pill_height_mobile | append: 'px;'
+              echo '--pill-px: ' | append: ps.pill_padding | append: 'px;'
+              echo '--pill-radius: ' | append: ps.pill_radius | append: 'px;'
+              echo '--pill-border-w: ' | append: ps.pill_border_width | append: 'px;'
+              echo '--pill-fs: ' | append: ps.pill_font_size | append: 'px;'
+              echo '--pill-fs-m: ' | append: ps.pill_font_size_mobile | append: 'px;'
+              echo '--pill-fw: ' | append: ps.pill_font_weight | append: ';'
+              echo '--pill-tt: ' | append: ps.pill_text_transform | append: ';'
+              echo '--pill-icon: ' | append: ps.pill_icon_size | append: 'px;'
+              echo '--pill-icon-m: ' | append: ps.pill_icon_size_mobile | append: 'px;'
+              echo '--pill-icon-gap: ' | append: ps.pill_icon_gap | append: 'px;'
+              if ps.pill_background != blank and ps.pill_background.alpha != 0.0
+                echo '--pill-bg: ' | append: ps.pill_background | append: ';'
+              endif
+              if ps.pill_gradient != blank
+                echo '--pill-grad: ' | append: ps.pill_gradient | append: ';'
+              endif
+              if ps.pill_image != blank
+                echo '--pill-img: url(' | append: ps.pill_image | image_url: width: 1000 | append: ');'
+              endif
+              if ps.pill_text_color != blank and ps.pill_text_color.alpha != 0.0
+                echo '--pill-fg: ' | append: ps.pill_text_color | append: ';'
+              endif
+              if ps.pill_border_color != blank and ps.pill_border_color.alpha != 0.0
+                echo '--pill-border-c: ' | append: ps.pill_border_color | append: ';'
+              endif
+            endcapture
+          -%}
+          <ul
+            class="buybox__pills buybox__pills--icon-{{ ps.pill_icon_position }} buybox__pills--align-{{ ps.pill_align }}{% if ps.pill_shadow %} buybox__pills--shadow{% endif %}"
+            style="{{ pill_style | strip_newlines }}"
+          >
+            {%- for block in pill_blocks -%}
+              {%- liquid
+                assign bs = block.settings
+                capture own_style
+                  if bs.background != blank and bs.background.alpha != 0.0
+                    echo '--pill-bg: ' | append: bs.background | append: ';'
+                  endif
+                  if bs.gradient != blank
+                    echo '--pill-grad: ' | append: bs.gradient | append: ';'
+                  endif
+                  if bs.image != blank
+                    echo '--pill-img: url(' | append: bs.image | image_url: width: 1000 | append: ');'
+                  endif
+                  if bs.text_color != blank and bs.text_color.alpha != 0.0
+                    echo '--pill-fg: ' | append: bs.text_color | append: ';'
+                  endif
+                endcapture
+                assign icon_src = bs.icon.src | downcase
+              -%}
+              <li class="buybox__pill"{% if own_style != blank %} style="{{ own_style | strip_newlines }}"{% endif %} {{ block.shopify_attributes }}>
+                {%- if bs.link != blank -%}<a class="buybox__pill-inner" href="{{ bs.link }}">{%- else -%}<span class="buybox__pill-inner">{%- endif -%}
+                  {%- if bs.icon != blank -%}
+                    {%- if icon_src contains '.gif' -%}
+                      {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
+                      {{- bs.icon | image_url | image_tag: class: 'buybox__pill-icon', loading: 'lazy', alt: '' -}}
+                    {%- else -%}
+                      {{- bs.icon | image_url: width: 160 | image_tag: class: 'buybox__pill-icon', widths: '64,96,160', sizes: '48px', loading: 'lazy', alt: '' -}}
+                    {%- endif -%}
+                  {%- elsif bs.icon_url != blank -%}
+                    <img class="buybox__pill-icon" src="{{ bs.icon_url | escape }}" width="{{ ps.pill_icon_size }}" height="{{ ps.pill_icon_size }}" loading="lazy" alt="">
+                  {%- endif -%}
+                  <span class="buybox__pill-text">{{ bs.text | escape }}</span>
+                {%- if bs.link != blank -%}</a>{%- else -%}</span>{%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
         {%- if bullet_blocks.size > 0 -%}
           <ul class="buybox__bullets">
             {%- for block in bullet_blocks -%}
@@ -257,6 +435,97 @@
             {%- endfor -%}
           </ul>
         {%- endif -%}
+
+        {%- unless product.has_only_default_variant -%}
+          <div class="variant-picker" data-ff-variant-picker>
+            <script type="application/json" data-ff-variants>
+              [
+                {%- for v in product.variants -%}
+                  {"id": {{ v.id }}, "options": {{ v.options | json }}, "media": {{ v.featured_media.id | json }}}
+                  {%- unless forloop.last %},{% endunless -%}
+                {%- endfor -%}
+              ]
+            </script>
+            {%- for option in product.options_with_values -%}
+              <fieldset class="variant-picker__option">
+                <legend class="variant-picker__label">
+                  {{- option.name | escape }}: <span>{{ option.selected_value | escape }}</span>
+                </legend>
+                <div class="variant-picker__values">
+                  {%- for value in option.values -%}
+                    <label class="variant-picker__value{% unless value.available %} is-unavailable{% endunless %}">
+                      <input
+                        class="variant-picker__input"
+                        type="radio"
+                        name="option-{{ section.id }}-{{ option.position }}"
+                        value="{{ value | escape }}"
+                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        {% if value.selected %}checked{% endif %}
+                      >
+                      <span class="variant-picker__box">{{ value | escape }}</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        {%- for block in ribbon_blocks -%}
+          {%- liquid
+            # Every look setting becomes a CSS variable on the ribbon
+            assign bs = block.settings
+            capture ribbon_style
+              echo '--ribbon-h: ' | append: bs.height | append: 'px;'
+              echo '--ribbon-h-m: ' | append: bs.height_mobile | append: 'px;'
+              echo '--ribbon-px: ' | append: bs.padding_x | append: 'px;'
+              echo '--ribbon-py: ' | append: bs.padding_y | append: 'px;'
+              echo '--ribbon-radius: ' | append: bs.radius | append: 'px;'
+              echo '--ribbon-border-w: ' | append: bs.border_width | append: 'px;'
+              echo '--ribbon-fs: ' | append: bs.font_size | append: 'px;'
+              echo '--ribbon-fs-m: ' | append: bs.font_size_mobile | append: 'px;'
+              echo '--ribbon-fw: ' | append: bs.font_weight | append: ';'
+              echo '--ribbon-icon: ' | append: bs.icon_size | append: 'px;'
+              echo '--ribbon-icon-m: ' | append: bs.icon_size_mobile | append: 'px;'
+              echo '--ribbon-gap: ' | append: bs.icon_gap | append: 'px;'
+              if bs.background != blank and bs.background.alpha != 0.0
+                echo '--ribbon-bg: ' | append: bs.background | append: ';'
+              endif
+              if bs.gradient != blank
+                echo '--ribbon-grad: ' | append: bs.gradient | append: ';'
+              endif
+              if bs.image != blank
+                echo '--ribbon-img: url(' | append: bs.image | image_url: width: 1400 | append: ');'
+              endif
+              if bs.text_color != blank and bs.text_color.alpha != 0.0
+                echo '--ribbon-fg: ' | append: bs.text_color | append: ';'
+              endif
+              if bs.border_color != blank and bs.border_color.alpha != 0.0
+                echo '--ribbon-border-c: ' | append: bs.border_color | append: ';'
+              endif
+            endcapture
+            assign icon_src = bs.icon.src | downcase
+          -%}
+          <div
+            class="ribbon ribbon--icon-{{ bs.icon_position }} ribbon--align-{{ bs.align }}{% if bs.shadow %} ribbon--shadow{% endif %}"
+            style="{{ ribbon_style | strip_newlines }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if bs.link != blank -%}<a class="ribbon__inner" href="{{ bs.link }}">{%- else -%}<div class="ribbon__inner">{%- endif -%}
+              {%- if bs.icon != blank -%}
+                {%- if icon_src contains '.gif' -%}
+                  {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
+                  {{- bs.icon | image_url | image_tag: class: 'ribbon__icon', loading: 'lazy', alt: '' -}}
+                {%- else -%}
+                  {{- bs.icon | image_url: width: 160 | image_tag: class: 'ribbon__icon', widths: '64,96,160', sizes: '48px', loading: 'lazy', alt: '' -}}
+                {%- endif -%}
+              {%- elsif bs.icon_url != blank -%}
+                <img class="ribbon__icon" src="{{ bs.icon_url | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
+              {%- endif -%}
+              <div class="ribbon__text">{{ bs.text }}</div>
+            {%- if bs.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+          </div>
+        {%- endfor -%}
 
         {%- if usp_blocks.size > 0 -%}
           <ul class="buybox__usps">
@@ -311,6 +580,10 @@
         <p class="buy-form__error" role="alert" hidden data-ff-buy-error></p>
       {%- endform -%}
 
+      {%- for block in guarantee_blocks -%}
+        {%- render 'ff-guarantee', block: block -%}
+      {%- endfor -%}
+
       {%- if detail_blocks.size > 0 -%}
         <div class="pdp-acc" data-ff-details>
           {%- for block in detail_blocks -%}
@@ -343,6 +616,28 @@
       {%- endif -%}
     </div>
   </div>
+
+  {%- if show_label -%}
+    <dialog class="label-modal" id="label-{{ section.id }}" aria-label="{{ label_text | escape }}">
+      <form method="dialog">
+        <button class="label-modal__close" type="submit" aria-label="{{ 'accessibility.close' | t }}">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+            <path d="m4 4 12 12M16 4 4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </form>
+      {%- if section.settings.label_image != blank -%}
+        {%- render 'dizzy-image',
+          image: section.settings.label_image,
+          class: 'label-modal__img',
+          sizes: '(max-width: 767px) 92vw, 720px',
+          widths: '600,900,1200,1600'
+        -%}
+      {%- else -%}
+        <img class="label-modal__img" src="{{ section.settings.label_image_url | escape }}" loading="lazy" alt="Nutrient label">
+      {%- endif -%}
+    </dialog>
+  {%- endif -%}
 
   {%- comment -%}
     Sticky add to basket (mobile only): title, the chosen option's price and
@@ -379,6 +674,72 @@
     { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
     { "type": "text", "id": "rating", "label": "Rating", "info": "Shown next to the 5 stars, e.g. 4.5. Leave empty to show stars only." },
     { "type": "richtext", "id": "description", "label": "Description", "info": "Defaults to the product description." },
+    { "type": "header", "content": "Benefit pills" },
+    { "type": "paragraph", "content": "Add a Benefit pill block for each pill. These settings style all pills; each pill can override its own colours and background image." },
+    { "type": "range", "id": "pill_columns", "label": "Columns on desktop", "min": 1, "max": 4, "step": 1, "default": 2 },
+    { "type": "range", "id": "pill_columns_mobile", "label": "Columns on mobile", "min": 1, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "pill_gap", "label": "Space between pills on desktop", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 10 },
+    { "type": "range", "id": "pill_gap_mobile", "label": "Space between pills on mobile", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 8 },
+    { "type": "color", "id": "pill_background", "label": "Background colour", "info": "Leave empty to use the brand pink." },
+    { "type": "color_background", "id": "pill_gradient", "label": "Background gradient", "info": "Shown over the background colour." },
+    { "type": "image_picker", "id": "pill_image", "label": "Background image", "info": "Covers the pill, over the colour and gradient." },
+    { "type": "color", "id": "pill_text_color", "label": "Text colour", "info": "Leave empty to use white." },
+    { "type": "color", "id": "pill_border_color", "label": "Border colour" },
+    { "type": "range", "id": "pill_border_width", "label": "Border width", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "pill_radius", "label": "Corner radius", "min": 0, "max": 60, "step": 1, "unit": "px", "default": 60, "info": "Highest value gives fully rounded ends." },
+    { "type": "checkbox", "id": "pill_shadow", "label": "Drop shadow", "default": false },
+    { "type": "range", "id": "pill_height", "label": "Minimum height on desktop", "min": 24, "max": 120, "step": 2, "unit": "px", "default": 42 },
+    { "type": "range", "id": "pill_height_mobile", "label": "Minimum height on mobile", "min": 24, "max": 120, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "pill_padding", "label": "Side padding", "info": "Scaled down by 40% on mobile.", "min": 0, "max": 48, "step": 1, "unit": "px", "default": 20 },
+    {
+      "type": "select",
+      "id": "pill_align",
+      "label": "Content alignment",
+      "options": [
+        { "value": "start", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "start"
+    },
+    { "type": "range", "id": "pill_font_size", "label": "Text size on desktop", "min": 10, "max": 32, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "pill_font_size_mobile", "label": "Text size on mobile", "min": 10, "max": 32, "step": 1, "unit": "px", "default": 12 },
+    {
+      "type": "select",
+      "id": "pill_font_weight",
+      "label": "Text weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "pill_text_transform",
+      "label": "Text case",
+      "options": [
+        { "value": "none", "label": "As typed" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "lowercase", "label": "lowercase" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "pill_icon_position",
+      "label": "Icon position",
+      "options": [
+        { "value": "left", "label": "Left of text" },
+        { "value": "right", "label": "Right of text" },
+        { "value": "top", "label": "Above text" }
+      ],
+      "default": "left"
+    },
+    { "type": "range", "id": "pill_icon_size", "label": "Icon size on desktop", "min": 12, "max": 80, "step": 1, "unit": "px", "default": 28 },
+    { "type": "range", "id": "pill_icon_size_mobile", "label": "Icon size on mobile", "min": 12, "max": 80, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "pill_icon_gap", "label": "Space between icon and text", "info": "Halved on mobile.", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 16 },
     { "type": "header", "content": "Purchase options" },
     { "type": "paragraph", "content": "Add a Purchase option block for each way to buy. Subscription prices and plans come from Apps > Subscriptions; an option whose plan isn't on the product is hidden and flagged here in the editor." },
     { "type": "text", "id": "legend", "label": "Options label (screen readers)" },
@@ -399,6 +760,10 @@
     },
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button" },
     { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to basket bar on mobile", "default": true, "info": "Pinned to the bottom of the screen on mobile; hidden while the main add to basket button or the footer is visible." },
+    { "type": "header", "content": "Nutrient label" },
+    { "type": "image_picker", "id": "label_image", "label": "Label image", "info": "Opens in a popup from a button below the product images. With no image or URL the button is hidden." },
+    { "type": "text", "id": "label_image_url", "label": "Label image URL", "info": "Used when no label image is picked, e.g. a file link from Content > Files." },
+    { "type": "text", "id": "label_button", "label": "Button label", "default": "View Nutrient Label" },
     { "type": "header", "content": "Section" },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
   ],
@@ -408,6 +773,88 @@
       "name": "Bullet point",
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Free UK delivery" }
+      ]
+    },
+    {
+      "type": "pill",
+      "name": "Benefit pill",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Daily Balance" },
+        { "type": "header", "content": "Icon" },
+        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "PNG, JPG, WebP or animated GIF. Use a transparent PNG for a clean edge." },
+        { "type": "url", "id": "icon_url", "label": "Icon file link", "info": "For SVG or other files: upload in Content > Files, copy the link and paste it here. Used when no icon image is picked." },
+        { "type": "url", "id": "link", "label": "Link", "info": "Optional. Makes the pill clickable." },
+        { "type": "header", "content": "Overrides for this pill" },
+        { "type": "paragraph", "content": "Leave empty to use the Benefit pills settings on the section." },
+        { "type": "color", "id": "background", "label": "Background colour" },
+        { "type": "color_background", "id": "gradient", "label": "Background gradient" },
+        { "type": "image_picker", "id": "image", "label": "Background image" },
+        { "type": "color", "id": "text_color", "label": "Text colour" }
+      ]
+    },
+    {
+      "type": "ribbon",
+      "name": "Ribbon",
+      "settings": [
+        { "type": "paragraph", "content": "Shown below the variant picker." },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Best results seen after <strong>a few months</strong> of consistent use</p>" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Optional. Makes the ribbon clickable." },
+        { "type": "header", "content": "Icon" },
+        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "PNG, JPG, WebP or animated GIF. Use a transparent PNG for a clean edge." },
+        { "type": "url", "id": "icon_url", "label": "Icon file link", "info": "For SVG or other files: upload in Content > Files, copy the link and paste it here. Used when no icon image is picked." },
+        {
+          "type": "select",
+          "id": "icon_position",
+          "label": "Icon position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" },
+            { "value": "top", "label": "Above text" }
+          ],
+          "default": "left"
+        },
+        { "type": "range", "id": "icon_size", "label": "Icon size on desktop", "min": 12, "max": 80, "step": 1, "unit": "px", "default": 20 },
+        { "type": "range", "id": "icon_size_mobile", "label": "Icon size on mobile", "min": 12, "max": 80, "step": 1, "unit": "px", "default": 18 },
+        { "type": "range", "id": "icon_gap", "label": "Space between icon and text", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 16 },
+        { "type": "header", "content": "Colours" },
+        { "type": "color", "id": "background", "label": "Background colour", "default": "#d64ba1" },
+        { "type": "color_background", "id": "gradient", "label": "Background gradient", "info": "Shown over the background colour." },
+        { "type": "image_picker", "id": "image", "label": "Background image", "info": "Covers the ribbon, over the colour and gradient." },
+        { "type": "color", "id": "text_color", "label": "Text colour", "default": "#ffffff" },
+        { "type": "color", "id": "border_color", "label": "Border colour" },
+        { "type": "header", "content": "Shape and size" },
+        { "type": "range", "id": "border_width", "label": "Border width", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 0 },
+        { "type": "range", "id": "radius", "label": "Corner radius", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 6 },
+        { "type": "checkbox", "id": "shadow", "label": "Drop shadow", "default": false },
+        { "type": "range", "id": "height", "label": "Minimum height on desktop", "min": 24, "max": 120, "step": 2, "unit": "px", "default": 40 },
+        { "type": "range", "id": "height_mobile", "label": "Minimum height on mobile", "min": 24, "max": 120, "step": 2, "unit": "px", "default": 36 },
+        { "type": "range", "id": "padding_x", "label": "Side padding", "info": "Scaled down by 40% on mobile.", "min": 0, "max": 48, "step": 1, "unit": "px", "default": 20 },
+        { "type": "range", "id": "padding_y", "label": "Top and bottom padding", "min": 0, "max": 32, "step": 1, "unit": "px", "default": 8 },
+        { "type": "header", "content": "Text" },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Content alignment",
+          "options": [
+            { "value": "start", "label": "Left" },
+            { "value": "center", "label": "Centre" }
+          ],
+          "default": "start"
+        },
+        { "type": "range", "id": "font_size", "label": "Text size on desktop", "min": 10, "max": 32, "step": 1, "unit": "px", "default": 16 },
+        { "type": "range", "id": "font_size_mobile", "label": "Text size on mobile", "min": 10, "max": 32, "step": 1, "unit": "px", "default": 12 },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Text weight",
+          "info": "Bold text in the editor always shows bold.",
+          "options": [
+            { "value": "400", "label": "Regular" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semibold" }
+          ],
+          "default": "400"
+        }
       ]
     },
     {
@@ -431,12 +878,71 @@
             { "value": "one_time", "label": "One-time purchase" }
           ]
         },
-        { "type": "text", "id": "plan", "label": "Subscription plan", "info": "Type the plan name exactly as it appears in Apps > Subscriptions > Plans, e.g. 1-Month Subscription. Leave empty to use the product's first plan. Not used for one-time purchase." },
+        { "type": "text", "id": "plan", "label": "Subscription plan", "info": "Type the plan name exactly as it appears in Apps > Subscriptions > Plans, e.g. 1-Month Subscription. Leave empty to use the product's first plan. If the plan has several delivery frequencies, this picks the default and the rest are offered in a dropdown. Not used for one-time purchase." },
         { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the plan name." },
         { "type": "text", "id": "saving", "label": "Saving label", "info": "Defaults to the plan's discount, e.g. \"Save 10%\"." },
         { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "text", "id": "frequency_label", "label": "Delivery frequency label", "info": "Shown above the frequency dropdown when the plan has more than one delivery frequency, e.g. Deliver every. Optional." },
         { "type": "textarea", "id": "features", "label": "Features", "info": "One per line, shown with ticks." },
         { "type": "checkbox", "id": "selected", "label": "Selected by default" }
+      ]
+    },
+    {
+      "type": "guarantee",
+      "name": "Guarantee",
+      "settings": [
+        { "type": "paragraph", "content": "Shown below the add to basket button." },
+        { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Your order is protected by" },
+        { "type": "text", "id": "title", "label": "Heading", "default": "60-Days Money-Back Guarantee" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>If you don’t love it - even in day 59 - full refund.</p>" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Optional. Makes the box clickable." },
+        { "type": "header", "content": "Icon" },
+        { "type": "checkbox", "id": "show_icon", "label": "Show icon", "default": true },
+        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "Defaults to a shield. PNG, JPG, WebP or animated GIF." },
+        { "type": "url", "id": "icon_url", "label": "Icon file link", "info": "For SVG or other files: upload in Content > Files, copy the link and paste it here. Used when no icon image is picked." },
+        { "type": "range", "id": "icon_size", "label": "Icon size on desktop", "min": 20, "max": 120, "step": 2, "unit": "px", "default": 64 },
+        { "type": "range", "id": "icon_size_mobile", "label": "Icon size on mobile", "min": 20, "max": 120, "step": 2, "unit": "px", "default": 48 },
+        { "type": "range", "id": "icon_gap", "label": "Space between icon and text", "info": "Scaled down by 40% on mobile.", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
+        { "type": "header", "content": "Colours" },
+        { "type": "color", "id": "background", "label": "Background colour", "default": "#ffffff" },
+        { "type": "color", "id": "border_color", "label": "Border colour", "default": "#d64ba1" },
+        { "type": "color", "id": "eyebrow_color", "label": "Small heading colour", "default": "#d64ba1" },
+        { "type": "color", "id": "title_color", "label": "Heading colour", "default": "#000000" },
+        { "type": "color", "id": "text_color", "label": "Text colour", "default": "#000000" },
+        { "type": "header", "content": "Shape and size" },
+        {
+          "type": "select",
+          "id": "border_style",
+          "label": "Border style",
+          "options": [
+            { "value": "dashed", "label": "Dashed" },
+            { "value": "dotted", "label": "Dotted" },
+            { "value": "solid", "label": "Solid" }
+          ],
+          "default": "dashed"
+        },
+        { "type": "range", "id": "border_width", "label": "Border width", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 2 },
+        { "type": "range", "id": "radius", "label": "Corner radius", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 20 },
+        { "type": "range", "id": "padding_x", "label": "Side padding", "info": "Scaled down by 40% on mobile.", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
+        { "type": "range", "id": "padding_y", "label": "Top and bottom padding", "info": "Scaled down by 40% on mobile.", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 24 },
+        { "type": "header", "content": "Text" },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Content alignment",
+          "options": [
+            { "value": "start", "label": "Left" },
+            { "value": "center", "label": "Centre" }
+          ],
+          "default": "start"
+        },
+        { "type": "checkbox", "id": "title_uppercase", "label": "Heading in UPPERCASE", "default": true },
+        { "type": "range", "id": "eyebrow_size", "label": "Small heading size on desktop", "min": 10, "max": 36, "step": 1, "unit": "px", "default": 22 },
+        { "type": "range", "id": "eyebrow_size_mobile", "label": "Small heading size on mobile", "min": 10, "max": 36, "step": 1, "unit": "px", "default": 16 },
+        { "type": "range", "id": "title_size", "label": "Heading size on desktop", "min": 10, "max": 36, "step": 1, "unit": "px", "default": 22 },
+        { "type": "range", "id": "title_size_mobile", "label": "Heading size on mobile", "min": 10, "max": 36, "step": 1, "unit": "px", "default": 16 },
+        { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 10, "max": 28, "step": 1, "unit": "px", "default": 16 },
+        { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 10, "max": 28, "step": 1, "unit": "px", "default": 13 }
       ]
     },
     {
