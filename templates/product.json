@@ -30,6 +30,50 @@
             "text": "Formulated by a woman with PCOS, for PCOS"
           }
         },
+        "pill_odor": {
+          "type": "pill",
+          "settings": {
+            "text": "Odor Control That Lasts",
+            "icon_url": "",
+            "link": "",
+            "background": "",
+            "gradient": "",
+            "text_color": ""
+          }
+        },
+        "pill_uti": {
+          "type": "pill",
+          "settings": {
+            "text": "UTI + pH Support",
+            "icon_url": "",
+            "link": "",
+            "background": "",
+            "gradient": "",
+            "text_color": ""
+          }
+        },
+        "pill_stomach": {
+          "type": "pill",
+          "settings": {
+            "text": "No Stomach Upset",
+            "icon_url": "",
+            "link": "",
+            "background": "",
+            "gradient": "",
+            "text_color": ""
+          }
+        },
+        "pill_balance": {
+          "type": "pill",
+          "settings": {
+            "text": "Daily Balance",
+            "icon_url": "",
+            "link": "",
+            "background": "",
+            "gradient": "",
+            "text_color": ""
+          }
+        },
         "ribbon_results": {
           "type": "ribbon",
           "settings": {
@@ -83,6 +127,7 @@
             "title": "Monthly Subscription",
             "saving": "Monthly Subscription",
             "badge": "Recommended",
+            "frequency_label": "",
             "features": "30 sachets delivered every 30 days\nFree UK delivery\nReminder before the next order\nPrice and renewal frequency shown clearly",
             "selected": true
           }
@@ -95,6 +140,7 @@
             "title": "One-Time Purchase",
             "saving": "30 sachets delivered once",
             "badge": "",
+            "frequency_label": "",
             "features": "",
             "selected": false
           }
@@ -154,30 +200,6 @@
             "content": "<p>Free UK delivery on every order. Subscriptions ship every 30 days — pause or cancel anytime.</p>",
             "open": false
           }
-        },
-        "pill_odor": {
-          "type": "pill",
-          "settings": {
-            "text": "Odor Control That Lasts"
-          }
-        },
-        "pill_uti": {
-          "type": "pill",
-          "settings": {
-            "text": "UTI + pH Support"
-          }
-        },
-        "pill_stomach": {
-          "type": "pill",
-          "settings": {
-            "text": "No Stomach Upset"
-          }
-        },
-        "pill_balance": {
-          "type": "pill",
-          "settings": {
-            "text": "Daily Balance"
-          }
         }
       },
       "block_order": [
@@ -205,6 +227,29 @@
         "show_rating": true,
         "rating": "4.5 outof 5",
         "description": "<p>A thoughtfully formulated daily drink combining key vitamins, minerals, live cultures and carefully selected ingredients in one pre-measured sachet.</p>",
+        "pill_columns": 2,
+        "pill_columns_mobile": 2,
+        "pill_gap": 10,
+        "pill_gap_mobile": 8,
+        "pill_background": "",
+        "pill_gradient": "",
+        "pill_text_color": "",
+        "pill_border_color": "",
+        "pill_border_width": 0,
+        "pill_radius": 60,
+        "pill_shadow": false,
+        "pill_height": 42,
+        "pill_height_mobile": 36,
+        "pill_padding": 20,
+        "pill_align": "start",
+        "pill_font_size": 16,
+        "pill_font_size_mobile": 12,
+        "pill_font_weight": "500",
+        "pill_text_transform": "none",
+        "pill_icon_position": "left",
+        "pill_icon_size": 28,
+        "pill_icon_size_mobile": 20,
+        "pill_icon_gap": 16,
         "legend": "Choose how to buy",
         "once_label": "One-time purchase",
         "max_quantity": 10,
@@ -214,8 +259,8 @@
         "after_add": "cart",
         "show_dynamic_checkout": false,
         "show_sticky_atc": true,
-        "label_button": "View Nutrient Label",
         "label_image_url": "https://cdn.shopify.com/s/files/1/0933/4630/0234/files/Screenshot_2026-05-30_at_7.40.55_PM.png?v=1792701664",
+        "label_button": "View Nutrient Label",
         "anchor_id": "shop"
       }
     },
@@ -597,6 +642,8 @@
         "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
         "button_label": "Try It Risk-Free - 60 Days to Decide",
         "button_link": "",
+        "image": "shopify://shop_images/gallery-5.png",
+        "image_mobile": "shopify://shop_images/bottle-debloat.png",
         "image_alt": "",
         "image_ratio": "16 / 12.3",
         "image_position": "right",
@@ -632,7 +679,7 @@
         "trust_size": 11,
         "trust_size_mobile": 9,
         "trust_icon_size": 12,
-        "background": "#d64ba1",
+        "background": "#FE696E",
         "heading_color": "#ffffff",
         "text_color": "#ffffff",
         "trust_color": "#ffffff",
@@ -683,24 +730,24 @@
           "type": "feature",
           "settings": {
             "title": "Women's probiotic support",
-            "icon": "sparkle",
-            "text": "<p>Science-backed probiotic strains that support digestive health, urinary tract balance, immune function, and overall wellness.</p>"
+            "text": "<p>Science-backed probiotic strains that support digestive health, urinary tract balance, immune function, and overall wellness.</p>",
+            "icon": "sparkle"
           }
         },
         "feature_health": {
           "type": "feature",
           "settings": {
             "title": "Digestive & feminine health",
-            "icon": "heart",
-            "text": "<p>Built for women to promote digestive comfort and urinary tract health, without artificial fillers or harsh ingredients.</p>"
+            "text": "<p>Built for women to promote digestive comfort and urinary tract health, without artificial fillers or harsh ingredients.</p>",
+            "icon": "heart"
           }
         },
         "feature_how": {
           "type": "feature",
           "settings": {
             "title": "How to take it",
-            "icon": "clock",
-            "text": "<p>Take one capsule daily with water, preferably with a meal. Easy to add to your routine no refrigeration required.</p>"
+            "text": "<p>Take one capsule daily with water, preferably with a meal. Easy to add to your routine no refrigeration required.</p>",
+            "icon": "clock"
           }
         }
       },
@@ -760,7 +807,7 @@
         "text_color": "",
         "line_color": "",
         "icon_background": "",
-        "icon_color": "#FFFFFF",
+        "icon_color": "#ffffff",
         "anchor_id": ""
       }
     },
