@@ -124,8 +124,65 @@
   font-size: var(--dt-step-fs, 28px);
   line-height: var(--dt-step-lh);
 }
-.ff .timeline-sec__step-text {
+.ff .timeline-sec__step-body {
+  display: grid;
+  grid-template-rows: 1fr;
   margin-top: 10px;
+}
+.ff .timeline-sec__step-text {
+  min-height: 0;
+}
+
+/* ---------- Reveal on scroll (ff-daily-timeline.js) ----------
+   data-reveal-ready is only set when JS runs and the reveal is on, so the
+   descriptions are never hidden without a way to show them. Hidden ones
+   collapse to nothing and slide open (0fr -> 1fr) when revealed.
+
+   While pinned the inner box keeps the fully open height (measured by the
+   JS) as its min-height, so the text and image hold still and the timeline
+   grows down from its first step. */
+.ff .timeline-sec__pin.is-pinned > .timeline-sec__pin-inner {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+}
+.ff .timeline-sec__pin.is-pinned > .timeline-sec__pin-inner > .timeline-sec__grid {
+  flex: 1 0 auto;
+}
+.ff .timeline-sec__pin.is-pinned .timeline-sec__grid > :last-child {
+  align-self: start;
+}
+
+.ff .timeline-sec[data-reveal-ready] .timeline-sec__step-body {
+  transition: grid-template-rows 0.5s ease, margin-top 0.5s ease;
+}
+.ff .timeline-sec[data-reveal-ready] .timeline-sec__step-text {
+  overflow: hidden;
+  transition: opacity 0.5s ease;
+}
+.ff .timeline-sec[data-reveal-ready] .timeline-sec__step:not(.is-revealed) .timeline-sec__step-body {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+}
+.ff .timeline-sec[data-reveal-ready] .timeline-sec__step:not(.is-revealed) .timeline-sec__step-text {
+  opacity: 0;
+}
+
+/* JS opens everything for a moment to measure the full height */
+.ff .timeline-sec[data-reveal-ready]:is(.is-measuring, .is-settling) :is(.timeline-sec__step-body, .timeline-sec__step-text),
+.ff .timeline-sec[data-reveal-ready]:is(.is-measuring, .is-settling) .timeline-sec__step::after {
+  transition: none;
+}
+.ff .timeline-sec[data-reveal-ready].is-measuring .timeline-sec__step:not(.is-revealed) .timeline-sec__step-body {
+  grid-template-rows: 1fr;
+  margin-top: 10px;
+}
+/* The line into a step fills in once that step is revealed */
+.ff .timeline-sec[data-reveal-ready] .timeline-sec__step::after {
+  transition: opacity 0.5s ease;
+}
+.ff .timeline-sec[data-reveal-ready] .timeline-sec__step:has(+ .timeline-sec__step:not(.is-revealed))::after {
+  opacity: 0.25;
 }
 
 /* Step in view stays solid, the rest fade (ff-daily-timeline.js) */
@@ -251,7 +308,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ff .timeline-sec[data-ready] .timeline-sec__step {
+  .ff .timeline-sec[data-ready] .timeline-sec__step,
+  .ff .timeline-sec[data-reveal-ready] .timeline-sec__step-body,
+  .ff .timeline-sec[data-reveal-ready] .timeline-sec__step-text,
+  .ff .timeline-sec[data-reveal-ready] .timeline-sec__step::after {
     transition: none;
   }
 }

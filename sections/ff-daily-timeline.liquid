@@ -31,6 +31,7 @@
     echo '--dt-feat-gap: ' | append: s.feature_gap | append: 'px;'
     echo '--dt-feat-mt: ' | append: s.features_spacing | append: 'px;'
     echo '--dt-feat-mt-m: ' | append: s.features_spacing_mobile | append: 'px;'
+    echo '--dt-reveal-step: ' | append: s.reveal_distance | append: 'px;'
     echo '--dt-icon: ' | append: s.icon_size | append: 'px;'
     echo '--dt-icon-m: ' | append: s.icon_size_mobile | append: 'px;'
     echo '--dt-mt: ' | append: s.margin_top | append: 'px;'
@@ -99,8 +100,18 @@
   style="{{ timeline_style | strip_newlines }}"
   {% if s.heading != blank %}aria-labelledby="timeline-title-{{ section.id }}"{% endif %}
   data-ff-timeline
+  data-reveal="{{ s.reveal }}"
+  data-reveal-distance="{{ s.reveal_distance }}"
+  {% if s.pin_mobile %}data-pin-mobile{% endif %}
 >
   <div class="timeline-sec__container">
+    {%- comment -%}
+      Pin wrappers: ff-daily-timeline.js makes one of them tall and its inner
+      box sticky, so the row holds still while the descriptions appear.
+      Desktop pins the whole row, mobile pins just the timeline.
+    {%- endcomment -%}
+    <div class="timeline-sec__pin" data-ff-pin="desktop">
+    <div class="timeline-sec__pin-inner">
     <div class="timeline-sec__grid">
       <div class="timeline-sec__intro">
         {%- if s.heading != blank -%}
@@ -126,6 +137,8 @@
       </div>
 
       {%- if step_blocks.size > 0 -%}
+        <div class="timeline-sec__pin" data-ff-pin="mobile">
+        <div class="timeline-sec__pin-inner">
         <ol class="timeline-sec__steps" role="list">
           {%- for block in step_blocks -%}
             <li
@@ -136,12 +149,19 @@
             >
               <h3 class="timeline-sec__step-title">{{ block.settings.title | escape }}</h3>
               {%- if block.settings.text != blank -%}
-                <div class="timeline-sec__step-text">{{ block.settings.text }}</div>
+                {%- comment -%} The body is a one-row grid so it can collapse to 0fr {%- endcomment -%}
+                <div class="timeline-sec__step-body">
+                  <div class="timeline-sec__step-text">{{ block.settings.text }}</div>
+                </div>
               {%- endif -%}
             </li>
           {%- endfor -%}
         </ol>
+        </div>
+        </div>
       {%- endif -%}
+    </div>
+    </div>
     </div>
 
     {%- if feature_blocks.size > 0 -%}
@@ -221,6 +241,20 @@
       "default": "mobile"
     },
     { "type": "checkbox", "id": "show_dots", "label": "Show dots on the line", "default": false },
+    {
+      "type": "select",
+      "id": "reveal",
+      "label": "Reveal descriptions on scroll",
+      "info": "The first description always shows; the rest stay collapsed until revealed. Not applied in the theme editor or for visitors who prefer reduced motion.",
+      "options": [
+        { "value": "pin", "label": "Pause the page and reveal one by one" },
+        { "value": "scroll", "label": "Reveal as they scroll into view" },
+        { "value": "off", "label": "Off - show all" }
+      ],
+      "default": "pin"
+    },
+    { "type": "range", "id": "reveal_distance", "label": "Scroll distance per step", "info": "How far visitors scroll to reveal each description while the page is paused.", "min": 100, "max": 600, "step": 20, "unit": "px", "default": 300 },
+    { "type": "checkbox", "id": "pin_mobile", "label": "Pause the page on mobile", "info": "Pins just the timeline. When off, mobile reveals as it scrolls into view.", "default": true },
 
     { "type": "header", "content": "Features" },
     { "type": "range", "id": "feature_columns", "label": "Columns on desktop", "min": 2, "max": 4, "step": 1, "default": 3 },
