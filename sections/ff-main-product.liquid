@@ -546,25 +546,6 @@
         </fieldset>
 
         <div class="buy-form__row">
-          <div class="qty">
-            <button class="qty__btn" type="button" aria-label="Decrease quantity" data-qty-dec>
-              <img src="{{ 'ff-icon-minus.svg' | asset_url }}" width="20" height="20" alt="">
-            </button>
-            <input
-              class="qty__input"
-              id="qty-{{ section.id }}"
-              type="number"
-              name="quantity"
-              inputmode="numeric"
-              min="1"
-              max="{{ section.settings.max_quantity | default: 10 }}"
-              value="1"
-              aria-label="Quantity"
-            >
-            <button class="qty__btn" type="button" aria-label="Increase quantity" data-qty-inc>
-              <img src="{{ 'ff-icon-plus.svg' | asset_url }}" width="20" height="20" alt="">
-            </button>
-          </div>
           <button class="btn btn--atc" type="submit"{% unless variant.available %} disabled{% endunless %}>
             {%- if variant.available -%}
               {{ section.settings.atc_label | escape }}
@@ -744,7 +725,6 @@
     { "type": "paragraph", "content": "Add a Purchase option block for each way to buy. Subscription prices and plans come from Apps > Subscriptions; an option whose plan isn't on the product is hidden and flagged here in the editor." },
     { "type": "text", "id": "legend", "label": "Options label (screen readers)" },
     { "type": "text", "id": "once_label", "label": "One-time purchase label", "info": "Used when an option has no title." },
-    { "type": "number", "id": "max_quantity", "label": "Maximum quantity" },
     { "type": "header", "content": "Buttons" },
     { "type": "text", "id": "atc_label", "label": "Add to basket label" },
     { "type": "text", "id": "adding_label", "label": "Adding label" },

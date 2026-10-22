@@ -465,16 +465,11 @@
     var config = JSON.parse(configEl.textContent);
     var plans = Array.prototype.slice.call(form.querySelectorAll(".plan"));
     var planInput = form.querySelector("[data-ff-plan]");
-    var qty = form.querySelector(".qty__input");
-    var dec = form.querySelector("[data-qty-dec]");
-    var inc = form.querySelector("[data-qty-inc]");
     var submit = form.querySelector('button[type="submit"]');
     var errorEl = form.querySelector("[data-ff-buy-error]");
     var sticky = section.querySelector("[data-ff-sticky-atc]");
     var stickyPrice = sticky && sticky.querySelector("[data-ff-sticky-price]");
     var stickyAdd = sticky && sticky.querySelector("[data-ff-sticky-add]");
-    var min = parseInt(qty.min, 10) || 1;
-    var max = parseInt(qty.max, 10) || 99;
     var busy = false;
 
     function syncPlans() {
@@ -493,15 +488,6 @@
       }
     }
 
-    function setQty(value) {
-      var n = parseInt(value, 10);
-      if (isNaN(n)) n = min;
-      n = Math.min(max, Math.max(min, n));
-      qty.value = n;
-      dec.disabled = busy || n <= min;
-      inc.disabled = busy || n >= max;
-    }
-
     function setBusy(state) {
       busy = state;
       submit.disabled = busy || !config.available;
@@ -512,7 +498,6 @@
         stickyAdd.setAttribute("aria-busy", String(busy));
         stickyAdd.textContent = submit.textContent;
       }
-      setQty(qty.value);
     }
 
     function showError(message) {
@@ -634,12 +619,9 @@
       var variant = findVariant(picker, e.target);
       if (variant) selectVariant(variant);
     });
-    dec.addEventListener("click", function () { setQty(+qty.value - 1); });
-    inc.addEventListener("click", function () { setQty(+qty.value + 1); });
-    qty.addEventListener("change", function () { setQty(qty.value); });
 
     if (sticky) {
-      // Submit the real form so plan, quantity and errors all go through one path
+      // Submit the real form so plan and errors all go through one path
       stickyAdd.addEventListener("click", function () {
         if (form.requestSubmit) form.requestSubmit(submit);
         else submit.click();
@@ -654,7 +636,7 @@
       setBusy(true);
 
       var cart = document.querySelector("cart-drawer") || document.querySelector("cart-notification");
-      var item = { id: Number(form.querySelector('[name="id"]').value), quantity: Number(qty.value) };
+      var item = { id: Number(form.querySelector('[name="id"]').value), quantity: 1 };
       if (planInput && !planInput.disabled) item.selling_plan = Number(planInput.value);
       var body = { items: [item] };
       if (cart && cart.getSectionsToRender) {
@@ -704,7 +686,6 @@
     });
 
     syncPlans();
-    setQty(qty.value);
   }
 
   /* Sticky add to basket: shown only while neither the buy form's own

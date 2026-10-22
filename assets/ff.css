@@ -2637,58 +2637,10 @@ html:has(.ff) {
   font-size: 11px;
 }
 
-/* Quantity + add to basket */
+/* Add to basket */
 .ff .buy-form__row {
   display: flex;
   gap: 10px;
-}
-
-.ff .qty {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 20px;
-  height: 50px;
-  padding: 0 20px;
-  border: 0.8px solid var(--navy);
-  border-radius: 6px;
-}
-.ff .qty__btn {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-}
-.ff .qty__btn::before {
-  content: "";
-  position: absolute;
-  inset: -12px -10px;
-}
-.ff .qty__btn:disabled {
-  cursor: default;
-}
-.ff .qty__input {
-  width: 2ch;
-  min-height: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  color: var(--ink);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-  letter-spacing: 0.32px;
-  text-align: center;
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-.ff .qty__input::-webkit-outer-spin-button,
-.ff .qty__input::-webkit-inner-spin-button {
-  margin: 0;
-  -webkit-appearance: none;
 }
 
 .ff .btn--atc {
@@ -3213,11 +3165,6 @@ html:has(.label-modal[open]) {
     font-size: 10px;
   }
 
-  .ff .qty {
-    gap: 16px;
-    height: 40px;
-    padding: 0 14px;
-  }
   .ff .variant-picker__label {
     font-size: 14px;
     line-height: 20px;

@@ -252,7 +252,6 @@
         "pill_icon_gap": 16,
         "legend": "Choose how to buy",
         "once_label": "One-time purchase",
-        "max_quantity": 10,
         "atc_label": "Add to basket",
         "adding_label": "Adding…",
         "sold_out_label": "Sold out",
