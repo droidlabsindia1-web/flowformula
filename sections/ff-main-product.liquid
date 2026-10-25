@@ -3,16 +3,24 @@
 {%- liquid
   assign variant = product.selected_or_first_available_variant
   assign group = 'plan-' | append: section.id
-  assign title = section.settings.title | default: product.title
+
+  # All content comes from the product's pdp.* metafields; anything left
+  # empty is hidden. Pills, the ribbon, purchase options, the guarantee and
+  # details are metaobject entries. The section and its blocks set the look.
+  assign mf = product.metafields.pdp
+  assign title = mf.title.value | default: product.title
+  assign tagline = mf.tagline.value
+  assign rating = mf.rating.value
 
   assign images = product.media | where: 'media_type', 'image'
-  assign bullet_blocks = section.blocks | where: 'type', 'bullet'
-  assign usp_blocks = section.blocks | where: 'type', 'usp'
-  assign pill_blocks = section.blocks | where: 'type', 'pill'
   assign ribbon_blocks = section.blocks | where: 'type', 'ribbon'
-  assign option_blocks = section.blocks | where: 'type', 'option'
-  assign detail_blocks = section.blocks | where: 'type', 'detail'
   assign guarantee_blocks = section.blocks | where: 'type', 'guarantee'
+
+  assign pill_items = mf.pills.value
+  assign option_items = mf.purchase_options.value
+  assign detail_items = mf.details.value
+  assign ribbon = mf.ribbon.value
+  assign guarantee = mf.guarantee.value
 
   # Resolve each purchase option to one of this variant's selling plans.
   # A subscription option can name its plan (as shown in Apps > Subscriptions
@@ -26,15 +34,16 @@
   assign resolved_groups = ''
   assign valid_ids = ''
   assign selected_id = ''
-  for block in option_blocks
+  for opt in option_items
+    assign kind = opt.kind.value
     assign entry = 'missing'
     assign entry_group = '-'
-    if block.settings.kind == 'one_time'
+    if kind == 'one_time'
       unless product.requires_selling_plan
         assign entry = 'once'
       endunless
     else
-      assign wanted = block.settings.plan | strip | downcase
+      assign wanted = opt.plan.value | append: '' | strip | downcase
       for allocation in variant.selling_plan_allocations
         assign plan = allocation.selling_plan
         assign plan_id = plan.id | append: ''
@@ -58,7 +67,7 @@
     assign resolved_groups = resolved_groups | append: entry_group | append: ','
     if entry != 'missing'
       assign valid_ids = valid_ids | append: forloop.index0 | append: ','
-      if block.settings.selected and selected_id == blank
+      if opt.selected.value and selected_id == blank
         assign selected_id = forloop.index0 | append: ''
       endif
     endif
@@ -143,19 +152,21 @@
       -%}
     {%- endunless -%}
   {%- else -%}
-    {%- for block in option_blocks -%}
+    {%- for opt in option_items -%}
       {%- liquid
+        assign kind = opt.kind.value
+        assign wanted = opt.plan.value
         assign position = forloop.index0 | append: ''
         assign entry = resolved_list[forloop.index0]
         assign plan_group = resolved_group_list[forloop.index0]
       -%}
       {%- if entry == 'missing' -%}
         {%- if request.design_mode -%}
-          <p class="plan-notice" {{ block.shopify_attributes }}>
-            {%- if block.settings.kind == 'one_time' -%}
+          <p class="plan-notice">
+            {%- if kind == 'one_time' -%}
               This product can only be bought on subscription, so the one-time option is hidden.
-            {%- elsif block.settings.plan != blank -%}
-              Hidden: no subscription plan called “{{ block.settings.plan | escape }}” is on this product. Check the name in Apps › Subscriptions › Plans.
+            {%- elsif wanted != blank -%}
+              Hidden: no subscription plan called “{{ wanted | escape }}” is on this product. Check the name in Apps › Subscriptions › Plans.
             {%- else -%}
               Hidden: this product isn’t in a subscription plan yet. Add it in Apps › Subscriptions › Plans.
             {%- endif -%}
@@ -181,7 +192,7 @@
           endif
         endfor
 
-        assign option_title = block.settings.title
+        assign option_title = opt.title.value
         if option_title == blank
           if plan_id == blank
             assign option_title = section.settings.once_label
@@ -202,7 +213,7 @@
           assign plan_group = ''
         endif
 
-        assign saving = block.settings.saving
+        assign saving = opt.saving.value
         assign auto_saving = false
         if saving == blank
           assign auto_saving = true
@@ -226,13 +237,12 @@
         price: price,
         compare: compare,
         saving: saving,
-        badge: block.settings.badge,
-        features: block.settings.features,
+        badge: opt.badge.value,
+        features: opt.features.value,
         allocations: variant.selling_plan_allocations,
         plan_group: plan_group,
-        frequency_label: block.settings.frequency_label,
-        auto_saving: auto_saving,
-        attributes: block.shopify_attributes
+        frequency_label: opt.frequency_label.value,
+        auto_saving: auto_saving
       -%}
     {%- endfor -%}
   {%- endif -%}
@@ -274,8 +284,8 @@
               <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'gallery__placeholder' }}</li>
             {%- endfor -%}
           </ul>
-          {%- if section.settings.tagline != blank -%}
-            <p class="gallery__tagline">{{ section.settings.tagline | escape | newline_to_br }}</p>
+          {%- if tagline != blank -%}
+            <p class="gallery__tagline">{{ tagline | escape | newline_to_br }}</p>
           {%- endif -%}
           {%- if images.size > 1 -%}
             <button class="gallery__arrow gallery__arrow--prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}" data-gallery-prev>
@@ -306,8 +316,9 @@
       </div>
 
       {%- liquid
+        assign label_image = mf.nutrient_label.value.preview_image
         assign show_label = false
-        if section.settings.label_image != blank or section.settings.label_image_url != blank
+        if label_image != blank
           assign show_label = true
         endif
         assign label_text = section.settings.label_button | default: 'View Nutrient Label'
@@ -321,31 +332,27 @@
 
     <div class="buybox">
       <div class="buybox__head">
-        {%- if section.settings.show_rating -%}
+        {%- if rating != blank -%}
           <p class="buybox__rating">
-            <span class="buybox__stars" role="img" aria-label="{% if section.settings.rating != blank %}Rated {{ section.settings.rating | escape }} out of 5{% else %}5 star rating{% endif %}">
+            <span class="buybox__stars" role="img" aria-label="Rated {{ rating | escape }} out of 5">
               {%- for i in (1..5) -%}
                 <img src="{{ 'ff-icon-rating-star.svg' | asset_url }}" width="31" height="31" alt="">
               {%- endfor -%}
             </span>
-            {%- if section.settings.rating != blank -%}
-              <span aria-hidden="true">{{ section.settings.rating | escape }}</span>
-            {%- endif -%}
+            <span aria-hidden="true">{{ rating | escape }}</span>
           </p>
         {%- endif -%}
 
         <h1 class="buybox__title" id="product-title-{{ section.id }}">{{ title | escape }}</h1>
 
-        {%- if section.settings.description != blank -%}
-          <div class="buybox__lead">{{ section.settings.description }}</div>
-        {%- elsif product.description != blank -%}
-          <div class="buybox__lead">{{ product.description }}</div>
+        {%- if mf.description.value != blank -%}
+          <div class="buybox__lead">{{ mf.description | metafield_tag }}</div>
         {%- endif -%}
 
-        {%- if pill_blocks.size > 0 -%}
+        {%- if pill_items != blank -%}
           {%- liquid
             # Every look setting becomes a CSS variable on the list; a pill's
-            # own colours and image override them on that pill only.
+            # own colours override them on that pill only.
             assign ps = section.settings
             capture pill_style
               echo '--pill-cols: ' | append: ps.pill_columns | append: ';'
@@ -385,52 +392,41 @@
             class="buybox__pills buybox__pills--icon-{{ ps.pill_icon_position }} buybox__pills--align-{{ ps.pill_align }}{% if ps.pill_shadow %} buybox__pills--shadow{% endif %}"
             style="{{ pill_style | strip_newlines }}"
           >
-            {%- for block in pill_blocks -%}
+            {%- for pill in pill_items -%}
               {%- liquid
-                assign bs = block.settings
+                assign pill_link = pill.link.value
+                assign pill_icon = pill.icon_url.value
+                assign pill_bg = pill.background.value
+                assign pill_fg = pill.text_color.value
                 capture own_style
-                  if bs.background != blank and bs.background.alpha != 0.0
-                    echo '--pill-bg: ' | append: bs.background | append: ';'
+                  if pill_bg != blank and pill_bg.alpha != 0.0
+                    echo '--pill-bg: ' | append: pill_bg | append: ';'
                   endif
-                  if bs.gradient != blank
-                    echo '--pill-grad: ' | append: bs.gradient | append: ';'
-                  endif
-                  if bs.image != blank
-                    echo '--pill-img: url(' | append: bs.image | image_url: width: 1000 | append: ');'
-                  endif
-                  if bs.text_color != blank and bs.text_color.alpha != 0.0
-                    echo '--pill-fg: ' | append: bs.text_color | append: ';'
+                  if pill_fg != blank and pill_fg.alpha != 0.0
+                    echo '--pill-fg: ' | append: pill_fg | append: ';'
                   endif
                 endcapture
-                assign icon_src = bs.icon.src | downcase
               -%}
-              <li class="buybox__pill"{% if own_style != blank %} style="{{ own_style | strip_newlines }}"{% endif %} {{ block.shopify_attributes }}>
-                {%- if bs.link != blank -%}<a class="buybox__pill-inner" href="{{ bs.link }}">{%- else -%}<span class="buybox__pill-inner">{%- endif -%}
-                  {%- if bs.icon != blank -%}
-                    {%- if icon_src contains '.gif' -%}
-                      {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
-                      {{- bs.icon | image_url | image_tag: class: 'buybox__pill-icon', loading: 'lazy', alt: '' -}}
-                    {%- else -%}
-                      {{- bs.icon | image_url: width: 160 | image_tag: class: 'buybox__pill-icon', widths: '64,96,160', sizes: '48px', loading: 'lazy', alt: '' -}}
-                    {%- endif -%}
-                  {%- elsif bs.icon_url != blank -%}
-                    <img class="buybox__pill-icon" src="{{ bs.icon_url | escape }}" width="{{ ps.pill_icon_size }}" height="{{ ps.pill_icon_size }}" loading="lazy" alt="">
+              <li class="buybox__pill"{% if own_style != blank %} style="{{ own_style | strip_newlines }}"{% endif %}>
+                {%- if pill_link != blank -%}<a class="buybox__pill-inner" href="{{ pill_link }}">{%- else -%}<span class="buybox__pill-inner">{%- endif -%}
+                  {%- if pill_icon != blank -%}
+                    <img class="buybox__pill-icon" src="{{ pill_icon | escape }}" width="{{ ps.pill_icon_size }}" height="{{ ps.pill_icon_size }}" loading="lazy" alt="">
                   {%- endif -%}
-                  <span class="buybox__pill-text">{{ bs.text | escape }}</span>
-                {%- if bs.link != blank -%}</a>{%- else -%}</span>{%- endif -%}
+                  <span class="buybox__pill-text">{{ pill.text.value | escape }}</span>
+                {%- if pill_link != blank -%}</a>{%- else -%}</span>{%- endif -%}
               </li>
             {%- endfor -%}
           </ul>
         {%- endif -%}
 
-        {%- if bullet_blocks.size > 0 -%}
+        {%- if mf.bullets.value != blank -%}
           <ul class="buybox__bullets">
-            {%- for block in bullet_blocks -%}
-              <li {{ block.shopify_attributes }}>
+            {%- for text in mf.bullets.value -%}
+              <li>
                 <svg class="buybox__tick" width="14" height="11" viewBox="0 0 14 11" fill="none" aria-hidden="true" focusable="false">
                   <path d="M1.5 5.5 5 9l7.5-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span>{{ block.settings.text | escape }}</span>
+                <span>{{ text | escape }}</span>
               </li>
             {%- endfor -%}
           </ul>
@@ -471,7 +467,8 @@
           </div>
         {%- endunless -%}
 
-        {%- for block in ribbon_blocks -%}
+        {%- if ribbon != blank -%}
+        {%- for block in ribbon_blocks limit: 1 -%}
           {%- liquid
             # Every look setting becomes a CSS variable on the ribbon
             assign bs = block.settings
@@ -504,33 +501,28 @@
                 echo '--ribbon-border-c: ' | append: bs.border_color | append: ';'
               endif
             endcapture
-            assign icon_src = bs.icon.src | downcase
+            assign ribbon_link = ribbon.link.value
+            assign ribbon_icon = ribbon.icon_url.value
           -%}
           <div
             class="ribbon ribbon--icon-{{ bs.icon_position }} ribbon--align-{{ bs.align }}{% if bs.shadow %} ribbon--shadow{% endif %}"
             style="{{ ribbon_style | strip_newlines }}"
             {{ block.shopify_attributes }}
           >
-            {%- if bs.link != blank -%}<a class="ribbon__inner" href="{{ bs.link }}">{%- else -%}<div class="ribbon__inner">{%- endif -%}
-              {%- if bs.icon != blank -%}
-                {%- if icon_src contains '.gif' -%}
-                  {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
-                  {{- bs.icon | image_url | image_tag: class: 'ribbon__icon', loading: 'lazy', alt: '' -}}
-                {%- else -%}
-                  {{- bs.icon | image_url: width: 160 | image_tag: class: 'ribbon__icon', widths: '64,96,160', sizes: '48px', loading: 'lazy', alt: '' -}}
-                {%- endif -%}
-              {%- elsif bs.icon_url != blank -%}
-                <img class="ribbon__icon" src="{{ bs.icon_url | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
+            {%- if ribbon_link != blank -%}<a class="ribbon__inner" href="{{ ribbon_link }}">{%- else -%}<div class="ribbon__inner">{%- endif -%}
+              {%- if ribbon_icon != blank -%}
+                <img class="ribbon__icon" src="{{ ribbon_icon | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
               {%- endif -%}
-              <div class="ribbon__text">{{ bs.text }}</div>
-            {%- if bs.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+              <div class="ribbon__text">{{ ribbon.text | metafield_tag }}</div>
+            {%- if ribbon_link != blank -%}</a>{%- else -%}</div>{%- endif -%}
           </div>
         {%- endfor -%}
+        {%- endif -%}
 
-        {%- if usp_blocks.size > 0 -%}
+        {%- if mf.highlights.value != blank -%}
           <ul class="buybox__usps">
-            {%- for block in usp_blocks -%}
-              <li {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+            {%- for text in mf.highlights.value limit: 3 -%}
+              <li>{{ text | escape }}</li>
             {%- endfor -%}
           </ul>
         {%- endif -%}
@@ -561,35 +553,43 @@
         <p class="buy-form__error" role="alert" hidden data-ff-buy-error></p>
       {%- endform -%}
 
-      {%- for block in guarantee_blocks -%}
-        {%- render 'ff-guarantee', block: block -%}
-      {%- endfor -%}
+      {%- if guarantee != blank -%}
+        {%- for block in guarantee_blocks limit: 1 -%}
+          {%- render 'ff-guarantee', block: block, guarantee: guarantee -%}
+        {%- endfor -%}
+      {%- endif -%}
 
-      {%- if detail_blocks.size > 0 -%}
+      {%- if detail_items != blank -%}
         <div class="pdp-acc" data-ff-details>
-          {%- for block in detail_blocks -%}
+          {%- for detail in detail_items -%}
+            {%- liquid
+              assign detail_id = section.id | append: '-' | append: forloop.index
+              assign open = false
+              if detail.open.value
+                assign open = true
+              endif
+            -%}
             <div
-              class="pdp-acc__item{% if block.settings.open %} is-open{% endif %}"
-              {% if block.settings.open %}data-open-from="768"{% endif %}
-              {{ block.shopify_attributes }}
+              class="pdp-acc__item{% if open %} is-open{% endif %}"
+              {% if open %}data-open-from="768"{% endif %}
             >
               <h2>
                 <button
                   class="pdp-acc__q"
-                  id="pdp-q-{{ block.id }}"
+                  id="pdp-q-{{ detail_id }}"
                   type="button"
-                  aria-expanded="{{ block.settings.open }}"
-                  aria-controls="pdp-a-{{ block.id }}"
+                  aria-expanded="{{ open }}"
+                  aria-controls="pdp-a-{{ detail_id }}"
                 >
-                  {{ block.settings.title | escape }}
+                  {{ detail.title.value | escape }}
                   <span class="pdp-acc__icon" aria-hidden="true">
                     <img class="pdp-acc__minus" src="{{ 'ff-icon-minus.svg' | asset_url }}" width="20" height="20" alt="">
                     <img class="pdp-acc__plus" src="{{ 'ff-icon-plus-sm.svg' | asset_url }}" width="18" height="18" alt="">
                   </span>
                 </button>
               </h2>
-              <div class="pdp-acc__a" id="pdp-a-{{ block.id }}" role="region" aria-labelledby="pdp-q-{{ block.id }}">
-                <div class="pdp-acc__content">{{ block.settings.content }}</div>
+              <div class="pdp-acc__a" id="pdp-a-{{ detail_id }}" role="region" aria-labelledby="pdp-q-{{ detail_id }}">
+                <div class="pdp-acc__content">{{ detail.content | metafield_tag }}</div>
               </div>
             </div>
           {%- endfor -%}
@@ -607,16 +607,13 @@
           </svg>
         </button>
       </form>
-      {%- if section.settings.label_image != blank -%}
-        {%- render 'dizzy-image',
-          image: section.settings.label_image,
-          class: 'label-modal__img',
-          sizes: '(max-width: 767px) 92vw, 720px',
-          widths: '600,900,1200,1600'
-        -%}
-      {%- else -%}
-        <img class="label-modal__img" src="{{ section.settings.label_image_url | escape }}" loading="lazy" alt="Nutrient label">
-      {%- endif -%}
+      {%- render 'dizzy-image',
+        image: label_image,
+        alt: 'Nutrient label',
+        class: 'label-modal__img',
+        sizes: '(max-width: 767px) 92vw, 720px',
+        widths: '600,900,1200,1600'
+      -%}
     </dialog>
   {%- endif -%}
 
@@ -647,16 +644,11 @@
   "name": "FF main product",
   "class": "ff",
   "settings": [
+    { "type": "paragraph", "content": "All product content comes from the product's pdp metafields (Products > [product] > Metafields); anything left empty is hidden. These settings and blocks set the look." },
     { "type": "header", "content": "Gallery" },
     { "type": "paragraph", "content": "Images come from the product's media. Add, remove or reorder them in Products > [product] > Media." },
-    { "type": "textarea", "id": "tagline", "label": "Image heading", "info": "Shown over the first image." },
-    { "type": "header", "content": "Product info" },
-    { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the product title." },
-    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
-    { "type": "text", "id": "rating", "label": "Rating", "info": "Shown next to the 5 stars, e.g. 4.5. Leave empty to show stars only." },
-    { "type": "richtext", "id": "description", "label": "Description", "info": "Defaults to the product description." },
     { "type": "header", "content": "Benefit pills" },
-    { "type": "paragraph", "content": "Add a Benefit pill block for each pill. These settings style all pills; each pill can override its own colours and background image." },
+    { "type": "paragraph", "content": "Pills come from the pdp.pills metafield. These settings style all pills; each pill entry can override its own colours." },
     { "type": "range", "id": "pill_columns", "label": "Columns on desktop", "min": 1, "max": 4, "step": 1, "default": 2 },
     { "type": "range", "id": "pill_columns_mobile", "label": "Columns on mobile", "min": 1, "max": 3, "step": 1, "default": 2 },
     { "type": "range", "id": "pill_gap", "label": "Space between pills on desktop", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 10 },
@@ -722,7 +714,7 @@
     { "type": "range", "id": "pill_icon_size_mobile", "label": "Icon size on mobile", "min": 12, "max": 80, "step": 1, "unit": "px", "default": 20 },
     { "type": "range", "id": "pill_icon_gap", "label": "Space between icon and text", "info": "Halved on mobile.", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 16 },
     { "type": "header", "content": "Purchase options" },
-    { "type": "paragraph", "content": "Add a Purchase option block for each way to buy. Subscription prices and plans come from Apps > Subscriptions; an option whose plan isn't on the product is hidden and flagged here in the editor." },
+    { "type": "paragraph", "content": "Purchase options come from the pdp.purchase_options metafield; with none, the product's own subscription plans are listed. Subscription prices and plans come from Apps > Subscriptions; an option whose plan isn't on the product is hidden and flagged here in the editor." },
     { "type": "text", "id": "legend", "label": "Options label (screen readers)" },
     { "type": "text", "id": "once_label", "label": "One-time purchase label", "info": "Used when an option has no title." },
     { "type": "header", "content": "Buttons" },
@@ -741,47 +733,18 @@
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button" },
     { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to basket bar on mobile", "default": true, "info": "Pinned to the bottom of the screen on mobile; hidden while the main add to basket button or the footer is visible." },
     { "type": "header", "content": "Nutrient label" },
-    { "type": "image_picker", "id": "label_image", "label": "Label image", "info": "Opens in a popup from a button below the product images. With no image or URL the button is hidden." },
-    { "type": "text", "id": "label_image_url", "label": "Label image URL", "info": "Used when no label image is picked, e.g. a file link from Content > Files." },
+    { "type": "paragraph", "content": "The label image comes from the pdp.nutrient_label metafield; the button is hidden without one." },
     { "type": "text", "id": "label_button", "label": "Button label", "default": "View Nutrient Label" },
     { "type": "header", "content": "Section" },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID" }
   ],
   "blocks": [
     {
-      "type": "bullet",
-      "name": "Bullet point",
-      "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Free UK delivery" }
-      ]
-    },
-    {
-      "type": "pill",
-      "name": "Benefit pill",
-      "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Daily Balance" },
-        { "type": "header", "content": "Icon" },
-        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "PNG, JPG, WebP or animated GIF. Use a transparent PNG for a clean edge." },
-        { "type": "url", "id": "icon_url", "label": "Icon file link", "info": "For SVG or other files: upload in Content > Files, copy the link and paste it here. Used when no icon image is picked." },
-        { "type": "url", "id": "link", "label": "Link", "info": "Optional. Makes the pill clickable." },
-        { "type": "header", "content": "Overrides for this pill" },
-        { "type": "paragraph", "content": "Leave empty to use the Benefit pills settings on the section." },
-        { "type": "color", "id": "background", "label": "Background colour" },
-        { "type": "color_background", "id": "gradient", "label": "Background gradient" },
-        { "type": "image_picker", "id": "image", "label": "Background image" },
-        { "type": "color", "id": "text_color", "label": "Text colour" }
-      ]
-    },
-    {
       "type": "ribbon",
       "name": "Ribbon",
       "settings": [
-        { "type": "paragraph", "content": "Shown below the variant picker." },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Best results seen after <strong>a few months</strong> of consistent use</p>" },
-        { "type": "url", "id": "link", "label": "Link", "info": "Optional. Makes the ribbon clickable." },
+        { "type": "paragraph", "content": "Styles the pdp.ribbon metafield entry, shown below the variant picker. Hidden when the product has no ribbon." },
         { "type": "header", "content": "Icon" },
-        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "PNG, JPG, WebP or animated GIF. Use a transparent PNG for a clean edge." },
-        { "type": "url", "id": "icon_url", "label": "Icon file link", "info": "For SVG or other files: upload in Content > Files, copy the link and paste it here. Used when no icon image is picked." },
         {
           "type": "select",
           "id": "icon_position",
@@ -838,48 +801,12 @@
       ]
     },
     {
-      "type": "usp",
-      "name": "Highlight",
-      "limit": 3,
-      "settings": [
-        { "type": "text", "id": "text", "label": "Text" }
-      ]
-    },
-    {
-      "type": "option",
-      "name": "Purchase option",
-      "settings": [
-        {
-          "type": "select",
-          "id": "kind",
-          "label": "Type",
-          "options": [
-            { "value": "subscription", "label": "Subscription" },
-            { "value": "one_time", "label": "One-time purchase" }
-          ]
-        },
-        { "type": "text", "id": "plan", "label": "Subscription plan", "info": "Type the plan name exactly as it appears in Apps > Subscriptions > Plans, e.g. 1-Month Subscription. Leave empty to use the product's first plan. If the plan has several delivery frequencies, this picks the default and the rest are offered in a dropdown. Not used for one-time purchase." },
-        { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the plan name." },
-        { "type": "text", "id": "saving", "label": "Saving label", "info": "Defaults to the plan's discount, e.g. \"Save 10%\"." },
-        { "type": "text", "id": "badge", "label": "Badge" },
-        { "type": "text", "id": "frequency_label", "label": "Delivery frequency label", "info": "Shown above the frequency dropdown when the plan has more than one delivery frequency, e.g. Deliver every. Optional." },
-        { "type": "textarea", "id": "features", "label": "Features", "info": "One per line, shown with ticks." },
-        { "type": "checkbox", "id": "selected", "label": "Selected by default" }
-      ]
-    },
-    {
       "type": "guarantee",
       "name": "Guarantee",
       "settings": [
-        { "type": "paragraph", "content": "Shown below the add to basket button." },
-        { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Your order is protected by" },
-        { "type": "text", "id": "title", "label": "Heading", "default": "60-Days Money-Back Guarantee" },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>If you don’t love it - even in day 59 - full refund.</p>" },
-        { "type": "url", "id": "link", "label": "Link", "info": "Optional. Makes the box clickable." },
+        { "type": "paragraph", "content": "Styles the pdp.guarantee metafield entry, shown below the add to basket button. Hidden when the product has no guarantee." },
         { "type": "header", "content": "Icon" },
         { "type": "checkbox", "id": "show_icon", "label": "Show icon", "default": true },
-        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "Defaults to a shield. PNG, JPG, WebP or animated GIF." },
-        { "type": "url", "id": "icon_url", "label": "Icon file link", "info": "For SVG or other files: upload in Content > Files, copy the link and paste it here. Used when no icon image is picked." },
         { "type": "range", "id": "icon_size", "label": "Icon size on desktop", "min": 20, "max": 120, "step": 2, "unit": "px", "default": 64 },
         { "type": "range", "id": "icon_size_mobile", "label": "Icon size on mobile", "min": 20, "max": 120, "step": 2, "unit": "px", "default": 48 },
         { "type": "range", "id": "icon_gap", "label": "Space between icon and text", "info": "Scaled down by 40% on mobile.", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
@@ -923,15 +850,6 @@
         { "type": "range", "id": "title_size_mobile", "label": "Heading size on mobile", "min": 10, "max": 36, "step": 1, "unit": "px", "default": 16 },
         { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 10, "max": 28, "step": 1, "unit": "px", "default": 16 },
         { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 10, "max": 28, "step": 1, "unit": "px", "default": 13 }
-      ]
-    },
-    {
-      "type": "detail",
-      "name": "Detail",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Title" },
-        { "type": "richtext", "id": "content", "label": "Content" },
-        { "type": "checkbox", "id": "open", "label": "Open by default on desktop" }
       ]
     }
   ]

@@ -1,0 +1,375 @@
+{%- render 'ff-assets' -%}
+{%- if section.settings.font == 'inter' -%}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap" rel="stylesheet">
+{%- endif -%}
+{%- if section.settings.label_font == 'mono' -%}
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+{%- endif -%}
+{{ 'ff-ingredient-list.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ff-ingredient-list.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # Every look setting becomes a CSS variable on the section
+  assign s = section.settings
+  case s.font
+    when 'inter'
+      assign font_stack = '"Inter", system-ui, -apple-system, "Segoe UI", sans-serif'
+    when 'fraunces'
+      assign font_stack = 'var(--font-serif)'
+    when 'poppins'
+      assign font_stack = 'var(--font-poppins)'
+    else
+      assign font_stack = 'var(--font-sans)'
+  endcase
+  if s.label_font == 'mono'
+    assign label_stack = '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace'
+  else
+    assign label_stack = font_stack
+  endif
+
+  capture list_style
+    echo '--il-font: ' | append: font_stack | append: ';'
+    echo '--il-label-font: ' | append: label_stack | append: ';'
+    echo '--il-bg: ' | append: s.background | append: ';'
+    echo '--il-heading-c: ' | append: s.heading_color | append: ';'
+    echo '--il-text-c: ' | append: s.text_color | append: ';'
+    echo '--il-label-c: ' | append: s.label_color | append: ';'
+    echo '--il-name-c: ' | append: s.name_color | append: ';'
+    echo '--il-amount-c: ' | append: s.amount_color | append: ';'
+    echo '--il-desc-c: ' | append: s.description_color | append: ';'
+    echo '--il-icon-c: ' | append: s.icon_color | append: ';'
+    echo '--il-line: ' | append: s.line_color | append: ';'
+    echo '--il-line-a: ' | append: s.line_opacity | append: '%;'
+    if s.panel_background != blank
+      echo '--il-panel-bg: ' | append: s.panel_background | append: ';'
+    endif
+    echo '--il-glow: ' | append: s.glow_color | append: ';'
+    echo '--il-glow-a: ' | append: s.glow_strength | append: '%;'
+    echo '--il-container: ' | append: s.container_width | append: 'px;'
+    echo '--il-panel-w: ' | append: s.panel_width | append: 'px;'
+    echo '--il-intro-w: ' | append: s.intro_width | append: 'px;'
+    echo '--il-gap: ' | append: s.column_gap | append: 'px;'
+    echo '--il-gap-m: ' | append: s.column_gap_mobile | append: 'px;'
+    echo '--il-radius: ' | append: s.panel_radius | append: 'px;'
+    echo '--il-row-py: ' | append: s.row_padding | append: 'px;'
+    echo '--il-mt: ' | append: s.margin_top | append: 'px;'
+    echo '--il-mb: ' | append: s.margin_bottom | append: 'px;'
+    echo '--il-mt-m: ' | append: s.margin_top_mobile | append: 'px;'
+    echo '--il-mb-m: ' | append: s.margin_bottom_mobile | append: 'px;'
+    echo '--il-pt: ' | append: s.padding_top | append: 'px;'
+    echo '--il-pb: ' | append: s.padding_bottom | append: 'px;'
+    echo '--il-pt-m: ' | append: s.padding_top_mobile | append: 'px;'
+    echo '--il-pb-m: ' | append: s.padding_bottom_mobile | append: 'px;'
+    echo '--il-h-fs: ' | append: s.heading_size | append: 'px;'
+    echo '--il-h-fs-m: ' | append: s.heading_size_mobile | append: 'px;'
+    echo '--il-h-fw: ' | append: s.heading_weight | append: ';'
+    echo '--il-h-ls: ' | append: s.heading_letter_spacing | append: 'px;'
+    echo '--il-h-lh: ' | append: s.heading_line_height | append: ';'
+    echo '--il-text-fs: ' | append: s.text_size | append: 'px;'
+    echo '--il-text-fs-m: ' | append: s.text_size_mobile | append: 'px;'
+    echo '--il-label-fs: ' | append: s.label_size | append: 'px;'
+    echo '--il-name-fs: ' | append: s.name_size | append: 'px;'
+    echo '--il-name-fs-m: ' | append: s.name_size_mobile | append: 'px;'
+    echo '--il-name-fw: ' | append: s.name_weight | append: ';'
+    echo '--il-desc-fs: ' | append: s.description_size | append: 'px;'
+    echo '--il-desc-fs-m: ' | append: s.description_size_mobile | append: 'px;'
+  endcapture
+
+  assign ingredient_blocks = section.blocks | where: 'type', 'ingredient'
+  # "[count]" in the heading becomes the number of ingredients
+  assign ingredient_count = ingredient_blocks.size | append: ''
+  assign heading = s.heading | replace: '[count]', ingredient_count
+
+  assign classes = 'ingredient-list'
+  if s.panel_position == 'left'
+    assign classes = classes | append: ' ingredient-list--panel-left'
+  endif
+  assign classes = classes | append: ' ingredient-list--align-' | append: s.text_align | append: ' ingredient-list--align-m-' | append: s.text_align_mobile
+  if s.sticky_intro
+    assign classes = classes | append: ' ingredient-list--sticky'
+  endif
+  if s.heading_lowercase
+    assign classes = classes | append: ' ingredient-list--title-lower'
+  endif
+  if s.label_uppercase
+    assign classes = classes | append: ' ingredient-list--label-upper'
+  endif
+  if s.show_frame
+    assign classes = classes | append: ' ingredient-list--framed'
+  endif
+  if s.reveal
+    assign classes = classes | append: ' ingredient-list--reveal'
+  endif
+-%}
+
+<section
+  class="{{ classes }}"
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | handleize }}"{% endif %}
+  style="{{ list_style | strip_newlines }}"
+  {% if heading != blank %}aria-labelledby="ingredient-list-title-{{ section.id }}"{% endif %}
+  data-ff-ingredient-list
+  data-open-first="{{ s.open_first }}"
+  data-multiple="{{ s.allow_multiple }}"
+>
+  <div class="ingredient-list__container">
+    <div class="ingredient-list__grid">
+      {%- if heading != blank or s.text != blank -%}
+        <div class="ingredient-list__intro">
+          {%- if heading != blank -%}
+            <h2 class="ingredient-list__title" id="ingredient-list-title-{{ section.id }}">{{ heading | escape }}</h2>
+          {%- endif -%}
+          {%- if s.text != blank -%}
+            <div class="ingredient-list__text">{{ s.text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="ingredient-list__panel">
+        {%- if s.glow_strength > 0 -%}
+          <div class="ingredient-list__glow" aria-hidden="true"></div>
+        {%- endif -%}
+
+        {%- if s.label != blank -%}
+          <p class="ingredient-list__label">{{ s.label | escape }}</p>
+        {%- endif -%}
+
+        {%- if ingredient_blocks.size > 0 -%}
+          <ul class="ingredient-list__items" role="list">
+            {%- for block in ingredient_blocks -%}
+              {%- liquid
+                assign has_body = false
+                if block.settings.description != blank
+                  assign has_body = true
+                endif
+                assign is_open = false
+                if has_body and s.open_first and forloop.first
+                  assign is_open = true
+                endif
+              -%}
+              <li class="ingredient-list__item{% if is_open %} is-open{% endif %}" style="--i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+                {%- if has_body -%}
+                  <h3 class="ingredient-list__heading">
+                    <button
+                      class="ingredient-list__toggle"
+                      id="ingredient-list-q-{{ block.id }}"
+                      type="button"
+                      aria-expanded="{{ is_open }}"
+                      aria-controls="ingredient-list-a-{{ block.id }}"
+                    >
+                      <span class="ingredient-list__name">
+                        {{- block.settings.name | escape -}}
+                        {%- if block.settings.amount != blank -%}
+                          <span class="ingredient-list__amount">{{ block.settings.amount | escape }}</span>
+                        {%- endif -%}
+                      </span>
+                      <span class="ingredient-list__icon" aria-hidden="true"></span>
+                    </button>
+                  </h3>
+                  <div
+                    class="ingredient-list__body"
+                    id="ingredient-list-a-{{ block.id }}"
+                    role="region"
+                    aria-labelledby="ingredient-list-q-{{ block.id }}"
+                  >
+                    <div>
+                      <div class="ingredient-list__desc">{{ block.settings.description }}</div>
+                    </div>
+                  </div>
+                {%- else -%}
+                  <h3 class="ingredient-list__heading ingredient-list__static">
+                    <span class="ingredient-list__name">
+                      {{- block.settings.name | escape -}}
+                      {%- if block.settings.amount != blank -%}
+                        <span class="ingredient-list__amount">{{ block.settings.amount | escape }}</span>
+                      {%- endif -%}
+                    </span>
+                  </h3>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF ingredient list",
+  "class": "ff",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "[count] is replaced by the number of ingredients.", "default": "[count] powerful, bioavailable ingredients" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>All our active ingredients are formulated for maximum absorption to restore your body’s hormonal baseline back to harmony.</p>" },
+    { "type": "text", "id": "label", "label": "List label", "default": "Hero ingredients" },
+
+    { "type": "header", "content": "Accordion" },
+    { "type": "checkbox", "id": "open_first", "label": "Open the first ingredient", "default": true },
+    { "type": "checkbox", "id": "allow_multiple", "label": "Allow several open at once", "default": false },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "container_width", "label": "Maximum width", "min": 960, "max": 1600, "step": 10, "unit": "px", "default": 1320 },
+    { "type": "range", "id": "panel_width", "label": "List column width", "min": 320, "max": 700, "step": 10, "unit": "px", "default": 500 },
+    { "type": "range", "id": "intro_width", "label": "Text maximum width", "min": 280, "max": 800, "step": 10, "unit": "px", "default": 700 },
+    { "type": "range", "id": "column_gap", "label": "Space between columns", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "column_gap_mobile", "label": "Space between text and list on mobile", "min": 0, "max": 80, "step": 1, "unit": "px", "default": 32 },
+    {
+      "type": "select",
+      "id": "panel_position",
+      "label": "List position on desktop",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment on desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text alignment on mobile",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    { "type": "checkbox", "id": "sticky_intro", "label": "Keep text in view while scrolling the list", "default": true },
+    { "type": "range", "id": "margin_top", "label": "Top margin on desktop", "info": "Space above the coloured background.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom", "label": "Bottom margin on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_top_mobile", "label": "Top margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom_mobile", "label": "Bottom margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Top padding on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 50 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 50 },
+
+    { "type": "header", "content": "List panel" },
+    { "type": "checkbox", "id": "show_frame", "label": "Show rounded frame", "info": "Thin line down the left side and along the bottom.", "default": true },
+    { "type": "range", "id": "panel_radius", "label": "Frame corner radius", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "row_padding", "label": "Row height", "info": "Space above and below each ingredient name.", "min": 6, "max": 28, "step": 1, "unit": "px", "default": 12 },
+    { "type": "range", "id": "line_opacity", "label": "Line strength", "min": 5, "max": 100, "step": 5, "unit": "%", "default": 25 },
+    { "type": "range", "id": "glow_strength", "label": "Glow strength", "info": "Soft colour wash behind the list. 0 turns it off.", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 55 },
+
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "Font",
+      "options": [
+        { "value": "montserrat", "label": "Montserrat (theme)" },
+        { "value": "inter", "label": "Inter" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "poppins", "label": "Poppins" }
+      ],
+      "default": "montserrat"
+    },
+    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled to about 75% on tablet.", "min": 20, "max": 80, "step": 1, "unit": "px", "default": 50 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 16, "max": 48, "step": 1, "unit": "px", "default": 34 },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
+    { "type": "range", "id": "heading_line_height", "label": "Heading line height", "min": 0.8, "max": 1.6, "step": 0.1, "default": 1.1 },
+    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": true },
+    { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 15 },
+    {
+      "type": "select",
+      "id": "label_font",
+      "label": "List label font",
+      "options": [
+        { "value": "section", "label": "Same as section" },
+        { "value": "mono", "label": "Monospace (reference)" }
+      ],
+      "default": "section"
+    },
+    { "type": "range", "id": "label_size", "label": "List label size", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 12 },
+    { "type": "checkbox", "id": "label_uppercase", "label": "Uppercase list label", "default": true },
+    { "type": "range", "id": "name_size", "label": "Ingredient name size on desktop", "min": 12, "max": 28, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "name_size_mobile", "label": "Ingredient name size on mobile", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
+    {
+      "type": "select",
+      "id": "name_weight",
+      "label": "Ingredient name weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    { "type": "range", "id": "description_size", "label": "Description size on desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "description_size_mobile", "label": "Description size on mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FEF6F2" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#152340" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#3B3B3B" },
+    { "type": "color", "id": "label_color", "label": "List label", "default": "#FE686E" },
+    { "type": "color", "id": "name_color", "label": "Ingredient name", "default": "#152340" },
+    { "type": "color", "id": "amount_color", "label": "Ingredient amount", "default": "#888888" },
+    { "type": "color", "id": "description_color", "label": "Description", "default": "#3B3B3B" },
+    { "type": "color", "id": "icon_color", "label": "Plus / minus icon", "default": "#152340" },
+    { "type": "color", "id": "line_color", "label": "Lines", "default": "#152340" },
+    { "type": "color_background", "id": "panel_background", "label": "List background", "info": "Optional, e.g. a gradient. Leave empty for none." },
+    { "type": "color", "id": "glow_color", "label": "Glow", "default": "#FFB1A4" },
+
+    { "type": "header", "content": "Section" },
+    { "type": "checkbox", "id": "reveal", "label": "Fade in on scroll", "default": true },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #ingredients." }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "limit": 40,
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Myo-inositol" },
+        { "type": "text", "id": "amount", "label": "Amount", "info": "Optional, shown beside the name, e.g. 4,000 mg." },
+        { "type": "richtext", "id": "description", "label": "Description", "info": "Leave empty for a row that doesn't open." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FF ingredient list",
+      "blocks": [
+        { "type": "ingredient", "settings": { "name": "Myo-inositol", "description": "<p>Naturally occurs in our body and supports insulin sensitivity and hormone regulation at the cellular level.</p>" } },
+        { "type": "ingredient", "settings": { "name": "D-Chiro-Inositol", "description": "<p>Works alongside myo-inositol in the body's natural 40:1 ratio to support healthy insulin signalling.</p>" } },
+        { "type": "ingredient", "settings": { "name": "Vitamin B6", "description": "<p>Contributes to the regulation of hormonal activity and the reduction of tiredness and fatigue.</p>" } },
+        { "type": "ingredient", "settings": { "name": "Folate", "description": "<p>Contributes to normal blood formation and the reduction of tiredness and fatigue.</p>" } },
+        { "type": "ingredient", "settings": { "name": "Selenium", "description": "<p>Contributes to normal thyroid function and helps protect cells from oxidative stress.</p>" } },
+        { "type": "ingredient", "settings": { "name": "Zinc", "description": "<p>Contributes to normal fertility and reproduction and the maintenance of normal skin and hair.</p>" } },
+        { "type": "ingredient", "settings": { "name": "Alpha Lipoic Acid", "description": "<p>An antioxidant made naturally in the body that supports cellular energy production.</p>" } },
+        { "type": "ingredient", "settings": { "name": "Chromium", "description": "<p>Contributes to the maintenance of normal blood glucose levels.</p>" } },
+        { "type": "ingredient", "settings": { "name": "Coenzyme Q10", "description": "<p>Found in every cell, where it plays a key part in turning food into energy.</p>" } },
+        { "type": "ingredient", "settings": { "name": "L-Glutamine", "description": "<p>An amino acid that fuels the cells lining the gut.</p>" } },
+        { "type": "ingredient", "settings": { "name": "L-Lysine", "description": "<p>An essential amino acid the body uses to build proteins, including collagen.</p>" } },
+        { "type": "ingredient", "settings": { "name": "L-Carnitine Tartrate", "description": "<p>Helps carry fatty acids into cells so they can be used for energy.</p>" } },
+        { "type": "ingredient", "settings": { "name": "L-Threonine", "description": "<p>An essential amino acid used to build proteins in skin, connective tissue and the gut lining.</p>" } },
+        { "type": "ingredient", "settings": { "name": "L-Tryptophan", "description": "<p>An essential amino acid the body uses to make serotonin and melatonin.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

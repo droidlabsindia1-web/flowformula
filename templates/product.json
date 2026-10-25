@@ -12,74 +12,9 @@
     "main": {
       "type": "ff-main-product",
       "blocks": {
-        "bullet_kfqKXA": {
-          "type": "bullet",
-          "settings": {
-            "text": "Free UK delivery"
-          }
-        },
-        "bullet_WNbDbJ": {
-          "type": "bullet",
-          "settings": {
-            "text": "Clinical doses of all 18 ingredients - verified"
-          }
-        },
-        "bullet_NCpwCF": {
-          "type": "bullet",
-          "settings": {
-            "text": "Formulated by a woman with PCOS, for PCOS"
-          }
-        },
-        "pill_odor": {
-          "type": "pill",
-          "settings": {
-            "text": "Odor Control That Lasts",
-            "icon_url": "",
-            "link": "",
-            "background": "",
-            "gradient": "",
-            "text_color": ""
-          }
-        },
-        "pill_uti": {
-          "type": "pill",
-          "settings": {
-            "text": "UTI + pH Support",
-            "icon_url": "",
-            "link": "",
-            "background": "",
-            "gradient": "",
-            "text_color": ""
-          }
-        },
-        "pill_stomach": {
-          "type": "pill",
-          "settings": {
-            "text": "No Stomach Upset",
-            "icon_url": "",
-            "link": "",
-            "background": "",
-            "gradient": "",
-            "text_color": ""
-          }
-        },
-        "pill_balance": {
-          "type": "pill",
-          "settings": {
-            "text": "Daily Balance",
-            "icon_url": "",
-            "link": "",
-            "background": "",
-            "gradient": "",
-            "text_color": ""
-          }
-        },
         "ribbon_results": {
           "type": "ribbon",
           "settings": {
-            "text": "<p>Best results seen after <strong>a few months</strong> of consistent use</p>",
-            "link": "",
-            "icon_url": "https://cdn.shopify.com/s/files/1/0933/4630/0234/files/fc895ba2625c240b092ea4ba1dd000b3.png?v=1791313033",
             "icon_position": "left",
             "icon_size": 20,
             "icon_size_mobile": 18,
@@ -101,59 +36,10 @@
             "font_weight": "400"
           }
         },
-        "usp_delivery": {
-          "type": "usp",
-          "settings": {
-            "text": "Free UK delivery"
-          }
-        },
-        "usp_sachets": {
-          "type": "usp",
-          "settings": {
-            "text": "30 daily sachets"
-          }
-        },
-        "usp_save": {
-          "type": "usp",
-          "settings": {
-            "text": "Subscribe & save 20%"
-          }
-        },
-        "option_subscription": {
-          "type": "option",
-          "settings": {
-            "kind": "subscription",
-            "plan": "",
-            "title": "Monthly Subscription",
-            "saving": "Monthly Subscription",
-            "badge": "Recommended",
-            "frequency_label": "",
-            "features": "30 sachets delivered every 30 days\nFree UK delivery\nReminder before the next order\nPrice and renewal frequency shown clearly",
-            "selected": true
-          }
-        },
-        "option_once": {
-          "type": "option",
-          "settings": {
-            "kind": "one_time",
-            "plan": "",
-            "title": "One-Time Purchase",
-            "saving": "30 sachets delivered once",
-            "badge": "",
-            "frequency_label": "",
-            "features": "",
-            "selected": false
-          }
-        },
         "guarantee": {
           "type": "guarantee",
           "settings": {
-            "eyebrow": "Your order is protected by",
-            "title": "60-Days Money-Back Guarantee",
-            "text": "<p>If you don’t love it - even in day 59 - full refund.</p>",
-            "link": "",
             "show_icon": true,
-            "icon_url": "",
             "icon_size": 64,
             "icon_size_mobile": 48,
             "icon_gap": 40,
@@ -176,57 +62,13 @@
             "text_size": 16,
             "text_size_mobile": 13
           }
-        },
-        "detail_info": {
-          "type": "detail",
-          "settings": {
-            "title": "Product information",
-            "content": "<ul><li>30 daily sachets</li><li>4,000 mg Myo-Inositol</li><li>100 mg D-Chiro Inositol</li><li>5 billion CFU live cultures</li></ul>",
-            "open": true
-          }
-        },
-        "detail_ingredients": {
-          "type": "detail",
-          "settings": {
-            "title": "Ingredients & nutrition",
-            "content": "<p>Full ingredient and nutrition information coming soon.</p>",
-            "open": false
-          }
-        },
-        "detail_shipping": {
-          "type": "detail",
-          "settings": {
-            "title": "Shipping",
-            "content": "<p>Free UK delivery on every order. Subscriptions ship every 30 days — pause or cancel anytime.</p>",
-            "open": false
-          }
         }
       },
       "block_order": [
-        "bullet_kfqKXA",
-        "bullet_WNbDbJ",
-        "bullet_NCpwCF",
-        "pill_odor",
-        "pill_uti",
-        "pill_stomach",
-        "pill_balance",
         "ribbon_results",
-        "usp_delivery",
-        "usp_sachets",
-        "usp_save",
-        "option_subscription",
-        "option_once",
-        "guarantee",
-        "detail_info",
-        "detail_ingredients",
-        "detail_shipping"
+        "guarantee"
       ],
       "settings": {
-        "tagline": "",
-        "title": "Flow Formula",
-        "show_rating": true,
-        "rating": "4.5 outof 5",
-        "description": "<p>A thoughtfully formulated daily drink combining key vitamins, minerals, live cultures and carefully selected ingredients in one pre-measured sachet.</p>",
         "pill_columns": 2,
         "pill_columns_mobile": 2,
         "pill_gap": 10,
@@ -258,7 +100,6 @@
         "after_add": "cart",
         "show_dynamic_checkout": false,
         "show_sticky_atc": true,
-        "label_image_url": "https://cdn.shopify.com/s/files/1/0933/4630/0234/files/Screenshot_2026-05-30_at_7.40.55_PM.png?v=1792701664",
         "label_button": "View Nutrient Label",
         "anchor_id": "shop"
       }
@@ -459,6 +300,198 @@
         "heading": "Flow Formula",
         "anchor_id": "ingredients",
         "speed": 40
+      }
+    },
+    "ingredient_list": {
+      "type": "ff-ingredient-list",
+      "blocks": {
+        "ingredient_myo_inositol": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Myo-inositol",
+            "amount": "4,000 mg",
+            "description": "<p>Naturally occurs in our body and supports insulin sensitivity and hormone regulation at the cellular level.</p>"
+          }
+        },
+        "ingredient_d_chiro_inositol": {
+          "type": "ingredient",
+          "settings": {
+            "name": "D-Chiro-Inositol",
+            "amount": "100 mg",
+            "description": "<p>Works alongside myo-inositol in the body's natural 40:1 ratio to support healthy insulin signalling.</p>"
+          }
+        },
+        "ingredient_vitamin_b6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin B6",
+            "amount": "",
+            "description": "<p>Contributes to the regulation of hormonal activity and the reduction of tiredness and fatigue.</p>"
+          }
+        },
+        "ingredient_folate": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Folate",
+            "amount": "",
+            "description": "<p>Contributes to normal blood formation and the reduction of tiredness and fatigue.</p>"
+          }
+        },
+        "ingredient_selenium": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Selenium",
+            "amount": "",
+            "description": "<p>Contributes to normal thyroid function and helps protect cells from oxidative stress.</p>"
+          }
+        },
+        "ingredient_zinc": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Zinc",
+            "amount": "",
+            "description": "<p>Contributes to normal fertility and reproduction and the maintenance of normal skin and hair.</p>"
+          }
+        },
+        "ingredient_alpha_lipoic_acid": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Alpha Lipoic Acid",
+            "amount": "",
+            "description": "<p>An antioxidant made naturally in the body that supports cellular energy production.</p>"
+          }
+        },
+        "ingredient_chromium": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Chromium",
+            "amount": "",
+            "description": "<p>Contributes to the maintenance of normal blood glucose levels.</p>"
+          }
+        },
+        "ingredient_coenzyme_q10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coenzyme Q10",
+            "amount": "",
+            "description": "<p>Found in every cell, where it plays a key part in turning food into energy.</p>"
+          }
+        },
+        "ingredient_l_glutamine": {
+          "type": "ingredient",
+          "settings": {
+            "name": "L-Glutamine",
+            "amount": "",
+            "description": "<p>An amino acid that fuels the cells lining the gut.</p>"
+          }
+        },
+        "ingredient_l_lysine": {
+          "type": "ingredient",
+          "settings": {
+            "name": "L-Lysine",
+            "amount": "",
+            "description": "<p>An essential amino acid the body uses to build proteins, including collagen.</p>"
+          }
+        },
+        "ingredient_l_carnitine_tartrate": {
+          "type": "ingredient",
+          "settings": {
+            "name": "L-Carnitine Tartrate",
+            "amount": "",
+            "description": "<p>Helps carry fatty acids into cells so they can be used for energy.</p>"
+          }
+        },
+        "ingredient_l_threonine": {
+          "type": "ingredient",
+          "settings": {
+            "name": "L-Threonine",
+            "amount": "",
+            "description": "<p>An essential amino acid used to build proteins in skin, connective tissue and the gut lining.</p>"
+          }
+        },
+        "ingredient_l_tryptophan": {
+          "type": "ingredient",
+          "settings": {
+            "name": "L-Tryptophan",
+            "amount": "",
+            "description": "<p>An essential amino acid the body uses to make serotonin and melatonin.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_myo_inositol",
+        "ingredient_d_chiro_inositol",
+        "ingredient_vitamin_b6",
+        "ingredient_folate",
+        "ingredient_selenium",
+        "ingredient_zinc",
+        "ingredient_alpha_lipoic_acid",
+        "ingredient_chromium",
+        "ingredient_coenzyme_q10",
+        "ingredient_l_glutamine",
+        "ingredient_l_lysine",
+        "ingredient_l_carnitine_tartrate",
+        "ingredient_l_threonine",
+        "ingredient_l_tryptophan"
+      ],
+      "settings": {
+        "heading": "[count] powerful, bioavailable ingredients",
+        "text": "<p>All our active ingredients are formulated for maximum absorption to restore your body’s hormonal baseline back to harmony.</p>",
+        "label": "Hero ingredients",
+        "open_first": true,
+        "allow_multiple": false,
+        "container_width": 1320,
+        "panel_width": 500,
+        "intro_width": 700,
+        "column_gap": 80,
+        "column_gap_mobile": 32,
+        "panel_position": "right",
+        "text_align": "center",
+        "text_align_mobile": "center",
+        "sticky_intro": true,
+        "margin_top": 60,
+        "margin_bottom": 0,
+        "margin_top_mobile": 60,
+        "margin_bottom_mobile": 0,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 50,
+        "show_frame": true,
+        "panel_radius": 14,
+        "row_padding": 12,
+        "line_opacity": 25,
+        "glow_strength": 55,
+        "font": "montserrat",
+        "heading_size": 50,
+        "heading_size_mobile": 34,
+        "heading_weight": "600",
+        "heading_letter_spacing": -1.3,
+        "heading_line_height": 1.1,
+        "heading_lowercase": true,
+        "text_size": 18,
+        "text_size_mobile": 15,
+        "label_font": "section",
+        "label_size": 12,
+        "label_uppercase": true,
+        "name_size": 18,
+        "name_size_mobile": 16,
+        "name_weight": "500",
+        "description_size": 14,
+        "description_size_mobile": 13,
+        "background": "#FEF6F2",
+        "heading_color": "#152340",
+        "text_color": "#3B3B3B",
+        "label_color": "#FE686E",
+        "name_color": "#152340",
+        "amount_color": "#888888",
+        "description_color": "#3B3B3B",
+        "icon_color": "#152340",
+        "line_color": "#152340",
+        "panel_background": "",
+        "glow_color": "#FFB1A4",
+        "reveal": true,
+        "anchor_id": "ingredient-list"
       }
     },
     "how_it_works": {
@@ -938,6 +971,7 @@
     "usp_strip",
     "comparison",
     "ingredients",
+    "ingredient_list",
     "how_it_works",
     "reviews",
     "split_cta",

@@ -3,7 +3,9 @@
   a shield) beside a small heading, heading and text.
 
   Accepts:
-  - block: {Object} the section's guarantee block
+  - block: {Object} the section's guarantee block, which sets the look
+  - guarantee: {Object} the product's pdp.guarantee metaobject entry, which
+    holds the eyebrow, title, text, link and icon_url
 {%- endcomment -%}
 
 {%- liquid
@@ -40,7 +42,8 @@
       echo '--guar-text-c: ' | append: bs.text_color | append: ';'
     endif
   endcapture
-  assign icon_src = bs.icon.src | downcase
+  assign link = guarantee.link.value
+  assign icon_url = guarantee.icon_url.value
 -%}
 
 <div
@@ -48,25 +51,18 @@
   style="{{ guarantee_style | strip_newlines }}"
   {{ block.shopify_attributes }}
 >
-  {%- if bs.link != blank -%}<a class="guarantee__inner" href="{{ bs.link }}">{%- else -%}<div class="guarantee__inner">{%- endif -%}
+  {%- if link != blank -%}<a class="guarantee__inner" href="{{ link }}">{%- else -%}<div class="guarantee__inner">{%- endif -%}
     {%- if bs.show_icon -%}
-      {%- if bs.icon != blank -%}
-        {%- if icon_src contains '.gif' -%}
-          {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
-          {{- bs.icon | image_url | image_tag: class: 'guarantee__icon', loading: 'lazy', alt: '' -}}
-        {%- else -%}
-          {{- bs.icon | image_url: width: 240 | image_tag: class: 'guarantee__icon', widths: '96,160,240', sizes: '80px', loading: 'lazy', alt: '' -}}
-        {%- endif -%}
-      {%- elsif bs.icon_url != blank -%}
-        <img class="guarantee__icon" src="{{ bs.icon_url | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
+      {%- if icon_url != blank -%}
+        <img class="guarantee__icon" src="{{ icon_url | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
       {%- else -%}
         <img class="guarantee__icon" src="{{ 'ff-icon-shield.svg' | asset_url }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
       {%- endif -%}
     {%- endif -%}
     <div class="guarantee__body">
-      {%- if bs.eyebrow != blank -%}<p class="guarantee__eyebrow">{{ bs.eyebrow | escape }}</p>{%- endif -%}
-      {%- if bs.title != blank -%}<p class="guarantee__title">{{ bs.title | escape }}</p>{%- endif -%}
-      {%- if bs.text != blank -%}<div class="guarantee__text">{{ bs.text }}</div>{%- endif -%}
+      {%- if guarantee.eyebrow.value != blank -%}<p class="guarantee__eyebrow">{{ guarantee.eyebrow.value | escape }}</p>{%- endif -%}
+      {%- if guarantee.title.value != blank -%}<p class="guarantee__title">{{ guarantee.title.value | escape }}</p>{%- endif -%}
+      {%- if guarantee.text.value != blank -%}<div class="guarantee__text">{{ guarantee.text | metafield_tag }}</div>{%- endif -%}
     </div>
-  {%- if bs.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+  {%- if link != blank -%}</a>{%- else -%}</div>{%- endif -%}
 </div>

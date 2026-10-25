@@ -1,0 +1,355 @@
+/* ==========================================================================
+   Flow Formula — Ingredient list (sections/ff-ingredient-list.liquid)
+   Heading and intro beside a framed accordion of ingredients.
+   Layout from milamend.com/products/hormone-balance ("14 powerful,
+   bioavailable ingredients"), type and colour from the ff theme
+   (Montserrat, lowercase titles, navy / coral / peach).
+
+   Every look setting arrives as an --il-* variable on .ingredient-list, so
+   the fallbacks below are only used if a value is missing.
+   Breakpoints: >=992 desktop · 768–991 tablet · <=767 mobile
+   ========================================================================== */
+
+.ff .ingredient-list {
+  --il-line-c: color-mix(in srgb, var(--il-line, var(--navy)) var(--il-line-a, 25%), transparent);
+  --il-r: var(--il-radius, 14px);
+
+  margin: var(--il-mt, 60px) 0 var(--il-mb, 0);
+  padding: var(--il-pt, 80px) 0 var(--il-pb, 80px);
+  background: var(--il-bg, var(--blush-light, #fef6f2));
+  font-family: var(--il-font, var(--font-sans));
+  /* Keeps the glow inside the section without breaking sticky */
+  overflow: clip;
+}
+
+.ff .ingredient-list__container {
+  width: 100%;
+  max-width: var(--il-container, 1320px);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.ff .ingredient-list__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min(var(--il-panel-w, 500px), 50%);
+  align-items: start;
+  gap: var(--il-gap, 80px);
+}
+.ff .ingredient-list--panel-left .ingredient-list__grid {
+  grid-template-columns: min(var(--il-panel-w, 500px), 50%) minmax(0, 1fr);
+}
+.ff .ingredient-list--panel-left .ingredient-list__intro {
+  order: 2;
+}
+
+/* ---------- Intro ---------- */
+.ff .ingredient-list__intro {
+  width: 100%;
+  max-width: var(--il-intro-w, 700px);
+  justify-self: center;
+}
+.ff .ingredient-list--align-center .ingredient-list__intro {
+  text-align: center;
+}
+.ff .ingredient-list--sticky .ingredient-list__intro {
+  position: sticky;
+  top: 110px;
+}
+
+.ff .ingredient-list__title {
+  color: var(--il-heading-c, var(--navy));
+  font-size: var(--il-h-fs, 50px);
+  font-weight: var(--il-h-fw, 600);
+  line-height: var(--il-h-lh, 1.1);
+  letter-spacing: var(--il-h-ls, var(--tight));
+  text-wrap: balance;
+}
+.ff .ingredient-list--title-lower .ingredient-list__title {
+  text-transform: lowercase;
+}
+
+.ff .ingredient-list__text {
+  max-width: 440px;
+  margin-top: 28px;
+  color: var(--il-text-c, var(--text));
+  font-size: var(--il-text-fs, 18px);
+  font-weight: 500;
+  line-height: 1.55;
+}
+.ff .ingredient-list--align-center .ingredient-list__text {
+  margin-inline: auto;
+}
+.ff .ingredient-list__text:first-child {
+  margin-top: 0;
+}
+.ff .ingredient-list__text > * + * {
+  margin-top: 0.8em;
+}
+.ff .ingredient-list__text a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Panel ---------- */
+.ff .ingredient-list__panel {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  border-radius: var(--il-r) 0 0 var(--il-r);
+  background: var(--il-panel-bg, none);
+}
+
+/* Frame: a top-left corner that runs into the label, then a line down the
+   left and along the bottom. Two pieces so the corner stays a full curve
+   while the top edge stops short of the label. */
+.ff .ingredient-list--framed .ingredient-list__panel {
+  padding: 0 0 36px calc(var(--il-r) + 6px);
+}
+.ff .ingredient-list--framed .ingredient-list__panel::before,
+.ff .ingredient-list--framed .ingredient-list__panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  pointer-events: none;
+  border: 0 solid var(--il-line-c);
+}
+.ff .ingredient-list--framed .ingredient-list__panel::before {
+  top: 0;
+  width: calc(var(--il-r) + 2px);
+  height: var(--il-r);
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-top-left-radius: var(--il-r);
+}
+.ff .ingredient-list--framed .ingredient-list__panel::after {
+  top: var(--il-r);
+  right: 0;
+  bottom: 0;
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  border-bottom-left-radius: var(--il-r);
+}
+
+.ff .ingredient-list__glow {
+  position: absolute;
+  inset: -6% -14% -10% -10%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 35% at 45% 18%, color-mix(in srgb, var(--il-glow, var(--peach)) var(--il-glow-a, 55%), transparent), transparent 70%),
+    radial-gradient(ellipse 60% 45% at 60% 80%, color-mix(in srgb, var(--il-glow, var(--peach)) var(--il-glow-a, 55%), transparent), transparent 72%);
+  filter: blur(36px);
+}
+
+.ff .ingredient-list__label {
+  padding: 0 0 8px;
+  color: var(--il-label-c, var(--coral));
+  font-family: var(--il-label-font, inherit);
+  font-size: var(--il-label-fs, 12px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+}
+/* Sits centred on the frame's top edge */
+.ff .ingredient-list--framed .ingredient-list__label {
+  margin-top: -0.6em;
+}
+.ff .ingredient-list--label-upper .ingredient-list__label {
+  text-transform: uppercase;
+}
+
+/* ---------- Rows ---------- */
+.ff .ingredient-list__items {
+  border-top: 1px solid var(--il-line-c);
+}
+.ff .ingredient-list__item + .ingredient-list__item {
+  border-top: 1px solid var(--il-line-c);
+}
+
+.ff .ingredient-list__heading {
+  margin: 0;
+}
+
+.ff .ingredient-list__toggle,
+.ff .ingredient-list__static {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: var(--il-row-py, 12px) 4px;
+  text-align: left;
+}
+
+.ff .ingredient-list__name {
+  color: var(--il-name-c, var(--navy));
+  font-size: var(--il-name-fs, 18px);
+  font-weight: var(--il-name-fw, 500);
+  line-height: 1.3;
+  transition: opacity 0.2s ease;
+}
+.ff .ingredient-list__amount {
+  margin-left: 8px;
+  color: var(--il-amount-c, var(--grey));
+  font-size: 0.78em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .ff .ingredient-list__toggle:hover .ingredient-list__name {
+    opacity: 0.7;
+  }
+}
+
+/* Plus that folds into a minus */
+.ff .ingredient-list__icon {
+  position: relative;
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  color: var(--il-icon-c, var(--navy));
+}
+.ff .ingredient-list__icon::before,
+.ff .ingredient-list__icon::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.ff .ingredient-list__icon::after {
+  transform: rotate(90deg);
+}
+.ff .ingredient-list__item.is-open .ingredient-list__icon::after {
+  transform: rotate(180deg);
+  opacity: 0;
+}
+
+/* Animates to the content's height without measuring it */
+.ff .ingredient-list__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.3s ease,
+    visibility 0.3s;
+}
+.ff .ingredient-list__body > div {
+  overflow: hidden;
+}
+.ff .ingredient-list__item.is-open .ingredient-list__body {
+  grid-template-rows: 1fr;
+  visibility: visible;
+}
+
+.ff .ingredient-list__desc {
+  max-width: 92%;
+  padding: 0 4px calc(var(--il-row-py, 12px) + 2px);
+  color: var(--il-desc-c, var(--text));
+  font-size: var(--il-desc-fs, 14px);
+  font-weight: 500;
+  line-height: 1.45;
+}
+.ff .ingredient-list__desc > * + * {
+  margin-top: 0.6em;
+}
+.ff .ingredient-list__desc a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Fade in (attribute set by ff-ingredient-list.js) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .ff .ingredient-list[data-reveal="pending"] :is(.ingredient-list__intro, .ingredient-list__label, .ingredient-list__item) {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .ff .ingredient-list[data-reveal] :is(.ingredient-list__intro, .ingredient-list__label, .ingredient-list__item) {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .ff .ingredient-list[data-reveal] .ingredient-list__item {
+    transition-delay: calc(0.1s + min(var(--i, 0), 16) * 0.04s);
+  }
+  .ff .ingredient-list[data-reveal="pending"] .ingredient-list__panel::before,
+  .ff .ingredient-list[data-reveal="pending"] .ingredient-list__panel::after,
+  .ff .ingredient-list[data-reveal="pending"] .ingredient-list__glow {
+    opacity: 0;
+  }
+  .ff .ingredient-list[data-reveal] .ingredient-list__panel::before,
+  .ff .ingredient-list[data-reveal] .ingredient-list__panel::after {
+    transition: opacity 0.8s ease;
+  }
+  .ff .ingredient-list[data-reveal] .ingredient-list__glow {
+    transition: opacity 1.2s ease 0.2s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 991px) {
+  .ff .ingredient-list__grid {
+    gap: min(var(--il-gap, 80px), 40px);
+  }
+  .ff .ingredient-list__title {
+    font-size: max(var(--il-h-fs-m, 34px), calc(var(--il-h-fs, 50px) * 0.75));
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767px) {
+  .ff .ingredient-list {
+    margin: var(--il-mt-m, 60px) 0 var(--il-mb-m, 0);
+    padding: var(--il-pt-m, 50px) 0 var(--il-pb-m, 50px);
+  }
+  .ff .ingredient-list__grid,
+  .ff .ingredient-list--panel-left .ingredient-list__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--il-gap-m, 32px);
+  }
+  .ff .ingredient-list--panel-left .ingredient-list__intro {
+    order: 0;
+  }
+  .ff .ingredient-list--sticky .ingredient-list__intro {
+    position: static;
+  }
+  .ff .ingredient-list--align-m-center .ingredient-list__intro {
+    text-align: center;
+  }
+  .ff .ingredient-list--align-m-center .ingredient-list__text {
+    margin-inline: auto;
+  }
+  .ff .ingredient-list--align-m-left .ingredient-list__intro {
+    text-align: left;
+  }
+  .ff .ingredient-list--align-m-left .ingredient-list__text {
+    margin-inline: 0;
+  }
+  .ff .ingredient-list__title {
+    font-size: var(--il-h-fs-m, 34px);
+  }
+  .ff .ingredient-list__text {
+    margin-top: 16px;
+    font-size: var(--il-text-fs-m, 15px);
+  }
+  .ff .ingredient-list--framed .ingredient-list__panel {
+    padding-bottom: 24px;
+  }
+  .ff .ingredient-list__glow {
+    inset: -4% -8% -6% -6%;
+    filter: blur(28px);
+  }
+  .ff .ingredient-list__name {
+    font-size: var(--il-name-fs-m, 16px);
+  }
+  .ff .ingredient-list__desc {
+    max-width: 100%;
+    font-size: var(--il-desc-fs-m, 13px);
+  }
+  .ff .ingredient-list__icon {
+    margin-right: 4px;
+  }
+}
