@@ -5,7 +5,7 @@
   Accepts:
   - block: {Object} the section's guarantee block, which sets the look
   - guarantee: {Object} the product's pdp.guarantee metaobject entry, which
-    holds the eyebrow, title, text, link and icon_url
+    holds the eyebrow, title, text, link and icon
 {%- endcomment -%}
 
 {%- liquid
@@ -43,7 +43,8 @@
     endif
   endcapture
   assign link = guarantee.link.value
-  assign icon_url = guarantee.icon_url.value
+  assign icon = guarantee.icon.value.preview_image
+  assign icon_src = icon.src | downcase
 -%}
 
 <div
@@ -53,8 +54,13 @@
 >
   {%- if link != blank -%}<a class="guarantee__inner" href="{{ link }}">{%- else -%}<div class="guarantee__inner">{%- endif -%}
     {%- if bs.show_icon -%}
-      {%- if icon_url != blank -%}
-        <img class="guarantee__icon" src="{{ icon_url | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
+      {%- if icon != blank -%}
+        {%- if icon_src contains '.gif' -%}
+          {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
+          {{- icon | image_url | image_tag: class: 'guarantee__icon', loading: 'lazy', alt: '' -}}
+        {%- else -%}
+          {{- icon | image_url: width: 240 | image_tag: class: 'guarantee__icon', widths: '96,160,240', sizes: '80px', loading: 'lazy', alt: '' -}}
+        {%- endif -%}
       {%- else -%}
         <img class="guarantee__icon" src="{{ 'ff-icon-shield.svg' | asset_url }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
       {%- endif -%}

@@ -395,7 +395,8 @@
             {%- for pill in pill_items -%}
               {%- liquid
                 assign pill_link = pill.link.value
-                assign pill_icon = pill.icon_url.value
+                assign pill_icon = pill.icon.value.preview_image
+                assign icon_src = pill_icon.src | downcase
                 assign pill_bg = pill.background.value
                 assign pill_fg = pill.text_color.value
                 capture own_style
@@ -410,7 +411,12 @@
               <li class="buybox__pill"{% if own_style != blank %} style="{{ own_style | strip_newlines }}"{% endif %}>
                 {%- if pill_link != blank -%}<a class="buybox__pill-inner" href="{{ pill_link }}">{%- else -%}<span class="buybox__pill-inner">{%- endif -%}
                   {%- if pill_icon != blank -%}
-                    <img class="buybox__pill-icon" src="{{ pill_icon | escape }}" width="{{ ps.pill_icon_size }}" height="{{ ps.pill_icon_size }}" loading="lazy" alt="">
+                    {%- if icon_src contains '.gif' -%}
+                      {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
+                      {{- pill_icon | image_url | image_tag: class: 'buybox__pill-icon', loading: 'lazy', alt: '' -}}
+                    {%- else -%}
+                      {{- pill_icon | image_url: width: 160 | image_tag: class: 'buybox__pill-icon', widths: '64,96,160', sizes: '48px', loading: 'lazy', alt: '' -}}
+                    {%- endif -%}
                   {%- endif -%}
                   <span class="buybox__pill-text">{{ pill.text.value | escape }}</span>
                 {%- if pill_link != blank -%}</a>{%- else -%}</span>{%- endif -%}
@@ -502,7 +508,8 @@
               endif
             endcapture
             assign ribbon_link = ribbon.link.value
-            assign ribbon_icon = ribbon.icon_url.value
+            assign ribbon_icon = ribbon.icon.value.preview_image
+            assign icon_src = ribbon_icon.src | downcase
           -%}
           <div
             class="ribbon ribbon--icon-{{ bs.icon_position }} ribbon--align-{{ bs.align }}{% if bs.shadow %} ribbon--shadow{% endif %}"
@@ -511,7 +518,12 @@
           >
             {%- if ribbon_link != blank -%}<a class="ribbon__inner" href="{{ ribbon_link }}">{%- else -%}<div class="ribbon__inner">{%- endif -%}
               {%- if ribbon_icon != blank -%}
-                <img class="ribbon__icon" src="{{ ribbon_icon | escape }}" width="{{ bs.icon_size }}" height="{{ bs.icon_size }}" loading="lazy" alt="">
+                {%- if icon_src contains '.gif' -%}
+                  {%- comment -%} GIFs load at full size so they keep animating. {%- endcomment -%}
+                  {{- ribbon_icon | image_url | image_tag: class: 'ribbon__icon', loading: 'lazy', alt: '' -}}
+                {%- else -%}
+                  {{- ribbon_icon | image_url: width: 160 | image_tag: class: 'ribbon__icon', widths: '64,96,160', sizes: '48px', loading: 'lazy', alt: '' -}}
+                {%- endif -%}
               {%- endif -%}
               <div class="ribbon__text">{{ ribbon.text | metafield_tag }}</div>
             {%- if ribbon_link != blank -%}</a>{%- else -%}</div>{%- endif -%}
