@@ -1,0 +1,326 @@
+/* ==========================================================================
+   Flow Formula — Story banner (sections/ff-story-banner.liquid)
+   Full-bleed photo or video with a tint, a heading, text and a glass button.
+   Layout from milamend.com ("Our story"), type and colour from the ff theme
+   (Montserrat, lowercase titles, navy).
+
+   Every look setting arrives as an --sb-* variable on .story-banner, so the
+   fallbacks below are only used if a value is missing.
+   Breakpoints: >=992 desktop · 768–991 tablet · <=767 mobile
+   ========================================================================== */
+
+.ff .story-banner {
+  margin: var(--sb-mt, 60px) 0 var(--sb-mb, 0);
+  font-family: var(--sb-font, var(--font-sans));
+}
+
+.ff .story-banner__container {
+  width: 100%;
+  max-width: var(--sb-container, 1320px);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.ff .story-banner--full .story-banner__container {
+  max-width: none;
+  padding: 0;
+}
+
+.ff .story-banner__frame {
+  position: relative;
+  display: flex;
+  min-height: var(--sb-h, 640px);
+  overflow: hidden;
+  border-radius: var(--sb-radius, 34px);
+  background: var(--sb-fallback-bg, var(--navy));
+  /* Keeps the rounded clip on Safari while the media moves */
+  isolation: isolate;
+}
+.ff .story-banner--full .story-banner__frame {
+  border-radius: 0;
+}
+
+/* ---------- Media ---------- */
+.ff .story-banner__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.ff .story-banner--parallax .story-banner__media {
+  /* Extra height so the image never shows an edge as it shifts */
+  inset: -12% 0;
+  transform: translate3d(0, var(--sb-shift, 0px), 0);
+  will-change: transform;
+}
+
+.ff .story-banner__img,
+.ff .story-banner__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ff .story-banner__media > :is(.story-banner__img, .story-banner__video) {
+  position: absolute;
+  inset: 0;
+  filter: blur(var(--sb-blur, 0px));
+}
+/* Blur softens the edges too, so scale past them */
+.ff .story-banner__media > :is(.story-banner__img, .story-banner__video) {
+  transform: scale(var(--sb-blur-scale, 1));
+}
+.ff .story-banner__img--mobile {
+  display: none;
+}
+.ff .story-banner__placeholder {
+  background: rgba(255, 255, 255, 0.08);
+  fill: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- Overlay ---------- */
+.ff .story-banner__overlay {
+  --sb-tint: color-mix(in srgb, var(--sb-overlay, #000) var(--sb-overlay-a, 35%), transparent);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--sb-tint);
+}
+.ff .story-banner--overlay-vignette .story-banner__overlay {
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, color-mix(in srgb, var(--sb-overlay, #000) calc(var(--sb-overlay-a, 35%) * 0.4), transparent), var(--sb-tint) 100%);
+}
+.ff .story-banner--overlay-center .story-banner__overlay {
+  background: radial-gradient(ellipse 55% 60% at 50% 50%, var(--sb-tint), color-mix(in srgb, var(--sb-overlay, #000) calc(var(--sb-overlay-a, 35%) * 0.3), transparent) 100%);
+}
+.ff .story-banner--overlay-bottom .story-banner__overlay {
+  background: linear-gradient(to top, var(--sb-tint) 0%, color-mix(in srgb, var(--sb-overlay, #000) calc(var(--sb-overlay-a, 35%) * 0.25), transparent) 75%);
+}
+
+/* ---------- Content ---------- */
+.ff .story-banner__inner {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: var(--sb-container, 1320px);
+  margin: 0 auto;
+  padding: var(--sb-inner-py, 80px) 40px;
+}
+.ff .story-banner--x-left .story-banner__inner {
+  justify-content: flex-start;
+}
+.ff .story-banner--x-right .story-banner__inner {
+  justify-content: flex-end;
+}
+.ff .story-banner--y-top .story-banner__inner {
+  align-items: flex-start;
+}
+.ff .story-banner--y-bottom .story-banner__inner {
+  align-items: flex-end;
+}
+
+.ff .story-banner__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--sb-content-w, 640px);
+  text-align: center;
+}
+.ff .story-banner--x-left .story-banner__content {
+  align-items: flex-start;
+  text-align: left;
+}
+.ff .story-banner--x-right .story-banner__content {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.ff .story-banner__title {
+  color: var(--sb-heading-c, #fff);
+  font-size: var(--sb-h-fs, 60px);
+  font-weight: var(--sb-h-fw, 600);
+  line-height: var(--sb-h-lh, 1.1);
+  letter-spacing: var(--sb-h-ls, var(--tight));
+  text-wrap: balance;
+}
+.ff .story-banner--title-lower .story-banner__title {
+  text-transform: lowercase;
+}
+
+.ff .story-banner__text {
+  margin-top: 24px;
+  color: var(--sb-text-c, #f4ece8);
+  font-size: var(--sb-text-fs, 20px);
+  font-weight: 500;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.ff .story-banner__text:first-child {
+  margin-top: 0;
+}
+.ff .story-banner__text > * + * {
+  margin-top: 0.8em;
+}
+.ff .story-banner__text a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ff .story-banner--shadow :is(.story-banner__title, .story-banner__text) {
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.28);
+}
+
+/* ---------- Button ---------- */
+.ff .story-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 56px;
+  padding: 20px 32px;
+  border: 1px solid color-mix(in srgb, var(--sb-btn-border, #fff) var(--sb-btn-border-a, 30%), transparent);
+  border-radius: var(--sb-btn-radius, 60px);
+  background: color-mix(in srgb, var(--sb-btn-bg, #fff) var(--sb-btn-bg-a, 15%), transparent);
+  color: var(--sb-btn-c, #fff);
+  font-family: var(--sb-btn-font, inherit);
+  font-size: var(--sb-btn-fs, 17px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+.ff .story-banner__text + .story-banner__btn {
+  margin-top: 48px;
+}
+.ff .story-banner__title + .story-banner__btn {
+  margin-top: 32px;
+}
+.ff .story-banner--btn-lower .story-banner__btn {
+  text-transform: lowercase;
+}
+.ff .story-banner--btn-glass .story-banner__btn {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.ff .story-banner__arrow {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+@media (hover: hover) {
+  .ff .story-banner__btn:hover {
+    background: color-mix(in srgb, var(--sb-btn-bg, #fff) calc(var(--sb-btn-bg-a, 15%) + 10%), transparent);
+  }
+  .ff .story-banner__btn:hover .story-banner__arrow {
+    transform: translateX(3px);
+  }
+}
+.ff .story-banner__btn:focus-visible {
+  outline-color: #fff;
+}
+
+/* ---------- Video pause (WCAG 2.2.2) ---------- */
+.ff .story-banner__pause {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+.ff .story-banner__pause:hover,
+.ff .story-banner__pause:focus-visible {
+  opacity: 1;
+}
+.ff .story-banner__pause:focus-visible {
+  outline-color: #fff;
+}
+.ff .story-banner__pause svg {
+  width: 14px;
+  height: 14px;
+}
+.ff .story-banner__play-icon,
+.ff .story-banner__pause.is-paused .story-banner__pause-icon {
+  display: none;
+}
+.ff .story-banner__pause.is-paused .story-banner__play-icon {
+  display: inline;
+}
+
+/* ---------- Fade in (attribute set by ff-story-banner.js) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* An animation rather than a transition, so it can't slow the button's
+     hover transitions afterwards */
+  @keyframes ff-story-rise {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+  .ff .story-banner[data-reveal="pending"] .story-banner__content > * {
+    opacity: 0;
+  }
+  .ff .story-banner[data-reveal="shown"] .story-banner__content > * {
+    animation: ff-story-rise 0.8s ease backwards;
+  }
+  .ff .story-banner[data-reveal="shown"] .story-banner__text {
+    animation-delay: 0.12s;
+  }
+  .ff .story-banner[data-reveal="shown"] .story-banner__btn {
+    animation-delay: 0.24s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 991px) {
+  .ff .story-banner__title {
+    font-size: max(var(--sb-h-fs-m, 40px), calc(var(--sb-h-fs, 60px) * 0.75));
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767px) {
+  .ff .story-banner {
+    margin: var(--sb-mt-m, 60px) 0 var(--sb-mb-m, 0);
+  }
+  .ff .story-banner__frame {
+    min-height: var(--sb-h-m, 560px);
+    border-radius: var(--sb-radius-m, 24px);
+  }
+  .ff .story-banner__inner {
+    align-items: center;
+    padding: var(--sb-inner-py-m, 48px) 24px;
+  }
+  .ff .story-banner--y-m-top .story-banner__inner {
+    align-items: flex-start;
+  }
+  .ff .story-banner--y-m-bottom .story-banner__inner {
+    align-items: flex-end;
+  }
+  .ff .story-banner__title {
+    font-size: var(--sb-h-fs-m, 40px);
+  }
+  .ff .story-banner__text {
+    margin-top: 16px;
+    font-size: var(--sb-text-fs-m, 16px);
+  }
+  .ff .story-banner__btn {
+    padding: 16px 26px;
+    font-size: var(--sb-btn-fs-m, 15px);
+  }
+  .ff .story-banner__text + .story-banner__btn {
+    margin-top: 32px;
+  }
+  .ff .story-banner__img--desktop {
+    display: none;
+  }
+  .ff .story-banner__img--mobile {
+    display: block;
+  }
+}

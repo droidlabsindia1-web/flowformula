@@ -1,0 +1,366 @@
+{%- render 'ff-assets' -%}
+{%- if section.settings.font == 'inter' -%}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap" rel="stylesheet">
+{%- endif -%}
+{%- if section.settings.button_font == 'mono' -%}
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+{%- endif -%}
+{{ 'ff-story-banner.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ff-story-banner.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # Every look setting becomes a CSS variable on the section
+  assign s = section.settings
+  case s.font
+    when 'inter'
+      assign font_stack = '"Inter", system-ui, -apple-system, "Segoe UI", sans-serif'
+    when 'fraunces'
+      assign font_stack = 'var(--font-serif)'
+    when 'poppins'
+      assign font_stack = 'var(--font-poppins)'
+    else
+      assign font_stack = 'var(--font-sans)'
+  endcase
+  if s.button_font == 'mono'
+    assign button_stack = '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace'
+  else
+    assign button_stack = font_stack
+  endif
+
+  # Blur softens the image edges, so it is scaled up just past them
+  assign blur_scale = s.image_blur | times: 0.006 | plus: 1
+  capture banner_style
+    echo '--sb-font: ' | append: font_stack | append: ';'
+    echo '--sb-btn-font: ' | append: button_stack | append: ';'
+    echo '--sb-heading-c: ' | append: s.heading_color | append: ';'
+    echo '--sb-text-c: ' | append: s.text_color | append: ';'
+    echo '--sb-overlay: ' | append: s.overlay_color | append: ';'
+    echo '--sb-overlay-a: ' | append: s.overlay_opacity | append: '%;'
+    echo '--sb-fallback-bg: ' | append: s.fallback_background | append: ';'
+    echo '--sb-blur: ' | append: s.image_blur | append: 'px;'
+    echo '--sb-blur-scale: ' | append: blur_scale | append: ';'
+    echo '--sb-btn-bg: ' | append: s.button_background | append: ';'
+    echo '--sb-btn-bg-a: ' | append: s.button_background_opacity | append: '%;'
+    echo '--sb-btn-c: ' | append: s.button_text_color | append: ';'
+    echo '--sb-btn-border: ' | append: s.button_border_color | append: ';'
+    echo '--sb-btn-border-a: ' | append: s.button_border_opacity | append: '%;'
+    echo '--sb-btn-radius: ' | append: s.button_radius | append: 'px;'
+    echo '--sb-btn-fs: ' | append: s.button_size | append: 'px;'
+    echo '--sb-btn-fs-m: ' | append: s.button_size_mobile | append: 'px;'
+    echo '--sb-container: ' | append: s.container_width | append: 'px;'
+    echo '--sb-content-w: ' | append: s.content_width | append: 'px;'
+    echo '--sb-h: ' | append: s.height | append: 'px;'
+    echo '--sb-h-m: ' | append: s.height_mobile | append: 'px;'
+    echo '--sb-radius: ' | append: s.radius | append: 'px;'
+    echo '--sb-radius-m: ' | append: s.radius_mobile | append: 'px;'
+    echo '--sb-inner-py: ' | append: s.content_padding | append: 'px;'
+    echo '--sb-inner-py-m: ' | append: s.content_padding_mobile | append: 'px;'
+    echo '--sb-mt: ' | append: s.margin_top | append: 'px;'
+    echo '--sb-mb: ' | append: s.margin_bottom | append: 'px;'
+    echo '--sb-mt-m: ' | append: s.margin_top_mobile | append: 'px;'
+    echo '--sb-mb-m: ' | append: s.margin_bottom_mobile | append: 'px;'
+    echo '--sb-h-fs: ' | append: s.heading_size | append: 'px;'
+    echo '--sb-h-fs-m: ' | append: s.heading_size_mobile | append: 'px;'
+    echo '--sb-h-fw: ' | append: s.heading_weight | append: ';'
+    echo '--sb-h-ls: ' | append: s.heading_letter_spacing | append: 'px;'
+    echo '--sb-h-lh: ' | append: s.heading_line_height | append: ';'
+    echo '--sb-text-fs: ' | append: s.text_size | append: 'px;'
+    echo '--sb-text-fs-m: ' | append: s.text_size_mobile | append: 'px;'
+  endcapture
+
+  assign classes = 'story-banner'
+  assign classes = classes | append: ' story-banner--x-' | append: s.content_x
+  assign classes = classes | append: ' story-banner--y-' | append: s.content_y
+  assign classes = classes | append: ' story-banner--y-m-' | append: s.content_y_mobile
+  assign classes = classes | append: ' story-banner--overlay-' | append: s.overlay_style
+  if s.full_width
+    assign classes = classes | append: ' story-banner--full'
+  endif
+  if s.heading_lowercase
+    assign classes = classes | append: ' story-banner--title-lower'
+  endif
+  if s.button_lowercase
+    assign classes = classes | append: ' story-banner--btn-lower'
+  endif
+  if s.button_blur
+    assign classes = classes | append: ' story-banner--btn-glass'
+  endif
+  if s.text_shadow
+    assign classes = classes | append: ' story-banner--shadow'
+  endif
+  if s.parallax
+    assign classes = classes | append: ' story-banner--parallax'
+  endif
+  if s.reveal
+    assign classes = classes | append: ' story-banner--reveal'
+  endif
+
+  # A button without a link only shows in the theme editor, as a reminder
+  assign show_button = false
+  if s.button_label != blank
+    if s.button_link != blank or request.design_mode
+      assign show_button = true
+    endif
+  endif
+
+  assign has_video = false
+  if s.video != blank
+    assign has_video = true
+  endif
+-%}
+
+<section
+  class="{{ classes }}"
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | handleize }}"{% endif %}
+  style="{{ banner_style | strip_newlines }}"
+  {% if s.heading != blank %}aria-labelledby="story-banner-title-{{ section.id }}"{% endif %}
+  data-ff-story-banner
+>
+  <div class="story-banner__container">
+    <div class="story-banner__frame">
+      <div class="story-banner__media" aria-hidden="true">
+        {%- if has_video -%}
+          {{
+            s.video
+            | video_tag:
+              autoplay: true,
+              loop: true,
+              muted: true,
+              playsinline: true,
+              controls: false,
+              preload: 'metadata',
+              image_size: '1600x',
+              class: 'story-banner__video'
+          }}
+        {%- elsif s.image != blank -%}
+          {%- liquid
+            assign img_class = 'story-banner__img'
+            if s.image_mobile != blank
+              assign img_class = 'story-banner__img story-banner__img--desktop'
+            endif
+            assign focal = s.image.presentation.focal_point | default: 'center'
+            assign focal_style = 'object-position: ' | append: focal | append: ';'
+          -%}
+          {%- render 'dizzy-image',
+            image: s.image,
+            decorative: true,
+            class: img_class,
+            style: focal_style,
+            sizes: '100vw',
+            widths: '750,1100,1500,2000,2600'
+          -%}
+          {%- if s.image_mobile != blank -%}
+            {%- liquid
+              assign focal_m = s.image_mobile.presentation.focal_point | default: 'center'
+              assign focal_m_style = 'object-position: ' | append: focal_m | append: ';'
+            -%}
+            {%- render 'dizzy-image',
+              image: s.image_mobile,
+              decorative: true,
+              class: 'story-banner__img story-banner__img--mobile',
+              style: focal_m_style,
+              sizes: '100vw',
+              widths: '480,750,1100'
+            -%}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'story-banner__img story-banner__placeholder' }}
+        {%- endif -%}
+      </div>
+
+      <div class="story-banner__overlay" aria-hidden="true"></div>
+
+      <div class="story-banner__inner">
+        <div class="story-banner__content">
+          {%- if s.heading != blank -%}
+            <h2 class="story-banner__title" id="story-banner-title-{{ section.id }}">{{ s.heading | escape }}</h2>
+          {%- endif -%}
+
+          {%- if s.text != blank -%}
+            <div class="story-banner__text">{{ s.text }}</div>
+          {%- endif -%}
+
+          {%- if show_button -%}
+            <a class="story-banner__btn" href="{{ s.button_link | default: '#' }}">
+              <span>{{ s.button_label | escape }}</span>
+              {%- if s.show_arrow -%}
+                <svg class="story-banner__arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {%- endif -%}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- if has_video -%}
+        <button
+          class="story-banner__pause"
+          type="button"
+          aria-label="Pause background video"
+          data-label-pause="Pause background video"
+          data-label-play="Play background video"
+          data-ff-story-pause
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <g class="story-banner__pause-icon" fill="currentColor"><rect x="4" y="3" width="2.5" height="10" rx="1"/><rect x="9.5" y="3" width="2.5" height="10" rx="1"/></g>
+            <path class="story-banner__play-icon" d="M5 3.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L5.9 2.7a.6.6 0 0 0-.9.5Z" fill="currentColor"/>
+          </svg>
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF story banner",
+  "class": "ff",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our story" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>At Flow Formula, we’re challenging the status quo of women’s health because we believe every woman deserves access to exceptional hormone support.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Learn more" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "The button is hidden on the live store until a link is set." },
+
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Landscape, around 2400 × 1100px. Set the focal point on the image to control cropping." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional. Portrait works best. Uses the main image when empty." },
+    { "type": "video", "id": "video", "label": "Video", "info": "Optional. Plays muted on a loop and replaces the images." },
+    { "type": "range", "id": "image_blur", "label": "Background blur", "min": 0, "max": 20, "step": 1, "unit": "px", "default": 0 },
+    { "type": "checkbox", "id": "parallax", "label": "Parallax on scroll", "default": false },
+    { "type": "color", "id": "fallback_background", "label": "Colour behind the image", "info": "Shows while the image loads.", "default": "#152340" },
+
+    { "type": "header", "content": "Overlay" },
+    {
+      "type": "select",
+      "id": "overlay_style",
+      "label": "Style",
+      "options": [
+        { "value": "flat", "label": "Even tint" },
+        { "value": "vignette", "label": "Darker edges" },
+        { "value": "center", "label": "Darker behind text" },
+        { "value": "bottom", "label": "Fade from bottom" }
+      ],
+      "default": "flat"
+    },
+    { "type": "color", "id": "overlay_color", "label": "Colour", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Strength", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 35 },
+    { "type": "checkbox", "id": "text_shadow", "label": "Soft shadow behind text", "default": true },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true },
+    { "type": "range", "id": "container_width", "label": "Maximum width", "info": "When not full width.", "min": 960, "max": 1600, "step": 10, "unit": "px", "default": 1320 },
+    { "type": "range", "id": "radius", "label": "Corner radius on desktop", "info": "When not full width.", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 34 },
+    { "type": "range", "id": "radius_mobile", "label": "Corner radius on mobile", "info": "When not full width.", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "height", "label": "Minimum height on desktop", "min": 320, "max": 1000, "step": 10, "unit": "px", "default": 640 },
+    { "type": "range", "id": "height_mobile", "label": "Minimum height on mobile", "min": 280, "max": 900, "step": 10, "unit": "px", "default": 560 },
+    { "type": "range", "id": "content_width", "label": "Text maximum width", "min": 320, "max": 1000, "step": 10, "unit": "px", "default": 640 },
+    {
+      "type": "select",
+      "id": "content_x",
+      "label": "Text position on desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_y",
+      "label": "Vertical position on desktop",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_y_mobile",
+      "label": "Vertical position on mobile",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "content_padding", "label": "Space around text on desktop", "min": 20, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "content_padding_mobile", "label": "Space around text on mobile", "min": 16, "max": 120, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "margin_top", "label": "Top margin on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom", "label": "Bottom margin on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_top_mobile", "label": "Top margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "margin_bottom_mobile", "label": "Bottom margin on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
+
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "Font",
+      "options": [
+        { "value": "montserrat", "label": "Montserrat (theme)" },
+        { "value": "inter", "label": "Inter" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "poppins", "label": "Poppins" }
+      ],
+      "default": "montserrat"
+    },
+    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled to about 75% on tablet.", "min": 20, "max": 96, "step": 1, "unit": "px", "default": 60 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 16, "max": 60, "step": 1, "unit": "px", "default": 40 },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
+    { "type": "range", "id": "heading_line_height", "label": "Heading line height", "min": 0.8, "max": 1.6, "step": 0.1, "default": 1.1 },
+    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": true },
+    { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 12, "max": 30, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#F4ECE8" },
+
+    { "type": "header", "content": "Button" },
+    {
+      "type": "select",
+      "id": "button_font",
+      "label": "Font",
+      "options": [
+        { "value": "section", "label": "Same as section" },
+        { "value": "mono", "label": "Monospace (reference)" }
+      ],
+      "default": "section"
+    },
+    { "type": "range", "id": "button_size", "label": "Text size on desktop", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 17 },
+    { "type": "range", "id": "button_size_mobile", "label": "Text size on mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 15 },
+    { "type": "color", "id": "button_background", "label": "Background", "default": "#FFFFFF" },
+    { "type": "range", "id": "button_background_opacity", "label": "Background strength", "info": "Low values give the see-through glass look. 100% is solid.", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 15 },
+    { "type": "checkbox", "id": "button_blur", "label": "Frosted glass blur", "default": true },
+    { "type": "color", "id": "button_text_color", "label": "Text", "default": "#FFFFFF" },
+    { "type": "color", "id": "button_border_color", "label": "Border", "default": "#FFFFFF" },
+    { "type": "range", "id": "button_border_opacity", "label": "Border strength", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 30 },
+    { "type": "range", "id": "button_radius", "label": "Corner radius", "min": 0, "max": 60, "step": 1, "unit": "px", "default": 60 },
+    { "type": "checkbox", "id": "button_lowercase", "label": "Lowercase label", "default": true },
+    { "type": "checkbox", "id": "show_arrow", "label": "Show arrow", "default": true },
+
+    { "type": "header", "content": "Section" },
+    { "type": "checkbox", "id": "reveal", "label": "Fade in on scroll", "default": true },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #our-story." }
+  ],
+  "presets": [
+    { "name": "FF story banner" }
+  ]
+}
+{% endschema %}
