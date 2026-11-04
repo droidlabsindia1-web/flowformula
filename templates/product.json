@@ -39,7 +39,7 @@
         "guarantee": {
           "type": "guarantee",
           "settings": {
-            "show_icon": true,
+            "show_icon": false,
             "icon_size": 64,
             "icon_size_mobile": 48,
             "icon_gap": 40,
@@ -55,7 +55,7 @@
             "padding_y": 24,
             "align": "start",
             "title_uppercase": true,
-            "eyebrow_size": 22,
+            "eyebrow_size": 18,
             "eyebrow_size_mobile": 16,
             "title_size": 22,
             "title_size_mobile": 16,
