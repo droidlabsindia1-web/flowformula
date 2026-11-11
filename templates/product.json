@@ -247,9 +247,11 @@
         "theirs_6"
       ],
       "settings": {
+        "ours_image": "shopify://shop_images/Flow_Formula_Website_Design_and_Development_Brief.jpg",
         "ours_image_asset": "ff-sachet.webp",
         "ours_name": "Flow\nFormula",
         "ours_tag": "The old way",
+        "theirs_image": "shopify://shop_images/Flow_Formula_Website_Design_and_Development_Brief.jpg",
         "theirs_image_asset": "ff-sachet.webp",
         "theirs_mask_label": true,
         "theirs_name": "Other\nProduct",
