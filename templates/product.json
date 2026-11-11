@@ -121,13 +121,6 @@
             "link": ""
           }
         },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "text": "Free UK delivery",
-            "link": ""
-          }
-        },
         "item_3": {
           "type": "item",
           "settings": {
@@ -148,15 +141,30 @@
             "text": "18 actives + 5 lactobacillus cultures",
             "link": ""
           }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Free UK delivery",
+            "link": ""
+          }
+        },
+        "item_im46d4": {
+          "type": "item",
+          "settings": {
+            "text": "Formulated in the UK",
+            "link": ""
+          }
         }
       },
       "block_order": [
         "item_1",
         "item_DrmYhK",
-        "item_2",
         "item_3",
         "item_4",
-        "item_5"
+        "item_5",
+        "item_2",
+        "item_im46d4"
       ],
       "settings": {
         "label": "Product highlights",
