@@ -114,6 +114,13 @@
             "link": ""
           }
         },
+        "item_DrmYhK": {
+          "type": "item",
+          "settings": {
+            "text": "fully disclosed doses · no proprietary blends",
+            "link": ""
+          }
+        },
         "item_2": {
           "type": "item",
           "settings": {
@@ -145,6 +152,7 @@
       },
       "block_order": [
         "item_1",
+        "item_DrmYhK",
         "item_2",
         "item_3",
         "item_4",
