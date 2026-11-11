@@ -262,6 +262,16 @@
     "ingredients": {
       "type": "ff-ingredients",
       "blocks": {
+        "ingredient_nUXhRi": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "",
+            "text": ""
+          }
+        },
         "ingredient_ginseng": {
           "type": "ingredient",
           "settings": {
@@ -294,6 +304,7 @@
         }
       },
       "block_order": [
+        "ingredient_nUXhRi",
         "ingredient_ginseng",
         "ingredient_vitamin_c",
         "ingredient_biotin"
