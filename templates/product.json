@@ -284,7 +284,227 @@
             "image_asset": "",
             "alt": "",
             "crop": 50,
-            "title": "",
+            "title": "Myo-Inositol",
+            "text": ""
+          }
+        },
+        "ingredient_VVbV6q": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "D-Chiro Inositol",
+            "text": ""
+          }
+        },
+        "ingredient_Upkr97": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Zinc",
+            "text": ""
+          }
+        },
+        "ingredient_GwzFKf": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Magnesium",
+            "text": ""
+          }
+        },
+        "ingredient_grh4QE": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Folate",
+            "text": ""
+          }
+        },
+        "ingredient_qjAQ6k": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin B6",
+            "text": ""
+          }
+        },
+        "ingredient_HmUhyz": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin B12",
+            "text": ""
+          }
+        },
+        "ingredient_pDpQF7": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin D3",
+            "text": ""
+          }
+        },
+        "ingredient_HYbcmK": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin K2 MK7",
+            "text": ""
+          }
+        },
+        "ingredient_jcwY9d": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin B7 (Biotin)",
+            "text": ""
+          }
+        },
+        "ingredient_FJN8A6": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Chromium",
+            "text": ""
+          }
+        },
+        "ingredient_9pJiYB": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Calcium",
+            "text": ""
+          }
+        },
+        "ingredient_zANVcE": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Coenzyme Q10",
+            "text": ""
+          }
+        },
+        "ingredient_cMayEc": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Glycine",
+            "text": ""
+          }
+        },
+        "ingredient_eKmBzz": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Cinnamon Bark",
+            "text": ""
+          }
+        },
+        "ingredient_pCEXPA": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Green Tea",
+            "text": ""
+          }
+        },
+        "ingredient_8FWdwH": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Turmeric",
+            "text": ""
+          }
+        },
+        "ingredient_jR8zX4": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "BioPerine® Black Pepper Extract",
+            "text": ""
+          }
+        },
+        "ingredient_BwiyWP": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus acidophilus",
+            "text": ""
+          }
+        },
+        "ingredient_WEdQVf": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus plantarum",
+            "text": ""
+          }
+        },
+        "ingredient_9rzaDc": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus rhamnosus",
+            "text": ""
+          }
+        },
+        "ingredient_MUKHUQ": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus casei",
+            "text": ""
+          }
+        },
+        "ingredient_U9MDMD": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus helveticus",
             "text": ""
           }
         },
@@ -321,6 +541,28 @@
       },
       "block_order": [
         "ingredient_nUXhRi",
+        "ingredient_VVbV6q",
+        "ingredient_Upkr97",
+        "ingredient_GwzFKf",
+        "ingredient_grh4QE",
+        "ingredient_qjAQ6k",
+        "ingredient_HmUhyz",
+        "ingredient_pDpQF7",
+        "ingredient_HYbcmK",
+        "ingredient_jcwY9d",
+        "ingredient_FJN8A6",
+        "ingredient_9pJiYB",
+        "ingredient_zANVcE",
+        "ingredient_cMayEc",
+        "ingredient_eKmBzz",
+        "ingredient_pCEXPA",
+        "ingredient_8FWdwH",
+        "ingredient_jR8zX4",
+        "ingredient_BwiyWP",
+        "ingredient_WEdQVf",
+        "ingredient_9rzaDc",
+        "ingredient_MUKHUQ",
+        "ingredient_U9MDMD",
         "ingredient_ginseng",
         "ingredient_vitamin_c",
         "ingredient_biotin"
