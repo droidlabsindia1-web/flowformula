@@ -280,6 +280,7 @@
       "blocks": {
         "ingredient_nUXhRi": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -290,6 +291,7 @@
         },
         "ingredient_VVbV6q": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -300,6 +302,7 @@
         },
         "ingredient_Upkr97": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -310,6 +313,7 @@
         },
         "ingredient_GwzFKf": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -320,6 +324,7 @@
         },
         "ingredient_grh4QE": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -330,6 +335,7 @@
         },
         "ingredient_qjAQ6k": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -340,6 +346,7 @@
         },
         "ingredient_HmUhyz": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -350,6 +357,7 @@
         },
         "ingredient_pDpQF7": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -360,6 +368,7 @@
         },
         "ingredient_HYbcmK": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -370,6 +379,7 @@
         },
         "ingredient_jcwY9d": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -380,6 +390,7 @@
         },
         "ingredient_FJN8A6": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -390,6 +401,7 @@
         },
         "ingredient_9pJiYB": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -400,6 +412,7 @@
         },
         "ingredient_zANVcE": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -410,6 +423,7 @@
         },
         "ingredient_cMayEc": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -420,6 +434,7 @@
         },
         "ingredient_eKmBzz": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -430,6 +445,7 @@
         },
         "ingredient_pCEXPA": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -440,6 +456,7 @@
         },
         "ingredient_8FWdwH": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -450,6 +467,7 @@
         },
         "ingredient_jR8zX4": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -460,6 +478,7 @@
         },
         "ingredient_BwiyWP": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -470,6 +489,7 @@
         },
         "ingredient_WEdQVf": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -480,6 +500,7 @@
         },
         "ingredient_9rzaDc": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -490,6 +511,7 @@
         },
         "ingredient_MUKHUQ": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -500,6 +522,7 @@
         },
         "ingredient_U9MDMD": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "",
             "alt": "",
@@ -510,6 +533,7 @@
         },
         "ingredient_ginseng": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "ff-ingredient-ginseng.jpg",
             "alt": "Siberian ginseng root",
@@ -520,6 +544,7 @@
         },
         "ingredient_vitamin_c": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "ff-ingredient-vitc.jpg",
             "alt": "Halved oranges",
@@ -530,12 +555,33 @@
         },
         "ingredient_biotin": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "ff-ingredient-biotin.jpg",
             "alt": "Golden oil droplets",
             "crop": 89,
             "title": "Biotin (Vitamin B7)",
             "text": "Traditionally used to support cognitive function (such as concentration and alertness)."
+          }
+        },
+        "ingredient_HKQ3Xd": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "the inositol foundation",
+            "text": "4,000 mg Myo-Inositol and 100 mg D-Chiro Inositol, two naturally occuring fprms of inositol in a 40:1 ratio."
+          }
+        },
+        "ingredient_Gdfigd": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "10 vitamins and minerals",
+            "text": "Folate, B12, biotin, K2, b6, D3, chromium, calcium, zinc, and magnesium, each with its dose and NRV on the label."
           }
         }
       },
@@ -565,7 +611,9 @@
         "ingredient_U9MDMD",
         "ingredient_ginseng",
         "ingredient_vitamin_c",
-        "ingredient_biotin"
+        "ingredient_biotin",
+        "ingredient_HKQ3Xd",
+        "ingredient_Gdfigd"
       ],
       "settings": {
         "heading": "Flow Formula",
