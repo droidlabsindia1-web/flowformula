@@ -112,6 +112,68 @@
         "anchor_id": ""
       }
     },
+    "how_it_works": {
+      "type": "ff-how-it-works",
+      "blocks": {
+        "photo_tear": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-1.webp",
+            "alt": "Hands tearing open a Flow Formula sachet"
+          }
+        },
+        "photo_pour": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-2.webp",
+            "alt": "Pink powder being poured into a glass of water"
+          }
+        },
+        "photo_flow": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-3.webp",
+            "alt": "A glass of the finished pink drink"
+          }
+        },
+        "step_tear": {
+          "type": "step",
+          "settings": {
+            "title": "Tear",
+            "text": "Grab a glass with 300ml of water and open the Schet"
+          }
+        },
+        "step_pour": {
+          "type": "step",
+          "settings": {
+            "title": "Pour",
+            "text": "Pour powder into water and mix it well"
+          }
+        },
+        "step_flow": {
+          "type": "step",
+          "settings": {
+            "title": "Flow",
+            "text": "Ready to drink"
+          }
+        }
+      },
+      "block_order": [
+        "photo_tear",
+        "photo_pour",
+        "photo_flow",
+        "step_tear",
+        "step_pour",
+        "step_flow"
+      ],
+      "settings": {
+        "heading": "Read. Mix. Repeat.",
+        "lead": "A simple 3-step ritual to help you stay consistent with your wellness, wherever life takes you",
+        "banner_image_asset": "ff-lifestyle-banner.webp",
+        "banner_alt": "Take it at home, at work, on the go or while travelling. The right nutrition, a healthier you.",
+        "anchor_id": "how-it-works"
+      }
+    },
     "benefits": {
       "type": "ff-benefits",
       "blocks": {
@@ -179,66 +241,93 @@
         "anchor_id": "ingredients"
       }
     },
-    "how_it_works": {
-      "type": "ff-how-it-works",
+    "ff_split_cta_EQeWhi": {
+      "type": "ff-split-cta",
       "blocks": {
-        "photo_tear": {
-          "type": "photo",
+        "trust_WYXTUT": {
+          "type": "trust",
           "settings": {
-            "image_asset": "ff-step-1.webp",
-            "alt": "Hands tearing open a Flow Formula sachet"
+            "text": "Third-Party Tested",
+            "icon": "check"
           }
         },
-        "photo_pour": {
-          "type": "photo",
+        "trust_qnPPGe": {
+          "type": "trust",
           "settings": {
-            "image_asset": "ff-step-2.webp",
-            "alt": "Pink powder being poured into a glass of water"
+            "text": "Developed with Doctors",
+            "icon": "heart"
           }
         },
-        "photo_flow": {
-          "type": "photo",
+        "trust_pCmiNe": {
+          "type": "trust",
           "settings": {
-            "image_asset": "ff-step-3.webp",
-            "alt": "A glass of the finished pink drink"
-          }
-        },
-        "step_tear": {
-          "type": "step",
-          "settings": {
-            "title": "Tear",
-            "text": "Grab a glass with 300ml of water and open the Schet"
-          }
-        },
-        "step_pour": {
-          "type": "step",
-          "settings": {
-            "title": "Pour",
-            "text": "Pour powder into water and mix it well"
-          }
-        },
-        "step_flow": {
-          "type": "step",
-          "settings": {
-            "title": "Flow",
-            "text": "Ready to drink"
+            "text": "60-Day Money-Back Guarantee",
+            "icon": "shield"
           }
         }
       },
       "block_order": [
-        "photo_tear",
-        "photo_pour",
-        "photo_flow",
-        "step_tear",
-        "step_pour",
-        "step_flow"
+        "trust_WYXTUT",
+        "trust_qnPPGe",
+        "trust_pCmiNe"
       ],
+      "name": "FF split CTA",
       "settings": {
-        "heading": "Read. Mix. Repeat.",
-        "lead": "A simple 3-step ritual to help you stay consistent with your wellness, wherever life takes you",
-        "banner_image_asset": "ff-lifestyle-banner.webp",
-        "banner_alt": "Take it at home, at work, on the go or while travelling. The right nutrition, a healthier you.",
-        "anchor_id": "how-it-works"
+        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
+        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
+        "button_label": "Try It Risk-Free - 60 Days to Decide",
+        "button_link": "",
+        "image": "shopify://shop_images/gallery-7.png",
+        "image_mobile": "shopify://shop_images/gallery-1.png",
+        "image_alt": "",
+        "image_ratio": "16 / 12.3",
+        "image_position": "right",
+        "mobile_image_first": true,
+        "image_radius": 34,
+        "image_radius_mobile": 24,
+        "container_width": 1350,
+        "image_width": 50,
+        "content_width": 540,
+        "column_gap": 60,
+        "column_gap_mobile": 35,
+        "text_align": "left",
+        "text_align_mobile": "center",
+        "margin_top": 60,
+        "margin_bottom": 0,
+        "margin_top_mobile": 60,
+        "margin_bottom_mobile": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "font": "montserrat",
+        "heading_size": 50,
+        "heading_size_mobile": 36,
+        "heading_weight": "600",
+        "heading_letter_spacing": -1.3,
+        "heading_line_height": 1.1,
+        "heading_lowercase": true,
+        "text_size": 18,
+        "text_size_mobile": 14,
+        "button_size": 20,
+        "button_size_mobile": 16,
+        "trust_size": 11,
+        "trust_size_mobile": 9,
+        "trust_icon_size": 12,
+        "background": "#ffb3ab",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "trust_color": "#ffffff",
+        "button_background": "#ffffff",
+        "button_text_color": "#000000",
+        "button_border_color": "#d64ba1",
+        "button_border_width": 3,
+        "button_radius": 12,
+        "button_lowercase": true,
+        "button_shadow": true,
+        "full_width_button": true,
+        "reveal": true,
+        "anchor_id": ""
       }
     },
     "comparison": {
@@ -339,95 +428,6 @@
         "theirs_mask_label": true,
         "theirs_name": "Other\nProduct",
         "theirs_tag": "The old way",
-        "anchor_id": ""
-      }
-    },
-    "ff_split_cta_EQeWhi": {
-      "type": "ff-split-cta",
-      "blocks": {
-        "trust_WYXTUT": {
-          "type": "trust",
-          "settings": {
-            "text": "Third-Party Tested",
-            "icon": "check"
-          }
-        },
-        "trust_qnPPGe": {
-          "type": "trust",
-          "settings": {
-            "text": "Developed with Doctors",
-            "icon": "heart"
-          }
-        },
-        "trust_pCmiNe": {
-          "type": "trust",
-          "settings": {
-            "text": "60-Day Money-Back Guarantee",
-            "icon": "shield"
-          }
-        }
-      },
-      "block_order": [
-        "trust_WYXTUT",
-        "trust_qnPPGe",
-        "trust_pCmiNe"
-      ],
-      "name": "FF split CTA",
-      "settings": {
-        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
-        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
-        "button_label": "Try It Risk-Free - 60 Days to Decide",
-        "button_link": "",
-        "image": "shopify://shop_images/gallery-7.png",
-        "image_mobile": "shopify://shop_images/gallery-1.png",
-        "image_alt": "",
-        "image_ratio": "16 / 12.3",
-        "image_position": "right",
-        "mobile_image_first": true,
-        "image_radius": 34,
-        "image_radius_mobile": 24,
-        "container_width": 1350,
-        "image_width": 50,
-        "content_width": 540,
-        "column_gap": 60,
-        "column_gap_mobile": 35,
-        "text_align": "left",
-        "text_align_mobile": "center",
-        "margin_top": 60,
-        "margin_bottom": 0,
-        "margin_top_mobile": 60,
-        "margin_bottom_mobile": 0,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "font": "montserrat",
-        "heading_size": 50,
-        "heading_size_mobile": 36,
-        "heading_weight": "600",
-        "heading_letter_spacing": -1.3,
-        "heading_line_height": 1.1,
-        "heading_lowercase": true,
-        "text_size": 18,
-        "text_size_mobile": 14,
-        "button_size": 20,
-        "button_size_mobile": 16,
-        "trust_size": 11,
-        "trust_size_mobile": 9,
-        "trust_icon_size": 12,
-        "background": "#ffb3ab",
-        "heading_color": "#ffffff",
-        "text_color": "#ffffff",
-        "trust_color": "#ffffff",
-        "button_background": "#ffffff",
-        "button_text_color": "#000000",
-        "button_border_color": "#d64ba1",
-        "button_border_width": 3,
-        "button_radius": 12,
-        "button_lowercase": true,
-        "button_shadow": true,
-        "full_width_button": true,
-        "reveal": true,
         "anchor_id": ""
       }
     },
@@ -709,8 +709,8 @@
     "trust_bar",
     "how_it_works",
     "benefits",
-    "comparison",
     "ff_split_cta_EQeWhi",
+    "comparison",
     "ugc",
     "reviews",
     "story_banner",
