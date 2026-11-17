@@ -601,7 +601,7 @@
             "alt": "",
             "crop": 50,
             "title": "5 friendly bacteria strains",
-            "text": "L> acidophilus, L. plantarum, L. rhamnosus, L. casei and L. helveticus, 1 billion CFU of each. confirm CFU basis"
+            "text": "L. acidophilus, L. plantarum, L. rhamnosus, L. casei and L. helveticus, 1 billion CFU of each. confirm CFU basis"
           }
         }
       },
@@ -1226,7 +1226,7 @@
         "heading": "Results actually\nworth posting",
         "lead": "Join the community that trust us",
         "autoplay": true,
-        "background": "#FFB3AB",
+        "background": "#ffb3ab",
         "anchor_id": ""
       }
     },
