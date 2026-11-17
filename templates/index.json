@@ -112,6 +112,68 @@
         "anchor_id": ""
       }
     },
+    "how_it_works": {
+      "type": "ff-how-it-works",
+      "blocks": {
+        "photo_tear": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-1.webp",
+            "alt": "Hands tearing open a Flow Formula sachet"
+          }
+        },
+        "photo_pour": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-2.webp",
+            "alt": "Pink powder being poured into a glass of water"
+          }
+        },
+        "photo_flow": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "ff-step-3.webp",
+            "alt": "A glass of the finished pink drink"
+          }
+        },
+        "step_tear": {
+          "type": "step",
+          "settings": {
+            "title": "Tear",
+            "text": "Grab a glass with 300ml of water and open the Schet"
+          }
+        },
+        "step_pour": {
+          "type": "step",
+          "settings": {
+            "title": "Pour",
+            "text": "Pour powder into water and mix it well"
+          }
+        },
+        "step_flow": {
+          "type": "step",
+          "settings": {
+            "title": "Flow",
+            "text": "Ready to drink"
+          }
+        }
+      },
+      "block_order": [
+        "photo_tear",
+        "photo_pour",
+        "photo_flow",
+        "step_tear",
+        "step_pour",
+        "step_flow"
+      ],
+      "settings": {
+        "heading": "Read. Mix. Repeat.",
+        "lead": "A simple 3-step ritual to help you stay consistent with your wellness, wherever life takes you",
+        "banner_image_asset": "ff-lifestyle-banner.webp",
+        "banner_alt": "Take it at home, at work, on the go or while travelling. The right nutrition, a healthier you.",
+        "anchor_id": "how-it-works"
+      }
+    },
     "comparison": {
       "type": "ff-comparison",
       "blocks": {
@@ -213,135 +275,6 @@
         "anchor_id": ""
       }
     },
-    "how_it_works": {
-      "type": "ff-how-it-works",
-      "blocks": {
-        "photo_tear": {
-          "type": "photo",
-          "settings": {
-            "image_asset": "ff-step-1.webp",
-            "alt": "Hands tearing open a Flow Formula sachet"
-          }
-        },
-        "photo_pour": {
-          "type": "photo",
-          "settings": {
-            "image_asset": "ff-step-2.webp",
-            "alt": "Pink powder being poured into a glass of water"
-          }
-        },
-        "photo_flow": {
-          "type": "photo",
-          "settings": {
-            "image_asset": "ff-step-3.webp",
-            "alt": "A glass of the finished pink drink"
-          }
-        },
-        "step_tear": {
-          "type": "step",
-          "settings": {
-            "title": "Tear",
-            "text": "Grab a glass with 300ml of water and open the Schet"
-          }
-        },
-        "step_pour": {
-          "type": "step",
-          "settings": {
-            "title": "Pour",
-            "text": "Pour powder into water and mix it well"
-          }
-        },
-        "step_flow": {
-          "type": "step",
-          "settings": {
-            "title": "Flow",
-            "text": "Ready to drink"
-          }
-        }
-      },
-      "block_order": [
-        "photo_tear",
-        "photo_pour",
-        "photo_flow",
-        "step_tear",
-        "step_pour",
-        "step_flow"
-      ],
-      "settings": {
-        "heading": "Read. Mix. Repeat.",
-        "lead": "A simple 3-step ritual to help you stay consistent with your wellness, wherever life takes you",
-        "banner_image_asset": "ff-lifestyle-banner.webp",
-        "banner_alt": "Take it at home, at work, on the go or while travelling. The right nutrition, a healthier you.",
-        "anchor_id": "how-it-works"
-      }
-    },
-    "benefits": {
-      "type": "ff-benefits",
-      "blocks": {
-        "benefit_energy": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-energy.webp",
-            "title": "Energy",
-            "tagline": "Feel more you",
-            "points": "Reduce fatigue & tiredness\nSupports sustained energy throughout the day",
-            "image_asset": "ff-benefit-energy.webp",
-            "image_mobile_asset": "ff-benefit-energy-m.webp",
-            "image_alt": "Woman stretching, feeling energised"
-          }
-        },
-        "benefit_hormonal": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-hormonal.webp",
-            "title": "Harmonal Activity",
-            "tagline": "Bring balance",
-            "points": "Help regulate harmones\nSupports menstrual cycle and overall balance",
-            "image_asset": "ff-benefit-hormonal.webp",
-            "image_mobile_asset": "ff-benefit-hormonal-m.webp",
-            "image_alt": "Cycle calendar surrounded by flowers"
-          }
-        },
-        "benefit_hair": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-hair.webp",
-            "title": "Hair, Skin & Nails",
-            "tagline": "Natural radiance",
-            "points": "Support healthy hair growth\nImprove skin texture and nail strength",
-            "image_asset": "ff-benefit-hair.webp",
-            "image_mobile_asset": "ff-benefit-hair-m.webp",
-            "image_alt": "Woman with glowing skin"
-          }
-        },
-        "benefit_immune": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-immune.webp",
-            "title": "Immune Function",
-            "tagline": "Stay strong",
-            "points": "Build natural immunity\nHelp your body stay resilient",
-            "image_asset": "ff-benefit-immune.webp",
-            "image_mobile_asset": "ff-benefit-immune-m.webp",
-            "image_alt": "Pink shield with a cross, surrounded by flowers"
-          }
-        }
-      },
-      "block_order": [
-        "benefit_energy",
-        "benefit_hormonal",
-        "benefit_hair",
-        "benefit_immune"
-      ],
-      "settings": {
-        "heading": "Everyday",
-        "heading_highlight": "Benifits",
-        "lead": "Thoughtfully crafted to support your wellness, inside and out - every single day",
-        "note_icon_asset": "ff-icon-drop.webp",
-        "note_text": "These benefits work together, helping you feel stronger, healthier and more balanced -  from the inside out.",
-        "anchor_id": "ingredients"
-      }
-    },
     "ff_split_cta_EQeWhi": {
       "type": "ff-split-cta",
       "blocks": {
@@ -429,6 +362,73 @@
         "full_width_button": true,
         "reveal": true,
         "anchor_id": ""
+      }
+    },
+    "benefits": {
+      "type": "ff-benefits",
+      "blocks": {
+        "benefit_energy": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-energy.webp",
+            "title": "Energy",
+            "tagline": "Feel more you",
+            "points": "Reduce fatigue & tiredness\nSupports sustained energy throughout the day",
+            "image_asset": "ff-benefit-energy.webp",
+            "image_mobile_asset": "ff-benefit-energy-m.webp",
+            "image_alt": "Woman stretching, feeling energised"
+          }
+        },
+        "benefit_hormonal": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-hormonal.webp",
+            "title": "Harmonal Activity",
+            "tagline": "Bring balance",
+            "points": "Help regulate harmones\nSupports menstrual cycle and overall balance",
+            "image_asset": "ff-benefit-hormonal.webp",
+            "image_mobile_asset": "ff-benefit-hormonal-m.webp",
+            "image_alt": "Cycle calendar surrounded by flowers"
+          }
+        },
+        "benefit_hair": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-hair.webp",
+            "title": "Hair, Skin & Nails",
+            "tagline": "Natural radiance",
+            "points": "Support healthy hair growth\nImprove skin texture and nail strength",
+            "image_asset": "ff-benefit-hair.webp",
+            "image_mobile_asset": "ff-benefit-hair-m.webp",
+            "image_alt": "Woman with glowing skin"
+          }
+        },
+        "benefit_immune": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-immune.webp",
+            "title": "Immune Function",
+            "tagline": "Stay strong",
+            "points": "Build natural immunity\nHelp your body stay resilient",
+            "image_asset": "ff-benefit-immune.webp",
+            "image_mobile_asset": "ff-benefit-immune-m.webp",
+            "image_alt": "Pink shield with a cross, surrounded by flowers"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_energy",
+        "benefit_hormonal",
+        "benefit_hair",
+        "benefit_immune"
+      ],
+      "settings": {
+        "heading": "Everyday",
+        "heading_highlight": "Benifits",
+        "lead": "Thoughtfully crafted to support your wellness, inside and out - every single day",
+        "note_icon_asset": "ff-icon-drop.webp",
+        "note_text": "These benefits work together, helping you feel stronger, healthier and more balanced -  from the inside out.",
+        "anchor_id": "ingredients"
       }
     },
     "ugc": {
@@ -579,7 +579,7 @@
         "image_mobile": "shopify://shop_images/coral-pink-abstract-banner.png",
         "image_blur": 8,
         "parallax": true,
-        "fallback_background": "#FFB3AB",
+        "fallback_background": "#ffb3ab",
         "overlay_style": "flat",
         "overlay_color": "#000000",
         "overlay_opacity": 35,
@@ -707,10 +707,10 @@
   "order": [
     "hero",
     "trust_bar",
-    "comparison",
     "how_it_works",
-    "benefits",
+    "comparison",
     "ff_split_cta_EQeWhi",
+    "benefits",
     "ugc",
     "reviews",
     "story_banner",
