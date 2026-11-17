@@ -593,6 +593,16 @@
             "title": "botanicals, CoQ10 and glycine",
             "text": "Turmeric, cinnamon, green tea and black pepper extract, plus 20 mg CoQ10 and 100 mg glycine."
           }
+        },
+        "ingredient_fVe4Rr": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "5 friendly bacteria strains",
+            "text": "L> acidophilus, L. plantarum, L. rhamnosus, L. casei and L. helveticus, 1 billion CFU of each. confirm CFU basis"
+          }
         }
       },
       "block_order": [
@@ -624,7 +634,8 @@
         "ingredient_biotin",
         "ingredient_HKQ3Xd",
         "ingredient_Gdfigd",
-        "ingredient_NMbprA"
+        "ingredient_NMbprA",
+        "ingredient_fVe4Rr"
       ],
       "settings": {
         "heading": "Flow Formula",
