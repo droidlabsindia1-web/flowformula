@@ -180,67 +180,67 @@
         "ours_1": {
           "type": "ours",
           "settings": {
-            "text": "One sachet. Everything in one place. One ritual."
+            "text": "1 pre-portioned sachet"
           }
         },
         "ours_2": {
           "type": "ours",
           "settings": {
-            "text": "Clinical doses of all 18 ingredients — verified"
+            "text": "4,000 mg Myo-Inositol + 100 mg D-Chiro Inositol (40:1), in the same sachet"
           }
         },
         "ours_3": {
           "type": "ours",
           "settings": {
-            "text": "From £49/month — less than one specialist brand"
+            "text": "10 vitamins and minerals, each dose declared on the label"
           }
         },
         "ours_4": {
           "type": "ours",
           "settings": {
-            "text": "Third-party tested. Certificate of analysis available."
+            "text": "Turmeric, cinnamon, green tea and black pepper extract"
           }
         },
         "ours_5": {
           "type": "ours",
           "settings": {
-            "text": "Formulated by a woman with PCOS, for PCOS"
+            "text": "Turmeric, cinnamon, green tea and black pepper extract"
           }
         },
         "ours_6": {
           "type": "ours",
           "settings": {
-            "text": "So simple it becomes automatic"
+            "text": "5 Lactobacillus strains, 1 billion CFU of each"
           }
         },
         "theirs_1": {
           "type": "theirs",
           "settings": {
-            "text": "8-12 separate supplements to track every day"
+            "text": "Several products, taken separately"
           }
         },
         "theirs_2": {
           "type": "theirs",
           "settings": {
-            "text": "Sub-clinical 'dusting' doses that look good on labels"
+            "text": "Typically a separate inositol powder or capsule"
           }
         },
         "theirs_3": {
           "type": "theirs",
           "settings": {
-            "text": "£120+ per month across different brands"
+            "text": "Typically a multivitamin or several single supplements"
           }
         },
         "theirs_4": {
           "type": "theirs",
           "settings": {
-            "text": "No third-party testing — quality unverified"
+            "text": "Turmeric, cinnamon, green tea and black pepper extract"
           }
         },
         "theirs_5": {
           "type": "theirs",
           "settings": {
-            "text": "Nothing formulated specifically for PCOS"
+            "text": "Typically additional capsules or powders"
           }
         },
         "theirs_6": {
