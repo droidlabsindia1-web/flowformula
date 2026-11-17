@@ -583,6 +583,16 @@
             "title": "10 vitamins and minerals",
             "text": "Folate, B12, biotin, K2, b6, D3, chromium, calcium, zinc, and magnesium, each with its dose and NRV on the label."
           }
+        },
+        "ingredient_NMbprA": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "botanicals, CoQ10 and glycine",
+            "text": "Turmeric, cinnamon, green tea and black pepper extract, plus 20 mg CoQ10 and 100 mg glycine."
+          }
         }
       },
       "block_order": [
@@ -613,7 +623,8 @@
         "ingredient_vitamin_c",
         "ingredient_biotin",
         "ingredient_HKQ3Xd",
-        "ingredient_Gdfigd"
+        "ingredient_Gdfigd",
+        "ingredient_NMbprA"
       ],
       "settings": {
         "heading": "Flow Formula",
