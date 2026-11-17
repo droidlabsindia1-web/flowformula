@@ -576,7 +576,7 @@
         "button_link": "",
         "image": "shopify://shop_images/coral-pink-abstract-banner.png",
         "image_mobile": "shopify://shop_images/coral-pink-abstract-banner.png",
-        "image_blur": 15,
+        "image_blur": 8,
         "parallax": false,
         "fallback_background": "#FFB3AB",
         "overlay_style": "flat",
