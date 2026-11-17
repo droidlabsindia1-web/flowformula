@@ -172,109 +172,6 @@
         "text_color": ""
       }
     },
-    "comparison": {
-      "type": "ff-comparison",
-      "blocks": {
-        "ours_1": {
-          "type": "ours",
-          "settings": {
-            "text": "One pre-portioned daily sachet"
-          }
-        },
-        "ours_2": {
-          "type": "ours",
-          "settings": {
-            "text": "4,000 mg Myo-Inositol + 100 mg D-Chiro Inositol"
-          }
-        },
-        "ours_3": {
-          "type": "ours",
-          "settings": {
-            "text": "10 vitamins and minerals, each dose declared"
-          }
-        },
-        "ours_4": {
-          "type": "ours",
-          "settings": {
-            "text": "Turmeric, cinnamon, green tea, black pepper extract"
-          }
-        },
-        "ours_5": {
-          "type": "ours",
-          "settings": {
-            "text": "20 mg CoQ10 and 100 mg glycine"
-          }
-        },
-        "ours_6": {
-          "type": "ours",
-          "settings": {
-            "text": "5 Lactobacillus strains, 1 billion CFU each"
-          }
-        },
-        "theirs_1": {
-          "type": "theirs",
-          "settings": {
-            "text": "Several products, taken separately"
-          }
-        },
-        "theirs_2": {
-          "type": "theirs",
-          "settings": {
-            "text": "A separate inositol powder or capsule"
-          }
-        },
-        "theirs_3": {
-          "type": "theirs",
-          "settings": {
-            "text": "A multivitamin or several single supplements"
-          }
-        },
-        "theirs_4": {
-          "type": "theirs",
-          "settings": {
-            "text": "Separate botanical capsules or powders"
-          }
-        },
-        "theirs_5": {
-          "type": "theirs",
-          "settings": {
-            "text": "Additional capsules or powders"
-          }
-        },
-        "theirs_6": {
-          "type": "theirs",
-          "settings": {
-            "text": "A separate probiotic capsule or powder"
-          }
-        }
-      },
-      "block_order": [
-        "ours_1",
-        "ours_2",
-        "ours_3",
-        "ours_4",
-        "ours_5",
-        "ours_6",
-        "theirs_1",
-        "theirs_2",
-        "theirs_3",
-        "theirs_4",
-        "theirs_5",
-        "theirs_6"
-      ],
-      "settings": {
-        "ours_image": "shopify://shop_images/5.jpg",
-        "ours_image_asset": "ff-sachet.webp",
-        "ours_name": "Flow\nFormula",
-        "ours_tag": "The old way",
-        "theirs_image": "shopify://shop_images/Flow_Formula_Website_Design_and_Development_Brief.jpg",
-        "theirs_image_asset": "ff-sachet.webp",
-        "theirs_mask_label": true,
-        "theirs_name": "Other\nProduct",
-        "theirs_tag": "The old way",
-        "anchor_id": ""
-      }
-    },
     "ingredients": {
       "type": "ff-ingredients",
       "blocks": {
@@ -641,6 +538,109 @@
         "heading": "what's in one sachet",
         "anchor_id": "ingredients",
         "speed": 40
+      }
+    },
+    "comparison": {
+      "type": "ff-comparison",
+      "blocks": {
+        "ours_1": {
+          "type": "ours",
+          "settings": {
+            "text": "One pre-portioned daily sachet"
+          }
+        },
+        "ours_2": {
+          "type": "ours",
+          "settings": {
+            "text": "4,000 mg Myo-Inositol + 100 mg D-Chiro Inositol"
+          }
+        },
+        "ours_3": {
+          "type": "ours",
+          "settings": {
+            "text": "10 vitamins and minerals, each dose declared"
+          }
+        },
+        "ours_4": {
+          "type": "ours",
+          "settings": {
+            "text": "Turmeric, cinnamon, green tea, black pepper extract"
+          }
+        },
+        "ours_5": {
+          "type": "ours",
+          "settings": {
+            "text": "20 mg CoQ10 and 100 mg glycine"
+          }
+        },
+        "ours_6": {
+          "type": "ours",
+          "settings": {
+            "text": "5 Lactobacillus strains, 1 billion CFU each"
+          }
+        },
+        "theirs_1": {
+          "type": "theirs",
+          "settings": {
+            "text": "Several products, taken separately"
+          }
+        },
+        "theirs_2": {
+          "type": "theirs",
+          "settings": {
+            "text": "A separate inositol powder or capsule"
+          }
+        },
+        "theirs_3": {
+          "type": "theirs",
+          "settings": {
+            "text": "A multivitamin or several single supplements"
+          }
+        },
+        "theirs_4": {
+          "type": "theirs",
+          "settings": {
+            "text": "Separate botanical capsules or powders"
+          }
+        },
+        "theirs_5": {
+          "type": "theirs",
+          "settings": {
+            "text": "Additional capsules or powders"
+          }
+        },
+        "theirs_6": {
+          "type": "theirs",
+          "settings": {
+            "text": "A separate probiotic capsule or powder"
+          }
+        }
+      },
+      "block_order": [
+        "ours_1",
+        "ours_2",
+        "ours_3",
+        "ours_4",
+        "ours_5",
+        "ours_6",
+        "theirs_1",
+        "theirs_2",
+        "theirs_3",
+        "theirs_4",
+        "theirs_5",
+        "theirs_6"
+      ],
+      "settings": {
+        "ours_image": "shopify://shop_images/5.jpg",
+        "ours_image_asset": "ff-sachet.webp",
+        "ours_name": "Flow\nFormula",
+        "ours_tag": "The old way",
+        "theirs_image": "shopify://shop_images/Flow_Formula_Website_Design_and_Development_Brief.jpg",
+        "theirs_image_asset": "ff-sachet.webp",
+        "theirs_mask_label": true,
+        "theirs_name": "Other\nProduct",
+        "theirs_tag": "The old way",
+        "anchor_id": ""
       }
     },
     "ingredient_list": {
@@ -1310,13 +1310,13 @@
   "order": [
     "main",
     "usp_strip",
-    "comparison",
     "ingredients",
     "ingredient_list",
     "how_it_works",
+    "daily_timeline",
+    "comparison",
     "reviews",
     "split_cta",
-    "daily_timeline",
     "ugc",
     "faq"
   ]
