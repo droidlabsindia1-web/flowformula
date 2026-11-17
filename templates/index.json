@@ -60,6 +60,7 @@
       ],
       "settings": {
         "heading": "One sachet. Your daily wellness, simplified.",
+        "image": "shopify://shop_images/1.jpg",
         "image_asset": "ff-hero.webp",
         "image_alt": "A Flow Formula sachet being poured into a glass of water",
         "background": "",
