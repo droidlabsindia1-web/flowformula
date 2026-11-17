@@ -112,6 +112,73 @@
         "anchor_id": ""
       }
     },
+    "benefits": {
+      "type": "ff-benefits",
+      "blocks": {
+        "benefit_energy": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-energy.webp",
+            "title": "Energy",
+            "tagline": "Feel more you",
+            "points": "Reduce fatigue & tiredness\nSupports sustained energy throughout the day",
+            "image_asset": "ff-benefit-energy.webp",
+            "image_mobile_asset": "ff-benefit-energy-m.webp",
+            "image_alt": "Woman stretching, feeling energised"
+          }
+        },
+        "benefit_hormonal": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-hormonal.webp",
+            "title": "Harmonal Activity",
+            "tagline": "Bring balance",
+            "points": "Help regulate harmones\nSupports menstrual cycle and overall balance",
+            "image_asset": "ff-benefit-hormonal.webp",
+            "image_mobile_asset": "ff-benefit-hormonal-m.webp",
+            "image_alt": "Cycle calendar surrounded by flowers"
+          }
+        },
+        "benefit_hair": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-hair.webp",
+            "title": "Hair, Skin & Nails",
+            "tagline": "Natural radiance",
+            "points": "Support healthy hair growth\nImprove skin texture and nail strength",
+            "image_asset": "ff-benefit-hair.webp",
+            "image_mobile_asset": "ff-benefit-hair-m.webp",
+            "image_alt": "Woman with glowing skin"
+          }
+        },
+        "benefit_immune": {
+          "type": "benefit",
+          "settings": {
+            "icon_asset": "ff-icon-immune.webp",
+            "title": "Immune Function",
+            "tagline": "Stay strong",
+            "points": "Build natural immunity\nHelp your body stay resilient",
+            "image_asset": "ff-benefit-immune.webp",
+            "image_mobile_asset": "ff-benefit-immune-m.webp",
+            "image_alt": "Pink shield with a cross, surrounded by flowers"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_energy",
+        "benefit_hormonal",
+        "benefit_hair",
+        "benefit_immune"
+      ],
+      "settings": {
+        "heading": "Everyday",
+        "heading_highlight": "Benifits",
+        "lead": "Thoughtfully crafted to support your wellness, inside and out - every single day",
+        "note_icon_asset": "ff-icon-drop.webp",
+        "note_text": "These benefits work together, helping you feel stronger, healthier and more balanced -  from the inside out.",
+        "anchor_id": "ingredients"
+      }
+    },
     "how_it_works": {
       "type": "ff-how-it-works",
       "blocks": {
@@ -362,73 +429,6 @@
         "full_width_button": true,
         "reveal": true,
         "anchor_id": ""
-      }
-    },
-    "benefits": {
-      "type": "ff-benefits",
-      "blocks": {
-        "benefit_energy": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-energy.webp",
-            "title": "Energy",
-            "tagline": "Feel more you",
-            "points": "Reduce fatigue & tiredness\nSupports sustained energy throughout the day",
-            "image_asset": "ff-benefit-energy.webp",
-            "image_mobile_asset": "ff-benefit-energy-m.webp",
-            "image_alt": "Woman stretching, feeling energised"
-          }
-        },
-        "benefit_hormonal": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-hormonal.webp",
-            "title": "Harmonal Activity",
-            "tagline": "Bring balance",
-            "points": "Help regulate harmones\nSupports menstrual cycle and overall balance",
-            "image_asset": "ff-benefit-hormonal.webp",
-            "image_mobile_asset": "ff-benefit-hormonal-m.webp",
-            "image_alt": "Cycle calendar surrounded by flowers"
-          }
-        },
-        "benefit_hair": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-hair.webp",
-            "title": "Hair, Skin & Nails",
-            "tagline": "Natural radiance",
-            "points": "Support healthy hair growth\nImprove skin texture and nail strength",
-            "image_asset": "ff-benefit-hair.webp",
-            "image_mobile_asset": "ff-benefit-hair-m.webp",
-            "image_alt": "Woman with glowing skin"
-          }
-        },
-        "benefit_immune": {
-          "type": "benefit",
-          "settings": {
-            "icon_asset": "ff-icon-immune.webp",
-            "title": "Immune Function",
-            "tagline": "Stay strong",
-            "points": "Build natural immunity\nHelp your body stay resilient",
-            "image_asset": "ff-benefit-immune.webp",
-            "image_mobile_asset": "ff-benefit-immune-m.webp",
-            "image_alt": "Pink shield with a cross, surrounded by flowers"
-          }
-        }
-      },
-      "block_order": [
-        "benefit_energy",
-        "benefit_hormonal",
-        "benefit_hair",
-        "benefit_immune"
-      ],
-      "settings": {
-        "heading": "Everyday",
-        "heading_highlight": "Benifits",
-        "lead": "Thoughtfully crafted to support your wellness, inside and out - every single day",
-        "note_icon_asset": "ff-icon-drop.webp",
-        "note_text": "These benefits work together, helping you feel stronger, healthier and more balanced -  from the inside out.",
-        "anchor_id": "ingredients"
       }
     },
     "ugc": {
@@ -708,9 +708,9 @@
     "hero",
     "trust_bar",
     "how_it_works",
+    "benefits",
     "comparison",
     "ff_split_cta_EQeWhi",
-    "benefits",
     "ugc",
     "reviews",
     "story_banner",
