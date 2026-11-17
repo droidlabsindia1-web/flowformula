@@ -45,7 +45,7 @@
         "button_explore": {
           "type": "button",
           "settings": {
-            "label": "Explore Formula",
+            "label": "How it works",
             "link": "/#how-it-works",
             "style": "teal"
           }
