@@ -45,7 +45,7 @@
         "button_explore": {
           "type": "button",
           "settings": {
-            "label": "Explore Formula",
+            "label": "How it works",
             "link": "/#how-it-works",
             "style": "teal"
           }
@@ -60,6 +60,7 @@
       ],
       "settings": {
         "heading": "One sachet. Your daily wellness, simplified.",
+        "image": "shopify://shop_images/1.jpg",
         "image_asset": "ff-hero.webp",
         "image_alt": "A Flow Formula sachet being poured into a glass of water",
         "background": "",
@@ -108,107 +109,6 @@
         "show_on_mobile": false,
         "background": "",
         "text_color": "",
-        "anchor_id": ""
-      }
-    },
-    "comparison": {
-      "type": "ff-comparison",
-      "blocks": {
-        "ours_1": {
-          "type": "ours",
-          "settings": {
-            "text": "One sachet. Everything in one place. One ritual."
-          }
-        },
-        "ours_2": {
-          "type": "ours",
-          "settings": {
-            "text": "Clinical doses of all 18 ingredients — verified"
-          }
-        },
-        "ours_3": {
-          "type": "ours",
-          "settings": {
-            "text": "From £49/month — less than one specialist brand"
-          }
-        },
-        "ours_4": {
-          "type": "ours",
-          "settings": {
-            "text": "Third-party tested. Certificate of analysis available."
-          }
-        },
-        "ours_5": {
-          "type": "ours",
-          "settings": {
-            "text": "Formulated by a woman with PCOS, for PCOS"
-          }
-        },
-        "ours_6": {
-          "type": "ours",
-          "settings": {
-            "text": "So simple it becomes automatic"
-          }
-        },
-        "theirs_1": {
-          "type": "theirs",
-          "settings": {
-            "text": "8-12 separate supplements to track every day"
-          }
-        },
-        "theirs_2": {
-          "type": "theirs",
-          "settings": {
-            "text": "Sub-clinical 'dusting' doses that look good on labels"
-          }
-        },
-        "theirs_3": {
-          "type": "theirs",
-          "settings": {
-            "text": "£120+ per month across different brands"
-          }
-        },
-        "theirs_4": {
-          "type": "theirs",
-          "settings": {
-            "text": "No third-party testing — quality unverified"
-          }
-        },
-        "theirs_5": {
-          "type": "theirs",
-          "settings": {
-            "text": "Nothing formulated specifically for PCOS"
-          }
-        },
-        "theirs_6": {
-          "type": "theirs",
-          "settings": {
-            "text": "Pill fatigue — impossible to stay consistent"
-          }
-        }
-      },
-      "block_order": [
-        "ours_1",
-        "ours_2",
-        "ours_3",
-        "ours_4",
-        "ours_5",
-        "ours_6",
-        "theirs_1",
-        "theirs_2",
-        "theirs_3",
-        "theirs_4",
-        "theirs_5",
-        "theirs_6"
-      ],
-      "settings": {
-        "ours_image_asset": "ff-sachet.webp",
-        "ours_name": "Flow\nFormula",
-        "ours_tag": "The old way",
-        "theirs_image_asset": "ff-sachet.webp",
-        "theirs_mask_label": true,
-        "theirs_name": "Other\nProduct",
-        "theirs_tag": "The old way",
         "anchor_id": ""
       }
     },
@@ -341,6 +241,196 @@
         "anchor_id": "ingredients"
       }
     },
+    "ff_split_cta_EQeWhi": {
+      "type": "ff-split-cta",
+      "blocks": {
+        "trust_WYXTUT": {
+          "type": "trust",
+          "settings": {
+            "text": "Third-Party Tested",
+            "icon": "check"
+          }
+        },
+        "trust_qnPPGe": {
+          "type": "trust",
+          "settings": {
+            "text": "Developed with Doctors",
+            "icon": "heart"
+          }
+        },
+        "trust_pCmiNe": {
+          "type": "trust",
+          "settings": {
+            "text": "60-Day Money-Back Guarantee",
+            "icon": "shield"
+          }
+        }
+      },
+      "block_order": [
+        "trust_WYXTUT",
+        "trust_qnPPGe",
+        "trust_pCmiNe"
+      ],
+      "name": "FF split CTA",
+      "settings": {
+        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
+        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
+        "button_label": "Try It Risk-Free - 60 Days to Decide",
+        "button_link": "",
+        "image": "shopify://shop_images/gallery-7.png",
+        "image_mobile": "shopify://shop_images/gallery-1.png",
+        "image_alt": "",
+        "image_ratio": "16 / 12.3",
+        "image_position": "right",
+        "mobile_image_first": true,
+        "image_radius": 34,
+        "image_radius_mobile": 24,
+        "container_width": 1350,
+        "image_width": 50,
+        "content_width": 540,
+        "column_gap": 60,
+        "column_gap_mobile": 35,
+        "text_align": "left",
+        "text_align_mobile": "center",
+        "margin_top": 60,
+        "margin_bottom": 0,
+        "margin_top_mobile": 60,
+        "margin_bottom_mobile": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "font": "montserrat",
+        "heading_size": 50,
+        "heading_size_mobile": 36,
+        "heading_weight": "600",
+        "heading_letter_spacing": -1.3,
+        "heading_line_height": 1.1,
+        "heading_lowercase": true,
+        "text_size": 18,
+        "text_size_mobile": 14,
+        "button_size": 20,
+        "button_size_mobile": 16,
+        "trust_size": 11,
+        "trust_size_mobile": 9,
+        "trust_icon_size": 12,
+        "background": "#ffb3ab",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "trust_color": "#ffffff",
+        "button_background": "#ffffff",
+        "button_text_color": "#000000",
+        "button_border_color": "#d64ba1",
+        "button_border_width": 3,
+        "button_radius": 12,
+        "button_lowercase": true,
+        "button_shadow": true,
+        "full_width_button": true,
+        "reveal": true,
+        "anchor_id": ""
+      }
+    },
+    "comparison": {
+      "type": "ff-comparison",
+      "blocks": {
+        "ours_1": {
+          "type": "ours",
+          "settings": {
+            "text": "1 pre-portioned sachet"
+          }
+        },
+        "ours_2": {
+          "type": "ours",
+          "settings": {
+            "text": "4,000 mg Myo-Inositol + 100 mg D-Chiro Inositol (40:1), in the same sachet"
+          }
+        },
+        "ours_3": {
+          "type": "ours",
+          "settings": {
+            "text": "10 vitamins and minerals, each dose declared on the label"
+          }
+        },
+        "ours_4": {
+          "type": "ours",
+          "settings": {
+            "text": "Turmeric, cinnamon, green tea and black pepper extract"
+          }
+        },
+        "ours_5": {
+          "type": "ours",
+          "settings": {
+            "text": "Turmeric, cinnamon, green tea and black pepper extract"
+          }
+        },
+        "ours_6": {
+          "type": "ours",
+          "settings": {
+            "text": "5 Lactobacillus strains, 1 billion CFU of each"
+          }
+        },
+        "theirs_1": {
+          "type": "theirs",
+          "settings": {
+            "text": "Several products, taken separately"
+          }
+        },
+        "theirs_2": {
+          "type": "theirs",
+          "settings": {
+            "text": "Typically a separate inositol powder or capsule"
+          }
+        },
+        "theirs_3": {
+          "type": "theirs",
+          "settings": {
+            "text": "Typically a multivitamin or several single supplements"
+          }
+        },
+        "theirs_4": {
+          "type": "theirs",
+          "settings": {
+            "text": "Turmeric, cinnamon, green tea and black pepper extract"
+          }
+        },
+        "theirs_5": {
+          "type": "theirs",
+          "settings": {
+            "text": "Typically additional capsules or powders"
+          }
+        },
+        "theirs_6": {
+          "type": "theirs",
+          "settings": {
+            "text": "Pill fatigue — impossible to stay consistent"
+          }
+        }
+      },
+      "block_order": [
+        "ours_1",
+        "ours_2",
+        "ours_3",
+        "ours_4",
+        "ours_5",
+        "ours_6",
+        "theirs_1",
+        "theirs_2",
+        "theirs_3",
+        "theirs_4",
+        "theirs_5",
+        "theirs_6"
+      ],
+      "settings": {
+        "ours_image_asset": "ff-sachet.webp",
+        "ours_name": "Flow\nFormula",
+        "ours_tag": "The old way",
+        "theirs_image_asset": "ff-sachet.webp",
+        "theirs_mask_label": true,
+        "theirs_name": "Other\nProduct",
+        "theirs_tag": "The old way",
+        "anchor_id": ""
+      }
+    },
     "ugc": {
       "type": "ff-ugc",
       "blocks": {
@@ -391,7 +481,7 @@
         "heading": "Results actually\nworth posting",
         "lead": "Join the community that trust us",
         "autoplay": true,
-        "background": "",
+        "background": "#ffb3ab",
         "anchor_id": ""
       }
     },
@@ -484,9 +574,12 @@
         "heading": "Our story",
         "text": "<p>At Flow Formula, we’re challenging the status quo of women’s health because we believe every woman deserves access to exceptional hormone support.</p>",
         "button_label": "Learn more",
-        "image_blur": 0,
-        "parallax": false,
-        "fallback_background": "#152340",
+        "button_link": "",
+        "image": "shopify://shop_images/coral-pink-abstract-banner.png",
+        "image_mobile": "shopify://shop_images/coral-pink-abstract-banner.png",
+        "image_blur": 8,
+        "parallax": true,
+        "fallback_background": "#ffb3ab",
         "overlay_style": "flat",
         "overlay_color": "#000000",
         "overlay_opacity": 35,
@@ -516,16 +609,16 @@
         "heading_lowercase": true,
         "text_size": 20,
         "text_size_mobile": 16,
-        "heading_color": "#FFFFFF",
-        "text_color": "#F4ECE8",
+        "heading_color": "#ffffff",
+        "text_color": "#f4ece8",
         "button_font": "section",
         "button_size": 17,
         "button_size_mobile": 15,
-        "button_background": "#FFFFFF",
+        "button_background": "#ffffff",
         "button_background_opacity": 15,
         "button_blur": true,
-        "button_text_color": "#FFFFFF",
-        "button_border_color": "#FFFFFF",
+        "button_text_color": "#ffffff",
+        "button_border_color": "#ffffff",
         "button_border_opacity": 30,
         "button_radius": 60,
         "button_lowercase": true,
@@ -614,9 +707,10 @@
   "order": [
     "hero",
     "trust_bar",
-    "comparison",
     "how_it_works",
     "benefits",
+    "ff_split_cta_EQeWhi",
+    "comparison",
     "ugc",
     "reviews",
     "story_banner",

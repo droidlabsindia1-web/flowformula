@@ -19,7 +19,7 @@
             "icon_size": 20,
             "icon_size_mobile": 18,
             "icon_gap": 16,
-            "background": "#d64ba1",
+            "background": "#ffb3ab",
             "gradient": "",
             "text_color": "#ffffff",
             "border_color": "",
@@ -39,13 +39,13 @@
         "guarantee": {
           "type": "guarantee",
           "settings": {
-            "show_icon": true,
+            "show_icon": false,
             "icon_size": 64,
             "icon_size_mobile": 48,
             "icon_gap": 40,
             "background": "#ffffff",
-            "border_color": "#d64ba1",
-            "eyebrow_color": "#d64ba1",
+            "border_color": "#162138",
+            "eyebrow_color": "#162138",
             "title_color": "#000000",
             "text_color": "#000000",
             "border_style": "dashed",
@@ -54,10 +54,10 @@
             "padding_x": 40,
             "padding_y": 24,
             "align": "start",
-            "title_uppercase": true,
-            "eyebrow_size": 22,
+            "title_uppercase": false,
+            "eyebrow_size": 18,
             "eyebrow_size_mobile": 16,
-            "title_size": 22,
+            "title_size": 18,
             "title_size_mobile": 16,
             "text_size": 16,
             "text_size_mobile": 13
@@ -73,7 +73,7 @@
         "pill_columns_mobile": 2,
         "pill_gap": 10,
         "pill_gap_mobile": 8,
-        "pill_background": "",
+        "pill_background": "#f6b0a4",
         "pill_gradient": "",
         "pill_text_color": "",
         "pill_border_color": "",
@@ -114,6 +114,34 @@
             "link": ""
           }
         },
+        "item_DrmYhK": {
+          "type": "item",
+          "settings": {
+            "text": "fully disclosed doses · no proprietary blends",
+            "link": ""
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "One simple sachet a day",
+            "link": ""
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "4,000 mg myo + 100 mg d-chiro · 40:1",
+            "link": ""
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "18 actives + 5 lactobacillus cultures",
+            "link": ""
+          }
+        },
         "item_2": {
           "type": "item",
           "settings": {
@@ -121,34 +149,22 @@
             "link": ""
           }
         },
-        "item_3": {
+        "item_im46d4": {
           "type": "item",
           "settings": {
-            "text": "Secure checkout",
-            "link": ""
-          }
-        },
-        "item_4": {
-          "type": "item",
-          "settings": {
-            "text": "Made in the UK",
-            "link": ""
-          }
-        },
-        "item_5": {
-          "type": "item",
-          "settings": {
-            "text": "Quality-controlled manufacturing",
+            "text": "Formulated in the UK",
             "link": ""
           }
         }
       },
       "block_order": [
         "item_1",
-        "item_2",
+        "item_DrmYhK",
         "item_3",
         "item_4",
-        "item_5"
+        "item_5",
+        "item_2",
+        "item_im46d4"
       ],
       "settings": {
         "label": "Product highlights",
@@ -156,112 +172,265 @@
         "text_color": ""
       }
     },
-    "comparison": {
-      "type": "ff-comparison",
-      "blocks": {
-        "ours_1": {
-          "type": "ours",
-          "settings": {
-            "text": "One sachet. Everything in one place. One ritual."
-          }
-        },
-        "ours_2": {
-          "type": "ours",
-          "settings": {
-            "text": "Clinical doses of all 18 ingredients — verified"
-          }
-        },
-        "ours_3": {
-          "type": "ours",
-          "settings": {
-            "text": "From £49/month — less than one specialist brand"
-          }
-        },
-        "ours_4": {
-          "type": "ours",
-          "settings": {
-            "text": "Third-party tested. Certificate of analysis available."
-          }
-        },
-        "ours_5": {
-          "type": "ours",
-          "settings": {
-            "text": "Formulated by a woman with PCOS, for PCOS"
-          }
-        },
-        "ours_6": {
-          "type": "ours",
-          "settings": {
-            "text": "So simple it becomes automatic"
-          }
-        },
-        "theirs_1": {
-          "type": "theirs",
-          "settings": {
-            "text": "8-12 separate supplements to track every day"
-          }
-        },
-        "theirs_2": {
-          "type": "theirs",
-          "settings": {
-            "text": "Sub-clinical 'dusting' doses that look good on labels"
-          }
-        },
-        "theirs_3": {
-          "type": "theirs",
-          "settings": {
-            "text": "£120+ per month across different brands"
-          }
-        },
-        "theirs_4": {
-          "type": "theirs",
-          "settings": {
-            "text": "No third-party testing — quality unverified"
-          }
-        },
-        "theirs_5": {
-          "type": "theirs",
-          "settings": {
-            "text": "Nothing formulated specifically for PCOS"
-          }
-        },
-        "theirs_6": {
-          "type": "theirs",
-          "settings": {
-            "text": "Pill fatigue — impossible to stay consistent"
-          }
-        }
-      },
-      "block_order": [
-        "ours_1",
-        "ours_2",
-        "ours_3",
-        "ours_4",
-        "ours_5",
-        "ours_6",
-        "theirs_1",
-        "theirs_2",
-        "theirs_3",
-        "theirs_4",
-        "theirs_5",
-        "theirs_6"
-      ],
-      "settings": {
-        "ours_image_asset": "ff-sachet.webp",
-        "ours_name": "Flow\nFormula",
-        "ours_tag": "The old way",
-        "theirs_image_asset": "ff-sachet.webp",
-        "theirs_mask_label": true,
-        "theirs_name": "Other\nProduct",
-        "theirs_tag": "The old way",
-        "anchor_id": ""
-      }
-    },
     "ingredients": {
       "type": "ff-ingredients",
       "blocks": {
+        "ingredient_nUXhRi": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Myo-Inositol",
+            "text": ""
+          }
+        },
+        "ingredient_VVbV6q": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "D-Chiro Inositol",
+            "text": ""
+          }
+        },
+        "ingredient_Upkr97": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Zinc",
+            "text": ""
+          }
+        },
+        "ingredient_GwzFKf": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Magnesium",
+            "text": ""
+          }
+        },
+        "ingredient_grh4QE": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Folate",
+            "text": ""
+          }
+        },
+        "ingredient_qjAQ6k": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin B6",
+            "text": ""
+          }
+        },
+        "ingredient_HmUhyz": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin B12",
+            "text": ""
+          }
+        },
+        "ingredient_pDpQF7": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin D3",
+            "text": ""
+          }
+        },
+        "ingredient_HYbcmK": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin K2 MK7",
+            "text": ""
+          }
+        },
+        "ingredient_jcwY9d": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Vitamin B7 (Biotin)",
+            "text": ""
+          }
+        },
+        "ingredient_FJN8A6": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Chromium",
+            "text": ""
+          }
+        },
+        "ingredient_9pJiYB": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Calcium",
+            "text": ""
+          }
+        },
+        "ingredient_zANVcE": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Coenzyme Q10",
+            "text": ""
+          }
+        },
+        "ingredient_cMayEc": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Glycine",
+            "text": ""
+          }
+        },
+        "ingredient_eKmBzz": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Cinnamon Bark",
+            "text": ""
+          }
+        },
+        "ingredient_pCEXPA": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Green Tea",
+            "text": ""
+          }
+        },
+        "ingredient_8FWdwH": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Turmeric",
+            "text": ""
+          }
+        },
+        "ingredient_jR8zX4": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "BioPerine® Black Pepper Extract",
+            "text": ""
+          }
+        },
+        "ingredient_BwiyWP": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus acidophilus",
+            "text": ""
+          }
+        },
+        "ingredient_WEdQVf": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus plantarum",
+            "text": ""
+          }
+        },
+        "ingredient_9rzaDc": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus rhamnosus",
+            "text": ""
+          }
+        },
+        "ingredient_MUKHUQ": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus casei",
+            "text": ""
+          }
+        },
+        "ingredient_U9MDMD": {
+          "type": "ingredient",
+          "disabled": true,
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "Lactobacillus helveticus",
+            "text": ""
+          }
+        },
         "ingredient_ginseng": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "ff-ingredient-ginseng.jpg",
             "alt": "Siberian ginseng root",
@@ -272,6 +441,7 @@
         },
         "ingredient_vitamin_c": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "ff-ingredient-vitc.jpg",
             "alt": "Halved oranges",
@@ -282,6 +452,7 @@
         },
         "ingredient_biotin": {
           "type": "ingredient",
+          "disabled": true,
           "settings": {
             "image_asset": "ff-ingredient-biotin.jpg",
             "alt": "Golden oil droplets",
@@ -289,15 +460,82 @@
             "title": "Biotin (Vitamin B7)",
             "text": "Traditionally used to support cognitive function (such as concentration and alertness)."
           }
+        },
+        "ingredient_HKQ3Xd": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "the inositol foundation",
+            "text": "4,000 mg Myo-Inositol and 100 mg D-Chiro Inositol, two naturally occuring fprms of inositol in a 40:1 ratio."
+          }
+        },
+        "ingredient_Gdfigd": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "10 vitamins and minerals",
+            "text": "Folate, B12, biotin, K2, b6, D3, chromium, calcium, zinc, and magnesium, each with its dose and NRV on the label."
+          }
+        },
+        "ingredient_NMbprA": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "botanicals, CoQ10 and glycine",
+            "text": "Turmeric, cinnamon, green tea and black pepper extract, plus 20 mg CoQ10 and 100 mg glycine."
+          }
+        },
+        "ingredient_fVe4Rr": {
+          "type": "ingredient",
+          "settings": {
+            "image_asset": "",
+            "alt": "",
+            "crop": 50,
+            "title": "5 friendly bacteria strains",
+            "text": "L. acidophilus, L. plantarum, L. rhamnosus, L. casei and L. helveticus, 1 billion CFU of each. confirm CFU basis"
+          }
         }
       },
       "block_order": [
+        "ingredient_nUXhRi",
+        "ingredient_VVbV6q",
+        "ingredient_Upkr97",
+        "ingredient_GwzFKf",
+        "ingredient_grh4QE",
+        "ingredient_qjAQ6k",
+        "ingredient_HmUhyz",
+        "ingredient_pDpQF7",
+        "ingredient_HYbcmK",
+        "ingredient_jcwY9d",
+        "ingredient_FJN8A6",
+        "ingredient_9pJiYB",
+        "ingredient_zANVcE",
+        "ingredient_cMayEc",
+        "ingredient_eKmBzz",
+        "ingredient_pCEXPA",
+        "ingredient_8FWdwH",
+        "ingredient_jR8zX4",
+        "ingredient_BwiyWP",
+        "ingredient_WEdQVf",
+        "ingredient_9rzaDc",
+        "ingredient_MUKHUQ",
+        "ingredient_U9MDMD",
         "ingredient_ginseng",
         "ingredient_vitamin_c",
-        "ingredient_biotin"
+        "ingredient_biotin",
+        "ingredient_HKQ3Xd",
+        "ingredient_Gdfigd",
+        "ingredient_NMbprA",
+        "ingredient_fVe4Rr"
       ],
       "settings": {
-        "heading": "Flow Formula",
+        "heading": "what's in one sachet",
         "anchor_id": "ingredients",
         "speed": 40
       }
@@ -479,17 +717,17 @@
         "name_weight": "500",
         "description_size": 14,
         "description_size_mobile": 13,
-        "background": "#FEF6F2",
+        "background": "#fef6f2",
         "heading_color": "#152340",
-        "text_color": "#3B3B3B",
-        "label_color": "#FE686E",
+        "text_color": "#3b3b3b",
+        "label_color": "#fe686e",
         "name_color": "#152340",
         "amount_color": "#888888",
-        "description_color": "#3B3B3B",
+        "description_color": "#3b3b3b",
         "icon_color": "#152340",
         "line_color": "#152340",
         "panel_background": "",
-        "glow_color": "#FFB1A4",
+        "glow_color": "#ffb1a4",
         "reveal": true,
         "anchor_id": "ingredient-list"
       }
@@ -554,177 +792,6 @@
         "banner_image_asset": "ff-lifestyle-banner.webp",
         "banner_alt": "Take it at home, at work, on the go or while travelling. The right nutrition, a healthier you.",
         "anchor_id": "how-it-works"
-      }
-    },
-    "reviews": {
-      "type": "ff-reviews",
-      "blocks": {
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-1.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-2.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_3": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-3.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_4": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-3.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_5": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-1.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_6": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-2.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        }
-      },
-      "block_order": [
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_4",
-        "review_5",
-        "review_6"
-      ],
-      "settings": {
-        "heading": "Why people love us",
-        "anchor_id": ""
-      }
-    },
-    "split_cta": {
-      "type": "ff-split-cta",
-      "blocks": {
-        "trust_tested": {
-          "type": "trust",
-          "settings": {
-            "text": "Third-Party Tested",
-            "icon": "check"
-          }
-        },
-        "trust_doctors": {
-          "type": "trust",
-          "settings": {
-            "text": "Developed with Doctors",
-            "icon": "heart"
-          }
-        },
-        "trust_guarantee": {
-          "type": "trust",
-          "settings": {
-            "text": "60-Day Money-Back Guarantee",
-            "icon": "shield"
-          }
-        }
-      },
-      "block_order": [
-        "trust_tested",
-        "trust_doctors",
-        "trust_guarantee"
-      ],
-      "settings": {
-        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
-        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
-        "button_label": "Try It Risk-Free - 60 Days to Decide",
-        "button_link": "",
-        "image": "shopify://shop_images/gallery-5.png",
-        "image_mobile": "shopify://shop_images/bottle-debloat.png",
-        "image_alt": "",
-        "image_ratio": "16 / 12.3",
-        "image_position": "right",
-        "mobile_image_first": true,
-        "image_radius": 34,
-        "image_radius_mobile": 24,
-        "container_width": 1350,
-        "image_width": 50,
-        "content_width": 540,
-        "column_gap": 60,
-        "column_gap_mobile": 35,
-        "text_align": "left",
-        "text_align_mobile": "center",
-        "margin_top": 60,
-        "margin_bottom": 0,
-        "margin_top_mobile": 60,
-        "margin_bottom_mobile": 0,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "font": "montserrat",
-        "heading_size": 50,
-        "heading_size_mobile": 36,
-        "heading_weight": "600",
-        "heading_letter_spacing": -1.3,
-        "heading_line_height": 1.1,
-        "heading_lowercase": true,
-        "text_size": 18,
-        "text_size_mobile": 14,
-        "button_size": 20,
-        "button_size_mobile": 16,
-        "trust_size": 11,
-        "trust_size_mobile": 9,
-        "trust_icon_size": 12,
-        "background": "#FE696E",
-        "heading_color": "#ffffff",
-        "text_color": "#ffffff",
-        "trust_color": "#ffffff",
-        "button_background": "#ffffff",
-        "button_text_color": "#000000",
-        "button_border_color": "#d64ba1",
-        "button_border_width": 3,
-        "button_radius": 12,
-        "button_lowercase": true,
-        "button_shadow": true,
-        "full_width_button": true,
-        "reveal": true,
-        "anchor_id": ""
       }
     },
     "daily_timeline": {
@@ -843,6 +910,280 @@
         "anchor_id": ""
       }
     },
+    "comparison": {
+      "type": "ff-comparison",
+      "blocks": {
+        "ours_1": {
+          "type": "ours",
+          "settings": {
+            "text": "One pre-portioned daily sachet"
+          }
+        },
+        "ours_2": {
+          "type": "ours",
+          "settings": {
+            "text": "4,000 mg Myo-Inositol + 100 mg D-Chiro Inositol"
+          }
+        },
+        "ours_3": {
+          "type": "ours",
+          "settings": {
+            "text": "10 vitamins and minerals, each dose declared"
+          }
+        },
+        "ours_4": {
+          "type": "ours",
+          "settings": {
+            "text": "Turmeric, cinnamon, green tea, black pepper extract"
+          }
+        },
+        "ours_5": {
+          "type": "ours",
+          "settings": {
+            "text": "20 mg CoQ10 and 100 mg glycine"
+          }
+        },
+        "ours_6": {
+          "type": "ours",
+          "settings": {
+            "text": "5 Lactobacillus strains, 1 billion CFU each"
+          }
+        },
+        "theirs_1": {
+          "type": "theirs",
+          "settings": {
+            "text": "Several products, taken separately"
+          }
+        },
+        "theirs_2": {
+          "type": "theirs",
+          "settings": {
+            "text": "A separate inositol powder or capsule"
+          }
+        },
+        "theirs_3": {
+          "type": "theirs",
+          "settings": {
+            "text": "A multivitamin or several single supplements"
+          }
+        },
+        "theirs_4": {
+          "type": "theirs",
+          "settings": {
+            "text": "Separate botanical capsules or powders"
+          }
+        },
+        "theirs_5": {
+          "type": "theirs",
+          "settings": {
+            "text": "Additional capsules or powders"
+          }
+        },
+        "theirs_6": {
+          "type": "theirs",
+          "settings": {
+            "text": "A separate probiotic capsule or powder"
+          }
+        }
+      },
+      "block_order": [
+        "ours_1",
+        "ours_2",
+        "ours_3",
+        "ours_4",
+        "ours_5",
+        "ours_6",
+        "theirs_1",
+        "theirs_2",
+        "theirs_3",
+        "theirs_4",
+        "theirs_5",
+        "theirs_6"
+      ],
+      "settings": {
+        "ours_image": "shopify://shop_images/5.jpg",
+        "ours_image_asset": "ff-sachet.webp",
+        "ours_name": "Flow\nFormula",
+        "ours_tag": "The old way",
+        "theirs_image": "shopify://shop_images/Flow_Formula_Website_Design_and_Development_Brief.jpg",
+        "theirs_image_asset": "ff-sachet.webp",
+        "theirs_mask_label": true,
+        "theirs_name": "Other\nProduct",
+        "theirs_tag": "The old way",
+        "anchor_id": ""
+      }
+    },
+    "split_cta": {
+      "type": "ff-split-cta",
+      "blocks": {
+        "trust_tested": {
+          "type": "trust",
+          "settings": {
+            "text": "Third-Party Tested",
+            "icon": "check"
+          }
+        },
+        "trust_doctors": {
+          "type": "trust",
+          "settings": {
+            "text": "Developed with Doctors",
+            "icon": "heart"
+          }
+        },
+        "trust_guarantee": {
+          "type": "trust",
+          "settings": {
+            "text": "60-Day Money-Back Guarantee",
+            "icon": "shield"
+          }
+        }
+      },
+      "block_order": [
+        "trust_tested",
+        "trust_doctors",
+        "trust_guarantee"
+      ],
+      "settings": {
+        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
+        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
+        "button_label": "Try It Risk-Free - 60 Days to Decide",
+        "button_link": "",
+        "image": "shopify://shop_images/gallery-5.png",
+        "image_mobile": "shopify://shop_images/bottle-debloat.png",
+        "image_alt": "",
+        "image_ratio": "16 / 12.3",
+        "image_position": "right",
+        "mobile_image_first": true,
+        "image_radius": 34,
+        "image_radius_mobile": 24,
+        "container_width": 1350,
+        "image_width": 50,
+        "content_width": 540,
+        "column_gap": 60,
+        "column_gap_mobile": 35,
+        "text_align": "left",
+        "text_align_mobile": "center",
+        "margin_top": 60,
+        "margin_bottom": 0,
+        "margin_top_mobile": 60,
+        "margin_bottom_mobile": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "font": "montserrat",
+        "heading_size": 50,
+        "heading_size_mobile": 36,
+        "heading_weight": "600",
+        "heading_letter_spacing": -1.3,
+        "heading_line_height": 1.1,
+        "heading_lowercase": true,
+        "text_size": 18,
+        "text_size_mobile": 14,
+        "button_size": 20,
+        "button_size_mobile": 16,
+        "trust_size": 11,
+        "trust_size_mobile": 9,
+        "trust_icon_size": 12,
+        "background": "#ffb3ab",
+        "heading_color": "#1a1e37",
+        "text_color": "#1a1e37",
+        "trust_color": "#1a1e37",
+        "button_background": "#ffffff",
+        "button_text_color": "#000000",
+        "button_border_color": "#d64ba1",
+        "button_border_width": 3,
+        "button_radius": 12,
+        "button_lowercase": true,
+        "button_shadow": true,
+        "full_width_button": true,
+        "reveal": true,
+        "anchor_id": ""
+      }
+    },
+    "reviews": {
+      "type": "ff-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6"
+      ],
+      "settings": {
+        "heading": "Why people love us",
+        "anchor_id": ""
+      }
+    },
     "ugc": {
       "type": "ff-ugc",
       "blocks": {
@@ -885,7 +1226,7 @@
         "heading": "Results actually\nworth posting",
         "lead": "Join the community that trust us",
         "autoplay": true,
-        "background": "",
+        "background": "#ffb3ab",
         "anchor_id": ""
       }
     },
@@ -969,13 +1310,13 @@
   "order": [
     "main",
     "usp_strip",
-    "comparison",
     "ingredients",
     "ingredient_list",
     "how_it_works",
-    "reviews",
-    "split_cta",
     "daily_timeline",
+    "comparison",
+    "split_cta",
+    "reviews",
     "ugc",
     "faq"
   ]
