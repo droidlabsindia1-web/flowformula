@@ -1,0 +1,179 @@
+{%- comment -%}
+  Flow Formula cart drawer. Slides in from the right after "add to basket"
+  on ff-main-product and when the header cart icon is clicked.
+
+  No quantity selector by design: each line shows whether it's a one-time
+  purchase or a subscription (with the plan name) and can only be removed.
+
+  ff-cart-drawer.js re-renders [data-ff-cart-inner] through the Section
+  Rendering API using this section's id, so everything that changes with the
+  cart lives inside it.
+{%- endcomment -%}
+{%- render 'ff-assets' -%}
+{{ 'ff-cart-drawer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ff-cart-drawer.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign once_label = section.settings.once_label | default: 'One-time purchase'
+  assign sub_label = section.settings.subscription_label | default: 'Subscription'
+  assign empty_link = section.settings.empty_button_link | default: routes.all_products_collection_url
+-%}
+
+<ff-cart-drawer data-section-id="{{ section.id }}">
+  <dialog
+    class="cart-drawer"
+    tabindex="-1"
+    aria-labelledby="CartDrawerTitle-{{ section.id }}"
+    data-ff-cart-dialog
+  >
+    <div class="cart-drawer__inner" data-ff-cart-inner>
+      <div class="cart-drawer__head">
+        <h2 class="cart-drawer__title" id="CartDrawerTitle-{{ section.id }}">
+          {{- section.settings.heading | default: 'Your basket' | escape -}}
+          {%- if cart.item_count > 0 -%}
+            <span class="cart-drawer__count">({{ cart.item_count }})</span>
+          {%- endif -%}
+        </h2>
+        <button class="cart-drawer__close" type="button" aria-label="{{ 'accessibility.close' | t }}" data-ff-cart-close>
+          {%- render 'ff-icon', icon: 'close', size: 24 -%}
+        </button>
+      </div>
+
+      {%- if cart.item_count == 0 -%}
+        <div class="cart-drawer__empty">
+          <p class="cart-drawer__empty-text">{{ section.settings.empty_text | default: 'Your basket is empty' | escape }}</p>
+          {%- if section.settings.empty_button_label != blank -%}
+            <a class="btn btn--atc cart-drawer__empty-btn" href="{{ empty_link }}">
+              {{- section.settings.empty_button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <ul class="cart-drawer__items" role="list">
+          {%- for item in cart.items -%}
+            {%- liquid
+              assign allocation = item.selling_plan_allocation
+              assign compare_line = item.original_line_price
+              if allocation and allocation.compare_at_price > allocation.price
+                assign compare_line = allocation.compare_at_price | times: item.quantity
+              endif
+            -%}
+            <li class="cart-item" data-ff-cart-item data-key="{{ item.key }}">
+              <a class="cart-item__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                {%- if item.image -%}
+                  {{- item.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120,240', sizes: '80px', alt: '' -}}
+                {%- endif -%}
+              </a>
+
+              <div class="cart-item__body">
+                <div class="cart-item__top">
+                  <div class="cart-item__info">
+                    <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+                    {%- unless item.product.has_only_default_variant -%}
+                      <p class="cart-item__variant">{{ item.variant.title | escape }}</p>
+                    {%- endunless -%}
+                    {%- if item.quantity > 1 -%}
+                      <p class="cart-item__qty">Qty {{ item.quantity }}</p>
+                    {%- endif -%}
+                  </div>
+                  <div class="cart-item__prices">
+                    {%- if compare_line > item.final_line_price -%}
+                      <s class="cart-item__compare">{{ compare_line | money }}</s>
+                    {%- endif -%}
+                    <span class="cart-item__price">{{ item.final_line_price | money }}</span>
+                  </div>
+                </div>
+
+                {%- comment -%} Purchase type: one-time or subscription {%- endcomment -%}
+                <p class="cart-item__plan{% if allocation %} cart-item__plan--sub{% endif %}">
+                  <span class="cart-item__plan-type">
+                    {%- if allocation -%}{{ sub_label | escape }}{%- else -%}{{ once_label | escape }}{%- endif -%}
+                  </span>
+                  {%- if allocation -%}
+                    <span class="cart-item__plan-name">{{ allocation.selling_plan.name | escape }}</span>
+                  {%- endif -%}
+                </p>
+
+                {%- for discount in item.line_level_discount_allocations -%}
+                  <p class="cart-item__discount">{{ discount.discount_application.title | escape }} (−{{ discount.amount | money }})</p>
+                {%- endfor -%}
+
+                <button
+                  class="cart-item__remove"
+                  type="button"
+                  data-ff-cart-remove="{{ item.key }}"
+                  aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
+                >
+                  {{- section.settings.remove_label | default: 'Remove' | escape -}}
+                </button>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="cart-drawer__foot">
+          {%- if cart.cart_level_discount_applications.size > 0 -%}
+            <ul class="cart-drawer__discounts" role="list">
+              {%- for discount in cart.cart_level_discount_applications -%}
+                <li>
+                  <span>{{ discount.title | escape }}</span>
+                  <span>−{{ discount.total_allocated_amount | money }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          <div class="cart-drawer__subtotal">
+            <span>{{ section.settings.subtotal_label | default: 'Subtotal' | escape }}</span>
+            <span>{{ cart.total_price | money_with_currency }}</span>
+          </div>
+
+          {%- if section.settings.shipping_note != blank -%}
+            <p class="cart-drawer__note">{{ section.settings.shipping_note | escape }}</p>
+          {%- endif -%}
+
+          <form action="{{ routes.cart_url }}" method="post" class="cart-drawer__form">
+            <button class="btn btn--atc cart-drawer__checkout" type="submit" name="checkout">
+              {{- section.settings.checkout_label | default: 'Checkout' | escape -}}
+            </button>
+          </form>
+
+          {%- if section.settings.show_view_cart -%}
+            <a class="cart-drawer__view" href="{{ routes.cart_url }}">
+              {{- section.settings.view_cart_label | default: 'View basket' | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <p class="cart-drawer__error" role="alert" hidden data-ff-cart-error></p>
+    </div>
+  </dialog>
+</ff-cart-drawer>
+
+{% schema %}
+{
+  "name": "FF cart drawer",
+  "class": "ff",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "paragraph", "content": "Opens after add to basket on the FF product page and when the header cart icon is clicked. Lines can be removed but quantities can't be changed." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your basket" },
+    { "type": "header", "content": "Purchase type" },
+    { "type": "text", "id": "once_label", "label": "One-time purchase label", "default": "One-time purchase" },
+    { "type": "text", "id": "subscription_label", "label": "Subscription label", "default": "Subscription", "info": "Shown with the subscription plan's name, e.g. \"Delivered every 30 days\"." },
+    { "type": "text", "id": "remove_label", "label": "Remove label", "default": "Remove" },
+    { "type": "header", "content": "Footer" },
+    { "type": "text", "id": "subtotal_label", "label": "Subtotal label", "default": "Subtotal" },
+    { "type": "text", "id": "shipping_note", "label": "Note below subtotal", "default": "Free UK shipping. Taxes calculated at checkout." },
+    { "type": "text", "id": "checkout_label", "label": "Checkout button label", "default": "Checkout" },
+    { "type": "checkbox", "id": "show_view_cart", "label": "Show \"view basket\" link", "default": false },
+    { "type": "text", "id": "view_cart_label", "label": "View basket label", "default": "View basket" },
+    { "type": "header", "content": "Empty basket" },
+    { "type": "text", "id": "empty_text", "label": "Text", "default": "Your basket is empty" },
+    { "type": "text", "id": "empty_button_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url", "id": "empty_button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "FF cart drawer" }]
+}
+{% endschema %}

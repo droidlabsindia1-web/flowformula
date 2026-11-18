@@ -635,7 +635,7 @@
       showError("");
       setBusy(true);
 
-      var cart = document.querySelector("cart-drawer") || document.querySelector("cart-notification");
+      var cart = document.querySelector("ff-cart-drawer") || document.querySelector("cart-drawer") || document.querySelector("cart-notification");
       var item = { id: Number(form.querySelector('[name="id"]').value), quantity: 1 };
       if (planInput && !planInput.disabled) item.selling_plan = Number(planInput.value);
       var body = { items: [item] };

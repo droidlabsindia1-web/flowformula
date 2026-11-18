@@ -31,16 +31,27 @@
         "background": ""
       }
     },
-    "cart_notification": {
-      "type": "ff-cart-notification",
+    "cart_drawer": {
+      "type": "ff-cart-drawer",
       "settings": {
-        "color_scheme": "scheme-1"
+        "heading": "Your basket",
+        "once_label": "One-time purchase",
+        "subscription_label": "Subscription",
+        "remove_label": "Remove",
+        "subtotal_label": "Subtotal",
+        "shipping_note": "Free UK shipping. Taxes calculated at checkout.",
+        "checkout_label": "Checkout",
+        "show_view_cart": false,
+        "view_cart_label": "View basket",
+        "empty_text": "Your basket is empty",
+        "empty_button_label": "Shop now",
+        "empty_button_link": ""
       }
     }
   },
   "order": [
     "announcement",
     "header",
-    "cart_notification"
+    "cart_drawer"
   ]
 }
