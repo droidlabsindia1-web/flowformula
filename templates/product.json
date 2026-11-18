@@ -540,109 +540,6 @@
         "speed": 40
       }
     },
-    "comparison": {
-      "type": "ff-comparison",
-      "blocks": {
-        "ours_1": {
-          "type": "ours",
-          "settings": {
-            "text": "One pre-portioned daily sachet"
-          }
-        },
-        "ours_2": {
-          "type": "ours",
-          "settings": {
-            "text": "4,000 mg Myo-Inositol + 100 mg D-Chiro Inositol"
-          }
-        },
-        "ours_3": {
-          "type": "ours",
-          "settings": {
-            "text": "10 vitamins and minerals, each dose declared"
-          }
-        },
-        "ours_4": {
-          "type": "ours",
-          "settings": {
-            "text": "Turmeric, cinnamon, green tea, black pepper extract"
-          }
-        },
-        "ours_5": {
-          "type": "ours",
-          "settings": {
-            "text": "20 mg CoQ10 and 100 mg glycine"
-          }
-        },
-        "ours_6": {
-          "type": "ours",
-          "settings": {
-            "text": "5 Lactobacillus strains, 1 billion CFU each"
-          }
-        },
-        "theirs_1": {
-          "type": "theirs",
-          "settings": {
-            "text": "Several products, taken separately"
-          }
-        },
-        "theirs_2": {
-          "type": "theirs",
-          "settings": {
-            "text": "A separate inositol powder or capsule"
-          }
-        },
-        "theirs_3": {
-          "type": "theirs",
-          "settings": {
-            "text": "A multivitamin or several single supplements"
-          }
-        },
-        "theirs_4": {
-          "type": "theirs",
-          "settings": {
-            "text": "Separate botanical capsules or powders"
-          }
-        },
-        "theirs_5": {
-          "type": "theirs",
-          "settings": {
-            "text": "Additional capsules or powders"
-          }
-        },
-        "theirs_6": {
-          "type": "theirs",
-          "settings": {
-            "text": "A separate probiotic capsule or powder"
-          }
-        }
-      },
-      "block_order": [
-        "ours_1",
-        "ours_2",
-        "ours_3",
-        "ours_4",
-        "ours_5",
-        "ours_6",
-        "theirs_1",
-        "theirs_2",
-        "theirs_3",
-        "theirs_4",
-        "theirs_5",
-        "theirs_6"
-      ],
-      "settings": {
-        "ours_image": "shopify://shop_images/5.jpg",
-        "ours_image_asset": "ff-sachet.webp",
-        "ours_name": "Flow\nFormula",
-        "ours_tag": "The old way",
-        "theirs_image": "shopify://shop_images/Flow_Formula_Website_Design_and_Development_Brief.jpg",
-        "theirs_image_asset": "ff-sachet.webp",
-        "theirs_mask_label": true,
-        "theirs_name": "Other\nProduct",
-        "theirs_tag": "The old way",
-        "anchor_id": ""
-      }
-    },
     "ingredient_list": {
       "type": "ff-ingredient-list",
       "blocks": {
@@ -897,177 +794,6 @@
         "anchor_id": "how-it-works"
       }
     },
-    "reviews": {
-      "type": "ff-reviews",
-      "blocks": {
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-1.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-2.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_3": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-3.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_4": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-3.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_5": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-1.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        },
-        "review_6": {
-          "type": "review",
-          "settings": {
-            "photo_asset": "ff-review-2.webp",
-            "rating": "5",
-            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
-            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
-            "author": "Khushboo Grewal",
-            "verified": true
-          }
-        }
-      },
-      "block_order": [
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_4",
-        "review_5",
-        "review_6"
-      ],
-      "settings": {
-        "heading": "Why people love us",
-        "anchor_id": ""
-      }
-    },
-    "split_cta": {
-      "type": "ff-split-cta",
-      "blocks": {
-        "trust_tested": {
-          "type": "trust",
-          "settings": {
-            "text": "Third-Party Tested",
-            "icon": "check"
-          }
-        },
-        "trust_doctors": {
-          "type": "trust",
-          "settings": {
-            "text": "Developed with Doctors",
-            "icon": "heart"
-          }
-        },
-        "trust_guarantee": {
-          "type": "trust",
-          "settings": {
-            "text": "60-Day Money-Back Guarantee",
-            "icon": "shield"
-          }
-        }
-      },
-      "block_order": [
-        "trust_tested",
-        "trust_doctors",
-        "trust_guarantee"
-      ],
-      "settings": {
-        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
-        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
-        "button_label": "Try It Risk-Free - 60 Days to Decide",
-        "button_link": "",
-        "image": "shopify://shop_images/gallery-5.png",
-        "image_mobile": "shopify://shop_images/bottle-debloat.png",
-        "image_alt": "",
-        "image_ratio": "16 / 12.3",
-        "image_position": "right",
-        "mobile_image_first": true,
-        "image_radius": 34,
-        "image_radius_mobile": 24,
-        "container_width": 1350,
-        "image_width": 50,
-        "content_width": 540,
-        "column_gap": 60,
-        "column_gap_mobile": 35,
-        "text_align": "left",
-        "text_align_mobile": "center",
-        "margin_top": 60,
-        "margin_bottom": 0,
-        "margin_top_mobile": 60,
-        "margin_bottom_mobile": 0,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "font": "montserrat",
-        "heading_size": 50,
-        "heading_size_mobile": 36,
-        "heading_weight": "600",
-        "heading_letter_spacing": -1.3,
-        "heading_line_height": 1.1,
-        "heading_lowercase": true,
-        "text_size": 18,
-        "text_size_mobile": 14,
-        "button_size": 20,
-        "button_size_mobile": 16,
-        "trust_size": 11,
-        "trust_size_mobile": 9,
-        "trust_icon_size": 12,
-        "background": "#ffb3ab",
-        "heading_color": "#1a1e37",
-        "text_color": "#1a1e37",
-        "trust_color": "#1a1e37",
-        "button_background": "#ffffff",
-        "button_text_color": "#000000",
-        "button_border_color": "#d64ba1",
-        "button_border_width": 3,
-        "button_radius": 12,
-        "button_lowercase": true,
-        "button_shadow": true,
-        "full_width_button": true,
-        "reveal": true,
-        "anchor_id": ""
-      }
-    },
     "daily_timeline": {
       "type": "ff-daily-timeline",
       "blocks": {
@@ -1181,6 +907,280 @@
         "line_color": "",
         "icon_background": "",
         "icon_color": "#ffffff",
+        "anchor_id": ""
+      }
+    },
+    "comparison": {
+      "type": "ff-comparison",
+      "blocks": {
+        "ours_1": {
+          "type": "ours",
+          "settings": {
+            "text": "One pre-portioned daily sachet"
+          }
+        },
+        "ours_2": {
+          "type": "ours",
+          "settings": {
+            "text": "4,000 mg Myo-Inositol + 100 mg D-Chiro Inositol"
+          }
+        },
+        "ours_3": {
+          "type": "ours",
+          "settings": {
+            "text": "10 vitamins and minerals, each dose declared"
+          }
+        },
+        "ours_4": {
+          "type": "ours",
+          "settings": {
+            "text": "Turmeric, cinnamon, green tea, black pepper extract"
+          }
+        },
+        "ours_5": {
+          "type": "ours",
+          "settings": {
+            "text": "20 mg CoQ10 and 100 mg glycine"
+          }
+        },
+        "ours_6": {
+          "type": "ours",
+          "settings": {
+            "text": "5 Lactobacillus strains, 1 billion CFU each"
+          }
+        },
+        "theirs_1": {
+          "type": "theirs",
+          "settings": {
+            "text": "Several products, taken separately"
+          }
+        },
+        "theirs_2": {
+          "type": "theirs",
+          "settings": {
+            "text": "A separate inositol powder or capsule"
+          }
+        },
+        "theirs_3": {
+          "type": "theirs",
+          "settings": {
+            "text": "A multivitamin or several single supplements"
+          }
+        },
+        "theirs_4": {
+          "type": "theirs",
+          "settings": {
+            "text": "Separate botanical capsules or powders"
+          }
+        },
+        "theirs_5": {
+          "type": "theirs",
+          "settings": {
+            "text": "Additional capsules or powders"
+          }
+        },
+        "theirs_6": {
+          "type": "theirs",
+          "settings": {
+            "text": "A separate probiotic capsule or powder"
+          }
+        }
+      },
+      "block_order": [
+        "ours_1",
+        "ours_2",
+        "ours_3",
+        "ours_4",
+        "ours_5",
+        "ours_6",
+        "theirs_1",
+        "theirs_2",
+        "theirs_3",
+        "theirs_4",
+        "theirs_5",
+        "theirs_6"
+      ],
+      "settings": {
+        "ours_image": "shopify://shop_images/5.jpg",
+        "ours_image_asset": "ff-sachet.webp",
+        "ours_name": "Flow\nFormula",
+        "ours_tag": "The old way",
+        "theirs_image": "shopify://shop_images/Flow_Formula_Website_Design_and_Development_Brief.jpg",
+        "theirs_image_asset": "ff-sachet.webp",
+        "theirs_mask_label": true,
+        "theirs_name": "Other\nProduct",
+        "theirs_tag": "The old way",
+        "anchor_id": ""
+      }
+    },
+    "split_cta": {
+      "type": "ff-split-cta",
+      "blocks": {
+        "trust_tested": {
+          "type": "trust",
+          "settings": {
+            "text": "Third-Party Tested",
+            "icon": "check"
+          }
+        },
+        "trust_doctors": {
+          "type": "trust",
+          "settings": {
+            "text": "Developed with Doctors",
+            "icon": "heart"
+          }
+        },
+        "trust_guarantee": {
+          "type": "trust",
+          "settings": {
+            "text": "60-Day Money-Back Guarantee",
+            "icon": "shield"
+          }
+        }
+      },
+      "block_order": [
+        "trust_tested",
+        "trust_doctors",
+        "trust_guarantee"
+      ],
+      "settings": {
+        "heading": "Your Body Knows When Something's Off. This Helps Fix It.",
+        "text": "<p>Disclaimer: Most probiotics aren't built for vaginal health — they're gut formulas with a different label. With 50 billion CFUs from 6 diverse strains, this everyday probiotic was made to support wellness and a healthy gut microbiome. Each capsule contains a blend of probiotics, prebiotics, and cranberry.</p>",
+        "button_label": "Try It Risk-Free - 60 Days to Decide",
+        "button_link": "",
+        "image": "shopify://shop_images/gallery-5.png",
+        "image_mobile": "shopify://shop_images/bottle-debloat.png",
+        "image_alt": "",
+        "image_ratio": "16 / 12.3",
+        "image_position": "right",
+        "mobile_image_first": true,
+        "image_radius": 34,
+        "image_radius_mobile": 24,
+        "container_width": 1350,
+        "image_width": 50,
+        "content_width": 540,
+        "column_gap": 60,
+        "column_gap_mobile": 35,
+        "text_align": "left",
+        "text_align_mobile": "center",
+        "margin_top": 60,
+        "margin_bottom": 0,
+        "margin_top_mobile": 60,
+        "margin_bottom_mobile": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "font": "montserrat",
+        "heading_size": 50,
+        "heading_size_mobile": 36,
+        "heading_weight": "600",
+        "heading_letter_spacing": -1.3,
+        "heading_line_height": 1.1,
+        "heading_lowercase": true,
+        "text_size": 18,
+        "text_size_mobile": 14,
+        "button_size": 20,
+        "button_size_mobile": 16,
+        "trust_size": 11,
+        "trust_size_mobile": 9,
+        "trust_icon_size": 12,
+        "background": "#ffb3ab",
+        "heading_color": "#1a1e37",
+        "text_color": "#1a1e37",
+        "trust_color": "#1a1e37",
+        "button_background": "#ffffff",
+        "button_text_color": "#000000",
+        "button_border_color": "#d64ba1",
+        "button_border_width": 3,
+        "button_radius": 12,
+        "button_lowercase": true,
+        "button_shadow": true,
+        "full_width_button": true,
+        "reveal": true,
+        "anchor_id": ""
+      }
+    },
+    "reviews": {
+      "type": "ff-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-3.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-1.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "photo_asset": "ff-review-2.webp",
+            "rating": "5",
+            "product": "UB Max G Clock with Wireless Charging, Lamp & Speaker",
+            "quote": "“The Mattress helps me sleep and stay cool at the same time. My little one loves jumping and spending time with me on our new mattress.”",
+            "author": "Khushboo Grewal",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6"
+      ],
+      "settings": {
+        "heading": "Why people love us",
         "anchor_id": ""
       }
     },
@@ -1315,8 +1315,8 @@
     "how_it_works",
     "daily_timeline",
     "comparison",
-    "reviews",
     "split_cta",
+    "reviews",
     "ugc",
     "faq"
   ]
