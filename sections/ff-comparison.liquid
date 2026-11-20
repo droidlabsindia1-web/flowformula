@@ -19,8 +19,8 @@
           height: 191,
           decorative: true,
           class: 'compare__pack',
-          sizes: '102px',
-          widths: '204,306'
+          sizes: '(max-width: 749px) 45vw, 460px',
+          widths: '240,360,480,720,960'
         -%}
         <h2 class="compare__name">{{ section.settings.ours_name | escape | newline_to_br }}</h2>
         {%- if section.settings.ours_tag != blank -%}
@@ -51,8 +51,8 @@
           height: 191,
           decorative: true,
           class: theirs_class,
-          sizes: '102px',
-          widths: '204,306'
+          sizes: '(max-width: 749px) 45vw, 460px',
+          widths: '240,360,480,720,960'
         -%}
         {%- if mask -%}</span>{%- endif -%}
         <h2 class="compare__name">{{ section.settings.theirs_name | escape | newline_to_br }}</h2>
