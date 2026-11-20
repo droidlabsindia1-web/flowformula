@@ -2044,8 +2044,20 @@ html:has(.ff) {
   position: sticky;
   top: 24px;
   flex: 0 1 627px;
-  max-width: min(55%, calc(max(360px, 100vh - var(--media-chrome)) * 627 / 617 + var(--rail-space, 0px)));
-  max-width: min(55%, calc(max(360px, 100dvh - var(--media-chrome)) * 627 / 617 + var(--rail-space, 0px)));
+  max-width: min(
+    55%,
+    calc(
+      max(360px, 100vh - var(--media-chrome)) * 627 / 617 +
+        var(--rail-space, 0px)
+    )
+  );
+  max-width: min(
+    55%,
+    calc(
+      max(360px, 100dvh - var(--media-chrome)) * 627 / 617 +
+        var(--rail-space, 0px)
+    )
+  );
 }
 .ff .pdp-media--thumbs {
   --rail-space: 80px;
@@ -2203,7 +2215,7 @@ html:has(.ff) {
   font-family: var(--font-title);
   font-size: 50px;
   font-weight: 400;
-  line-height: 30.8px;
+  line-height: 90%;
   text-transform: lowercase;
 }
 
@@ -2813,7 +2825,8 @@ html:has(.label-modal[open]) {
    buy form; every look setting arrives as a CSS variable on the box */
 .ff .guarantee {
   display: flex;
-  border: var(--guar-border-w, 2px) var(--guar-border-style, dashed) var(--guar-border-c, var(--pink));
+  border: var(--guar-border-w, 2px) var(--guar-border-style, dashed)
+    var(--guar-border-c, var(--pink));
   border-radius: var(--guar-radius, 20px);
   background: var(--guar-bg, #fff);
 }
