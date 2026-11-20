@@ -32,6 +32,9 @@
   --white-55: rgba(255, 255, 255, 0.55);
 
   --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Brand type: Title = The Seasons Regular, Subtitle = Montserrat SemiBold
+     caps, Body = Montserrat Medium. "the-seasons" is the Adobe Fonts name. */
+  --font-title: "The Seasons", "the-seasons", "Fraunces", Georgia, serif;
   --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
   --font-poppins: "Poppins", var(--font-sans);
 
@@ -60,6 +63,7 @@ html:has(.ff) {
   color: var(--navy);
   font-family: var(--font-sans);
   font-size: 16px;
+  font-weight: 500;
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -146,8 +150,8 @@ html:has(.ff) {
 }
 
 .ff .section-title {
-  font-family: var(--font-sans);
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 400;
   letter-spacing: var(--tight);
   text-transform: lowercase;
 }
@@ -352,7 +356,8 @@ html:has(.ff) {
 .ff .hero__title {
   color: var(--coral-title);
   font-size: 50px;
-  font-weight: 500;
+  font-family: var(--font-title);
+  font-weight: 400;
   line-height: 68px;
   letter-spacing: var(--tight);
   text-transform: lowercase;
@@ -362,7 +367,8 @@ html:has(.ff) {
   margin-top: 20px;
   color: var(--text);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
   line-height: 28px;
 }
 
@@ -381,9 +387,9 @@ html:has(.ff) {
 .ff .hero__stats strong {
   display: block;
   color: var(--coral-bar);
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 50px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 31px;
   white-space: nowrap;
 }
@@ -524,7 +530,8 @@ html:has(.ff) {
 .ff .compare__name {
   color: var(--navy);
   font-size: 26px;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 400;
   line-height: 32px;
   letter-spacing: -1px;
   text-align: center;
@@ -627,7 +634,7 @@ html:has(.ff) {
   border-radius: 50%;
   background: var(--coral);
   color: #fff;
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 24px;
   font-weight: 600;
   letter-spacing: var(--tight);
@@ -651,7 +658,8 @@ html:has(.ff) {
   padding: 0 18px;
   color: var(--text);
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
   line-height: 30.2px;
 }
 
@@ -679,9 +687,9 @@ html:has(.ff) {
   border-radius: 50%;
   background: var(--coral);
   color: #fff;
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 34px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: var(--tight);
   line-height: 1;
 }
@@ -730,7 +738,8 @@ html:has(.ff) {
   padding: 0 18px;
   color: var(--text);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
   line-height: 22.2px;
 }
 
@@ -773,9 +782,9 @@ html:has(.ff) {
 
 .ff .benefit__title {
   color: var(--navy);
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 26px;
   letter-spacing: var(--tight);
   text-transform: lowercase;
@@ -841,9 +850,9 @@ html:has(.ff) {
 .ff .benefits__note p {
   padding: 10px 0;
   color: var(--navy);
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 20px;
   letter-spacing: var(--tight);
 }
@@ -872,9 +881,9 @@ html:has(.ff) {
   margin-top: 10px;
   padding: 11px 18px;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 22.2px;
-  text-transform: lowercase;
+  text-transform: uppercase;
 }
 
 .ff .ugc__track {
@@ -995,7 +1004,8 @@ html:has(.ff) {
   padding: 0 18px;
   color: var(--text);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
   line-height: 22.2px;
   text-align: center;
 }
@@ -1097,7 +1107,7 @@ html:has(.ff) {
   margin-top: -4px;
   color: #000;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 20.3px;
 }
 .ff .review__quote p + p {
@@ -1212,7 +1222,8 @@ html:has(.ff) {
   padding: 0 18px;
   color: var(--text);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
   line-height: 22.2px;
   text-align: center;
 }
@@ -1243,7 +1254,7 @@ html:has(.ff) {
   padding: 4px 16px;
   background: var(--blush);
   color: var(--grey-faq);
-  font-family: var(--font-poppins);
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
@@ -2184,9 +2195,9 @@ html:has(.ff) {
 
 .ff .buybox__title {
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 50px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 30.8px;
   text-transform: lowercase;
 }
@@ -2196,7 +2207,7 @@ html:has(.ff) {
   align-items: center;
   gap: 13px;
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 24px;
   font-weight: 700;
   line-height: 30.8px;
@@ -2986,9 +2997,9 @@ html:has(.label-modal[open]) {
 .ff .ingredients__title {
   padding: 10px;
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 30.8px;
   text-align: center;
   text-transform: lowercase;
@@ -2998,7 +3009,8 @@ html:has(.label-modal[open]) {
   padding: 0 18px;
   color: var(--text);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
   line-height: 22.2px;
   text-align: center;
 }
@@ -3059,7 +3071,7 @@ html:has(.label-modal[open]) {
 }
 .ff .ingredient__text {
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 20.3px;
 }
 

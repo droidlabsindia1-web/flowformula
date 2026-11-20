@@ -59,7 +59,8 @@
 .ff .ingredient-list__title {
   color: var(--il-heading-c, var(--navy));
   font-size: var(--il-h-fs, 50px);
-  font-weight: var(--il-h-fw, 600);
+  font-family: var(--font-title);
+  font-weight: 400;
   line-height: var(--il-h-lh, 1.1);
   letter-spacing: var(--il-h-ls, var(--tight));
   text-wrap: balance;

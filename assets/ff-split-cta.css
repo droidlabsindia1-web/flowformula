@@ -58,7 +58,8 @@
   margin: 0 0 24px;
   color: var(--sc-heading-c, #fff);
   font-size: var(--sc-h-fs, 50px);
-  font-weight: var(--sc-h-fw, 600);
+  font-family: var(--font-title);
+  font-weight: 400;
   line-height: var(--sc-h-lh, 1.1);
   letter-spacing: var(--sc-h-ls, var(--tight));
 }

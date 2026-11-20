@@ -61,7 +61,6 @@
     echo '--sb-mb-m: ' | append: s.margin_bottom_mobile | append: 'px;'
     echo '--sb-h-fs: ' | append: s.heading_size | append: 'px;'
     echo '--sb-h-fs-m: ' | append: s.heading_size_mobile | append: 'px;'
-    echo '--sb-h-fw: ' | append: s.heading_weight | append: ';'
     echo '--sb-h-ls: ' | append: s.heading_letter_spacing | append: 'px;'
     echo '--sb-h-lh: ' | append: s.heading_line_height | append: ';'
     echo '--sb-text-fs: ' | append: s.text_size | append: 'px;'
@@ -300,7 +299,8 @@
     {
       "type": "select",
       "id": "font",
-      "label": "Font",
+      "label": "Text font",
+      "info": "Headings always use the brand title font.",
       "options": [
         { "value": "montserrat", "label": "Montserrat (theme)" },
         { "value": "inter", "label": "Inter" },
@@ -311,17 +311,6 @@
     },
     { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled to about 75% on tablet.", "min": 20, "max": 96, "step": 1, "unit": "px", "default": 60 },
     { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 16, "max": 60, "step": 1, "unit": "px", "default": 40 },
-    {
-      "type": "select",
-      "id": "heading_weight",
-      "label": "Heading weight",
-      "options": [
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semibold" },
-        { "value": "700", "label": "Bold" }
-      ],
-      "default": "600"
-    },
     { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
     { "type": "range", "id": "heading_line_height", "label": "Heading line height", "min": 0.8, "max": 1.6, "step": 0.1, "default": 1.1 },
     { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": true },

@@ -138,7 +138,8 @@
 .ff .story-banner__title {
   color: var(--sb-heading-c, #fff);
   font-size: var(--sb-h-fs, 60px);
-  font-weight: var(--sb-h-fw, 600);
+  font-family: var(--font-title);
+  font-weight: 400;
   line-height: var(--sb-h-lh, 1.1);
   letter-spacing: var(--sb-h-ls, var(--tight));
   text-wrap: balance;

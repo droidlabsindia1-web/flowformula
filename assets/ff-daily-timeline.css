@@ -61,6 +61,8 @@
 
 /* ---------- Intro ---------- */
 .ff .timeline-sec__title {
+  font-family: var(--font-title);
+  font-weight: 400;
   font-size: var(--dt-h-fs, 50px);
   line-height: 1.1;
   text-wrap: pretty;
