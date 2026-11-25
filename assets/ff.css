@@ -153,7 +153,6 @@ html:has(.ff) {
   font-family: var(--font-title);
   font-weight: 400;
   letter-spacing: var(--tight);
-  text-transform: lowercase;
 }
 
 /* ---------- Buttons ---------- */
@@ -195,7 +194,6 @@ html:has(.ff) {
   line-height: 18px;
   letter-spacing: 0.48px;
   text-align: center;
-  text-transform: lowercase;
 }
 
 /* ==========================================================================
@@ -253,7 +251,6 @@ html:has(.ff) {
   font-weight: 600;
   line-height: 19.5px;
   letter-spacing: 0.39px;
-  text-transform: lowercase;
   white-space: nowrap;
   border-bottom: 1px solid transparent;
   transition: color 0.2s ease;
@@ -360,7 +357,6 @@ html:has(.ff) {
   font-weight: 400;
   line-height: 68px;
   letter-spacing: var(--tight);
-  text-transform: lowercase;
 }
 
 .ff .hero__lead {
@@ -417,7 +413,6 @@ html:has(.ff) {
   font-size: 24px;
   line-height: 24px;
   letter-spacing: 0.32px;
-  text-transform: lowercase;
 }
 
 .ff .hero__media {
@@ -541,7 +536,6 @@ html:has(.ff) {
   line-height: 32px;
   letter-spacing: -1px;
   text-align: center;
-  text-transform: lowercase;
 }
 
 .ff .compare__tag {
@@ -551,7 +545,6 @@ html:has(.ff) {
   font-weight: 700;
   line-height: 15px;
   letter-spacing: 1.2px;
-  text-transform: uppercase;
 }
 .ff .compare__col--theirs .compare__tag {
   color: var(--teal);
@@ -706,7 +699,6 @@ html:has(.ff) {
   font-weight: 600;
   line-height: 32px;
   letter-spacing: var(--tight);
-  text-transform: lowercase;
 }
 
 .ff .step__text {
@@ -793,7 +785,6 @@ html:has(.ff) {
   font-weight: 400;
   line-height: 26px;
   letter-spacing: var(--tight);
-  text-transform: lowercase;
 }
 
 .ff .benefit__tag {
@@ -801,7 +792,6 @@ html:has(.ff) {
   font-size: 12px;
   font-weight: 600;
   line-height: 22.2px;
-  text-transform: lowercase;
 }
 
 .ff .benefit__list li {
@@ -1739,9 +1729,6 @@ html:has(.ff) {
     line-height: 26px;
     letter-spacing: var(--tight);
   }
-  .ff .compare__tag {
-    text-transform: lowercase;
-  }
   .ff .compare__list {
     gap: inherit;
   }
@@ -2216,7 +2203,6 @@ html:has(.ff) {
   font-size: 50px;
   font-weight: 400;
   line-height: 90%;
-  text-transform: lowercase;
 }
 
 .ff .buybox__rating {
@@ -2423,7 +2409,6 @@ html:has(.ff) {
   font-size: 14px;
   font-weight: 600;
   line-height: 22.2px;
-  text-transform: lowercase;
   white-space: nowrap;
 }
 
@@ -2591,7 +2576,6 @@ html:has(.ff) {
 .ff .plan__name {
   overflow: hidden;
   text-overflow: ellipsis;
-  text-transform: lowercase;
 }
 
 .ff .pill {
@@ -2729,7 +2713,6 @@ html:has(.ff) {
   font-size: 24px;
   line-height: 24px;
   letter-spacing: 0.32px;
-  text-transform: lowercase;
 }
 .ff .btn--atc:disabled {
   cursor: default;
@@ -2915,7 +2898,6 @@ html:has(.label-modal[open]) {
   font-weight: 700;
   line-height: 22.2px;
   text-align: left;
-  text-transform: lowercase;
 }
 
 .ff .pdp-acc__icon {
@@ -2983,7 +2965,6 @@ html:has(.label-modal[open]) {
   font-size: 14px;
   font-weight: 600;
   line-height: 22.2px;
-  text-transform: lowercase;
 }
 /* Continuous marquee: four identical lists, the track loops by one list */
 .ff .usp-strip__track {
@@ -3020,7 +3001,6 @@ html:has(.label-modal[open]) {
   font-weight: 400;
   line-height: 30.8px;
   text-align: center;
-  text-transform: lowercase;
 }
 
 .ff .ingredients__lead {
@@ -3085,7 +3065,6 @@ html:has(.label-modal[open]) {
   font-size: 22px;
   font-weight: 700;
   line-height: normal;
-  text-transform: lowercase;
 }
 .ff .ingredient__text {
   font-size: 15px;

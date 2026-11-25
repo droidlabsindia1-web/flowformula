@@ -90,7 +90,6 @@ html:has(.cart-drawer[open]) {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: var(--tight);
-  text-transform: lowercase;
 }
 .ff .cart-drawer__count {
   margin-left: 6px;
@@ -263,7 +262,6 @@ html:has(.cart-drawer[open]) {
   line-height: 16px;
   text-decoration: underline;
   text-underline-offset: 2px;
-  text-transform: lowercase;
   transition: color 0.2s ease;
 }
 .ff .cart-item__remove:hover {
@@ -297,7 +295,6 @@ html:has(.cart-drawer[open]) {
   line-height: 24px;
 }
 .ff .cart-drawer__subtotal span:first-child {
-  text-transform: lowercase;
 }
 .ff .cart-drawer__note {
   margin-top: -6px;
@@ -318,7 +315,6 @@ html:has(.cart-drawer[open]) {
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 2px;
-  text-transform: lowercase;
 }
 
 /* ---------- Empty ---------- */
@@ -336,7 +332,6 @@ html:has(.cart-drawer[open]) {
   font-size: 22px;
   font-weight: 600;
   letter-spacing: var(--tight);
-  text-transform: lowercase;
 }
 .ff .cart-drawer .cart-drawer__empty-btn {
   flex: 0 0 auto;
