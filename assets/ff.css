@@ -2328,8 +2328,8 @@ html:has(.ff) {
     color 0.2s ease;
 }
 .ff .variant-picker__input:checked + .variant-picker__box {
-  border-color: var(--pink);
-  background: var(--pink);
+  border-color: #ffb3ab;
+  background: #ffb3ab;
   color: #fff;
 }
 .ff .variant-picker__input:focus-visible + .variant-picker__box {
