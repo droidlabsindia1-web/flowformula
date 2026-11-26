@@ -60,6 +60,7 @@
       ],
       "settings": {
         "heading": "One sachet. Your daily wellness, simplified.",
+        "lead": "",
         "image": "shopify://shop_images/1.jpg",
         "image_asset": "ff-hero.webp",
         "image_alt": "A Flow Formula sachet being poured into a glass of water",
@@ -564,6 +565,7 @@
       ],
       "settings": {
         "heading": "Why people love us",
+        "lead": "",
         "anchor_id": ""
       }
     },
@@ -573,7 +575,7 @@
         "heading": "Our story",
         "text": "<p>At Flow Formula, we’re challenging the status quo of women’s health because we believe every woman deserves access to exceptional hormone support.</p>",
         "button_label": "Learn more",
-        "button_link": "",
+        "button_link": "shopify://pages/our-story",
         "image": "shopify://shop_images/coral-pink-abstract-banner.png",
         "image_mobile": "shopify://shop_images/coral-pink-abstract-banner.png",
         "image_blur": 8,
@@ -697,6 +699,7 @@
       ],
       "settings": {
         "heading": "faq’s",
+        "lead": "",
         "mobile_limit": 6,
         "anchor_id": "faqs"
       }
