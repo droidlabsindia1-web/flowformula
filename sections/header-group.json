@@ -14,7 +14,7 @@
     "announcement": {
       "type": "ff-announcement",
       "settings": {
-        "text": "Subscribe & save 20% — free UK shipping on every order",
+        "text": "Subscribe & Save 20% — Free UK shipping on every order",
         "link": "",
         "background": "#162138",
         "text_color": ""

@@ -60,6 +60,7 @@
       ],
       "settings": {
         "heading": "One sachet. Your daily wellness, simplified.",
+        "lead": "",
         "image": "shopify://shop_images/1.jpg",
         "image_asset": "ff-hero.webp",
         "image_alt": "A Flow Formula sachet being poured into a glass of water",
@@ -436,6 +437,7 @@
         "post_1": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-1.webp",
             "alt": "Customer post"
           }
@@ -443,6 +445,7 @@
         "post_2": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-1.webp",
             "alt": "Customer post"
           }
@@ -450,6 +453,7 @@
         "post_3": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-2.webp",
             "alt": "Customer post"
           }
@@ -457,15 +461,9 @@
         "post_4": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-1.webp",
             "alt": "Customer post"
-          }
-        },
-        "post_6ywfpy": {
-          "type": "post",
-          "settings": {
-            "image_asset": "",
-            "alt": ""
           }
         }
       },
@@ -473,8 +471,7 @@
         "post_1",
         "post_2",
         "post_3",
-        "post_4",
-        "post_6ywfpy"
+        "post_4"
       ],
       "settings": {
         "heading": "Results actually\nworth posting",
@@ -564,6 +561,7 @@
       ],
       "settings": {
         "heading": "Why people love us",
+        "lead": "",
         "anchor_id": ""
       }
     },
@@ -573,7 +571,7 @@
         "heading": "Our story",
         "text": "<p>At Flow Formula, we’re challenging the status quo of women’s health because we believe every woman deserves access to exceptional hormone support.</p>",
         "button_label": "Learn more",
-        "button_link": "",
+        "button_link": "shopify://pages/our-story",
         "image": "shopify://shop_images/coral-pink-abstract-banner.png",
         "image_mobile": "shopify://shop_images/coral-pink-abstract-banner.png",
         "image_blur": 8,
@@ -697,6 +695,7 @@
       ],
       "settings": {
         "heading": "faq’s",
+        "lead": "",
         "mobile_limit": 6,
         "anchor_id": "faqs"
       }

@@ -18,14 +18,14 @@
           "type": "social",
           "settings": {
             "label": "Instagram",
-            "link": ""
+            "link": "https://www.instagram.com/flowformulauk?lqvp=MTV6NTRsdnU1anYzbw%3D%3D&utm_source=qr"
           }
         },
         "social_tiktok": {
           "type": "social",
           "settings": {
             "label": "TikTok",
-            "link": ""
+            "link": "https://www.tiktok.com/@flowformula?_r=1&_t=ZN-9Bhs07lBjVe"
           }
         }
       },
@@ -35,15 +35,15 @@
       ],
       "settings": {
         "logo_asset": "ff-logo-wordmark.png",
-        "about": "PCOS support, for every flow. One sachet. 18 ingredients. Built from lived experience.",
+        "about": "Flow Formula is an 18-in-1 daily women's nutritional blend designed as a calming wellbeing routine. Powered by intentional ingredients and expressed through our core principles - Confidence, Consistency, and Clarity.",
         "shop_menu": "shop",
         "support_menu": "support",
-        "newsletter_heading": "Join the Flow Formula community",
-        "newsletter_text": "Cycle education, real stories, and early access to new products.",
+        "newsletter_heading": "Join the Flow Formula Club",
+        "newsletter_text": "Education, real stories, community events",
         "newsletter_placeholder": "your@email.com",
         "newsletter_button": "Join",
         "copyright": "© [year] Flow Formula Ltd. All rights reserved. Made with love in the UK.",
-        "rating_text": "Trustpilot ★★★★★ 4.9",
+        "rating_text": "",
         "background": ""
       }
     }
