@@ -163,12 +163,12 @@
 
     { "type": "header", "content": "Overlay" },
     { "type": "color", "id": "overlay_color", "label": "Colour", "default": "#000000" },
-    { "type": "range", "id": "overlay_opacity", "label": "Strength", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 30 },
+    { "type": "range", "id": "overlay_opacity", "label": "Strength", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 35 },
     { "type": "checkbox", "id": "text_shadow", "label": "Soft shadow behind text", "default": false },
 
     { "type": "header", "content": "Background" },
-    { "type": "color", "id": "background_top", "label": "Top colour", "default": "#FFB1A4" },
-    { "type": "color", "id": "background_bottom", "label": "Bottom colour", "info": "Match this to the background of the next section so they blend.", "default": "#FBF1ED" },
+    { "type": "color", "id": "background_top", "label": "Top colour", "default": "#FFB3AB" },
+    { "type": "color", "id": "background_bottom", "label": "Bottom colour", "info": "Match this to the background of the next section so they blend.", "default": "#FEF6F2" },
     { "type": "checkbox", "id": "background_scroll", "label": "Blend the colours as the page scrolls", "default": true },
 
     { "type": "header", "content": "Shape and size" },
@@ -180,9 +180,9 @@
         { "value": "pill", "label": "Pill (fully rounded ends)" },
         { "value": "rounded", "label": "Rounded corners" }
       ],
-      "default": "pill"
+      "default": "rounded"
     },
-    { "type": "range", "id": "radius", "label": "Corner radius on desktop", "info": "With rounded corners.", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "radius", "label": "Corner radius on desktop", "info": "With rounded corners.", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 34 },
     { "type": "range", "id": "radius_mobile", "label": "Corner radius on mobile", "info": "With rounded corners.", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 24 },
     { "type": "range", "id": "height_offset", "label": "Desktop height: screen height minus", "info": "Leaves room for the header so the image fits the first screen.", "min": 0, "max": 400, "step": 5, "unit": "px", "default": 140 },
     { "type": "range", "id": "min_height", "label": "Minimum height on desktop", "min": 320, "max": 900, "step": 10, "unit": "px", "default": 520 },
@@ -207,18 +207,18 @@
       ],
       "default": "title"
     },
-    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled down on smaller laptops and tablets.", "min": 24, "max": 100, "step": 1, "unit": "px", "default": 64 },
-    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 20, "max": 60, "step": 1, "unit": "px", "default": 38 },
+    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled down on smaller laptops and tablets.", "min": 24, "max": 100, "step": 1, "unit": "px", "default": 60 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 20, "max": 60, "step": 1, "unit": "px", "default": 40 },
     { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
-    { "type": "range", "id": "heading_width", "label": "Heading maximum width", "min": 300, "max": 1200, "step": 10, "unit": "px", "default": 760 },
-    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": false },
-    { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 12, "max": 30, "step": 1, "unit": "px", "default": 21 },
-    { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 17 },
+    { "type": "range", "id": "heading_width", "label": "Heading maximum width", "min": 300, "max": 1200, "step": 10, "unit": "px", "default": 820 },
+    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": true },
+    { "type": "range", "id": "text_size", "label": "Text size on desktop", "min": 12, "max": 30, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "text_size_mobile", "label": "Text size on mobile", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
     { "type": "range", "id": "text_width", "label": "Text maximum width", "min": 280, "max": 1000, "step": 10, "unit": "px", "default": 560 },
 
     { "type": "header", "content": "Colours" },
     { "type": "color", "id": "heading_color", "label": "Heading", "default": "#FFFFFF" },
-    { "type": "color", "id": "text_color", "label": "Text", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#F4ECE8" },
 
     { "type": "header", "content": "Section" },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #about." }

@@ -71,7 +71,7 @@
         {%- endif -%}
 
         <div class="about-story__body">
-          <div class="about-story__art">
+          <div class="about-story__art{% if s.art_image != blank %} about-story__art--image{% if s.art_image_cover %} about-story__art--cover{% endif %}{% endif %}">
             {%- if s.art_image != blank -%}
               {%- render 'dizzy-image',
                 image: s.art_image,
@@ -117,17 +117,18 @@
     { "type": "range", "id": "text_height_mobile", "label": "Story window height on mobile", "info": "When scrolling is on.", "min": 220, "max": 600, "step": 10, "unit": "px", "default": 340 },
 
     { "type": "header", "content": "Artwork" },
-    { "type": "image_picker", "id": "art_image", "label": "Image", "info": "Optional. Replaces the animated artwork. A square transparent PNG or WebP works best." },
+    { "type": "image_picker", "id": "art_image", "label": "Image", "info": "Optional. Replaces the animated artwork. Photos are cropped to fill the space with rounded corners." },
+    { "type": "checkbox", "id": "art_image_cover", "label": "Crop the image to fill the space", "info": "Turn off for a transparent cut-out you want shown whole.", "default": true },
     { "type": "checkbox", "id": "art_animate", "label": "Move the artwork as the page scrolls", "default": true },
     { "type": "color", "id": "art_color_deep", "label": "Deep colour", "default": "#FE686E" },
-    { "type": "color", "id": "art_color_light", "label": "Light colour", "default": "#FFE3D6" },
-    { "type": "color", "id": "art_line_color", "label": "Outline colour", "default": "#F88673" },
+    { "type": "color", "id": "art_color_light", "label": "Light colour", "default": "#FFB1A4" },
+    { "type": "color", "id": "art_line_color", "label": "Outline colour", "default": "#FE686E" },
 
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "container_width", "label": "Maximum width", "min": 960, "max": 1800, "step": 10, "unit": "px", "default": 1440 },
     { "type": "range", "id": "card_height", "label": "Card height on desktop", "info": "Shrinks to fit shorter screens.", "min": 560, "max": 1000, "step": 10, "unit": "px", "default": 820 },
-    { "type": "range", "id": "radius", "label": "Corner radius on desktop", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "radius_mobile", "label": "Corner radius on mobile", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "radius", "label": "Corner radius on desktop", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 34 },
+    { "type": "range", "id": "radius_mobile", "label": "Corner radius on mobile", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 24 },
     { "type": "range", "id": "padding_top", "label": "Top space on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom space on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 20 },
     { "type": "range", "id": "padding_top_mobile", "label": "Top space on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 24 },
@@ -144,19 +145,19 @@
       ],
       "default": "title"
     },
-    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled down on smaller laptops and tablets.", "min": 24, "max": 100, "step": 1, "unit": "px", "default": 60 },
+    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled down on smaller laptops and tablets.", "min": 24, "max": 100, "step": 1, "unit": "px", "default": 50 },
     { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 20, "max": 60, "step": 1, "unit": "px", "default": 36 },
     { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
     { "type": "range", "id": "heading_width", "label": "Heading maximum width", "min": 300, "max": 1100, "step": 10, "unit": "px", "default": 640 },
-    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": false },
-    { "type": "range", "id": "text_size", "label": "Story text size on desktop", "min": 14, "max": 30, "step": 1, "unit": "px", "default": 21 },
-    { "type": "range", "id": "text_size_mobile", "label": "Story text size on mobile", "min": 13, "max": 24, "step": 1, "unit": "px", "default": 17 },
+    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": true },
+    { "type": "range", "id": "text_size", "label": "Story text size on desktop", "min": 14, "max": 30, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "text_size_mobile", "label": "Story text size on mobile", "min": 13, "max": 24, "step": 1, "unit": "px", "default": 16 },
 
     { "type": "header", "content": "Colours" },
-    { "type": "color", "id": "background", "label": "Background", "default": "#FBF1ED" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FEF6F2" },
     { "type": "color", "id": "card_background", "label": "Card", "info": "The text fades into this colour at the top and bottom.", "default": "#FFFFFF" },
     { "type": "color", "id": "heading_color", "label": "Heading", "default": "#152340" },
-    { "type": "color", "id": "text_color", "label": "Story text", "default": "#5B6275" },
+    { "type": "color", "id": "text_color", "label": "Story text", "default": "#3B3B3B" },
     { "type": "color", "id": "strong_color", "label": "Bold text", "default": "#152340" },
 
     { "type": "header", "content": "Section" },

@@ -43,12 +43,12 @@
    1. Hero
    ========================================================================== */
 .ff .about-hero {
-  background: var(--ah-bg-top, #ffb1a4);
+  background: var(--ah-bg-top, #ffb3ab);
 }
 /* The top colour gives way to the bottom one as the page scrolls; ff-about.js
    moves the midpoint (--ah-hint) from 100% to 60% */
 .ff .about-hero--bg-scroll {
-  background: linear-gradient(to bottom, var(--ah-bg-top, #ffb1a4), var(--ah-hint, 100%), var(--ah-bg-bottom, #fbf1ed));
+  background: linear-gradient(to bottom, var(--ah-bg-top, #ffb3ab), var(--ah-hint, 100%), var(--ah-bg-bottom, #fef6f2));
 }
 
 .ff .about-hero__container {
@@ -62,7 +62,7 @@
   height: max(var(--ah-min-h, 520px), calc(100vh - var(--ah-offset, 140px)));
   height: max(var(--ah-min-h, 520px), calc(100dvh - var(--ah-offset, 140px)));
   overflow: hidden;
-  border-radius: var(--ah-radius, 9999px);
+  border-radius: var(--ah-radius, 34px);
   background: rgba(0, 0, 0, 0.1);
   /* Keeps the rounded clip on Safari while the image zooms */
   isolation: isolate;
@@ -88,7 +88,7 @@
   display: none;
 }
 .ff .about-hero__placeholder {
-  background: #6b4a42;
+  background: var(--navy);
   fill: rgba(255, 255, 255, 0.2);
 }
 
@@ -115,9 +115,9 @@
   max-width: var(--ah-h-w, 760px);
   color: var(--ah-heading-c, #fff);
   font-family: var(--ah-heading-font, var(--font-title));
-  font-size: var(--ah-h-fs, 64px);
+  font-size: var(--ah-h-fs, 60px);
   font-weight: var(--about-h-wt, 400);
-  line-height: 1.08;
+  line-height: 1.1;
   letter-spacing: var(--ah-h-ls, var(--tight));
   text-wrap: balance;
 }
@@ -128,10 +128,10 @@
 .ff .about-hero__text {
   max-width: var(--ah-text-w, 560px);
   margin-top: 24px;
-  color: var(--ah-text-c, #fff);
-  font-size: var(--ah-text-fs, 21px);
+  color: var(--ah-text-c, #f4ece8);
+  font-size: var(--ah-text-fs, 20px);
   font-weight: 500;
-  line-height: 1.375;
+  line-height: 1.5;
   text-wrap: pretty;
 }
 .ff .about-hero__text:first-child {
@@ -172,7 +172,7 @@
    ========================================================================== */
 .ff .about-story {
   --as-card-fit: min(var(--as-card-h, 820px), calc(100vh - 40px));
-  background: var(--as-bg, #fbf1ed);
+  background: var(--as-bg, #fef6f2);
 }
 
 .ff .about-story__frame {
@@ -189,7 +189,7 @@
   max-width: var(--as-container, 1440px);
   margin: 0 auto;
   overflow: hidden;
-  border-radius: var(--as-radius, 40px);
+  border-radius: var(--as-radius, 34px);
   background: var(--as-card-bg, #fff);
 }
 
@@ -203,9 +203,9 @@
   margin: 0 auto;
   color: var(--as-heading-c, var(--navy));
   font-family: var(--as-heading-font, var(--font-title));
-  font-size: var(--as-h-fs, 60px);
+  font-size: var(--as-h-fs, 50px);
   font-weight: var(--about-h-wt, 400);
-  line-height: 1.08;
+  line-height: 1.2;
   letter-spacing: var(--as-h-ls, var(--tight));
   text-wrap: balance;
 }
@@ -234,6 +234,14 @@
   height: 100%;
   object-fit: contain;
 }
+/* An uploaded photo fills the column with the site's media corner radius */
+.ff .about-story__art--cover {
+  padding: 0 16px 40px 48px;
+}
+.ff .about-story__art--cover .about-story__art-img {
+  object-fit: cover;
+  border-radius: 20px;
+}
 
 .ff .about-story__clip {
   position: relative;
@@ -242,10 +250,10 @@
 
 .ff .about-story__text {
   padding: 16px 48px 64px 32px;
-  color: var(--as-text-c, #5b6275);
-  font-size: var(--as-text-fs, 21px);
+  color: var(--as-text-c, var(--text));
+  font-size: var(--as-text-fs, 20px);
   font-weight: 500;
-  line-height: 1.375;
+  line-height: 1.5;
   text-wrap: pretty;
 }
 .ff .about-story__text > * + * {
@@ -334,13 +342,13 @@
   position: relative;
   z-index: 1;
   padding: var(--av-mt, 0) 0 var(--av-mb, 0);
-  background: var(--av-page-bg, #fbf1ed);
+  background: var(--av-page-bg, #fef6f2);
 }
 .ff .about-values__panel {
   max-width: calc(var(--av-container, 1440px) + 32px);
   margin: 0 auto;
-  border-radius: var(--av-radius, 24px);
-  background: var(--av-bg, var(--navy));
+  border-radius: var(--av-radius, 34px);
+  background: var(--av-bg, #ffb3ab);
 }
 .ff .about-values--full .about-values__panel {
   max-width: none;
@@ -356,11 +364,11 @@
 }
 
 .ff .about-values__title {
-  color: var(--av-heading-c, var(--cream));
+  color: var(--av-heading-c, var(--navy));
   font-family: var(--av-heading-font, var(--font-title));
-  font-size: var(--av-h-fs, 60px);
+  font-size: var(--av-h-fs, 50px);
   font-weight: var(--about-h-wt, 400);
-  line-height: 1.08;
+  line-height: 1.2;
   letter-spacing: var(--av-h-ls, var(--tight));
   text-align: center;
   text-wrap: balance;
@@ -382,8 +390,8 @@
 
 .ff .about-values__card {
   padding: 32px 32px 60px;
-  border-radius: var(--av-card-radius, 24px);
-  background: var(--av-card-bg, var(--cream));
+  border-radius: var(--av-card-radius, 20px);
+  background: var(--av-card-bg, var(--blush-light));
   text-align: center;
 }
 
@@ -401,6 +409,18 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+/* White line icons sit on a coral disc, like the numbered circles elsewhere */
+.ff .about-values__disc {
+  inset: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--art-b, #ffb1a4) 70%, var(--art-a, #fe686e)), var(--art-a, #fe686e) 72%);
+  box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--art-a, #fe686e) 70%, transparent);
+}
+.ff .about-values--disc .about-values__disc ~ .about-values__art-img {
+  inset: 26%;
+  width: 48%;
+  height: 48%;
 }
 .ff .about-values__glow {
   inset: -4%;
@@ -422,10 +442,10 @@
   margin-top: 24px;
   color: var(--av-card-title-c, var(--navy));
   font-family: var(--av-heading-font, var(--font-title));
-  font-size: var(--av-t-fs, 40px);
+  font-size: var(--av-t-fs, 34px);
   font-weight: var(--about-h-wt, 400);
-  line-height: 1.08;
-  letter-spacing: calc(var(--av-h-ls, var(--tight)) * 0.6);
+  line-height: 1.2;
+  letter-spacing: var(--av-h-ls, var(--tight));
 }
 .ff .about-values__art + .about-values__card-title {
   margin-top: 24px;
@@ -433,7 +453,7 @@
 .ff .about-values__card-text {
   max-width: 420px;
   margin: 24px auto 0;
-  color: var(--av-card-text-c, #3a4560);
+  color: var(--av-card-text-c, var(--text));
   font-size: var(--av-text-fs, 16px);
   font-weight: 500;
   line-height: 1.5;
@@ -482,6 +502,14 @@
       transform: scale(1.04);
     }
   }
+  @keyframes ff-about-float {
+    from {
+      transform: translateY(4px);
+    }
+    to {
+      transform: translateY(-6px);
+    }
+  }
   @keyframes ff-about-spin {
     to {
       transform: rotate(360deg);
@@ -506,7 +534,10 @@
   .ff .about-values--animate .about-values__glow {
     animation: ff-about-breathe 5s ease-in-out infinite alternate paused;
   }
-  .ff .about-values--animate[data-playing] :is(.ff-art__shape, .ff-art__shape--spin, .about-values__glow) {
+  .ff .about-values--animate :is(.about-values__disc, .about-values__disc ~ .about-values__art-img) {
+    animation: ff-about-float 6s ease-in-out infinite alternate paused;
+  }
+  .ff .about-values--animate[data-playing] :is(.ff-art__shape, .ff-art__shape--spin, .about-values__glow, .about-values__disc, .about-values__disc ~ .about-values__art-img) {
     animation-play-state: running;
   }
 }
@@ -516,16 +547,16 @@
    ========================================================================== */
 @media (max-width: 1279px) {
   .ff .about-hero__title {
-    font-size: calc(var(--ah-h-fs, 64px) * 0.88);
+    font-size: calc(var(--ah-h-fs, 60px) * 0.88);
   }
   .ff .about-story__title {
-    font-size: calc(var(--as-h-fs, 60px) * 0.88);
+    font-size: calc(var(--as-h-fs, 50px) * 0.88);
   }
   .ff .about-values__title {
-    font-size: calc(var(--av-h-fs, 60px) * 0.88);
+    font-size: calc(var(--av-h-fs, 50px) * 0.88);
   }
   .ff .about-values__card-title {
-    font-size: calc(var(--av-t-fs, 40px) * 0.9);
+    font-size: calc(var(--av-t-fs, 34px) * 0.9);
   }
   .ff .about-values__card {
     padding: 28px 24px 52px;
@@ -541,7 +572,7 @@
     aspect-ratio: 99 / 50;
   }
   .ff .about-hero__title {
-    font-size: max(var(--ah-h-fs-m, 38px), calc(var(--ah-h-fs, 64px) * 0.72));
+    font-size: max(var(--ah-h-fs-m, 40px), calc(var(--ah-h-fs, 60px) * 0.75));
   }
 
   .ff .about-story__frame {
@@ -551,13 +582,13 @@
     padding: 0 8px;
   }
   .ff .about-story__card {
-    border-radius: var(--as-radius-m, 28px);
+    border-radius: var(--as-radius-m, 24px);
   }
   .ff .about-story__head {
     padding: 48px 24px 16px;
   }
   .ff .about-story__title {
-    font-size: max(var(--as-h-fs-m, 36px), calc(var(--as-h-fs, 60px) * 0.72));
+    font-size: max(var(--as-h-fs-m, 36px), calc(var(--as-h-fs, 50px) * 0.8));
   }
   .ff .about-story__body {
     display: flex;
@@ -566,6 +597,12 @@
   .ff .about-story__art {
     max-width: 480px;
     padding: 4px 0;
+  }
+  .ff .about-story__art--cover {
+    padding: 8px 16px;
+  }
+  .ff .about-story__art--cover .about-story__art-img {
+    border-radius: 14px;
   }
   .ff .about-story__clip {
     width: 100%;
@@ -599,7 +636,7 @@
   }
 
   .ff .about-values__title {
-    font-size: max(var(--av-h-fs-m, 36px), calc(var(--av-h-fs, 60px) * 0.72));
+    font-size: max(var(--av-h-fs-m, 36px), calc(var(--av-h-fs, 50px) * 0.8));
   }
   .ff .about-values__grid {
     grid-template-columns: minmax(0, 1fr);
@@ -619,7 +656,7 @@
     height: max(var(--ah-min-h-m, 460px), calc(100vh - var(--ah-offset-m, 130px)));
     height: max(var(--ah-min-h-m, 460px), calc(100dvh - var(--ah-offset-m, 130px)));
     aspect-ratio: auto;
-    border-radius: var(--ah-radius-m, 9999px);
+    border-radius: var(--ah-radius-m, 24px);
   }
   .ff .about-hero__img--desktop {
     display: none;
@@ -631,10 +668,10 @@
     padding: 0 28px;
   }
   .ff .about-hero__title {
-    font-size: var(--ah-h-fs-m, 38px);
+    font-size: var(--ah-h-fs-m, 40px);
   }
   .ff .about-hero__text {
-    font-size: var(--ah-text-fs-m, 17px);
+    font-size: var(--ah-text-fs-m, 16px);
   }
 
   .ff .about-story__head {
@@ -645,7 +682,7 @@
   }
   .ff .about-story__text {
     padding-inline: 16px;
-    font-size: var(--as-text-fs-m, 17px);
+    font-size: var(--as-text-fs-m, 16px);
   }
   .ff .about-story.is-windowed .about-story__text {
     padding-inline: 16px;
@@ -658,7 +695,7 @@
     padding-inline: 8px;
   }
   .ff .about-values__panel {
-    border-radius: var(--av-radius-m, 16px);
+    border-radius: var(--av-radius-m, 24px);
   }
   .ff .about-values__container {
     padding: var(--av-py-m, 64px) 8px;
@@ -668,14 +705,14 @@
   }
   .ff .about-values__card {
     padding: 24px 24px 48px;
-    border-radius: var(--av-card-radius-m, 16px);
+    border-radius: var(--av-card-radius-m, 14px);
   }
   .ff .about-values__art {
     width: min(var(--av-art-m, 200px), 100%);
   }
   .ff .about-values__card-title {
     margin-top: 16px;
-    font-size: var(--av-t-fs-m, 28px);
+    font-size: var(--av-t-fs-m, 24px);
   }
   .ff .about-values__art + .about-values__card-title {
     margin-top: 16px;
