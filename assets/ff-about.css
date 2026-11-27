@@ -171,7 +171,7 @@
    text scrolls inside a short window).
    ========================================================================== */
 .ff .about-story {
-  --as-card-fit: min(var(--as-card-h, 824px), calc(100vh - 40px));
+  --as-card-fit: min(var(--as-card-h, 820px), calc(100vh - 40px));
   background: var(--as-bg, #fbf1ed);
 }
 
