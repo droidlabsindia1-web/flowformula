@@ -49,17 +49,11 @@
   endcapture
 
   assign classes = 'about-values'
-  if s.heading_lowercase
-    assign classes = classes | append: ' about-values--title-lower'
-  endif
   if s.art_animate
     assign classes = classes | append: ' about-values--animate'
   endif
   if s.full_width
     assign classes = classes | append: ' about-values--full'
-  endif
-  if s.image_backdrop
-    assign classes = classes | append: ' about-values--disc'
   endif
 -%}
 
@@ -73,7 +67,7 @@
   <div class="about-values__panel">
     <div class="about-values__container">
       {%- if s.heading != blank -%}
-        <h2 class="about-values__title" id="about-values-title-{{ section.id }}">{{ s.heading | escape }}</h2>
+        <h2 class="about-values__title ff-case--{{ s.heading_case | default: 'none' }}" id="about-values-title-{{ section.id }}">{{ s.heading | escape }}</h2>
       {%- endif -%}
 
       {%- if section.blocks.size > 0 -%}
@@ -94,10 +88,6 @@
               {%- if b.image != blank or b.art != 'none' -%}
                 <div class="about-values__art" aria-hidden="true">
                   {%- if b.image != blank -%}
-                    {%- if s.image_backdrop -%}
-                      <span class="about-values__glow"></span>
-                      <span class="about-values__disc"></span>
-                    {%- endif -%}
                     {%- render 'dizzy-image',
                       image: b.image,
                       decorative: true,
@@ -113,7 +103,7 @@
                 </div>
               {%- endif -%}
               {%- if b.title != blank -%}
-                <h3 class="about-values__card-title">{{ b.title | escape }}</h3>
+                <h3 class="about-values__card-title ff-case--{{ s.card_title_case | default: 'none' }}">{{ b.title | escape }}</h3>
               {%- endif -%}
               {%- if b.text != blank -%}
                 <div class="about-values__card-text">{{ b.text }}</div>
@@ -142,7 +132,6 @@
     { "type": "color", "id": "art_line_color", "label": "Outline colour", "default": "#FFFFFF" },
     { "type": "range", "id": "art_size", "label": "Artwork size on desktop", "info": "Shrinks to fit narrower cards.", "min": 160, "max": 400, "step": 5, "unit": "px", "default": 300 },
     { "type": "range", "id": "art_size_mobile", "label": "Artwork size on mobile", "min": 120, "max": 320, "step": 5, "unit": "px", "default": 200 },
-    { "type": "checkbox", "id": "image_backdrop", "label": "Coloured circle behind uploaded images", "info": "For white or line icons. Uses the deep and light artwork colours.", "default": true },
 
     { "type": "header", "content": "Layout" },
     { "type": "checkbox", "id": "full_width", "label": "Full width panel", "default": true },
@@ -174,7 +163,34 @@
     { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled down on smaller laptops and tablets.", "min": 24, "max": 100, "step": 1, "unit": "px", "default": 50 },
     { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 20, "max": 60, "step": 1, "unit": "px", "default": 36 },
     { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
-    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase headings", "default": true },
+    {
+      "type": "select",
+      "id": "heading_case",
+      "label": "Heading text case",
+      "info": "First word capital only also lowercases names, e.g. Flow Formula.",
+      "options": [
+        { "value": "none", "label": "As typed" },
+        { "value": "lowercase", "label": "lowercase" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Capitalise Each Word" },
+        { "value": "sentence", "label": "First word capital only" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "card_title_case",
+      "label": "Card title text case",
+      "info": "First word capital only also lowercases names, e.g. Flow Formula.",
+      "options": [
+        { "value": "none", "label": "As typed" },
+        { "value": "lowercase", "label": "lowercase" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Capitalise Each Word" },
+        { "value": "sentence", "label": "First word capital only" }
+      ],
+      "default": "none"
+    },
     { "type": "range", "id": "card_title_size", "label": "Card title size on desktop", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 34 },
     { "type": "range", "id": "card_title_size_mobile", "label": "Card title size on mobile", "min": 16, "max": 48, "step": 1, "unit": "px", "default": 24 },
     { "type": "range", "id": "card_text_size", "label": "Card text size on desktop", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
@@ -210,7 +226,7 @@
           ],
           "default": "sparkle"
         },
-        { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. Replaces the artwork. A square transparent PNG or WebP works best." }
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. Replaces the artwork and is shown as uploaded, with no extra effects. Square images work best." }
       ]
     }
   ],

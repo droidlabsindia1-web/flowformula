@@ -39,6 +39,24 @@
   transform-origin: 150px 150px;
 }
 
+/* Text case, chosen per heading in the section settings. "As typed" leaves
+   the text exactly as entered. */
+.ff .ff-case--lowercase {
+  text-transform: lowercase;
+}
+.ff .ff-case--uppercase {
+  text-transform: uppercase;
+}
+.ff .ff-case--capitalize {
+  text-transform: capitalize;
+}
+.ff .ff-case--sentence {
+  text-transform: lowercase;
+}
+.ff .ff-case--sentence::first-letter {
+  text-transform: uppercase;
+}
+
 /* ==========================================================================
    1. Hero
    ========================================================================== */
@@ -120,9 +138,6 @@
   line-height: 1.1;
   letter-spacing: var(--ah-h-ls, var(--tight));
   text-wrap: balance;
-}
-.ff .about-hero--title-lower .about-hero__title {
-  text-transform: lowercase;
 }
 
 .ff .about-hero__text {
@@ -208,9 +223,6 @@
   line-height: 1.2;
   letter-spacing: var(--as-h-ls, var(--tight));
   text-wrap: balance;
-}
-.ff .about-story--title-lower .about-story__title {
-  text-transform: lowercase;
 }
 
 .ff .about-story__body {
@@ -373,9 +385,6 @@
   text-align: center;
   text-wrap: balance;
 }
-.ff .about-values--title-lower :is(.about-values__title, .about-values__card-title) {
-  text-transform: lowercase;
-}
 
 .ff .about-values__grid {
   display: grid;
@@ -409,18 +418,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-/* White line icons sit on a coral disc, like the numbered circles elsewhere */
-.ff .about-values__disc {
-  inset: 14%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--art-b, #ffb1a4) 70%, var(--art-a, #fe686e)), var(--art-a, #fe686e) 72%);
-  box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--art-a, #fe686e) 70%, transparent);
-}
-.ff .about-values--disc .about-values__disc ~ .about-values__art-img {
-  inset: 26%;
-  width: 48%;
-  height: 48%;
 }
 .ff .about-values__glow {
   inset: -4%;
@@ -502,14 +499,6 @@
       transform: scale(1.04);
     }
   }
-  @keyframes ff-about-float {
-    from {
-      transform: translateY(4px);
-    }
-    to {
-      transform: translateY(-6px);
-    }
-  }
   @keyframes ff-about-spin {
     to {
       transform: rotate(360deg);
@@ -534,10 +523,7 @@
   .ff .about-values--animate .about-values__glow {
     animation: ff-about-breathe 5s ease-in-out infinite alternate paused;
   }
-  .ff .about-values--animate :is(.about-values__disc, .about-values__disc ~ .about-values__art-img) {
-    animation: ff-about-float 6s ease-in-out infinite alternate paused;
-  }
-  .ff .about-values--animate[data-playing] :is(.ff-art__shape, .ff-art__shape--spin, .about-values__glow, .about-values__disc, .about-values__disc ~ .about-values__art-img) {
+  .ff .about-values--animate[data-playing] :is(.ff-art__shape, .ff-art__shape--spin, .about-values__glow) {
     animation-play-state: running;
   }
 }

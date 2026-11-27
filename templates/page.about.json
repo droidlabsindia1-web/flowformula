@@ -44,13 +44,13 @@
         "heading_size_mobile": 40,
         "heading_letter_spacing": -1.3,
         "heading_width": 820,
-        "heading_lowercase": true,
         "text_size": 20,
         "text_size_mobile": 16,
         "text_width": 560,
         "heading_color": "#ffffff",
         "text_color": "#f4ece8",
-        "anchor_id": ""
+        "anchor_id": "",
+        "heading_case": "none"
       }
     },
     "story": {
@@ -78,7 +78,6 @@
         "heading_size_mobile": 36,
         "heading_letter_spacing": -1.3,
         "heading_width": 640,
-        "heading_lowercase": true,
         "text_size": 20,
         "text_size_mobile": 16,
         "background": "#fef6f2",
@@ -87,7 +86,8 @@
         "text_color": "#3b3b3b",
         "strong_color": "#152340",
         "anchor_id": "",
-        "art_image_cover": true
+        "art_image_cover": true,
+        "heading_case": "none"
       }
     },
     "values": {
@@ -151,7 +151,6 @@
         "heading_size": 50,
         "heading_size_mobile": 36,
         "heading_letter_spacing": -1.3,
-        "heading_lowercase": true,
         "card_title_size": 34,
         "card_title_size_mobile": 24,
         "card_text_size": 16,
@@ -163,7 +162,8 @@
         "card_title_color": "#152340",
         "card_text_color": "#3b3b3b",
         "anchor_id": "",
-        "image_backdrop": true
+        "heading_case": "none",
+        "card_title_case": "none"
       }
     }
   },
