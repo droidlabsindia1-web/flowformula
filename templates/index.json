@@ -437,6 +437,7 @@
         "post_1": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-1.webp",
             "alt": "Customer post"
           }
@@ -444,6 +445,7 @@
         "post_2": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-1.webp",
             "alt": "Customer post"
           }
@@ -451,6 +453,7 @@
         "post_3": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-2.webp",
             "alt": "Customer post"
           }
@@ -458,15 +461,9 @@
         "post_4": {
           "type": "post",
           "settings": {
+            "video": "shopify://files/videos/ec485d13abc4409ca9aecb1ea841b5e8.mov",
             "image_asset": "ff-ugc-1.webp",
             "alt": "Customer post"
-          }
-        },
-        "post_6ywfpy": {
-          "type": "post",
-          "settings": {
-            "image_asset": "",
-            "alt": ""
           }
         }
       },
@@ -474,8 +471,7 @@
         "post_1",
         "post_2",
         "post_3",
-        "post_4",
-        "post_6ywfpy"
+        "post_4"
       ],
       "settings": {
         "heading": "Results actually\nworth posting",
