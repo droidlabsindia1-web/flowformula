@@ -1,0 +1,169 @@
+{%- render 'ff-assets' -%}
+{{ 'ff-about.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ff-about.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # Every look setting becomes a CSS variable on the section
+  assign s = section.settings
+  if s.heading_font == 'sans'
+    assign heading_stack = 'var(--font-sans)'
+    assign heading_weight = '600'
+  else
+    assign heading_stack = 'var(--font-title)'
+    assign heading_weight = '400'
+  endif
+
+  capture story_style
+    echo '--as-heading-font: ' | append: heading_stack | append: ';'
+    echo '--about-h-wt: ' | append: heading_weight | append: ';'
+    echo '--as-bg: ' | append: s.background | append: ';'
+    echo '--as-card-bg: ' | append: s.card_background | append: ';'
+    echo '--as-heading-c: ' | append: s.heading_color | append: ';'
+    echo '--as-text-c: ' | append: s.text_color | append: ';'
+    echo '--as-strong-c: ' | append: s.strong_color | append: ';'
+    echo '--art-a: ' | append: s.art_color_deep | append: ';'
+    echo '--art-b: ' | append: s.art_color_light | append: ';'
+    echo '--art-line: ' | append: s.art_line_color | append: ';'
+    echo '--as-container: ' | append: s.container_width | append: 'px;'
+    echo '--as-card-h: ' | append: s.card_height | append: 'px;'
+    echo '--as-radius: ' | append: s.radius | append: 'px;'
+    echo '--as-radius-m: ' | append: s.radius_mobile | append: 'px;'
+    echo '--as-pt: ' | append: s.padding_top | append: 'px;'
+    echo '--as-pb: ' | append: s.padding_bottom | append: 'px;'
+    echo '--as-pt-m: ' | append: s.padding_top_mobile | append: 'px;'
+    echo '--as-pb-m: ' | append: s.padding_bottom_mobile | append: 'px;'
+    echo '--as-h-fs: ' | append: s.heading_size | append: 'px;'
+    echo '--as-h-fs-m: ' | append: s.heading_size_mobile | append: 'px;'
+    echo '--as-h-ls: ' | append: s.heading_letter_spacing | append: 'px;'
+    echo '--as-h-w: ' | append: s.heading_width | append: 'px;'
+    echo '--as-text-fs: ' | append: s.text_size | append: 'px;'
+    echo '--as-text-fs-m: ' | append: s.text_size_mobile | append: 'px;'
+    echo '--as-clip-h-m: ' | append: s.text_height_mobile | append: 'px;'
+  endcapture
+
+  assign classes = 'about-story'
+  if s.heading_lowercase
+    assign classes = classes | append: ' about-story--title-lower'
+  endif
+  if s.scroll_text
+    assign classes = classes | append: ' about-story--scroll'
+  endif
+  if s.art_animate
+    assign classes = classes | append: ' about-story--animate'
+  endif
+-%}
+
+<section
+  class="{{ classes }}"
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | handleize }}"{% endif %}
+  style="{{ story_style | strip_newlines }}"
+  {% if s.heading != blank %}aria-labelledby="about-story-title-{{ section.id }}"{% endif %}
+  data-ff-about-story
+>
+  {%- comment -%} The frame is the scroll track: ff-about.js stretches it so the card stays pinned while the text scrolls {%- endcomment -%}
+  <div class="about-story__frame" data-story-frame>
+    <div class="about-story__pin">
+      <div class="about-story__card">
+        {%- if s.heading != blank -%}
+          <div class="about-story__head">
+            <h2 class="about-story__title" id="about-story-title-{{ section.id }}">{{ s.heading | escape }}</h2>
+          </div>
+        {%- endif -%}
+
+        <div class="about-story__body">
+          <div class="about-story__art">
+            {%- if s.art_image != blank -%}
+              {%- render 'dizzy-image',
+                image: s.art_image,
+                class: 'about-story__art-img',
+                sizes: '(min-width: 1024px) 50vw, 100vw',
+                widths: '480,800,1200'
+              -%}
+            {%- else -%}
+              {%- render 'ff-about-art', art: 'capsules', uid: section.id -%}
+            {%- endif -%}
+          </div>
+
+          <div class="about-story__clip" data-story-clip>
+            <div class="about-story__text" data-story-text>
+              {{ s.text }}
+            </div>
+            <div class="about-story__fade about-story__fade--top" aria-hidden="true"></div>
+            <div class="about-story__fade about-story__fade--bottom" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FF about story",
+  "class": "ff",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Made for women. Shaped by real lives." },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Story",
+      "info": "Use bold for the line you want to stand out.",
+      "default": "<p>When it comes to hormonal health, too many women are told their symptoms are normal and left to work things out on their own.</p><p>Flow Formula started with a simple question: why does looking after yourself take a cupboard full of bottles? We worked with nutrition experts to bring the essentials together in one daily sachet, with every ingredient chosen for a reason and dosed to make a difference.</p><p>We built it alongside the women who use it, listening to what they needed and leaving out everything they didn’t. Our mission? <strong>To make everyday wellness simple, with science-backed formulas that fit real life.</strong> Because there’s nothing like feeling like yourself again.</p>"
+    },
+
+    { "type": "header", "content": "Scrolling" },
+    { "type": "checkbox", "id": "scroll_text", "label": "Scroll the story inside the card", "info": "The card stays in place while the story moves past. Turn off to show all the text at once.", "default": true },
+    { "type": "range", "id": "text_height_mobile", "label": "Story window height on mobile", "info": "When scrolling is on.", "min": 220, "max": 600, "step": 10, "unit": "px", "default": 340 },
+
+    { "type": "header", "content": "Artwork" },
+    { "type": "image_picker", "id": "art_image", "label": "Image", "info": "Optional. Replaces the animated artwork. A square transparent PNG or WebP works best." },
+    { "type": "checkbox", "id": "art_animate", "label": "Move the artwork as the page scrolls", "default": true },
+    { "type": "color", "id": "art_color_deep", "label": "Deep colour", "default": "#FE686E" },
+    { "type": "color", "id": "art_color_light", "label": "Light colour", "default": "#FFE3D6" },
+    { "type": "color", "id": "art_line_color", "label": "Outline colour", "default": "#F88673" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "container_width", "label": "Maximum width", "min": 960, "max": 1800, "step": 10, "unit": "px", "default": 1440 },
+    { "type": "range", "id": "card_height", "label": "Card height on desktop", "info": "Shrinks to fit shorter screens.", "min": 560, "max": 1000, "step": 10, "unit": "px", "default": 824 },
+    { "type": "range", "id": "radius", "label": "Corner radius on desktop", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "radius_mobile", "label": "Corner radius on mobile", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "padding_top", "label": "Top space on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom space on desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top space on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom space on mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 24 },
+
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "title", "label": "Brand title font" },
+        { "value": "sans", "label": "Montserrat" }
+      ],
+      "default": "title"
+    },
+    { "type": "range", "id": "heading_size", "label": "Heading size on desktop", "info": "Scaled down on smaller laptops and tablets.", "min": 24, "max": 100, "step": 1, "unit": "px", "default": 60 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile", "min": 20, "max": 60, "step": 1, "unit": "px", "default": 36 },
+    { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -3, "max": 3, "step": 0.1, "unit": "px", "default": -1.3 },
+    { "type": "range", "id": "heading_width", "label": "Heading maximum width", "min": 300, "max": 1100, "step": 10, "unit": "px", "default": 640 },
+    { "type": "checkbox", "id": "heading_lowercase", "label": "Lowercase heading", "default": false },
+    { "type": "range", "id": "text_size", "label": "Story text size on desktop", "min": 14, "max": 30, "step": 1, "unit": "px", "default": 21 },
+    { "type": "range", "id": "text_size_mobile", "label": "Story text size on mobile", "min": 13, "max": 24, "step": 1, "unit": "px", "default": 17 },
+
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FBF1ED" },
+    { "type": "color", "id": "card_background", "label": "Card", "info": "The text fades into this colour at the top and bottom.", "default": "#FFFFFF" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#152340" },
+    { "type": "color", "id": "text_color", "label": "Story text", "default": "#5B6275" },
+    { "type": "color", "id": "strong_color", "label": "Bold text", "default": "#152340" },
+
+    { "type": "header", "content": "Section" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Lets menu links jump here, e.g. #our-story." }
+  ],
+  "presets": [
+    { "name": "FF about story" }
+  ]
+}
+{% endschema %}

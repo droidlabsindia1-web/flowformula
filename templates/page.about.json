@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "hero": {
+      "type": "ff-about-hero",
+      "settings": {}
+    },
+    "story": {
+      "type": "ff-about-story",
+      "settings": {}
+    },
+    "values": {
+      "type": "ff-about-values",
+      "blocks": {
+        "quality": {
+          "type": "value",
+          "settings": {
+            "title": "Quality",
+            "art": "sparkle"
+          }
+        },
+        "transparency": {
+          "type": "value",
+          "settings": {
+            "title": "Transparency",
+            "art": "circles",
+            "text": "<p>No fluff and no hidden blends. We show you exactly what’s in every sachet and why it’s there, because you have the right to know what you’re putting in your body.</p>"
+          }
+        },
+        "community": {
+          "type": "value",
+          "settings": {
+            "title": "Community",
+            "art": "flower",
+            "text": "<p>We exist because women asked for better. Everything we make is shaped by the real experiences of the community we serve, and that will never change.</p>"
+          }
+        }
+      },
+      "block_order": ["quality", "transparency", "community"],
+      "settings": {}
+    }
+  },
+  "order": ["hero", "story", "values"]
+}
