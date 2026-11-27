@@ -14,11 +14,11 @@
       "settings": {
         "heading": "Helping women feel their best, from the inside out",
         "text": "<p>Women’s health has been overlooked for far too long. Flow Formula brings the daily essentials together in one simple sachet, so feeling like yourself is easy.</p>",
-        "heading_tag": "h1",
         "image": "shopify://shop_images/2.jpg",
         "zoom": true,
         "zoom_amount": 10,
-        "zoom_duration": 25,
+        "overlay_enable": true,
+        "overlay_style": "flat",
         "overlay_color": "#000000",
         "overlay_opacity": 35,
         "text_shadow": false,

@@ -111,11 +111,23 @@
 }
 
 .ff .about-hero__overlay {
+  --ah-tint: color-mix(in srgb, var(--ah-overlay, #000) var(--ah-overlay-a, 35%), transparent);
+  /* Dawn hides empty divs (base.css div:empty), so this must be set */
+  display: block;
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: color-mix(in srgb, var(--ah-overlay, #000) var(--ah-overlay-a, 30%), transparent);
+  background: var(--ah-tint);
+}
+.ff .about-hero--overlay-center .about-hero__overlay {
+  background: radial-gradient(ellipse 55% 60% at 50% 50%, var(--ah-tint), color-mix(in srgb, var(--ah-overlay, #000) calc(var(--ah-overlay-a, 35%) * 0.3), transparent) 100%);
+}
+.ff .about-hero--overlay-vignette .about-hero__overlay {
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, color-mix(in srgb, var(--ah-overlay, #000) calc(var(--ah-overlay-a, 35%) * 0.4), transparent), var(--ah-tint) 100%);
+}
+.ff .about-hero--overlay-bottom .about-hero__overlay {
+  background: linear-gradient(to top, var(--ah-tint) 0%, color-mix(in srgb, var(--ah-overlay, #000) calc(var(--ah-overlay-a, 35%) * 0.25), transparent) 75%);
 }
 
 .ff .about-hero__content {

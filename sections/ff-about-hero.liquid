@@ -52,7 +52,6 @@
     echo '--ah-text-fs-m: ' | append: s.text_size_mobile | append: 'px;'
     echo '--ah-text-w: ' | append: s.text_width | append: 'px;'
     echo '--ah-zoom: ' | append: zoom_scale | append: ';'
-    echo '--ah-zoom-time: ' | append: s.zoom_duration | append: 's;'
   endcapture
 
   assign classes = 'about-hero'
@@ -62,11 +61,14 @@
   if s.text_shadow
     assign classes = classes | append: ' about-hero--shadow'
   endif
+  if s.overlay_enable
+    assign classes = classes | append: ' about-hero--overlay-' | append: s.overlay_style
+  endif
   if s.background_scroll
     assign classes = classes | append: ' about-hero--bg-scroll'
   endif
 
-  assign heading_tag = s.heading_tag | default: 'h1'
+  assign heading_tag = 'h1'
 -%}
 
 <section
@@ -117,7 +119,9 @@
         {%- endif -%}
       </div>
 
-      <div class="about-hero__overlay" aria-hidden="true"></div>
+      {%- if s.overlay_enable -%}
+        <div class="about-hero__overlay" aria-hidden="true"></div>
+      {%- endif -%}
 
       <div class="about-hero__content">
         {%- if s.heading != blank -%}
@@ -139,26 +143,27 @@
     { "type": "header", "content": "Content" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Helping women feel their best, from the inside out" },
     { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Women’s health has been overlooked for far too long. Flow Formula brings the daily essentials together in one simple sachet, so feeling like yourself is easy.</p>" },
-    {
-      "type": "select",
-      "id": "heading_tag",
-      "label": "Heading level",
-      "info": "Keep H1 when this is the first section on the page.",
-      "options": [
-        { "value": "h1", "label": "H1" },
-        { "value": "h2", "label": "H2" }
-      ],
-      "default": "h1"
-    },
 
     { "type": "header", "content": "Image" },
     { "type": "image_picker", "id": "image", "label": "Image", "info": "Landscape, around 2600 × 1300px. Set the focal point on the image to control cropping." },
     { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional. Portrait works best. Uses the main image when empty." },
     { "type": "checkbox", "id": "zoom", "label": "Slow zoom on the image", "default": true },
     { "type": "range", "id": "zoom_amount", "label": "Zoom amount", "min": 2, "max": 25, "step": 1, "unit": "%", "default": 10 },
-    { "type": "range", "id": "zoom_duration", "label": "Zoom duration", "min": 5, "max": 60, "step": 1, "unit": "s", "default": 25 },
 
     { "type": "header", "content": "Overlay" },
+    { "type": "checkbox", "id": "overlay_enable", "label": "Dim the image behind the text", "info": "Helps the heading and text stay readable on bright photos.", "default": true },
+    {
+      "type": "select",
+      "id": "overlay_style",
+      "label": "Style",
+      "options": [
+        { "value": "flat", "label": "Even tint" },
+        { "value": "center", "label": "Darker behind text" },
+        { "value": "vignette", "label": "Darker edges" },
+        { "value": "bottom", "label": "Fade from bottom" }
+      ],
+      "default": "flat"
+    },
     { "type": "color", "id": "overlay_color", "label": "Colour", "default": "#000000" },
     { "type": "range", "id": "overlay_opacity", "label": "Strength", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 35 },
     { "type": "checkbox", "id": "text_shadow", "label": "Soft shadow behind text", "default": false },
