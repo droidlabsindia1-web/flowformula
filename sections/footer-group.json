@@ -34,6 +34,7 @@
         "social_tiktok"
       ],
       "settings": {
+        "logo": "shopify://shop_images/Flow_Formula_Logo_File__Stacked_peach.png",
         "logo_asset": "ff-logo-wordmark.png",
         "about": "Flow Formula is an 18-in-1 daily women's nutritional blend designed as a calming wellbeing routine. Powered by intentional ingredients and expressed through our core principles - Confidence, Consistency, and Clarity.",
         "shop_menu": "shop",
